@@ -38,4 +38,21 @@ app.route('/getTVShow/:name')
 			});
 	});
 
+app.route('/getPerson/:name')
+	.get((req, res, next) => {
+		tmdb.searchPerson(
+				req.params.name,
+				req.query.lang || undefined,
+				req.query.adult || undefined,
+				req.query.region || undefined,
+				req.query.page || undefined
+			)
+			.then((persons) => {
+				res.send(persons);
+			})
+			.catch((error) => {
+				res.send(error);
+			});
+	});
+
 module.exports = app;

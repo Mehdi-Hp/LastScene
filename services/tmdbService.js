@@ -45,6 +45,28 @@ const tmdb = {
 				resolve(body);
 			});
 		});
+	},
+	searchPerson: (personName, language, includeAdult, region, page) => {
+		const requestOptions = {
+			method: 'GET',
+			url: 'https://api.themoviedb.org/3/search/person',
+			qs: {
+				page,
+				query: personName,
+				language,
+				region,
+				api_key: apiKeys.tmdb.v3
+			},
+			body: '{}'
+		};
+		return new Promise((resolve, reject) => {
+			request(requestOptions, (error, response, body) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(body);
+			});
+		});
 	}
 };
 
