@@ -1,17 +1,41 @@
-const router = require('express').Router();
+const app = require('express')();
 const tmdb = require('../services/tmdbService');
 
-router.get('/', (req, res, next) => {
-	res.send('api');
-});
-router.get('/getMeta/:name', (req, res, next) => {
-	tmdb.searchMovie(req.params.name)
-		.then((movies) => {
-			res.send(movies);
-		})
-		.catch((error) => {
-			res.send(error);
-		});
-});
+app.route('/')
+	.get((req, res, next) => {
+		res.send('api');
+	});
 
-module.exports = router;
+app.route('/getMovie/:name')
+	.get((req, res, next) => {
+		tmdb.searchMovie(
+				req.params.name,
+				req.query.year || undefined,
+				req.query.lang || undefined,
+				req.query.adult || undefined,
+				req.query.page || undefined
+			)
+			.then((movies) => {
+				res.send(movies);
+			})
+			.catch((error) => {
+				res.send(error);
+			});
+	});
+
+app.route('/getTVShow/:name')
+	.get((req, res, next) => {
+		tmdb.searchTVShow(
+				req.params.name,
+				req.query.lang || undefined,
+				req.query.page || undefined
+			)
+			.then((tvShows) => {
+				res.send(tvShows);
+			})
+			.catch((error) => {
+				res.send(error);
+			});
+	});
+
+module.exports = app;

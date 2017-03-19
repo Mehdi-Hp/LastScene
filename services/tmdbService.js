@@ -2,10 +2,22 @@ const request = require('request');
 const apiKeys = require('../config/apiKeys');
 
 const tmdb = {
-	searchMovie: (movieName) => {
+	searchMovie: (movieName, year, language, includeAdult, page) => {
+		const requestOptions = {
+			method: 'GET',
+			url: 'https://api.themoviedb.org/3/search/movie',
+			qs: {
+				year,
+				include_adult: includeAdult,
+				page,
+				query: movieName,
+				language,
+				api_key: apiKeys.tmdb.v3
+			},
+			body: '{}'
+		};
 		return new Promise((resolve, reject) => {
-			request(`https://api.themoviedb.org/3/search/movie?api_key=${apiKeys.tmdb.v3}&query=${movieName}`, (error, response, body) => {
-				console.log(` *** getting movie (${movieName}) details ***`);
+			request(requestOptions, (error, response, body) => {
 				if (error) {
 					reject(error);
 				}
@@ -13,6 +25,27 @@ const tmdb = {
 			});
 		});
 	},
+	searchTVShow: (tvShowName, language, page) => {
+		const requestOptions = {
+			method: 'GET',
+			url: 'https://api.themoviedb.org/3/search/tv',
+			qs: {
+				page,
+				query: tvShowName,
+				language,
+				api_key: apiKeys.tmdb.v3
+			},
+			body: '{}'
+		};
+		return new Promise((resolve, reject) => {
+			request(requestOptions, (error, response, body) => {
+				if (error) {
+					reject(error);
+				}
+				resolve(body);
+			});
+		});
+	}
 };
 
 module.exports = tmdb;
