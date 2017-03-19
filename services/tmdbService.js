@@ -14,7 +14,8 @@ const tmdb = {
 				language,
 				api_key: apiKeys.tmdb.v3
 			},
-			body: '{}'
+			body: '{}',
+			json: true
 		};
 		return new Promise((resolve, reject) => {
 			request(requestOptions, (error, response, body) => {
@@ -35,7 +36,8 @@ const tmdb = {
 				language,
 				api_key: apiKeys.tmdb.v3
 			},
-			body: '{}'
+			body: '{}',
+			json: true
 		};
 		return new Promise((resolve, reject) => {
 			request(requestOptions, (error, response, body) => {
@@ -57,13 +59,16 @@ const tmdb = {
 				region,
 				api_key: apiKeys.tmdb.v3
 			},
-			body: '{}'
+			body: '{}',
+			json: true
 		};
 		return new Promise((resolve, reject) => {
 			request(requestOptions, (error, response, body) => {
 				if (error) {
 					reject(error);
 				}
+				console.log(response);
+				console.log(body);
 				resolve(body);
 			});
 		});
