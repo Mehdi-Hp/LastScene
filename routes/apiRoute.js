@@ -1,5 +1,5 @@
 const app = require('express')();
-const tmdb = require('../services/tmdbService');
+const imdb = require('../services/imdbService');
 
 app.route('/')
 	.get((req, res, next) => {
@@ -8,13 +8,7 @@ app.route('/')
 
 app.route('/getMovie/:name')
 	.get((req, res, next) => {
-		tmdb.searchMovie(
-				req.params.name,
-				req.query.year || undefined,
-				req.query.lang || undefined,
-				req.query.adult || undefined,
-				req.query.page || undefined
-			)
+		imdb.searchMovie(req.params.name)
 			.then((movies) => {
 				res.send(movies);
 			})
@@ -48,7 +42,7 @@ app.route('/getPerson/:name')
 				req.query.page || undefined
 			)
 			.then((persons) => {
-				res.send(persons);
+				res.json(persons);
 			})
 			.catch((error) => {
 				res.send(error);
