@@ -1,14 +1,15 @@
 const request = require('request');
+const Movie = require('../classes/movie');
 
-let moviesList = {};
+let movies = {};
 
 const mdb = {
-	searchMovie: (movieName, year, page, apiKey) => {
+	searchMovie: (movieTitle, year, page, apiKey) => {
 		const requestOptions = {
 			method: 'GET',
 			url: 'https://api.themoviedb.org/3/search/movie',
 			qs: {
-				query: movieName,
+				query: movieTitle,
 				year,
 				page,
 				api_key: apiKey,
@@ -21,31 +22,35 @@ const mdb = {
 				if (error) {
 					reject(error);
 				}
-				moviesList = {
+				movies = {
 					totalResults: body.total_results,
 					totalPages: body.total_pages,
 					currentPage: body.page
 				};
-				moviesList.data = body.results.map((currentValue, index, arr) => {
-					return {
-						title: currentValue.title,
-						originalTitle: currentValue.original_title,
-						releaseDate: currentValue.release_date,
-						imdbRate: currentValue.vote_average,
+				movies.data = body.results.map((currentMovie, index, arr) => {
+					return new Movie({
+						title: currentMovie.title,
+						originalTitle: currentMovie.original_title,
+						year: currentMovie.release_date,
+						rate: {
+							imdb: currentMovie.vote_average
+						},
 						id: {
-							tmdb: currentValue.id
+							tmdb: currentMovie.id
 						},
-						poster: {
-							tmdb: `https://image.tmdb.org/t/p/w550${currentValue.poster_path}`
+						images: {
+							poster: {
+								tmdb: `https://image.tmdb.org/t/p/w600${currentMovie.poster_path}`
+							},
+							backdrop: {
+								tmdb: `https://image.tmdb.org/t/p/w600${currentMovie.backdrop_path || currentMovie.poster_path}`
+							}
 						},
-						backdrop: {
-							tmdb: `https://image.tmdb.org/t/p/w550${currentValue.backdrop_path || currentValue.poster_path}`
-						},
-						plot: currentValue.overview
-					};
+						plot: currentMovie.overview
+					});
 				});
 
-				resolve(moviesList);
+				resolve(movies);
 			});
 		});
 	},

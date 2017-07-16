@@ -1,7 +1,5 @@
 const router = require('express').Router();
 
-router.get('/', (req, res, next) => {
-	res.send('index');
-});
+router.use('/api/v1/', require('./api'));
 
 module.exports = router;

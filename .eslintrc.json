@@ -1,0 +1,14 @@
+{
+	"extends": "airbnb",
+	"rules": {
+		"indent": [2, "tab"],
+		"no-tabs": 0,
+		"no-param-reassign": ["error", { "props": false }],
+		"no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
+		"arrow-body-style": ["error", "always"],
+		"space-before-function-paren": ["error", "never"],
+		"comma-dangle": ["error", "never"],
+		"import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
+		"consistent-return": "off"
+	}
+}

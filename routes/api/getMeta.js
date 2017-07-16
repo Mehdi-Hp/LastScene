@@ -1,6 +1,6 @@
 const app = require('express')();
-const mdb = require('../services/mdbService');
-const apiKeys = require('../config/apiKeys');
+const mdb = require('../../services/mdbService');
+const apiKeys = require('../../config/apiKeys');
 
 app.route('/movie/:id')
 	.get((req, res, next) => {
