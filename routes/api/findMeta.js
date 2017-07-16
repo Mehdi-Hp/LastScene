@@ -1,27 +1,17 @@
 const app = require('express')();
-const mdb = require('../../services/mdbService');
-const apiKeys = require('../../config/apiKeys');
+const myapifilms = require('../../services/myapifilmsService');
 
-app.route('/movie/:name')
+app.route('/movie/:title')
 	.get((req, res, next) => {
-		mdb.searchMovie(
-				req.params.name,
-				req.query.year || undefined,
-				req.query.page || undefined,
-				apiKeys.tmdb.v3
-			)
-			.then((movies) => {
-				res.send(movies);
-			})
-			.catch((error) => {
-				res.send(error);
-			});
+		myapifilms.searchMovie({
+			title: req.params.title
+		})
+		.then((movies) => {
+			res.send(movies);
+		})
+		.catch((error) => {
+			res.send(error);
+		});
 	});
-
-app.route('/tvshow/:name')
-	.get((req, res, next) => {});
-
-app.route('/person/:name')
-	.get((req, res, next) => {});
 
 module.exports = app;
