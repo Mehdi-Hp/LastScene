@@ -1,16 +1,15 @@
 const request = require('request');
-const Movie = require('../classes/movie');
+const Movie = require('../models/movie');
 const apiKeys = require('../config/apiKeys');
-
-let movies = {};
+const _ = require('lodash');
 
 const myapifilms = {
-	searchMovie: (information) => {
+	getMovie: (information) => {
 		const requestOptions = {
 			method: 'GET',
 			url: 'http://www.myapifilms.com/imdb/idIMDB',
 			qs: {
-				title: information.title,
+				idIMDB: information.imdbID,
 				token: apiKeys.myapifilms,
 				format: 'json',
 				filter: '3',
@@ -27,93 +26,120 @@ const myapifilms = {
 				if (error) {
 					reject(error);
 				}
-				movies = {
-					totalResults: body.data.movies.length
-				};
-				movies.data = body.data.movies.map((currentMovie) => {
-					let movie = {};
-					movie.directors = currentMovie.directors.map((currentDirector) => {
-						return {
-							name: currentDirector.name,
-							id: currentDirector.id
-						};
-					});
-					movie.writers = currentMovie.writers.map((currentWriter) => {
-						return {
-							name: currentWriter.name,
-							id: currentWriter.id
-						};
-					});
-					movie.actors = currentMovie.actors.map((currentActor) => {
-						return {
-							name: currentActor.actorName,
-							id: currentActor.actorId,
-							photo: currentActor.urlPhoto,
-							profile: currentActor.urlProfile,
-							character: currentActor.character
-						};
-					});
-					movie.awards = currentMovie.awards.map((currentAward) => {
-						const outcomes = currentAward.titlesAwards.map((currentOutcome) => {
-							const categories = currentOutcome.categories.map((currentCategory) => {
-								const names = currentCategory.names.map((currentName) => {
+				const response = {};
+				if (_.has(body, 'error')) {
+					response.status = {
+						type: 'error'
+					};
+					/* eslint-disable indent */
+					switch (body.error.code) {
+						case 110:
+							response.status = {
+								code: 404,
+								message: 'Movie not found'
+							};
+							break;
+						case 112:
+							response.status = {
+								code: 400,
+								message: 'Invalid IMDB ID'
+							};
+							break;
+						case 113:
+							response.status = {
+								code: 503,
+								message: 'Service is currently unavailable, Sorry!'
+							};
+							break;
+						default:
+							return;
+					}
+					reject(response);
+				} else {
+					response.data = body.data.movies.map((currentMovie) => {
+						let movie = {};
+						movie.directors = currentMovie.directors.map((currentDirector) => {
+							return {
+								name: currentDirector.name,
+								id: currentDirector.id
+							};
+						});
+						movie.writers = currentMovie.writers.map((currentWriter) => {
+							return {
+								name: currentWriter.name,
+								id: currentWriter.id
+							};
+						});
+						movie.actors = currentMovie.actors.map((currentActor) => {
+							return {
+								name: currentActor.actorName,
+								id: currentActor.actorId,
+								photo: currentActor.urlPhoto,
+								profile: currentActor.urlProfile,
+								character: currentActor.character
+							};
+						});
+						movie.awards = currentMovie.awards.map((currentAward) => {
+							const outcomes = currentAward.titlesAwards.map((currentOutcome) => {
+								const categories = currentOutcome.categories.map((currentCategory) => {
+									const names = currentCategory.names.map((currentName) => {
+										return {
+											name: currentName.name,
+											id: currentName.id
+										};
+									});
 									return {
-										name: currentName.name,
-										id: currentName.id
+										for: currentCategory.category,
+										by: names
 									};
 								});
 								return {
-									for: currentCategory.category,
-									by: names
+									name: currentOutcome.titleAwardOutcome,
+									categories
 								};
 							});
 							return {
-								name: currentOutcome.titleAwardOutcome,
-								categories
+								name: currentAward.award,
+								outcomes
 							};
 						});
-						return {
-							name: currentAward.award,
-							outcomes
-						};
-					});
-					movie = new Movie({
-						title: currentMovie.title,
-						originalTitle: currentMovie.originalTitle,
-						year: currentMovie.year,
-						id: {
-							imdb: currentMovie.idIMDB
-						},
-						url: {
-							imdb: currentMovie.urlIMDB
-						},
-						rate: {
-							imdb: currentMovie.rating,
-							metascore: currentMovie.metascore
-						},
-						plot: {
-							simple: currentMovie.simplePlot,
-							full: currentMovie.plot
-						},
-						runtime: currentMovie.runtime,
-						images: {
-							poster: {
-								myapifilms: currentMovie.urlPoster
+						movie = new Movie({
+							title: currentMovie.title,
+							originalTitle: currentMovie.originalTitle,
+							year: currentMovie.year,
+							id: {
+								imdb: currentMovie.idIMDB
 							},
-							backdrop: {}
-						},
-						trailer: currentMovie.trailer.videoURL,
-						directors: movie.directors,
-						actors: movie.actors,
-						writers: movie.writers,
-						languages: currentMovie.languages,
-						genres: currentMovie.genres,
-						awards: movie.awards
+							url: {
+								imdb: currentMovie.urlIMDB
+							},
+							rate: {
+								imdb: currentMovie.rating,
+								metascore: currentMovie.metascore
+							},
+							plot: {
+								simple: currentMovie.simplePlot,
+								full: currentMovie.plot
+							},
+							runtime: currentMovie.runtime,
+							images: {
+								poster: {
+									myapifilms: currentMovie.urlPoster
+								},
+								backdrop: {}
+							},
+							trailer: currentMovie.trailer.videoURL,
+							directors: movie.directors,
+							actors: movie.actors,
+							writers: movie.writers,
+							languages: currentMovie.languages,
+							genres: currentMovie.genres,
+							awards: movie.awards
+						});
+						return movie;
 					});
-					return movie;
-				});
-
-				resolve(movies);
+				}
+				resolve(response);
 			});
 		});
 	}

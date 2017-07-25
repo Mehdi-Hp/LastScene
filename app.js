@@ -1,12 +1,12 @@
-/* eslint-disable no-console */
-
 const express = require('express');
 const path = require('path');
 // const favicon = require('serve-favicon');
 const logger = require('morgan');
+const chalk = require('chalk');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const mongoose = require('mongoose');
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -20,6 +20,44 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 const productionPath = path.resolve(__dirname, 'public/production');
 
 const app = express();
+
+/* eslint-disable no-console */
+
+mongoose.connect('mongodb://localhost:27017/framee', {
+	server: {
+		socketOptions: {
+			keepAlive: 300000,
+			connectTimeoutMS: 30000
+		}
+	},
+	replset: {
+		socketOptions: {
+			keepAlive: 300000,
+			connectTimeoutMS: 30000
+		}
+	},
+	autoReconnect: true
+});
+mongoose.Promise = Promise;
+const mongooseConnection = mongoose.connection;
+mongooseConnection.on('error', (error) => {
+	throw error;
+});
+mongooseConnection.once('connection', () => {
+	if (isDevelopment) {
+		console.log(chalk.bold.cyan(`*** Connected to MongoDB, ${mongooseConnection.name} collection ***`));
+	}
+});
+mongooseConnection.once('open', () => {
+	if (isDevelopment) {
+		console.log(chalk.bold.cyan(`*** Connected to MongoDB, ${mongooseConnection.name} collection ***`));
+	}
+});
+mongooseConnection.once('reconnect', () => {
+	if (isDevelopment) {
+		console.log(chalk.bold.cyan(`*** reConnected to MongoDB, ${mongooseConnection.name} collection ***`));
+	}
+});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,7 +76,7 @@ app.use(express.static(productionPath));
 app.use(require('./routes/all'));
 
 if (isDevelopment) {
-	console.log('*** IS DEVELOPMENT ENV ***');
+	console.log(chalk.bold.magenta('*** IS DEVELOPMENT ENV ***'));
 	const compiler = webpack(webpackConfig);
 	app.use(webpackMiddleware(compiler, webpackConfig.devServer));
 	app.use(webpackHotMiddleware(compiler));

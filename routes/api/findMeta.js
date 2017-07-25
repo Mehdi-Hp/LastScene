@@ -1,9 +1,9 @@
 const app = require('express')();
-const myapifilms = require('../../services/myapifilmsService');
+const tmdb = require('../../services/tmdbService');
 
 app.route('/movie/:title')
 	.get((req, res, next) => {
-		myapifilms.searchMovie({
+		tmdb.findMovie({
 			title: req.params.title
 		})
 		.then((movies) => {
