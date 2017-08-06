@@ -5,7 +5,7 @@
 	"author": "Mehdi Hoseini <mehdi.hoseinipjooh@gmail.com>",
 	"private": true,
 	"scripts": {
-		"dev": "cross-env NODE_ENV=development nodemon ./bin/www",
+		"dev": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
 		"start": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules && nodemon ./bin/www "
 	},
 	"dependencies": {
@@ -16,11 +16,15 @@
 		"ejs": "~2.5.6",
 		"express": "~4.15.2",
 		"helmet": "^3.6.1",
+		"is-there": "^4.4.2",
 		"lodash": "^4.17.4",
 		"mongoose": "^4.11.3",
 		"morgan": "~1.8.1",
 		"request": "^2.81.0",
+		"sanitize-filename": "^1.6.1",
 		"serve-favicon": "~2.4.2",
+		"sharp": "^0.18.2",
+		"trace-debug-log": "^1.0.1",
 		"trakt.tv": "^5.1.0",
 		"vue": "^2.3.3",
 		"vue-cli": "^2.8.2",

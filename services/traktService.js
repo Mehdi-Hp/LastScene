@@ -5,7 +5,6 @@ const apiKeys = require('../config/apiKeys');
 const trakt = new Trakt({
 	client_id: apiKeys.trakt.clientID,
 	client_secret: apiKeys.trakt.clientSecret,
-	redirect_uri: null, // defaults to 'urn:ietf:wg:oauth:2.0:oob'
 	api_url: null, // defaults to 'https://api.trakt.tv'
 	debug: true
 });

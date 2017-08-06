@@ -4,10 +4,11 @@ const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
 	title: {
-		type: String,
-		required: true
+		type: String
 	},
+
 	originalTitle: String,
+
 	id: new Schema({
 		imdb: {
 			type: String,
@@ -15,36 +16,57 @@ const movieSchema = new Schema({
 		},
 		tmdb: String
 	}, { _id: false }),
+
 	url: new Schema({
 		imdb: String
 	}, { _id: false }),
+
 	year: String,
+
 	rate: new Schema({
 		imdb: String,
 		metascore: String
 	}, { _id: false }),
+
 	runtime: String,
+
+	images: new Schema({
+		poster: new Schema({
+			small: String,
+			medium: String,
+			big: String
+		}, { _id: false }),
+		backdrop: String
+	}, { _id: false }),
+
 	plot: new Schema({
 		simple: String,
 		full: String
 	}, { _id: false }),
+
 	trailer: String,
+
 	languages: [String],
+
 	genres: [String],
+
 	directors: [new Schema({
 		name: String,
 		id: String
 	}, { _id: false })],
+
 	writers: [new Schema({
 		name: String,
 		id: String
 	}, { _id: false })],
+
 	actors: [new Schema({
 		name: String,
 		id: String,
 		profile: String,
 		character: String
 	}, { _id: false })],
+
 	awards: [new Schema({
 		name: String,
 		outcomes: [new Schema({

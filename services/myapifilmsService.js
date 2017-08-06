@@ -1,7 +1,8 @@
 const request = require('request');
-const Movie = require('../models/movie');
-const apiKeys = require('../config/apiKeys');
 const _ = require('lodash');
+const apiKeys = require('../config/apiKeys');
+const Movie = require('../models/movie');
+const getPoster = require('./getPoster');
 
 const myapifilms = {
 	getMovie: (information) => {
@@ -121,13 +122,11 @@ const myapifilms = {
 								simple: currentMovie.simplePlot,
 								full: currentMovie.plot
 							},
-							runtime: currentMovie.runtime,
 							images: {
-								poster: {
-									myapifilms: currentMovie.urlPoster
-								},
-								backdrop: {}
+								poster: '',
+								backdrop: ''
 							},
+							runtime: currentMovie.runtime,
 							trailer: currentMovie.trailer.videoURL,
 							directors: movie.directors,
 							actors: movie.actors,
@@ -136,6 +135,33 @@ const myapifilms = {
 							genres: currentMovie.genres,
 							awards: movie.awards
 						});
+						getPoster(currentMovie.urlPoster, movie.id.imdb)
+							.then((posters) => {
+								Movie.findOneAndUpdate({
+									id: {
+										imdb: movie.id.imdb
+									}
+								}, {
+									images: {
+										poster: {
+											small: posters.small,
+											medium: posters.medium,
+											big: posters.big
+										}
+									}
+								},
+								{
+									new: true
+								},
+								(updatePosterError, movieWithPoster) => {
+									if (updatePosterError) {
+										return updatePosterError;
+									}
+								});
+							}).catch((posterError) => {
+								return posterError;
+							});
+
 						return movie;
 					});
 				}
