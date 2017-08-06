@@ -16,7 +16,7 @@ const DIST_DIR = path.join(__dirname, 'public', 'production');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
 // const isProduction = process.env.NODE_ENV === 'production';
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
 const productionPath = path.resolve(__dirname, 'public/production');
 
 const app = express();
