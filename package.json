@@ -6,7 +6,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
-		"start": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules && nodemon ./bin/www "
+		"start": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules && node ./bin/www "
 	},
 	"dependencies": {
 		"body-parser": "~1.17.1",
