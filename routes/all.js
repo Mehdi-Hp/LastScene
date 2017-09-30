@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const isAuthorized = require('../restricts/isAuthorized');
 
-router.use('/api/v1', require('./api'));
+router.use('/authenticate', require('./authenticate'));
+router.use('/api/v1', isAuthorized, require('./api'));
 
 module.exports = router;

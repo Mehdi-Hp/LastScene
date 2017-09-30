@@ -1,7 +1,6 @@
 const request = require('request');
 const apiKeys = require('../config/apiKeys');
 const debug = require('debug')('development');
-const tmdbIDToImdbID = require('./tmdbIDToImdbID');
 
 let movies = {};
 
@@ -58,7 +57,7 @@ const tmdb = {
 					resolve(movies);
 				}
 			}).on('error', (error) => {
-				throw error;
+				reject(error);
 			}).end();
 		});
 	}
