@@ -21,15 +21,15 @@ const userSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	movies: [{
+	movies: [new Schema({
 		imdbID: String,
 		state: String,
 		points: {
 			type: Number,
-			default: 5
+			default: null
 		},
 		note: String
-	}]
+	}, { _id: false })]
 });
 
 userSchema.methods.generateHash = (password) => {
@@ -41,5 +41,32 @@ userSchema.methods.isValidPassword = (password, user) => {
 	return bcrypt.compareSync(password, user.authentication.local.password);
 };
 
+userSchema.methods.isValidPassword = (password, user) => {
+	debug('Checking password validation...');
+	return bcrypt.compareSync(password, user.authentication.local.password);
+};
+
+userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
+	debug(`Adding movie ${imdbID} to user movies...`);
+	return new Promise((resolve, reject) => {
+		user.model('User').findByIdAndUpdate(user._id, {
+			$push: {
+				movies: {
+					imdbID
+				}
+			}
+		}, {
+			new: true
+		}, (error, updatedUser) => {
+			if (error) {
+				reject(error);
+			}
+			debug(`Movie "${imdbID}" added to user "${user.name}"`);
+			resolve(updatedUser);
+		});
+	});
+};
+
 const User = mongoose.model('User', userSchema);
+
 module.exports = User;

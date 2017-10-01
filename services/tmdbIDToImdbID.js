@@ -14,8 +14,11 @@ module.exports = (tmdbID) => {
 	return new Promise((resolve, reject) => {
 		debug(`Finding imdbID from tmdbID: ${tmdbID}...`);
 		request(requestOptions, (error, res, body) => {
-			debug(`Got imdbID from tmdbID. It's ${body.imdb_id}`);
-			return body.imdb_id;
+			if (error) {
+				reject(error);
+			}
+			debug(`Got IMDB_ID from TMDB_ID. It's ${body.imdb_id}`);
+			resolve(body.imdb_id);
 		});
 	});
 };

@@ -1,6 +1,6 @@
 {
-	"name": "pixr",
-	"description": "It's about your movie taste",
+	"name": "pitto",
+	"description": "It's all about your movie taste",
 	"version": "1.0.0",
 	"author": "Mehdi Hoseini <mehdi.hoseinipjooh@gmail.com>",
 	"private": true,
@@ -22,6 +22,7 @@
 		"helmet": "^3.6.1",
 		"is-there": "^4.4.2",
 		"jsonwebtoken": "^8.0.1",
+		"jsonwebtoken-refresh": "^5.7.0",
 		"lodash": "^4.17.4",
 		"mongoose": "^4.11.3",
 		"morgan": "~1.8.1",

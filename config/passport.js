@@ -22,12 +22,13 @@ module.exports = (passport) => {
 		passwordField: 'password',
 		passReqToCallback: true
 	}, (req, email, password, done) => {
-		debug('IN LOCAL LOGIN...');
+		debug('Passport logging user in...');
 		process.nextTick(() => {
 			User.findOne({
 				'authentication.local.email': email
 			}, (error, user) => {
 				if (error) {
+					debug(`Error in passport login: ${error}`);
 					return done(error);
 				}
 				if (!user) {
@@ -38,7 +39,8 @@ module.exports = (passport) => {
 					debug('Password is wrong');
 					return done('Password is wrong', null);
 				}
-				return done(null, user, 'logged in');
+				debug(`User logged in: ${user}`);
+				return done(null, user);
 			});
 		});
 	}));
