@@ -36,7 +36,11 @@ const movieSchema = new Schema({
 			medium: String,
 			big: String
 		}, { _id: false }),
-		backdrop: String
+		backdrop: new Schema({
+			small: String,
+			medium: String,
+			big: String
+		}, { _id: false })
 	}, { _id: false }),
 
 	plot: new Schema({

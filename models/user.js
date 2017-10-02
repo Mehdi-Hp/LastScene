@@ -22,9 +22,12 @@ const userSchema = new Schema({
 		default: Date.now
 	},
 	movies: [new Schema({
-		imdbID: String,
+		imdbID: {
+			type: String,
+			required: true
+		},
 		state: String,
-		points: {
+		rate: {
 			type: Number,
 			default: null
 		},
@@ -49,20 +52,42 @@ userSchema.methods.isValidPassword = (password, user) => {
 userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
 	debug(`Adding movie ${imdbID} to user movies...`);
 	return new Promise((resolve, reject) => {
-		user.model('User').findByIdAndUpdate(user._id, {
-			$push: {
-				movies: {
-					imdbID
-				}
+		user.model('User').findOne({
+			movies: {
+				$elemMatch: { imdbID }
 			}
-		}, {
-			new: true
-		}, (error, updatedUser) => {
+		}, (error, userThatHasTheMovie) => {
 			if (error) {
-				reject(error);
+				return reject({
+					status: 500,
+					message: error
+				});
 			}
-			debug(`Movie "${imdbID}" added to user "${user.name}"`);
-			resolve(updatedUser);
+			if (userThatHasTheMovie) {
+				debug(`User "${userThatHasTheMovie.name}" already added this movie: "${imdbID}"`);
+				return reject({
+					status: 400,
+					message: `You already added this movie: "${imdbID}"`
+				});
+			}
+			user.model('User').findByIdAndUpdate(user._id, {
+				$push: {
+					movies: {
+						imdbID
+					}
+				}
+			}, {
+				new: true
+			}, (error, updatedUser) => {
+				if (error) {
+					reject({
+						status: 500,
+						message: error
+					});
+				}
+				debug(`Movie "${imdbID}" added to user "${user.name}"`);
+				resolve(updatedUser);
+			});
 		});
 	});
 };

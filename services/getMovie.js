@@ -12,11 +12,11 @@ module.exports = (imdbID) => {
 			}
 		}, (error, existedMovie) => {
 			if (error) {
-				reject(error);
+				return reject(error);
 			}
 			if (existedMovie) {
-				debug(`movie information: ${imdbID} already exist`);
-				resolve(new Movie(existedMovie));
+				debug(`Movie information: ${imdbID} already exist in databse`);
+				return resolve(new Movie(existedMovie));
 			}
 
 			myapifilmsService.getMovie({

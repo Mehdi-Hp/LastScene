@@ -3,6 +3,8 @@ const _ = require('lodash');
 const apiKeys = require('../config/apiKeys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
+const getBackdrop = require('./getBackdrop');
+const debug = require('debug')('development');
 
 const myapifilms = {
 	getMovie: (information) => {
@@ -19,6 +21,17 @@ const myapifilms = {
 				actors: '1',
 				quotes: '1',
 				fullSize: '1'
+			},
+			json: true
+		};
+		const requestOptionsToFanart = {
+			method: 'GET',
+			url: `http://webservice.fanart.tv/v3/movies/${information.imdbID}`,
+			qs: {
+				api_key: apiKeys.fanart
+			},
+			header: {
+				'api-key': apiKeys.fanart
 			},
 			json: true
 		};
@@ -153,14 +166,41 @@ const myapifilms = {
 								{
 									new: true
 								},
-								(updatePosterError, movieWithPoster) => {
-									if (updatePosterError) {
-										return updatePosterError;
+								(error, movieWithPoster) => {
+									if (error) {
+										return error;
 									}
 								});
-							}).catch((posterError) => {
-								return posterError;
+							}).catch((error) => {
+								return error;
 							});
+
+						request(requestOptionsToFanart, (error, res, body) => {
+							if (error) {
+								reject(error);
+							}
+							getBackdrop(body.moviebackground[0].url, movie.id.imdb)
+								.then((backdrops) => {
+									Movie.findOneAndUpdate({
+										id: {
+											imdb: movie.id.imdb
+										}
+									}, {
+										'images.backdrop': {
+											small: backdrops.small,
+											medium: backdrops.medium,
+											big: backdrops.big
+										}
+									},
+									(error, movieWithBackdrop) => {
+										if (error) {
+											return error;
+										}
+									});
+								}).catch((error) => {
+									return error;
+								});
+						});
 
 						return movie;
 					});

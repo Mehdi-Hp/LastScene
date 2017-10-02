@@ -13,10 +13,10 @@ app.route('/')
 				updatedUser
 			});
 		}).catch((error) => {
-			debug(`ERROR adding movie: ${error}`);
-			res.status(500).json({
+			debug(`ERROR adding movie: ${error.message}`);
+			res.status(error.status).json({
 				error: true,
-				message: 'couldn\'t add movie to the user'
+				message: error.message
 			})
 		});
 	});

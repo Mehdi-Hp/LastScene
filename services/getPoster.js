@@ -9,16 +9,16 @@ const data = {};
 
 module.exports = (posterLink, posterName) => {
 	return new Promise((resolve, reject) => {
-		if (!isThere(`./public/files/${posterName}`) && !isThere(`./public/files/${posterName}.jpeg`)) {
+		if (!isThere(`./public/files/poster/${posterName}`) && !isThere(`./public/files/poster/${posterName}.jpeg`)) {
 			request(posterLink, (error, response) => {
 				if (error) {
 					reject(error);
 				}
 				data.contentType = _.split(response.headers['content-type'], '/')[1];
-			}).pipe(fs.createWriteStream(`./public/files/${posterName}`)).on('finish', () => {
-				generatePosters(`./public/files/${posterName}`).then((generatedPosters) => {
+			}).pipe(fs.createWriteStream(`./public/files/poster/${posterName}`)).on('finish', () => {
+				generatePosters(`./public/files/poster/${posterName}`).then((generatedPosters) => {
 					debug('Deleting the original poster...');
-					fs.unlink(`./public/files/${posterName}`, (error) => {
+					fs.unlink(`./public/files/poster/${posterName}`, (error) => {
 						if (error) {
 							debug(`ERROR: ${error}`);
 						}
@@ -33,9 +33,9 @@ module.exports = (posterLink, posterName) => {
 			});
 		} else {
 			resolve({
-				small: `./public/files/${posterName}--small.jpeg`,
-				medium: `./public/files/${posterName}--medium.jpeg`,
-				big: `./public/files/${posterName}--big.jpeg`
+				small: `./public/files/poster/${posterName}--small.jpeg`,
+				medium: `./public/files/poster/${posterName}--medium.jpeg`,
+				big: `./public/files/poster/${posterName}--big.jpeg`
 			});
 		}
 	});
