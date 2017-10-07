@@ -2,6 +2,7 @@
 const debug = require('debug')('development');
 const myapifilmsService = require('./myapifilmsService');
 const Movie = require('../models/movie');
+const movieQueue = require('../config/movieQueue')();
 
 module.exports = (imdbID) => {
 	return new Promise((resolve, reject) => {
@@ -19,23 +20,35 @@ module.exports = (imdbID) => {
 				return resolve(new Movie(existedMovie));
 			}
 
-			myapifilmsService.getMovie({
-				imdbID
-			})
-			.then((movie) => {
-				debug(`Got movie information: ${imdbID}. adding it to database...`);
-				Movie.create(movie.data)
-					.then((newMovie) => {
-						debug(`Movie "${imdbID}" added to database`);
-						resolve(newMovie);
-					})
-					.catch((error) => {
-						reject(error);
+			if (!movieQueue.isThere(imdbID)) {
+				movieQueue.add(imdbID);
+				myapifilmsService.getMovie({
+					imdbID
+				})
+				.then((movie) => {
+					debug(`Got movie information: ${imdbID}. adding it to database...`);
+					Movie.create(movie.data)
+						.then((newMovie) => {
+							debug(`Movie "${imdbID}" added to database`);
+							movieQueue.delete(imdbID);
+							resolve(newMovie);
+						})
+						.catch((error) => {
+							movieQueue.delete(imdbID);
+							reject(error);
+						});
+				})
+				.catch((error) => {
+					movieQueue.delete(imdbID);
+					reject({
+						error: true,
+						status: error.status,
+						message: error.message
 					});
-			})
-			.catch((error) => {
-				reject(error.status.code);
-			});
+				});
+			} else {
+				debug(`Already looking for ${imdbID} information...`);
+			}
 		});
 	});
 };

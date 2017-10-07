@@ -21,6 +21,10 @@ module.exports = (backdropLink, backdropName) => {
 					fs.unlink(`./public/files/backdrop/${backdropName}`, (error) => {
 						if (error) {
 							debug(`ERROR deleting backdrop: ${error}`);
+							reject({
+								status: 500,
+								message: 'Faild to generate backdrop'
+							});
 						}
 						debug('Original backdrop has been deleted.');
 					});
@@ -28,7 +32,10 @@ module.exports = (backdropLink, backdropName) => {
 				});
 			}).on('error', (error) => {
 				if (error) {
-					reject(error);
+					reject({
+						status: 500,
+						message: error
+					});
 				}
 			});
 		} else {

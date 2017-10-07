@@ -4,7 +4,7 @@ const apiKeys = require('../config/apiKeys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
 const getBackdrop = require('./getBackdrop');
-const debug = require('debug')('development');
+// const debug = require('debug')('development');
 
 const myapifilms = {
 	getMovie: (information) => {
@@ -38,7 +38,10 @@ const myapifilms = {
 		return new Promise((resolve, reject) => {
 			request(requestOptions, (error, res, body) => {
 				if (error) {
-					reject(error);
+					reject({
+						status: 500,
+						message: error
+					});
 				}
 				const response = {};
 				if (_.has(body, 'error')) {
@@ -70,6 +73,12 @@ const myapifilms = {
 					}
 					reject(response);
 				} else {
+					if (!body.data.movies.type === 'Movie') {
+						reject({
+							code: 400,
+							message: 'We only accept movies for now!'
+						});
+					}
 					response.data = body.data.movies.map((currentMovie) => {
 						let movie = {};
 						movie.directors = currentMovie.directors.map((currentDirector) => {
@@ -168,16 +177,16 @@ const myapifilms = {
 								},
 								(error, movieWithPoster) => {
 									if (error) {
-										return error;
+										return reject(error);
 									}
 								});
 							}).catch((error) => {
-								return error;
+								return reject(error);
 							});
 
 						request(requestOptionsToFanart, (error, res, body) => {
 							if (error) {
-								reject(error);
+								return reject(error);
 							}
 							getBackdrop(body.moviebackground[0].url, movie.id.imdb)
 								.then((backdrops) => {
@@ -194,11 +203,11 @@ const myapifilms = {
 									},
 									(error, movieWithBackdrop) => {
 										if (error) {
-											return error;
+											return reject(error);
 										}
 									});
 								}).catch((error) => {
-									return error;
+									return reject(error);
 								});
 						});
 
