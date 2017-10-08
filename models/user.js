@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const debug = require('debug')('development');
+const _ = require('lodash');
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
 	name: String,
+	username: String,
 	authentication: {
 		local: {
 			email: String,
@@ -50,21 +52,17 @@ userSchema.methods.isValidPassword = (password, user) => {
 };
 
 userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
-	debug(`Adding movie ${imdbID} to user movies...`);
+	debug(`Adding movie ${imdbID} to ${user.username}'s movies...`);
 	return new Promise((resolve, reject) => {
-		user.model('User').findOne({
-			movies: {
-				$elemMatch: { imdbID }
-			}
-		}, (error, userThatHasTheMovie) => {
+		user.model('User').findById(user._id, (error, foundedUser) => {
 			if (error) {
 				return reject({
 					status: 500,
-					message: error
+					message: 'Database error'
 				});
 			}
-			if (userThatHasTheMovie) {
-				debug(`User "${userThatHasTheMovie.name}" already added this movie: "${imdbID}"`);
+			if (_.findKey(foundedUser.movies, { imdbID })) {
+				debug(`User "${foundedUser.name}" already added this movie: "${imdbID}"`);
 				return reject({
 					status: 400,
 					message: `You already added this movie: "${imdbID}"`
@@ -82,7 +80,7 @@ userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
 				if (error) {
 					reject({
 						status: 500,
-						message: error
+						message: 'Database error'
 					});
 				}
 				debug(`Movie "${imdbID}" added to user "${user.name}"`);

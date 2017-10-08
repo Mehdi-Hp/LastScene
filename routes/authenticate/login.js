@@ -10,7 +10,7 @@ app.route('/')
 	})
 	.post((req, res, next) => {
 		if (!req.body) {
-			debug('Bad request');
+			debug('Bad login request');
 			return res.status(400).json({
 				auth: false,
 				message: 'Bad request'

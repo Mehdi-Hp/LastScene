@@ -23,9 +23,17 @@ module.exports = (passport) => {
 		passReqToCallback: true
 	}, (req, email, password, done) => {
 		debug('Passport logging user in...');
+		debug(req.body);
 		process.nextTick(() => {
 			User.findOne({
-				'authentication.local.email': email
+				$or: [
+					{
+						'authentication.local.email': email
+					},
+					{
+						username: email
+					}
+				]
 			}, (error, user) => {
 				if (error) {
 					debug(`Error in passport login: ${error}`);
@@ -61,6 +69,7 @@ module.exports = (passport) => {
 				}
 				const newUser = new User({
 					name: req.body.name,
+					username: req.body.username,
 					authentication: {
 						local: {
 							email
