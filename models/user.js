@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt-nodejs');
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const _ = require('lodash');
+const List = require('../models/list');
 
 const Schema = mongoose.Schema;
 
@@ -35,6 +36,12 @@ const userSchema = new Schema({
 			default: null
 		},
 		note: String
+	}, { _id: false })],
+	lists: [new Schema({
+		_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: List
+		}
 	}, { _id: false })]
 });
 
@@ -52,7 +59,7 @@ userSchema.methods.isValidPassword = (password, user) => {
 	return bcrypt.compareSync(password, user.authentication.local.password);
 };
 
-userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
+userSchema.methods.findOneAndAddMovie = (user, imdbID) => {
 	debug(`Adding movie ${imdbID} to ${user.username}'s movies...`);
 	return new Promise((resolve, reject) => {
 		user.model('User').findById(user._id, (error, foundedUser) => {
@@ -88,6 +95,47 @@ userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
 				}
 				debug(`Movie "${imdbID}" added to user "${user.name}"`);
 				resolve(updatedUser);
+			});
+		});
+	});
+};
+
+userSchema.methods.findOneAndAddList = (user, list) => {
+	debug(chalk.yellow(`Adding list "${list.name}" to ${user.username}`));
+	return new Promise((resolve, reject) => {
+		user.model('User').findById(user._id).then((user) => {
+			if (_.findKey(user.lists, { name: list.name })) {
+				debug(`User "${user.name}" already added this list: "${list.name}"`);
+				return reject({
+					status: 400,
+					message: `You already added this list: "${list.name}"`
+				});
+			}
+			user.model('User').findByIdAndUpdate(user._id, {
+				$push: {
+					lists: {
+						name: list.name
+					}
+				}
+			}, {
+				new: true
+			}).then((updatedUser) => {
+				debug(chalk.green(`List "${list.name}" added to user "${user.name}"`));
+				// List.findByIdAndUpdate();
+				resolve(updatedUser);
+			}).catch((error) => {
+				debug(chalk.bold.red(error));
+				reject({
+					status: 500,
+					message: 'Database error'
+				});
+			});
+		})
+		.catch((error) => {
+			debug(chalk.bold.red(error));
+			return reject({
+				status: 500,
+				message: 'Database error'
 			});
 		});
 	});

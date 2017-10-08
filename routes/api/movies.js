@@ -55,7 +55,7 @@ app.route('/')
 		const imdbID = req.body.imdb_id;
 		const user = new User(req.user);
 		getMovie(imdbID);
-		user.findByIdAndAddMovie(user, imdbID).then((updatedUser) => {
+		user.findOneAndAddMovie(user, imdbID).then((updatedUser) => {
 			res.json({
 				updatedUser
 			});

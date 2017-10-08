@@ -17,7 +17,7 @@ const listSchema = new Schema({
 	owner: String,
 	points: Number,
 	followers: [String],
-	movies: [new Schema({
+	movies: [{
 		imdbID: {
 			type: String,
 			required: true
@@ -26,7 +26,7 @@ const listSchema = new Schema({
 			type: Date,
 			default: Date.now()
 		}
-	}, { _id: false })]
+	}]
 });
 
 const List = mongoose.model('List', listSchema);

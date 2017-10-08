@@ -53,7 +53,43 @@ app.route('/')
 		});
 	})
 	.post((req, res, next) => {
-		debug(req.body);
+		const listName = req.body.name;
+		const imdbID = req.body.imdbID;
+		const user = new User(req.user);
+		// getMovie([imdbIDs]);
+		debug(chalk.yellow(`Adding ${imdbID} to ${listName}...`));
+		const list = new List({
+			name: listName
+		});
+		imdbID.forEach((theImdbID) => {
+			list.movies.push({
+				imdbID: theImdbID
+			});
+		});
+		List.create(list)
+		.then((createdList) => {
+			debug(createdList.movies);
+			user.findOneAndAddList(user, {
+				_id: createdList._id
+			}).then((updatedUser) => {
+				res.json({
+					updatedUser
+				});
+			}).catch((error) => {
+				debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
+				res.status(error.status).json({
+					error: true,
+					message: error.message
+				});
+			});
+		})
+		.catch((error) => {
+			debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
+			res.status(error.status).json({
+				error: true,
+				message: 'Database error'
+			});
+		});
 	})
 	.patch((req, res, next) => {
 
