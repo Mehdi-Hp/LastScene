@@ -11,5 +11,9 @@ app.use('/:username?/movies', (req, res, next) => {
 	res.locals.customUser = req.params.username;
 	next();
 }, require('./api/movies'));
+app.use('/:username?/lists', (req, res, next) => {
+	res.locals.customUser = req.params.username;
+	next();
+}, require('./api/lists'));
 
 module.exports = app;

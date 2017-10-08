@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const debug = require('debug')('development');
+const chalk = require('chalk');
 const _ = require('lodash');
 
 const Schema = mongoose.Schema;
@@ -56,6 +57,7 @@ userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
 	return new Promise((resolve, reject) => {
 		user.model('User').findById(user._id, (error, foundedUser) => {
 			if (error) {
+				debug(chalk.bold.red(error));
 				return reject({
 					status: 500,
 					message: 'Database error'
@@ -78,6 +80,7 @@ userSchema.methods.findByIdAndAddMovie = (user, imdbID) => {
 				new: true
 			}, (error, updatedUser) => {
 				if (error) {
+					debug(chalk.bold.red(error));
 					reject({
 						status: 500,
 						message: 'Database error'

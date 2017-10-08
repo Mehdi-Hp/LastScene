@@ -2,45 +2,46 @@ const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const User = require('../../models/user');
-const Movie = require('../../models/movie');
-const getMovie = require('../../services/getMovie');
+const List = require('../../models/list');
 
 app.route('/')
 	.get((req, res, next) => {
 		let theUsername;
 		if (res.locals.customUser) {
-			debug(`Getting ${res.locals.customUser}'s movies`);
 			theUsername = res.locals.customUser;
+			debug(chalk.yellow(`Getting ${theUsername}'s lists`));
 		} else {
-			debug('Getting user movies');
+			debug(req.user);
 			theUsername = req.user.username;
+			debug(chalk.yellow(`Getting user lists: "${theUsername}"`));
 		}
 		User.findOne({ username: theUsername }).then((user) => {
-			if (!user.movies) {
+			if (!user.lists) {
 				return res.json({
 					user: theUsername,
 					data: null
 				});
 			}
-			const movies = user.movies.map((movie) => {
-				return movie.imdbID;
+			const lists = user.lists.map((list) => {
+				return list._id;
 			});
-			Movie.find(
+			List.find(
 				{
-					'id.imdb': {
-						$in: movies
+					_id: {
+						$in: lists
 					}
 				}
-			).then((foundedMovies) => {
+			).then((lists) => {
+				debug(chalk.green(`${theUsername} has ${lists.length} list[s]`));
 				res.json({
 					user: theUsername,
-					data: foundedMovies
+					data: lists
 				});
 			}).catch((error) => {
 				debug(chalk.bold.red(error));
 				res.status(500).json({
 					error: true,
-					message: 'Could not get movies.'
+					message: 'Could not get lists.'
 				});
 			});
 		}).catch((error) => {
@@ -52,20 +53,10 @@ app.route('/')
 		});
 	})
 	.post((req, res, next) => {
-		const imdbID = req.body.imdb_id;
-		const user = new User(req.user);
-		getMovie(imdbID);
-		user.findByIdAndAddMovie(user, imdbID).then((updatedUser) => {
-			res.json({
-				updatedUser
-			});
-		}).catch((error) => {
-			debug(`ERROR adding movie: ${error.message}`);
-			res.status(error.status).json({
-				error: true,
-				message: error.message
-			});
-		});
+		debug(req.body);
+	})
+	.patch((req, res, next) => {
+
 	});
 
 module.exports = app;
