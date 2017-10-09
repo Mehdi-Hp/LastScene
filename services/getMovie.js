@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 const _ = require('lodash');
 const debug = require('debug')('development');
+const chalk = require('chalk');
 const myapifilmsService = require('./myapifilmsService');
 const Movie = require('../models/movie');
 const movieQueue = require('../config/movieQueue')();
@@ -8,17 +9,18 @@ const movieQueue = require('../config/movieQueue')();
 module.exports = (imdbID) => {
 	const getMovie = (imdbID) => {
 		return new Promise((resolve, reject) => {
-			debug(`Getting movie information: ${imdbID} ...`);
+			debug(chalk.yellow(`Getting movie information: ${imdbID} ...`));
 			Movie.findOne({
 				id: {
 					imdb: imdbID
 				}
 			}, (error, existedMovie) => {
 				if (error) {
+					debug(chalk.bold.red(error));
 					return reject(error);
 				}
 				if (existedMovie) {
-					debug(`Movie information: ${imdbID} already exist in databse`);
+					debug(chalk.green(`Movie information: ${imdbID} already exist in databse`));
 					return resolve(new Movie(existedMovie));
 				}
 				if (!movieQueue.isThere(imdbID)) {
@@ -27,19 +29,21 @@ module.exports = (imdbID) => {
 						imdbID
 					})
 					.then((movie) => {
-						debug(`Got movie information: ${imdbID}. adding it to database...`);
+						debug(chalk.green(`Got movie information: ${imdbID}. adding it to database...`));
 						Movie.create(movie.data)
 							.then((newMovie) => {
-								debug(`Movie "${imdbID}" added to database`);
+								debug(chalk.green(`Movie "${imdbID}" added to database`));
 								movieQueue.delete(imdbID);
 								resolve(newMovie);
 							})
 							.catch((error) => {
+								debug(chalk.bold.red(error));
 								movieQueue.delete(imdbID);
 								reject(error);
 							});
 					})
 					.catch((error) => {
+						debug(chalk.bold.red(error));
 						movieQueue.delete(imdbID);
 						reject({
 							error: true,

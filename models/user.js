@@ -62,14 +62,7 @@ userSchema.methods.isValidPassword = (password, user) => {
 userSchema.methods.findOneAndAddMovie = (user, imdbID) => {
 	debug(`Adding movie ${imdbID} to ${user.username}'s movies...`);
 	return new Promise((resolve, reject) => {
-		user.model('User').findById(user._id, (error, foundedUser) => {
-			if (error) {
-				debug(chalk.bold.red(error));
-				return reject({
-					status: 500,
-					message: 'Database error'
-				});
-			}
+		user.model('User').findById(user._id).then((foundedUser) => {
 			if (_.findKey(foundedUser.movies, { imdbID })) {
 				debug(`User "${foundedUser.name}" already added this movie: "${imdbID}"`);
 				return reject({
@@ -96,12 +89,19 @@ userSchema.methods.findOneAndAddMovie = (user, imdbID) => {
 				debug(`Movie "${imdbID}" added to user "${user.name}"`);
 				resolve(updatedUser);
 			});
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			return reject({
+				status: 500,
+				message: 'Database error'
+			});
 		});
 	});
 };
 
 userSchema.methods.findOneAndAddList = (user, list) => {
-	debug(chalk.yellow(`Adding list "${list.name}" to ${user.username}`));
+	debug(user._id);
+	debug(chalk.yellow(`Adding list "${list._id}" to ${user.username}`));
 	return new Promise((resolve, reject) => {
 		user.model('User').findById(user._id).then((user) => {
 			if (_.findKey(user.lists, { name: list.name })) {
@@ -114,14 +114,13 @@ userSchema.methods.findOneAndAddList = (user, list) => {
 			user.model('User').findByIdAndUpdate(user._id, {
 				$push: {
 					lists: {
-						name: list.name
+						_id: list._id
 					}
 				}
 			}, {
 				new: true
 			}).then((updatedUser) => {
 				debug(chalk.green(`List "${list.name}" added to user "${user.name}"`));
-				// List.findByIdAndUpdate();
 				resolve(updatedUser);
 			}).catch((error) => {
 				debug(chalk.bold.red(error));

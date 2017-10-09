@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./user');
 
 const Schema = mongoose.Schema;
 
@@ -14,7 +15,10 @@ const listSchema = new Schema({
 		type: Date,
 		default: Date.now()
 	},
-	owner: String,
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: User
+	},
 	points: Number,
 	followers: [String],
 	movies: [{

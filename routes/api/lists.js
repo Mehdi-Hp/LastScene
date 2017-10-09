@@ -60,7 +60,8 @@ app.route('/')
 		getMovie(imdbID);
 		debug(chalk.yellow(`Adding ${imdbID} to ${listName}...`));
 		const list = new List({
-			name: listName
+			name: listName,
+			owner: user._id
 		});
 		imdbID.forEach((theImdbID) => {
 			list.movies.push({
@@ -68,28 +69,29 @@ app.route('/')
 			});
 		});
 		List.create(list)
-		.then((createdList) => {
-			user.findOneAndAddList(user, {
-				_id: createdList._id
-			}).then((updatedUser) => {
-				res.json({
-					updatedUser
+			.then((createdList) => {
+				user.findOneAndAddList(user, {
+					_id: createdList._id,
+					name: createdList.name
+				}).then((updatedUser) => {
+					res.json({
+						updatedUser
+					});
+				}).catch((error) => {
+					debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
+					res.status(error.status).json({
+						error: true,
+						message: error.message
+					});
 				});
-			}).catch((error) => {
+			})
+			.catch((error) => {
 				debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
 				res.status(error.status).json({
 					error: true,
-					message: error.message
+					message: 'Database error'
 				});
 			});
-		})
-		.catch((error) => {
-			debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
-			res.status(error.status).json({
-				error: true,
-				message: 'Database error'
-			});
-		});
 	})
 	.patch((req, res, next) => {
 
