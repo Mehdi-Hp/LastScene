@@ -3,6 +3,7 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 const User = require('../../models/user');
 const List = require('../../models/list');
+const getMovie = require('../../services/getMovie');
 
 app.route('/')
 	.get((req, res, next) => {
@@ -56,7 +57,7 @@ app.route('/')
 		const listName = req.body.name;
 		const imdbID = req.body.imdbID;
 		const user = new User(req.user);
-		// getMovie([imdbIDs]);
+		getMovie(imdbID);
 		debug(chalk.yellow(`Adding ${imdbID} to ${listName}...`));
 		const list = new List({
 			name: listName
@@ -68,7 +69,6 @@ app.route('/')
 		});
 		List.create(list)
 		.then((createdList) => {
-			debug(createdList.movies);
 			user.findOneAndAddList(user, {
 				_id: createdList._id
 			}).then((updatedUser) => {
