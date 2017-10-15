@@ -54,8 +54,9 @@ app.route('/')
 		});
 	})
 	.post((req, res, next) => {
+		debug(req.body);
 		const listName = req.body.name;
-		const imdbID = req.body.imdbID;
+		const imdbID = req.body.movies;
 		const user = new User(req.user);
 		getMovie(imdbID);
 		debug(chalk.yellow(`Adding ${imdbID} to ${listName}...`));
@@ -75,7 +76,7 @@ app.route('/')
 					name: createdList.name
 				}).then((updatedUser) => {
 					res.json({
-						updatedUser
+						createdList
 					});
 				}).catch((error) => {
 					debug(chalk.bold.red(`ERROR adding list: ${error.message}`));

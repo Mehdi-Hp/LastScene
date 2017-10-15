@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const patcher = require('mongoose-json-patch');
 const timestamps = require('mongoose-timestamp');
+const slugHero = require('mongoose-slug-hero');
 
 const Schema = mongoose.Schema;
 
@@ -15,7 +16,12 @@ moviesSubSchema.plugin(timestamps);
 
 const listSchema = new Schema({
 	name: String,
-	slug: String,
+	slug: {
+		type: String,
+		slugn: 'name',
+		slug_padding_size: 3,
+		unique: true
+	},
 	description: String,
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +38,10 @@ const listSchema = new Schema({
 
 listSchema.plugin(patcher);
 listSchema.plugin(timestamps);
+listSchema.plugin(slugHero, {
+	doc: 'list',
+	field: 'name'
+});
 
 const List = mongoose.model('List', listSchema);
 module.exports = List;
