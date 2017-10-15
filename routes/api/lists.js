@@ -1,6 +1,7 @@
 const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
+const _ = require('lodash');
 const User = require('../../models/user');
 const List = require('../../models/list');
 const getMovie = require('../../services/getMovie');
@@ -12,7 +13,6 @@ app.route('/')
 			theUsername = res.locals.customUser;
 			debug(chalk.yellow(`Getting ${theUsername}'s lists`));
 		} else {
-			debug(req.user);
 			theUsername = req.user.username;
 			debug(chalk.yellow(`Getting user lists: "${theUsername}"`));
 		}
@@ -92,9 +92,52 @@ app.route('/')
 					message: 'Database error'
 				});
 			});
+	});
+
+app.route('/:listID')
+	.get((req, res, next) => {
+		const listID = req.params.listID;
+		List.findById(listID).then((list) => {
+			res.json(list);
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			return res.status(400).json({
+				error: true,
+				message: 'Could get list.'
+			});
+		});
 	})
 	.patch((req, res, next) => {
-
+		const listID = req.params.listID;
+		const path = req.body.path;
+		const data = req.body.data;
+		const method = req.body.method;
+		if (_.has(data, 'imdbID')) {
+			getMovie(data.imdbID);
+		}
+		List.findById(listID).then((list) => {
+			const patches = [{
+				op: method,
+				path: `${path}`,
+				value: data
+			}];
+			list.patch(patches, (error) => {
+				if (error) {
+					debug(chalk.bold.red(error));
+					return res.status(400).json({
+						error: true,
+						message: 'Could not patch list.'
+					});
+				}
+				res.json(list);
+			});
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			res.status(400).json({
+				error: true,
+				message: 'Could not find list.'
+			});
+		});
 	});
 
 module.exports = app;

@@ -1,5 +1,6 @@
 const sharp = require('sharp');
 const debug = require('debug')('development');
+const chalk = require('chalk');
 
 module.exports = (backdropPath, backdropName) => {
 	return new Promise((mainResolve, mainReject) => {
@@ -10,7 +11,7 @@ module.exports = (backdropPath, backdropName) => {
 				.jpeg()
 				.toFile(`${backdropPath}--small.jpeg`, () => {
 					resolve(`${backdropPath}--small.jpeg`);
-					debug('Backdrop--small generated.');
+					debug(chalk.green('Backdrop--small generated.'));
 				});
 		});
 		const jpegMedium = new Promise((resolve, reject) => {
@@ -19,7 +20,7 @@ module.exports = (backdropPath, backdropName) => {
 				.jpeg()
 				.toFile(`${backdropPath}--medium.jpeg`, () => {
 					resolve(`${backdropPath}--medium.jpeg`);
-					debug('Backdrop--medium generated.');
+					debug(chalk.green('Backdrop--medium generated.'));
 				});
 		});
 		const jpegBig = new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ module.exports = (backdropPath, backdropName) => {
 				.jpeg()
 				.toFile(`${backdropPath}--big.jpeg`, () => {
 					resolve(`${backdropPath}--big.jpeg`);
-					debug('Backdrop--big generated.');
+					debug(chalk.green('Backdrop--big generated.'));
 				});
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((backdropsPath) => {

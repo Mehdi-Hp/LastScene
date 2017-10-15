@@ -100,7 +100,6 @@ userSchema.methods.findOneAndAddMovie = (user, imdbID) => {
 };
 
 userSchema.methods.findOneAndAddList = (user, list) => {
-	debug(user._id);
 	debug(chalk.yellow(`Adding list "${list._id}" to ${user.username}`));
 	return new Promise((resolve, reject) => {
 		user.model('User').findById(user._id).then((user) => {

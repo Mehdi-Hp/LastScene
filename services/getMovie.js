@@ -43,7 +43,7 @@ module.exports = (imdbID) => {
 							});
 					})
 					.catch((error) => {
-						debug(chalk.bold.red(error));
+						debug(chalk.bold.red(error.message));
 						movieQueue.delete(imdbID);
 						reject({
 							error: true,

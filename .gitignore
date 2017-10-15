@@ -4,3 +4,4 @@ public/production/*
 bower_components/
 node_modules/
 .git/
+public/

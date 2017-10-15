@@ -1,5 +1,6 @@
 const sharp = require('sharp');
 const debug = require('debug')('development');
+const chalk = require('chalk');
 
 module.exports = (posterPath, posterName) => {
 	return new Promise((mainResolve, mainReject) => {
@@ -10,7 +11,7 @@ module.exports = (posterPath, posterName) => {
 				.jpeg()
 				.toFile(`${posterPath}--small.jpeg`, () => {
 					resolve(`${posterPath}--small.jpeg`);
-					debug('Poster--small generated.');
+					debug(chalk.green('Poster--small generated.'));
 				});
 		});
 		const jpegMedium = new Promise((resolve, reject) => {
@@ -19,7 +20,7 @@ module.exports = (posterPath, posterName) => {
 				.jpeg()
 				.toFile(`${posterPath}--medium.jpeg`, () => {
 					resolve(`${posterPath}--medium.jpeg`);
-					debug('Poster--medium generated.');
+					debug(chalk.green('Poster--medium generated.'));
 				});
 		});
 		const jpegBig = new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ module.exports = (posterPath, posterName) => {
 				.jpeg()
 				.toFile(`${posterPath}--big.jpeg`, () => {
 					resolve(`${posterPath}--big.jpeg`);
-					debug('Poster--big generated.');
+					debug(chalk.green('Poster--big generated.'));
 				});
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((postersPath) => {
