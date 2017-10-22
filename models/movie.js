@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timestamps = require('mongoose-timestamp');
 
 const Schema = mongoose.Schema;
 
@@ -85,6 +86,7 @@ const movieSchema = new Schema({
 		}, { _id: false })]
 	}, { _id: false })]
 });
+movieSchema.plugin(timestamps);
 
 const Movie = mongoose.model('Movie', movieSchema);
 module.exports = Movie;

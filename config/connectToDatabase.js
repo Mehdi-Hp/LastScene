@@ -5,21 +5,10 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = (mongoose) => {
 	mongoose.connect('mongodb://localhost:27017/pixr', {
-		server: {
-			socketOptions: {
-				keepAlive: 300000,
-				connectTimeoutMS: 30000
-			}
-		},
-		replset: {
-			socketOptions: {
-				keepAlive: 300000,
-				connectTimeoutMS: 30000
-			}
-		},
+		useMongoClient: true,
 		autoReconnect: true
 	});
-	mongoose.Promise = Promise;
+	mongoose.Promise = global.Promise;
 	const mongooseConnection = mongoose.connection;
 	mongooseConnection.on('error', (error) => {
 		throw error;

@@ -16,7 +16,7 @@ const passport = require('passport');
 const secretKey = require('./config/secretKey');
 const slugHero = require('mongoose-slug-hero');
 
-slugHero.config.counter = 'slug_counters'
+slugHero.config.counter = 'slug_counters';
 
 const DIST_DIR = path.join(__dirname, 'public', 'production');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
