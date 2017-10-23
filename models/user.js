@@ -110,8 +110,8 @@ userSchema.methods.findOneAndAddMovie = (user, imdbIDs) => {
 userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 	const updateMoviePromises = [];
 	const User = user.model('User');
-	movies.forEach((movie) => {
-		debug(chalk.yellow(`Updating movie ${movie.imdbID} for ${user.username}...`));
+	movies.forEach((reqMovie) => {
+		debug(chalk.yellow(`Updating movie [${reqMovie.imdbID}] for [${user.username}]...`));
 		updateMoviePromises.push(
 			new Promise((resolve, reject) => {
 				User.findOne({
@@ -125,37 +125,19 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 						});
 					}
 					const existedMovie = _.find(foundedUser.movies, {
-						imdbID: movie.imdbID
+						imdbID: reqMovie.imdbID
 					});
 					if (!existedMovie) {
 						return reject({
 							status: 404,
-							message: `Movie ${movie.imdbID} doesn't belong to user ${user.name}`
+							message: `Movie [${reqMovie.imdbID}] doesn't belong to user [${user.name}]`
 						});
 					}
-					const movieToPut = {
-						imdbID: existedMovie.imdbID
-					};
-					if (movie.rate) {
-						movieToPut.rate = movie.rate;
-					}	else if (existedMovie.rate && existedMovie.rate !== -1) {
-						movieToPut.rate = existedMovie.rate;
-					}
-					if (movie.note) {
-						movieToPut.note = movie.note;
-					}	else if (existedMovie.note) {
-						movieToPut.note = existedMovie.note;
-					}
-					if (movie.state) {
-						movieToPut.state = movie.state;
-					}	else if (existedMovie.state) {
-						movieToPut.state = existedMovie.state;
-					}
-					movieToPut.createdAt = existedMovie.createdAt;
+					const movieToPut = _.merge(existedMovie, reqMovie);
 					movieToPut.updatedAt = Date.now();
 					User.findOneAndUpdate({
 						_id: user._id,
-						'movies.imdbID': movie.imdbID
+						'movies.imdbID': reqMovie.imdbID
 					}, {
 						$set: {
 							'movies.$': movieToPut
@@ -170,6 +152,7 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 								message: `Couldn't update the user "${user.name}"`
 							});
 						}
+						debug(chalk.green(`Movie [${reqMovie.imdbID}] updated for [${user.username}]...`));
 						return resolve(updatedUser);
 					});
 				})
@@ -180,48 +163,6 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 						message: `Couldn't find the user [${user.name}] because of database error`
 					});
 				});
-				// user.model('User').findOne({
-				// 	_id: user._id
-				// }).then((theUser) => {
-				// 	if (!theUser || theUser.status === 400) {
-				// 		return reject({
-				// 			status: 404,
-				// 			message: `Couldn't find the user "${user.name}" to update`
-				// 		});
-				// 	}
-				// 	const existedMovie = _.find(theUser.movies, {
-				// 		imdbID: movie.imdbID
-				// 	});
-				// 	const reqMovie = {
-				// 		imdbID: movie.imdbID,
-				// 		state: movie.state || existedMovie.state,
-				// 		rate: movie.rate || existedMovie.rate,
-				// 		note: movie.note || existedMovie.note
-				// 	}
-				// 	debug(reqMovie);
-				// 	user.model('User').findOneAndUpdate({
-				// 		_id: user._id,
-				// 		'movies.imdbID': movie.imdbID
-				// 	}, {
-				// 		'movies.$': reqMovie
-				// 	}, {
-				// 		new: true
-				// 	}).then((updatedUser) => {
-				// 		return resolve(updatedUser);
-				// 	}).catch((error) => {
-				// 		debug(chalk.bold.red(error));
-				// 		return reject({
-				// 			status: 500,
-				// 			message: `Couldn't update the user "${user.name}"`
-				// 		});
-				// 	});
-				// }).catch((error) => {
-				// 	debug(chalk.bold.red(error));
-				// 	return reject({
-				// 		status: 500,
-				// 		message: `Couldn't find the user "${user.name}" to update because of database error`
-				// 	});
-				// });
 			})
 		);
 	});
