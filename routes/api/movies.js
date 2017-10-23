@@ -1,6 +1,7 @@
 const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
+const _ = require('lodash');
 const User = require('../../models/user');
 const Movie = require('../../models/movie');
 const getMovie = require('../../services/getMovie');
@@ -123,6 +124,52 @@ app.route('/')
 	});
 
 app.route('/:movie_id')
+	.get((req, res, next) => {
+		let theUsername;
+		if (res.locals.customUser) {
+			debug(`Getting [${res.locals.customUser}]'s' movie [${req.params.movie_id}]`);
+			theUsername = res.locals.customUser;
+		} else {
+			debug(`Getting user movie [${req.params.movie_id}]`);
+			theUsername = req.user.username;
+		}
+		const imdbID = req.params.movie_id;
+		User.findOne({
+			username: theUsername,
+			'movies.imdbID': imdbID
+		}).select('movies').then((foundedMoviesOfUser) => {
+			let foundedMovieOfUser = _.find(foundedMoviesOfUser.movies, {
+				imdbID
+			});
+			foundedMovieOfUser = _.omit(foundedMovieOfUser, imdbID);
+			debug(foundedMovieOfUser);
+			if (!foundedMovieOfUser) {
+				return res.status(404).json({
+					user: theUsername,
+					message: `User [${theUsername}] doesn't have movie [${imdbID}]`
+				});
+			}
+			Movie.findOne({
+				'id.imdb': imdbID
+			}).then((foundedMovie) => {
+				res.status(200).json({
+					user: theUsername,
+					userDate: foundedMovieOfUser,
+					data: foundedMovie
+				});
+			}).catch((error) => {
+				debug(chalk.bold.red(error));
+				res.status(500).json({
+					message: 'Could not get movies, because of databse error'
+				});
+			});
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			res.status(404).json({
+				message: `Couldn't find user [${theUsername}].`
+			});
+		});
+	})
 	.delete((req, res, next) => {
 		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
 			return res.status(403).json({

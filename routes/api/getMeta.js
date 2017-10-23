@@ -21,7 +21,9 @@ app.route('/movie/:id')
 			res.json(gottedMovie);
 		}).catch((error) => {
 			debug(`ERROR: ${error}`);
-			res.status(500).json(error);
+			res.status(500).json({
+				message: error
+			});
 		});
 	});
 
