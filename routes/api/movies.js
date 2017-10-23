@@ -1,7 +1,6 @@
 const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
-const _ = require('lodash');
 const User = require('../../models/user');
 const Movie = require('../../models/movie');
 const getMovie = require('../../services/getMovie');
@@ -84,7 +83,7 @@ app.route('/')
 				message: `You don't have permission to change data for ${res.locals.customUser}`
 			});
 		}
-		const imdbID = req.body.imdbID;
+		const imdbID = req.body;
 		const user = new User(req.user);
 		if (imdbID === null) {
 			return res.status(400).json({
@@ -111,9 +110,47 @@ app.route('/')
 				message: `You don't have permission to change data for ${res.locals.customUser}`
 			});
 		}
-		const movies = req.body;
+		const reqMovies = req.body;
 		const user = new User(req.user);
-		Promise.all(user.findOneAndUpdateMovie(user, movies)).then((updatedUser) => {
+		Promise.all(user.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
+			res.status(200).json(updatedUser.pop());
+		}).catch((error) => {
+			debug(`ERROR updating movie: ${error.message}`);
+			res.status(error.status).json({
+				message: error.message
+			});
+		});
+	});
+
+app.route('/:movie_id')
+	.delete((req, res, next) => {
+		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
+			return res.status(403).json({
+				message: `You don't have permission to change data for ${res.locals.customUser}`
+			});
+		}
+		const imdbID = [req.params.movie_id];
+		const user = new User(req.user);
+		Promise.all(user.findOneAndDeleteMovie(user, imdbID)).then((updatedUser) => {
+			res.status(200).json(updatedUser.pop());
+		}).catch((error) => {
+			debug(`ERROR deleting movie: ${error.message}`);
+			res.status(error.status).json({
+				message: error.message
+			});
+		});
+	})
+	.put((req, res, next) => {
+		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
+			return res.status(403).json({
+				message: `You don't have permission to change data for [${res.locals.customUser}]`
+			});
+		}
+		const reqMovie = req.body;
+		reqMovie[0].imdbID = req.params.movie_id;
+		const user = new User(req.user);
+		debug(reqMovie);
+		Promise.all(user.findOneAndUpdateMovie(user, reqMovie)).then((updatedUser) => {
 			res.status(200).json(updatedUser.pop());
 		}).catch((error) => {
 			debug(`ERROR updating movie: ${error.message}`);
