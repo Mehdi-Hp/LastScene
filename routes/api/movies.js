@@ -5,6 +5,7 @@ const _ = require('lodash');
 const User = require('../../models/user');
 const Movie = require('../../models/movie');
 const getMovie = require('../../services/getMovie');
+const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/')
 	.get((req, res, next) => {
@@ -51,12 +52,8 @@ app.route('/')
 		});
 	})
 	.post((req, res, next) => {
-		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
-			return res.status(403).json({
-				message: `You don't have permission to change data for ${res.locals.customUser}`
-			});
-		}
-		const imdbID = req.body.imdbID;
+		currentOrCustomUser(req, res);
+		const imdbID = req.body;
 		const user = new User(req.user);
 		if (imdbID === null) {
 			return res.status(400).json({
@@ -79,11 +76,7 @@ app.route('/')
 		});
 	})
 	.delete((req, res, next) => {
-		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
-			return res.status(403).json({
-				message: `You don't have permission to change data for ${res.locals.customUser}`
-			});
-		}
+		currentOrCustomUser(req, res);
 		const imdbID = req.body;
 		const user = new User(req.user);
 		if (imdbID === null) {
@@ -106,11 +99,7 @@ app.route('/')
 		});
 	})
 	.put((req, res, next) => {
-		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
-			return res.status(403).json({
-				message: `You don't have permission to change data for ${res.locals.customUser}`
-			});
-		}
+		currentOrCustomUser(req, res);
 		const reqMovies = req.body;
 		const user = new User(req.user);
 		Promise.all(user.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
@@ -171,11 +160,7 @@ app.route('/:movie_id')
 		});
 	})
 	.delete((req, res, next) => {
-		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
-			return res.status(403).json({
-				message: `You don't have permission to change data for ${res.locals.customUser}`
-			});
-		}
+		currentOrCustomUser(req, res);
 		const imdbID = [req.params.movie_id];
 		const user = new User(req.user);
 		Promise.all(user.findOneAndDeleteMovie(user, imdbID)).then((updatedUser) => {
@@ -188,11 +173,7 @@ app.route('/:movie_id')
 		});
 	})
 	.put((req, res, next) => {
-		if (res.locals.customUser && res.locals.customUser !== req.user.username) {
-			return res.status(403).json({
-				message: `You don't have permission to change data for [${res.locals.customUser}]`
-			});
-		}
+		currentOrCustomUser(req, res);
 		const reqMovie = req.body;
 		reqMovie[0].imdbID = req.params.movie_id;
 		const user = new User(req.user);
