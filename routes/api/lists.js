@@ -5,6 +5,7 @@ const _ = require('lodash');
 const User = require('../../models/user');
 const List = require('../../models/list');
 const getMovie = require('../../services/getMovie');
+const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/')
 	.get((req, res, next) => {
@@ -54,7 +55,7 @@ app.route('/')
 		});
 	})
 	.post((req, res, next) => {
-		debug(req.body);
+		currentOrCustomUser(req, res);
 		const listName = req.body.name;
 		const imdbID = req.body.movies;
 		const user = new User(req.user);
@@ -75,7 +76,7 @@ app.route('/')
 					_id: createdList._id,
 					name: createdList.name
 				}).then((updatedUser) => {
-					res.json({
+					res.status(200).json({
 						createdList
 					});
 				}).catch((error) => {
@@ -93,50 +94,89 @@ app.route('/')
 					message: 'Database error'
 				});
 			});
+	})
+	.put((req, res, next) => {
+		currentOrCustomUser(req, res);
+		const reqLists = req.body;
+		const user = new User(req.user);
+		const updateListPromises = [];
+		const savedUpdatedLists = [];
+		reqLists.forEach((reqList) => {
+			debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
+			updateListPromises.push(
+				new Promise((resolve, reject) => {
+					List.findBySlug(reqList.slug).then((currentList) => {
+						if (!currentList || currentList.status === 400) {
+							reject({
+								status: 404,
+								message: `Couldn't find the list [${reqList.name}] to update`
+							});
+						}
+						const listToPut = new List(_.merge(currentList, _.omit(reqList, ['createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
+						listToPut.save().then((updatedList) => {
+							debug(chalk.green(`List [${reqList.slug}] updated`));
+							savedUpdatedLists.push(updatedList);
+							return resolve(updatedList);
+						}).catch((error) => {
+							debug(chalk.bold.red(error));
+							return reject({
+								status: 500,
+								message: `Couldn't save the list [${reqList.name}], because of database error`
+							});
+						});
+					});
+				})
+			);
+		});
+		Promise.all(updateListPromises).then((updatedLists) => {
+			res.status(200).json(savedUpdatedLists);
+		}).catch((error) => {
+			debug(`ERROR updating list: ${error.message}`);
+			res.status(error.status).json({
+				message: error.message
+			});
+		});
 	});
 
-app.route('/:listID')
+app.route('/:listSlug')
 	.get((req, res, next) => {
-		const listID = req.params.listID;
-		List.findById(listID).then((list) => {
+		const listSlug = req.params.listSlug;
+		List.findBySlug(listSlug).then((list) => {
+			if (!list) {
+				return res.status(404).json({
+					message: `Couldn't find list [${listSlug}]`
+				});
+			}
 			res.json(list);
 		}).catch((error) => {
 			debug(chalk.bold.red(error));
-			return res.status(400).json({
-				error: true,
-				message: 'Could get list.'
+			return res.status(500).json({
+				message: 'Couldn\'t get list, because of database error'
 			});
 		});
 	})
-	.patch((req, res, next) => {
-		const listID = req.params.listID;
-		const path = req.body.path;
-		const data = req.body.data;
-		const method = req.body.method;
-		if (_.has(data, 'imdbID')) {
-			getMovie(data.imdbID);
-		}
-		List.findById(listID).then((list) => {
-			const patches = [{
-				op: method,
-				path: `${path}`,
-				value: data
-			}];
-			list.patch(patches, (error) => {
-				if (error) {
-					debug(chalk.bold.red(error));
-					return res.status(400).json({
-						error: true,
-						message: 'Could not patch list.'
-					});
-				}
-				res.json(list);
-			});
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			res.status(400).json({
-				error: true,
-				message: 'Could not find list.'
+	.put((req, res, next) => {
+		currentOrCustomUser(req, res);
+		const reqList = req.body;
+		const user = new User(req.user);
+		const currentListSlug = req.params.listSlug;
+		debug(currentListSlug);
+		debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
+		List.findBySlug(currentListSlug).then((currentList) => {
+			if (!currentList || currentList.status === 400) {
+				res.status(404).json({
+					message: `Couldn't find the list [${reqList.name}] to update`
+				});
+			}
+			const listToPut = new List(_.merge(currentList, _.omit(reqList, ['createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
+			listToPut.save().then((updatedList) => {
+				debug(chalk.green(`List [${reqList.slug}] updated`));
+				res.status(200).json(updatedList);
+			}).catch((error) => {
+				debug(chalk.bold.red(error));
+				res.status(500).json({
+					message: `Couldn't save the list [${reqList.name}], because of database error`
+				});
 			});
 		});
 	});

@@ -102,7 +102,7 @@ app.route('/')
 		currentOrCustomUser(req, res);
 		const reqMovies = req.body;
 		const user = new User(req.user);
-		Promise.all(user.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
+		Promise.all(User.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
 			res.status(200).json(updatedUser.pop());
 		}).catch((error) => {
 			debug(`ERROR updating movie: ${error.message}`);

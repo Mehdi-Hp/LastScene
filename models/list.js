@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const timestamps = require('mongoose-timestamp');
 const slugHero = require('mongoose-slug-hero');
+const Movie = require('./movie');
 
 const Schema = mongoose.Schema;
 
 const moviesSubSchema = new Schema({
-	imdbID: {
-		type: String,
-		required: true
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: Movie
 	}
 }, { _id: false });
 moviesSubSchema.plugin(timestamps);
@@ -29,6 +31,7 @@ const listSchema = new Schema({
 		ref: User
 	},
 	points: Number,
+	note: String,
 	followers: {
 		type: [String],
 		writable: false

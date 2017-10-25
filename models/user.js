@@ -27,8 +27,7 @@ const listsSubSchema = new Schema({
 		ref: List
 	}
 }, {
-	_id: false,
-	timestamps: true
+	_id: false
 });
 
 const userSchema = new Schema({
@@ -149,7 +148,7 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 							debug(chalk.bold.red(error));
 							return reject({
 								status: 500,
-								message: `Couldn't update the user "${user.name}"`
+								message: `Couldn't update the user [${user.name}]`
 							});
 						}
 						debug(chalk.green(`Movie [${reqMovie.imdbID}] updated for [${user.username}]...`));
