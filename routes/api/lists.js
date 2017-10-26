@@ -124,6 +124,11 @@ app.route('/')
 								message: `Couldn't save the list [${reqList.name}], because of database error`
 							});
 						});
+					}).catch((error) => {
+						debug(chalk.bold.red(error));
+						res.status(500).json({
+							message: `Couldn't find list [${reqList.slug}], because of database error`
+						});
 					});
 				})
 			);
@@ -131,7 +136,53 @@ app.route('/')
 		Promise.all(updateListPromises).then((updatedLists) => {
 			res.status(200).json(savedUpdatedLists);
 		}).catch((error) => {
-			debug(`ERROR updating list: ${error.message}`);
+			debug(chalk.bold.red(error));
+			res.status(error.status).json({
+				message: error.message
+			});
+		});
+	})
+	.delete((req, res, next) => {
+		currentOrCustomUser(req, res);
+		const listSlugs = req.body;
+		const user = new User(req.user);
+		const deleteListPromises = [];
+		const savedDeletedLists = [];
+		listSlugs.forEach((listSlug) => {
+			debug(chalk.yellow(`Deleting list "${listSlug}" that belongs ${user.username}`));
+			deleteListPromises.push(
+				new Promise((resolve, reject) => {
+					List.findBySlug(listSlug).then((currentList) => {
+						if (!currentList || currentList.status === 400) {
+							reject({
+								status: 404,
+								message: `Couldn't find the list [${listSlug.name}] to update`
+							});
+						}
+						currentList.remove().then((deletedList) => {
+							debug(chalk.green(`List [${listSlug.slug}] got deleted`));
+							savedDeletedLists.push(deletedList);
+							resolve(deletedList);
+						}).catch((error) => {
+							debug(chalk.bold.red(error));
+							reject({
+								status: 500,
+								message: `Couldn't delete the list [${listSlug.name}], because of database error`
+							});
+						});
+					}).catch((error) => {
+						debug(chalk.bold.red(error));
+						res.status(500).json({
+							message: `Couldn't find list [${listSlug}], because of database error`
+						});
+					});
+				})
+			);
+		});
+		Promise.all(deleteListPromises).then((deletedLists) => {
+			res.status(200).json(savedDeletedLists);
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
 			res.status(error.status).json({
 				message: error.message
 			});
@@ -160,7 +211,6 @@ app.route('/:listSlug')
 		const reqList = req.body;
 		const user = new User(req.user);
 		const currentListSlug = req.params.listSlug;
-		debug(currentListSlug);
 		debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
 		List.findBySlug(currentListSlug).then((currentList) => {
 			if (!currentList || currentList.status === 400) {
@@ -177,6 +227,41 @@ app.route('/:listSlug')
 				res.status(500).json({
 					message: `Couldn't save the list [${reqList.name}], because of database error`
 				});
+			});
+		});
+	})
+	.delete((req, res, next) => {
+		currentOrCustomUser(req, res);
+		const listSlug = req.params.listSlug;
+		const user = new User(req.user);
+		debug(chalk.yellow(`Deleting list [${listSlug}] that belongs to [${user.username}]`));
+		List.findBySlug(listSlug).then((foundedList) => {
+			if (!foundedList || foundedList.status === 400) {
+				res.status(404).json({
+					message: `Couldn't find list [${listSlug}]`
+				});
+			}
+			if (_.find(user.lists, { slug: listSlug })) {
+				res.status(403).json({
+					message: `List [${listSlug}] doesn't belong to [${user.username}]`
+				});
+			}
+			foundedList.remove().then((deletedList) => {
+				debug(chalk.yellow(`List [${listSlug}] got deleted`));
+				res.status(200).json({
+					gotDeleted: true,
+					deletedList
+				});
+			}).catch((error) => {
+				debug(chalk.bold.red(error));
+				res.status(500).json({
+					message: `Couldn't delete list [${listSlug}], because of database error`
+				});
+			});
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			res.status(500).json({
+				message: `Couldn't find list [${listSlug}], because of database error`
 			});
 		});
 	});
