@@ -33,7 +33,6 @@ module.exports = (posterPath, posterName) => {
 				});
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((postersPath) => {
-			debug(`Posters: ${postersPath}`);
 			mainResolve({
 				small: postersPath[0],
 				medium: postersPath[1],

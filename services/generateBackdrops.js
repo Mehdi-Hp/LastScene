@@ -33,7 +33,6 @@ module.exports = (backdropPath, backdropName) => {
 				});
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((backdropsPath) => {
-			debug(`Backdrops: ${backdropsPath}`);
 			mainResolve({
 				small: backdropsPath[0],
 				medium: backdropsPath[1],

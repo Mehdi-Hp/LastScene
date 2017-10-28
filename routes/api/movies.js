@@ -69,7 +69,6 @@ app.route('/')
 		Promise.all(user.findOneAndAddMovie(user, imdbID)).then((updatedUser) => {
 			res.status(200).json(updatedUser);
 		}).catch((error) => {
-			debug(`ERROR adding movie: ${error.message}`);
 			res.status(error.status).json({
 				message: error.message
 			});
@@ -90,9 +89,8 @@ app.route('/')
 			});
 		}
 		Promise.all(user.findOneAndDeleteMovie(user, imdbID)).then((updatedUser) => {
-			res.status(200).json(updatedUser.pop());
+			res.status(200).json(updatedUser);
 		}).catch((error) => {
-			debug(`ERROR deleting movie: ${error.message}`);
 			res.status(error.status).json({
 				message: error.message
 			});
@@ -102,10 +100,9 @@ app.route('/')
 		currentOrCustomUser(req, res);
 		const reqMovies = req.body;
 		const user = new User(req.user);
-		Promise.all(User.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
-			res.status(200).json(updatedUser.pop());
+		Promise.all(user.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
+			res.status(200).json(updatedUser);
 		}).catch((error) => {
-			debug(`ERROR updating movie: ${error.message}`);
 			res.status(error.status).json({
 				message: error.message
 			});
@@ -164,9 +161,8 @@ app.route('/:movie_id')
 		const imdbID = [req.params.movie_id];
 		const user = new User(req.user);
 		Promise.all(user.findOneAndDeleteMovie(user, imdbID)).then((updatedUser) => {
-			res.status(200).json(updatedUser.pop());
+			res.status(200).json(updatedUser);
 		}).catch((error) => {
-			debug(`ERROR deleting movie: ${error.message}`);
 			res.status(error.status).json({
 				message: error.message
 			});

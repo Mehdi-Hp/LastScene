@@ -11,7 +11,6 @@ const getMovieEvent = new events.EventEmitter();
 module.exports = (imdbIDs) => {
 	let i = 0;
 	const getMoviesPromise = [];
-	const savedGottedMovies = [];
 	const getMovie = (imdbID) => {
 		getMoviesPromise.push(
 			new Promise((resolve, reject) => {
@@ -27,6 +26,8 @@ module.exports = (imdbIDs) => {
 				}).then((existedMovie) => {
 					if (existedMovie) {
 						debug(chalk.green(`Movie information: [${imdbID}] already exist in database`));
+						i += 1;
+						getMovieEvent.emit('gotIt', i);
 						return resolve(existedMovie);
 					}
 					if (movieQueue.isThere(imdbID)) {

@@ -19,7 +19,7 @@ module.exports = (posterLink, posterName) => {
 					reject(error);
 				}
 				data.contentType = _.split(response.headers['content-type'], '/')[1];
-				debug(chalk.dim(`Got poster for [${poserName}]. generating diffrent sizes...`));
+				debug(chalk.dim(`Got poster for [${posterName}]. generating diffrent sizes...`));
 			}).pipe(fs.createWriteStream(`./public/files/poster/${posterName}`)).on('finish', () => {
 				generatePosters(`./public/files/poster/${posterName}`).then((generatedPosters) => {
 					debug(chalk.dim(`Deleting the original poster of [${posterName}]...`));

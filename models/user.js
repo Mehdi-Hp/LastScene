@@ -14,11 +14,6 @@ const moviesSubSchema = new Schema({
 		type: String,
 		ref: Movie
 	},
-	imdbID: {
-		type: String,
-		required: true,
-		writable: false
-	},
 	state: String,
 	rate: Number,
 	note: String
@@ -76,37 +71,42 @@ userSchema.methods.findOneAndAddMovie = (user, imdbIDs) => {
 		debug(chalk.yellow(`Adding movie [${imdbID}] to [${user.username}]'s movies...`));
 		addMoviePromises.push(
 			new Promise((resolve, reject) => {
-				user.model('User').findById(user._id).then((user) => {
-					if (_.findKey(user.movies, { imdbID })) {
-						debug(chalk.green(`User [${user.name}] already added this movie: [${imdbID}]`));
-						return resolve({
-							status: 200,
-							message: `You already added movie [${imdbID}]`
+				user.model('User').findById(user._id).then((foundedUser) => {
+					if (!foundedUser || foundedUser.status === 400) {
+						return reject({
+							status: 403,
+							message: `User [${user.name}] doesn't exists`
 						});
 					}
-					user.model('User').findByIdAndUpdate(user._id, {
+					if (_.find(foundedUser.movies, { _id: imdbID })) {
+						debug(chalk.green(`User [${foundedUser.name}] already added this movie: [${imdbID}]`));
+						return resolve({
+							message: `You have been already added movie [${imdbID}]`
+						});
+					}
+					foundedUser.model('User').findByIdAndUpdate(foundedUser._id, {
 						$push: {
 							movies: {
-								imdbID
+								_id: imdbID
 							}
 						}
 					}, {
 						new: true
 					}).then((updatedUser) => {
-						debug(chalk.green(`Movie "${imdbID}" added to user "${user.name}"`));
-						resolve(updatedUser.movies);
+						debug(chalk.green(`Movie [${imdbID}] added to user [${foundedUser.name}]`));
+						resolve(_.find(updatedUser.movies, { _id: imdbID }));
 					}).catch((error) => {
 						debug(chalk.bold.red(error));
-						reject({
+						return reject({
 							status: 500,
-							message: `Couldn't add movie "${imdbID}" to user "${user.name}", because of database error`
+							message: `Couldn't add movie [${imdbID}] to user [${foundedUser.name}], because of database error`
 						});
 					});
 				}).catch((error) => {
 					debug(chalk.bold.red(error));
 					return reject({
 						status: 500,
-						message: `Couldn't find the user "${user.name}" to update because of database error`
+						message: `Couldn't find the user [${user.name}] to update, because of database error`
 					});
 				});
 			})
@@ -122,10 +122,7 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 		debug(chalk.yellow(`Updating movie [${reqMovie.imdbID}] for [${user.username}]...`));
 		updateMoviePromises.push(
 			new Promise((resolve, reject) => {
-				User.findOne({
-					_id: user.id
-				})
-				.then((foundedUser) => {
+				User.findById(user.id).then((foundedUser) => {
 					if (!foundedUser || foundedUser.status === 400) {
 						return reject({
 							status: 404,
@@ -133,7 +130,7 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 						});
 					}
 					const existedMovie = _.find(foundedUser.movies, {
-						imdbID: reqMovie.imdbID
+						_id: reqMovie.imdbID
 					});
 					if (!existedMovie) {
 						return reject({
@@ -145,26 +142,28 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 					movieToPut.updatedAt = Date.now();
 					User.findOneAndUpdate({
 						_id: user._id,
-						'movies.imdbID': reqMovie.imdbID
+						'movies._id': reqMovie.imdbID
 					}, {
-						$set: {
-							'movies.$': movieToPut
-						}
+						'movies.$': movieToPut
 					}, {
 						new: true
-					}).exec((error, updatedUser) => {
-						if (error) {
-							debug(chalk.bold.red(error));
+					}).then((updatedUser) => {
+						if (!updatedUser) {
 							return reject({
 								status: 500,
-								message: `Couldn't update the user [${user.name}]`
+								message: `Couldn't update the user [${user.name}], because of server error`
 							});
 						}
 						debug(chalk.green(`Movie [${reqMovie.imdbID}] updated for [${user.username}]...`));
-						return resolve(updatedUser);
+						return resolve(_.find(updatedUser.movies, { _id: reqMovie.imdbID }));
+					}).catch((error) => {
+						debug(chalk.bold.red(error));
+						return reject({
+							status: 500,
+							message: `Couldn't update the user [${user.name}]`
+						});
 					});
-				})
-				.catch((error) => {
+				}).catch((error) => {
 					debug(chalk.bold.red(error));
 					return reject({
 						status: 500,
@@ -180,40 +179,46 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 userSchema.methods.findOneAndDeleteMovie = (user, imdbIDs) => {
 	const deleteMoviePromises = [];
 	imdbIDs.forEach((imdbID) => {
-		debug(chalk.yellow(`Adding movie ${imdbID} to ${user.username}'s movies...`));
+		debug(chalk.yellow(`Deleting movie [${imdbID}] from [${user.username}]'s movies...`));
 		deleteMoviePromises.push(
 			new Promise((resolve, reject) => {
-				user.model('User').findById(user._id).then((user) => {
-					if (!_.findKey(user.movies, { imdbID })) {
-						debug(chalk.green(`User "${user.name}" doesn't have this movie: "${imdbID}"`));
-						return resolve({
-							status: 404,
-							message: `movie "${imdbID}" doesn't exist or has been already deleted`
+				user.model('User').findById(user._id).then((foundedUser) => {
+					if (!foundedUser || foundedUser.status === 400) {
+						return reject({
+							status: 403,
+							message: `User [${user.name}] doesn't exists`
 						});
 					}
-					user.model('User').findByIdAndUpdate(user._id, {
+					if (!_.findKey(foundedUser.movies, { _id: imdbID })) {
+						debug(chalk.green(`User [${user.name}] doesn't have this movie: [${imdbID}]`));
+						return resolve({
+							status: 404,
+							message: `movie [${imdbID}] doesn't exist or has been already deleted`
+						});
+					}
+					user.model('User').findByIdAndUpdate(foundedUser._id, {
 						$pull: {
 							movies: {
-								imdbID
+								_id: imdbID
 							}
 						}
 					}, {
 						new: true
 					}).then((updatedUser) => {
-						debug(chalk.green(`Movie "${imdbID}" deleted from user "${user.name}"`));
-						resolve(updatedUser);
+						debug(chalk.green(`Movie [${imdbID}] deleted from user [${foundedUser.name}]'s movies'`));
+						resolve(_.find(foundedUser.movies, { _id: imdbID }));
 					}).catch((error) => {
 						debug(chalk.bold.red(error));
 						reject({
 							status: 500,
-							message: `Couldn't delete movie "${imdbID}" from user "${user.name}", because of database error`
+							message: `Couldn't delete movie [${imdbID}] from user [${foundedUser.name}], because of database error`
 						});
 					});
 				}).catch((error) => {
 					debug(chalk.bold.red(error));
 					return reject({
 						status: 500,
-						message: `Couldn't find the user "${user.name}" to update because of database error`
+						message: `Couldn't find the user [${user.name}] to update because of database error`
 					});
 				});
 			})
