@@ -94,7 +94,7 @@ userSchema.methods.findOneAndAddMovie = (user, imdbIDs) => {
 						new: true
 					}).then((updatedUser) => {
 						debug(chalk.green(`Movie "${imdbID}" added to user "${user.name}"`));
-						resolve(updatedUser);
+						resolve(updatedUser.movies);
 					}).catch((error) => {
 						debug(chalk.bold.red(error));
 						reject({

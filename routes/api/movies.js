@@ -67,7 +67,7 @@ app.route('/')
 		}
 		getMovie(imdbID);
 		Promise.all(user.findOneAndAddMovie(user, imdbID)).then((updatedUser) => {
-			res.status(200).json(updatedUser.pop());
+			res.status(200).json(updatedUser);
 		}).catch((error) => {
 			debug(`ERROR adding movie: ${error.message}`);
 			res.status(error.status).json({
