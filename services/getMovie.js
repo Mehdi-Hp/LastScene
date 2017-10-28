@@ -1,67 +1,77 @@
-/* eslint-disable no-shadow */
-const _ = require('lodash');
+// const _ = require('lodash');
+const events = require('events');
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const myapifilmsService = require('./myapifilmsService');
 const Movie = require('../models/movie');
 const movieQueue = require('../config/movieQueue')();
 
-module.exports = (imdbID) => {
+const getMovieEvent = new events.EventEmitter();
+
+module.exports = (imdbIDs) => {
+	let i = 0;
+	const getMoviesPromise = [];
+	const savedGottedMovies = [];
 	const getMovie = (imdbID) => {
-		if (imdbID) {
-			return new Promise((resolve, reject) => {
-				debug(chalk.yellow(`Getting movie information: ${imdbID} ...`));
+		getMoviesPromise.push(
+			new Promise((resolve, reject) => {
+				if (!imdbID) {
+					return reject({
+						status: 400,
+						message: 'Your request does not fit in our standards'
+					});
+				}
+				debug(chalk.yellow(`Check movie information in database: [${imdbID}] ...`));
 				Movie.findOne({
-					id: {
-						imdb: imdbID
-					}
+					_id: imdbID
 				}).then((existedMovie) => {
 					if (existedMovie) {
-						debug(chalk.green(`Movie information: ${imdbID} already exist in databse`));
-						return resolve(new Movie(existedMovie));
+						debug(chalk.green(`Movie information: [${imdbID}] already exist in database`));
+						return resolve(existedMovie);
 					}
-					if (!movieQueue.isThere(imdbID)) {
-						movieQueue.add(imdbID);
-						myapifilmsService.getMovie({
-							imdbID
-						}).then((movie) => {
-							debug(chalk.green(`Got movie information: ${imdbID}. adding it to database...`));
-							Movie.create(movie.data)
-								.then((newMovie) => {
-									debug(chalk.green(`Movie "${imdbID}" added to database`));
-									movieQueue.delete(imdbID);
-									resolve(newMovie);
-								})
-								.catch((error) => {
-									debug(chalk.bold.red(error));
-									movieQueue.delete(imdbID);
-									reject(error);
-								});
-						}).catch((error) => {
-							debug(chalk.bold.red(error.message));
+					if (movieQueue.isThere(imdbID)) {
+						debug(chalk.bold(`Already looking for [${imdbID}] information...`));
+						return;
+					}
+					movieQueue.add(imdbID);
+					debug(chalk.yellow(`__Not in database. Searching for movie information [${imdbID}] ...`));
+					myapifilmsService.getMovie(imdbID).then((movie) => {
+						debug(chalk.green(`__Got movie information: [${imdbID}]. adding it to database...`));
+						i += 1;
+						getMovieEvent.emit('gotIt', i);
+						Movie.create(movie.data).then((newMovie) => {
+							debug(chalk.green(`__Movie [${imdbID}] added to database`));
 							movieQueue.delete(imdbID);
-							reject({
-								error: true,
-								status: error.status,
-								message: error.message
-							});
+							getMoviesPromise.push(newMovie);
+							resolve(newMovie);
+						}).catch((error) => {
+							debug(chalk.bold.red(error));
+							movieQueue.delete(imdbID);
+							getMoviesPromise.push(error);
+							reject(error);
 						});
-					} else {
-						debug(`Already looking for ${imdbID} information...`);
-					}
+					}).catch((error) => {
+						movieQueue.delete(imdbID);
+						getMoviesPromise.push(error);
+						reject({
+							status: error.status,
+							message: error.message
+						});
+					});
 				}).catch((error) => {
 					debug(chalk.bold.red(error));
 					return reject(error);
 				});
-			});
-		}
+			})
+		);
 	};
 
-	if (_.isArray(imdbID)) {
-		imdbID.forEach((theImdbID) => {
-			getMovie(theImdbID);
-		});
-	} else {
-		getMovie(imdbID);
-	}
+	getMovie(imdbIDs[0]);
+	getMovieEvent.on('gotIt', (i) => {
+		if (!imdbIDs[i]) {
+			return getMoviesPromise;
+		}
+		debug(chalk.yellow(`Got [${imdbIDs[i - 1]}]. going for [${imdbIDs[i]}]...`));
+		getMovie(imdbIDs[i]);
+	});
 };

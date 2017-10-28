@@ -2,12 +2,18 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const debug = require('debug')('development');
 const chalk = require('chalk');
+const shortid = require('shortid');
 const _ = require('lodash');
 const List = require('../models/list');
+const Movie = require('../models/movie');
 
 const Schema = mongoose.Schema;
 
 const moviesSubSchema = new Schema({
+	_id: {
+		type: String,
+		ref: Movie
+	},
 	imdbID: {
 		type: String,
 		required: true,
@@ -23,14 +29,17 @@ const moviesSubSchema = new Schema({
 
 const listsSubSchema = new Schema({
 	_id: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: String,
+		default: shortid.generate,
 		ref: List
 	}
-}, {
-	_id: false
 });
 
 const userSchema = new Schema({
+	_id: {
+		type: String,
+		default: shortid.generate
+	},
 	name: String,
 	username: String,
 	authentication: {
@@ -64,15 +73,15 @@ userSchema.methods.isValidPassword = (password, user) => {
 userSchema.methods.findOneAndAddMovie = (user, imdbIDs) => {
 	const addMoviePromises = [];
 	imdbIDs.forEach((imdbID) => {
-		debug(chalk.yellow(`Adding movie ${imdbID} to ${user.username}'s movies...`));
+		debug(chalk.yellow(`Adding movie [${imdbID}] to [${user.username}]'s movies...`));
 		addMoviePromises.push(
 			new Promise((resolve, reject) => {
 				user.model('User').findById(user._id).then((user) => {
 					if (_.findKey(user.movies, { imdbID })) {
-						debug(chalk.green(`User "${user.name}" already added this movie: "${imdbID}"`));
+						debug(chalk.green(`User [${user.name}] already added this movie: [${imdbID}]`));
 						return resolve({
 							status: 200,
-							message: `You already added this movie: "${imdbID}"`
+							message: `You already added movie [${imdbID}]`
 						});
 					}
 					user.model('User').findByIdAndUpdate(user._id, {
@@ -214,14 +223,21 @@ userSchema.methods.findOneAndDeleteMovie = (user, imdbIDs) => {
 };
 
 userSchema.methods.findOneAndAddList = (user, list) => {
-	debug(chalk.yellow(`Adding list "${list._id}" to ${user.username}`));
+	debug(chalk.yellow(`Adding list [${list.name}] to [${user.username}]`));
 	return new Promise((resolve, reject) => {
-		user.model('User').findById(user._id).then((user) => {
-			if (_.findKey(user.lists, { name: list.name })) {
-				debug(`User "${user.name}" already added this list: "${list.name}"`);
+		user.model('User').findById(user._id).then((foundedUser) => {
+			debug(foundedUser);
+			if (!foundedUser) {
 				return reject({
-					status: 400,
-					message: `You already added this list: "${list.name}"`
+					status: 404,
+					message: `User [${user.username}] doesn't exist`
+				});
+			}
+			if (_.findKey(user.lists, { name: list.name })) {
+				debug(`User [${user.name}] already added list [${list.name}]`);
+				return reject({
+					status: 403,
+					message: `You already added this list: [${list.name}]`
 				});
 			}
 			user.model('User').findByIdAndUpdate(user._id, {
@@ -233,17 +249,16 @@ userSchema.methods.findOneAndAddList = (user, list) => {
 			}, {
 				new: true
 			}).then((updatedUser) => {
-				debug(chalk.green(`List "${list.name}" added to user "${user.name}"`));
+				debug(chalk.green(`List [${list.name}] added to user [${user.username}]`));
 				resolve(updatedUser);
 			}).catch((error) => {
 				debug(chalk.bold.red(error));
 				reject({
 					status: 500,
-					message: 'Database error'
+					message: `Couldn't add list [${list.name}] to user [${user.username}]`
 				});
 			});
-		})
-		.catch((error) => {
+		}).catch((error) => {
 			debug(chalk.bold.red(error));
 			return reject({
 				status: 500,

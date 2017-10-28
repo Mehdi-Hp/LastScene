@@ -4,6 +4,9 @@ const timestamps = require('mongoose-timestamp');
 const Schema = mongoose.Schema;
 
 const movieSchema = new Schema({
+	_id: {
+		type: String
+	},
 	title: {
 		type: String
 	},

@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const User = require('./user');
 const timestamps = require('mongoose-timestamp');
 const slugHero = require('mongoose-slug-hero');
+const shortid = require('shortid');
 const Movie = require('./movie');
 
 const Schema = mongoose.Schema;
 
 const moviesSubSchema = new Schema({
 	_id: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: String,
 		required: true,
 		ref: Movie
 	}
@@ -16,6 +17,10 @@ const moviesSubSchema = new Schema({
 moviesSubSchema.plugin(timestamps);
 
 const listSchema = new Schema({
+	_id: {
+		type: String,
+		default: shortid.generate
+	},
 	name: String,
 	slug: {
 		type: String,
@@ -26,8 +31,9 @@ const listSchema = new Schema({
 	},
 	description: String,
 	owner: {
-		type: mongoose.Schema.Types.ObjectId,
-		writable: false,
+		type: String,
+		default: shortid.generate,
+		required: true,
 		ref: User
 	},
 	points: Number,

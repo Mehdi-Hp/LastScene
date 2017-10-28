@@ -4,7 +4,6 @@ const chalk = require('chalk');
 const _ = require('lodash');
 const User = require('../../models/user');
 const List = require('../../models/list');
-const getMovie = require('../../services/getMovie');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/')
@@ -56,18 +55,22 @@ app.route('/')
 	})
 	.post((req, res, next) => {
 		currentOrCustomUser(req, res);
+		if (!req.body.name) {
+			res.status(403).json({
+				message: 'You should provide the name field'
+			});
+		}
 		const listName = req.body.name;
-		const imdbID = req.body.movies;
+		const movieIDs = req.body.movies || [];
 		const user = new User(req.user);
-		getMovie(imdbID);
-		debug(chalk.yellow(`Adding ${imdbID} to ${listName}...`));
+		debug(chalk.yellow(`Adding ${movieIDs} to ${listName}...`));
 		const list = new List({
 			name: listName,
 			owner: user._id
 		});
-		imdbID.forEach((theImdbID) => {
+		movieIDs.forEach((movieID) => {
 			list.movies.push({
-				imdbID: theImdbID
+				_id: movieID
 			});
 		});
 		List.create(list)
@@ -80,18 +83,13 @@ app.route('/')
 						createdList
 					});
 				}).catch((error) => {
-					debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
 					res.status(error.status).json({
-						error: true,
 						message: error.message
 					});
 				});
-			})
-			.catch((error) => {
-				debug(chalk.bold.red(`ERROR adding list: ${error.message}`));
+			}).catch((error) => {
 				res.status(error.status).json({
-					error: true,
-					message: 'Database error'
+					message: error.message
 				});
 			});
 	})
@@ -107,12 +105,18 @@ app.route('/')
 				new Promise((resolve, reject) => {
 					List.findBySlug(reqList.slug).then((currentList) => {
 						if (!currentList || currentList.status === 400) {
-							reject({
+							debug('NOT FOUND');
+							savedUpdatedLists.push({
+								updated: 'no',
+								message: `Couldn't find the list [${reqList.slug}] to update`
+							});
+							return reject({
 								status: 404,
-								message: `Couldn't find the list [${reqList.name}] to update`
+								message: `Couldn't find the list [${reqList.slug}] to update`
 							});
 						}
-						const listToPut = new List(_.merge(currentList, _.omit(reqList, ['createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
+						const listToPut = new List(_.merge(currentList, _.omit(reqList, ['owner', 'createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
+						debug(listToPut);
 						listToPut.save().then((updatedList) => {
 							debug(chalk.green(`List [${reqList.slug}] updated`));
 							savedUpdatedLists.push(updatedList);
@@ -121,7 +125,7 @@ app.route('/')
 							debug(chalk.bold.red(error));
 							return reject({
 								status: 500,
-								message: `Couldn't save the list [${reqList.name}], because of database error`
+								message: `Couldn't save the list [${reqList.slug}], because of database error`
 							});
 						});
 					}).catch((error) => {

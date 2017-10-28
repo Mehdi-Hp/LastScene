@@ -1,20 +1,21 @@
 const _ = require('lodash');
 const debug = require('debug')('development');
+const chalk = require('chalk');
 
-const queue = ['tt3352399'];
+const queue = [];
 
-module.exports = () => {
+module.exports = (imdbID) => {
 	return {
 		get: () => {
 			debug('Getting movie queue...');
 			return queue;
 		},
 		add: (imdbID) => {
-			debug('Setting movie queue...');
+			debug(chalk.bold(`Set movie queue [${imdbID}]...`));
 			queue.push(imdbID);
 		},
 		delete: (imdbID) => {
-			debug('Deleting movie queue...');
+			debug(chalk.bold(`Deleted movie queue [${imdbID}]...`));
 			_.pull(queue, imdbID);
 		},
 		isThere: (imdbID) => {
@@ -22,5 +23,5 @@ module.exports = () => {
 				return inQueue === imdbID;
 			});
 		}
-	}
-}
+	};
+};

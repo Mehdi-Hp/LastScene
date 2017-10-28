@@ -1,5 +1,7 @@
 const request = require('request');
 const _ = require('lodash');
+const debug = require('debug')('development');
+const chalk = require('chalk');
 const apiKeys = require('../config/apiKeys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
@@ -7,12 +9,12 @@ const getBackdrop = require('./getBackdrop');
 // const debug = require('debug')('development');
 
 const myapifilms = {
-	getMovie: (information) => {
+	getMovie: (imdbID) => {
 		const requestOptions = {
 			method: 'GET',
 			url: 'http://www.myapifilms.com/imdb/idIMDB',
 			qs: {
-				idIMDB: information.imdbID,
+				idIMDB: imdbID,
 				token: apiKeys.myapifilms,
 				format: 'json',
 				filter: '3',
@@ -26,7 +28,7 @@ const myapifilms = {
 		};
 		const requestOptionsToFanart = {
 			method: 'GET',
-			url: `http://webservice.fanart.tv/v3/movies/${information.imdbID}`,
+			url: `http://webservice.fanart.tv/v3/movies/${imdbID}`,
 			qs: {
 				api_key: apiKeys.fanart
 			},
@@ -36,8 +38,10 @@ const myapifilms = {
 			json: true
 		};
 		return new Promise((resolve, reject) => {
+			debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
 			request(requestOptions, (error, res, body) => {
 				if (error) {
+					debug(chalk.bold.red(error));
 					reject({
 						status: 500,
 						message: error
@@ -45,38 +49,39 @@ const myapifilms = {
 				}
 				const response = {};
 				if (_.has(body, 'error')) {
-					response.status = {
-						type: 'error'
-					};
+					debug(chalk.bold.red(JSON.stringify(body.error)));
 					/* eslint-disable indent */
 					switch (body.error.code) {
 						case 110:
 							response.status = {
-								code: 404,
-								message: 'Movie not found'
+								status: 404,
+								message: `Couldn't find [${imdbID}] in IMDB`
 							};
 							break;
 						case 112:
 							response.status = {
-								code: 400,
-								message: 'Invalid IMDB ID'
+								status: 400,
+								message: 'Invalid imdbID'
 							};
 							break;
 						case 113:
 							response.status = {
-								code: 503,
-								message: 'Service is currently unavailable, Sorry!'
+								status: 503,
+								message: 'IMDB Service is currently unavailable, Sorry!'
 							};
 							break;
 						default:
-							return;
+							response.status = {
+								status: 500,
+								message: 'There was an unknown error in server'
+							};
 					}
 					reject(response);
 				} else {
 					if (!body.data.movies.type === 'Movie') {
 						reject({
 							code: 400,
-							message: 'We only accept movies for now!'
+							message: 'You should send an imdbID for a "Movie"; not anything else'
 						});
 					}
 					response.data = body.data.movies.map((currentMovie) => {
@@ -127,6 +132,7 @@ const myapifilms = {
 							};
 						});
 						movie = new Movie({
+							_id: currentMovie.idIMDB,
 							title: currentMovie.title,
 							originalTitle: currentMovie.originalTitle,
 							year: currentMovie.year,
@@ -157,56 +163,59 @@ const myapifilms = {
 							genres: currentMovie.genres,
 							awards: movie.awards
 						});
+
 						getPoster(currentMovie.urlPoster, movie.id.imdb)
 							.then((posters) => {
-								Movie.findOneAndUpdate({
-									id: {
-										imdb: movie.id.imdb
-									}
-								}, {
-									images: {
-										poster: {
-											small: posters.small,
-											medium: posters.medium,
-											big: posters.big
-										}
+								movie.images.poster = posters;
+								Movie.findByIdAndUpdate(movie.id.imdb, {
+									'images.poster': {
+										small: posters.small,
+										medium: posters.medium,
+										big: posters.big
 									}
 								},
 								{
 									new: true
-								},
-								(error, movieWithPoster) => {
-									if (error) {
-										return reject(error);
+								}).then((movieWithPoster) => {
+									if (movieWithPoster) {
+										debug(chalk.dim(`Posters psuhed to movie [${movieWithPoster._id}]`));
 									}
+								}).catch((error) => {
+									debug(chalk.bold.red(error));
+									return reject(error);
 								});
 							}).catch((error) => {
+								debug(chalk.bold.red(error));
 								return reject(error);
 							});
 
 						request(requestOptionsToFanart, (error, res, body) => {
 							if (error) {
+								debug(chalk.bold.red(error));
 								return reject(error);
 							}
 							getBackdrop(body.moviebackground[0].url, movie.id.imdb)
 								.then((backdrops) => {
-									Movie.findOneAndUpdate({
-										id: {
-											imdb: movie.id.imdb
-										}
-									}, {
+									movie.images.backdrop = backdrops;
+									Movie.findByIdUpdate(movie.id.imdb, {
 										'images.backdrop': {
 											small: backdrops.small,
 											medium: backdrops.medium,
 											big: backdrops.big
 										}
 									},
-									(error, movieWithBackdrop) => {
-										if (error) {
-											return reject(error);
+									{
+										new: true
+									}).then((movieWithBackdrop) => {
+										if (movieWithBackdrop) {
+											debug(chalk.dim(`Backdrops pushed to movie [${movieWithBackdrop._id}]`));
 										}
+									}).catch((error) => {
+										debug(chalk.bold.red(error));
+										return reject(error);
 									});
 								}).catch((error) => {
+									debug(chalk.bold.red(error));
 									return reject(error);
 								});
 						});
