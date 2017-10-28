@@ -11,43 +11,29 @@ app.route('/')
 	.get((req, res, next) => {
 		let theUsername;
 		if (res.locals.customUser) {
-			debug(`Getting ${res.locals.customUser}'s movies`);
+			debug(chalk.yellow(`Getting [${res.locals.customUser}]'s movies...`));
 			theUsername = res.locals.customUser;
 		} else {
-			debug('Getting user movies');
+			debug(chalk.yellow('Getting user movies...'));
 			theUsername = req.user.username;
 		}
-		User.findOne({ username: theUsername }).then((user) => {
-			if (!user.movies) {
-				return res.status(200).json({
-					user: theUsername,
-					data: {}
+		User.findOne({ username: theUsername }).populate({
+			path: 'movies._id',
+			model: 'Movie'
+		}).then((user) => {
+			if (!user) {
+				res.status(404).json({
+					message: `Couldn't find user ${theUsername}.`
 				});
 			}
-			const movies = user.movies.map((movie) => {
-				return movie.imdbID;
-			});
-			Movie.find(
-				{
-					'id.imdb': {
-						$in: movies
-					}
-				}
-			).then((foundedMovies) => {
-				res.status(200).json({
-					user: theUsername,
-					data: foundedMovies
-				});
-			}).catch((error) => {
-				debug(chalk.bold.red(error));
-				res.status(500).json({
-					message: 'Could not get movies, because of databse error'
-				});
+			res.status(200).json({
+				user: theUsername,
+				data: user
 			});
 		}).catch((error) => {
 			debug(chalk.bold.red(error));
-			res.status(404).json({
-				message: `Couldn't find user ${theUsername}.`
+			res.status(500).json({
+				message: `Couldn't find user ${theUsername}, because of database error`
 			});
 		});
 	})
@@ -113,46 +99,33 @@ app.route('/:movie_id')
 	.get((req, res, next) => {
 		let theUsername;
 		if (res.locals.customUser) {
-			debug(`Getting [${res.locals.customUser}]'s' movie [${req.params.movie_id}]`);
+			debug(`Getting [${res.locals.customUser}]'s movie [${req.params.movie_id}]`);
 			theUsername = res.locals.customUser;
 		} else {
 			debug(`Getting user movie [${req.params.movie_id}]`);
 			theUsername = req.user.username;
 		}
-		const imdbID = req.params.movie_id;
+		const movieID = req.params.movie_id;
 		User.findOne({
 			username: theUsername,
-			'movies.imdbID': imdbID
-		}).select('movies').then((foundedMoviesOfUser) => {
-			let foundedMovieOfUser = _.find(foundedMoviesOfUser.movies, {
-				imdbID
-			});
-			foundedMovieOfUser = _.omit(foundedMovieOfUser, imdbID);
-			debug(foundedMovieOfUser);
-			if (!foundedMovieOfUser) {
-				return res.status(404).json({
-					user: theUsername,
-					message: `User [${theUsername}] doesn't have movie [${imdbID}]`
+			'movies._id': movieID
+		}).populate({
+			path: 'movies._id',
+			model: 'Movie'
+		}).then((user) => {
+			if (!user) {
+				res.status(404).json({
+					message: `Couldn't find user ${theUsername}.`
 				});
 			}
-			Movie.findOne({
-				'id.imdb': imdbID
-			}).then((foundedMovie) => {
-				res.status(200).json({
-					user: theUsername,
-					userDate: foundedMovieOfUser,
-					data: foundedMovie
-				});
-			}).catch((error) => {
-				debug(chalk.bold.red(error));
-				res.status(500).json({
-					message: 'Could not get movies, because of databse error'
-				});
+			res.status(200).json({
+				user: theUsername,
+				data: _.find(user.movies, { _id: { _id: movieID } })
 			});
 		}).catch((error) => {
 			debug(chalk.bold.red(error));
-			res.status(404).json({
-				message: `Couldn't find user [${theUsername}].`
+			res.status(500).json({
+				message: `Couldn't find user ${theUsername}, because of database error`
 			});
 		});
 	})
