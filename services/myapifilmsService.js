@@ -197,7 +197,7 @@ const myapifilms = {
 							getBackdrop(body.moviebackground[0].url, movie.id.imdb)
 								.then((backdrops) => {
 									movie.images.backdrop = backdrops;
-									Movie.findByIdUpdate(movie.id.imdb, {
+									Movie.findByIdAndUpdate(movie.id.imdb, {
 										'images.backdrop': {
 											small: backdrops.small,
 											medium: backdrops.medium,

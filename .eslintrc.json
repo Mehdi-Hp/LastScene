@@ -12,6 +12,7 @@
 		"consistent-return": "off",
 		"no-shadow": "off",
 		"no-plusplus": "off",
+		"no-prototype-builtins": "off",
 		"no-underscore-dangle": "off"
 	}
 }

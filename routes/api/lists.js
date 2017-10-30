@@ -4,6 +4,8 @@ const chalk = require('chalk');
 const _ = require('lodash');
 const User = require('../../models/user');
 const List = require('../../models/list');
+const mergeForPut = require('../../services/mergeForPut');
+const getMovie = require('../../services/getMovie');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/')
@@ -68,79 +70,82 @@ app.route('/')
 			name: listName,
 			owner: user._id
 		});
+		getMovie(movieIDs);
 		movieIDs.forEach((movieID) => {
 			list.movies.push({
 				_id: movieID
 			});
 		});
-		List.create(list)
-			.then((createdList) => {
-				user.findOneAndAddList(user, {
-					_id: createdList._id,
-					name: createdList.name
-				}).then((updatedUser) => {
-					res.status(200).json({
-						createdList
-					});
-				}).catch((error) => {
-					res.status(error.status).json({
-						message: error.message
-					});
+		List.create(list).then((createdList) => {
+			user.findOneAndAddList(user, {
+				_id: createdList._id,
+				name: createdList.name
+			}).then((updatedUser) => {
+				res.status(200).json({
+					createdList
 				});
 			}).catch((error) => {
 				res.status(error.status).json({
 					message: error.message
 				});
 			});
+		}).catch((error) => {
+			res.status(error.status).json({
+				message: error.message
+			});
+		});
 	})
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
 		const reqLists = req.body;
-		const user = new User(req.user);
 		const updateListPromises = [];
-		const savedUpdatedLists = [];
+		const user = new User(req.user);
 		reqLists.forEach((reqList) => {
 			debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
+			if (reqList.movies && reqList.movies.length) {
+				const movieIDs = reqList.movies;
+				getMovie(movieIDs);
+				reqList.movies = reqList.movies.map((movie) => {
+					return {
+						_id: movie
+					};
+				});
+			}
 			updateListPromises.push(
 				new Promise((resolve, reject) => {
-					List.findBySlug(reqList.slug).then((currentList) => {
-						if (!currentList || currentList.status === 400) {
-							debug('NOT FOUND');
-							savedUpdatedLists.push({
-								updated: 'no',
-								message: `Couldn't find the list [${reqList.slug}] to update`
-							});
-							return reject({
-								status: 404,
+					List.findBySlug(reqList.slug).then((existedList) => {
+						if (!existedList || existedList.status === 400) {
+							res.status(404).json({
 								message: `Couldn't find the list [${reqList.slug}] to update`
 							});
 						}
-						const listToPut = new List(_.merge(currentList, _.omit(reqList, ['owner', 'createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
-						debug(listToPut);
-						listToPut.save().then((updatedList) => {
-							debug(chalk.green(`List [${reqList.slug}] updated`));
-							savedUpdatedLists.push(updatedList);
-							return resolve(updatedList);
-						}).catch((error) => {
-							debug(chalk.bold.red(error));
-							return reject({
-								status: 500,
-								message: `Couldn't save the list [${reqList.slug}], because of database error`
+						if (existedList.owner === user._id) {
+							const listToPut = new List(mergeForPut(existedList, reqList));
+							listToPut.owner = user._id;
+							debug(listToPut);
+							listToPut.save().then((updatedList) => {
+								debug(chalk.green(`List [${reqList.slug}] got updated`));
+								return resolve(updatedList);
+							}).catch((error) => {
+								debug(chalk.bold.red(error));
+								return reject({
+									status: 500,
+									message: `Couldn't update the list [${reqList.slug}], because of database error`
+								});
 							});
-						});
-					}).catch((error) => {
-						debug(chalk.bold.red(error));
-						res.status(500).json({
-							message: `Couldn't find list [${reqList.slug}], because of database error`
-						});
+						} else {
+							return reject({
+								status: 403,
+								message: `The list [${reqList.slug}] doesn't belong to you.`
+							});
+						}
 					});
 				})
 			);
 		});
 		Promise.all(updateListPromises).then((updatedLists) => {
-			res.status(200).json(savedUpdatedLists);
+			res.status(200).json(updatedLists);
 		}).catch((error) => {
-			debug(chalk.bold.red(error));
 			res.status(error.status).json({
 				message: error.message
 			});
@@ -212,26 +217,43 @@ app.route('/:listSlug')
 	})
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
-		const reqList = req.body;
+		const rawReqList = req.body;
+		const reqList = rawReqList;
 		const user = new User(req.user);
-		const currentListSlug = req.params.listSlug;
+		reqList.slug = req.params.listSlug;
+		if (rawReqList.movies && rawReqList.movies.length) {
+			const movieIDs = rawReqList.movies;
+			getMovie(movieIDs);
+			reqList.movies = rawReqList.movies.map((movie) => {
+				return {
+					_id: movie
+				};
+			});
+		}
 		debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
-		List.findBySlug(currentListSlug).then((currentList) => {
-			if (!currentList || currentList.status === 400) {
+		List.findBySlug(req.params.listSlug).then((existedList) => {
+			if (!existedList || existedList.status === 400) {
 				res.status(404).json({
-					message: `Couldn't find the list [${reqList.name}] to update`
+					message: `Couldn't find the list [${reqList.slug}] to update`
 				});
 			}
-			const listToPut = new List(_.merge(currentList, _.omit(reqList, ['createdAt', 'modifiedAt', '_id', 'followers', '__v'])));
-			listToPut.save().then((updatedList) => {
-				debug(chalk.green(`List [${reqList.slug}] updated`));
-				res.status(200).json(updatedList);
-			}).catch((error) => {
-				debug(chalk.bold.red(error));
-				res.status(500).json({
-					message: `Couldn't save the list [${reqList.name}], because of database error`
+			if (existedList.owner === user._id) {
+				const listToPut = new List(mergeForPut(existedList, reqList));
+				listToPut.owner = user._id;
+				listToPut.save().then((updatedList) => {
+					debug(chalk.green(`List [${reqList.slug}] got updated`));
+					res.status(200).json(updatedList);
+				}).catch((error) => {
+					debug(chalk.bold.red(error));
+					res.status(500).json({
+						message: `Couldn't update the list [${reqList.slug}], because of database error`
+					});
 				});
-			});
+			} else {
+				res.status(403).json({
+					message: `The list [${reqList.slug}] doesn't belong to you.`
+				});
+			}
 		});
 	})
 	.delete((req, res, next) => {
@@ -245,16 +267,17 @@ app.route('/:listSlug')
 					message: `Couldn't find list [${listSlug}]`
 				});
 			}
-			if (_.find(user.lists, { slug: listSlug })) {
-				res.status(403).json({
-					message: `List [${listSlug}] doesn't belong to [${user.username}]`
-				});
-			}
 			foundedList.remove().then((deletedList) => {
 				debug(chalk.yellow(`List [${listSlug}] got deleted`));
-				res.status(200).json({
-					gotDeleted: true,
-					deletedList
+				user.findOneAndDeleteList(user, foundedList).then((updatedUser) => {
+					res.status(200).json({
+						deleted: true,
+						deletedList
+					});
+				}).catch((error) => {
+					res.status(error.status).json({
+						message: error.message
+					});
 				});
 			}).catch((error) => {
 				debug(chalk.bold.red(error));

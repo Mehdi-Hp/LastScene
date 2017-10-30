@@ -3,7 +3,6 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 const _ = require('lodash');
 const User = require('../../models/user');
-const Movie = require('../../models/movie');
 const getMovie = require('../../services/getMovie');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
@@ -28,7 +27,7 @@ app.route('/')
 			}
 			res.status(200).json({
 				user: theUsername,
-				data: user
+				data: user.movies
 			});
 		}).catch((error) => {
 			debug(chalk.bold.red(error));
@@ -143,10 +142,8 @@ app.route('/:movie_id')
 	})
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
-		const reqMovie = req.body;
-		reqMovie[0].imdbID = req.params.movie_id;
+		const reqMovie = [req.body];
 		const user = new User(req.user);
-		debug(reqMovie);
 		Promise.all(user.findOneAndUpdateMovie(user, reqMovie)).then((updatedUser) => {
 			res.status(200).json(updatedUser.pop());
 		}).catch((error) => {

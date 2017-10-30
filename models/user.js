@@ -18,7 +18,6 @@ const moviesSubSchema = new Schema({
 	rate: Number,
 	note: String
 }, {
-	_id: false,
 	timestamps: true
 });
 
@@ -41,13 +40,13 @@ const userSchema = new Schema({
 		local: {
 			email: String,
 			password: String,
-			writable: false
+			select: false
 		},
 		google: {
 			id: String,
 			token: String,
 			email: String,
-			writable: false
+			select: false
 		}
 	},
 	movies: [moviesSubSchema],
@@ -119,10 +118,10 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 	const updateMoviePromises = [];
 	const User = user.model('User');
 	movies.forEach((reqMovie) => {
-		debug(chalk.yellow(`Updating movie [${reqMovie.imdbID}] for [${user.username}]...`));
+		debug(chalk.yellow(`Updating movie [${reqMovie._id}] for [${user.username}]...`));
 		updateMoviePromises.push(
 			new Promise((resolve, reject) => {
-				User.findById(user.id).then((foundedUser) => {
+				User.findById(user._id).then((foundedUser) => {
 					if (!foundedUser || foundedUser.status === 400) {
 						return reject({
 							status: 404,
@@ -130,19 +129,20 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 						});
 					}
 					const existedMovie = _.find(foundedUser.movies, {
-						_id: reqMovie.imdbID
+						_id: reqMovie._id
 					});
 					if (!existedMovie) {
 						return reject({
 							status: 404,
-							message: `Movie [${reqMovie.imdbID}] doesn't belong to user [${user.name}]`
+							message: `Movie [${reqMovie._id}] doesn't belong to user [${user.name}]`
 						});
 					}
 					const movieToPut = _.merge(existedMovie, reqMovie);
+					debug(movieToPut);
 					movieToPut.updatedAt = Date.now();
 					User.findOneAndUpdate({
 						_id: user._id,
-						'movies._id': reqMovie.imdbID
+						'movies._id': reqMovie._id
 					}, {
 						'movies.$': movieToPut
 					}, {
@@ -154,8 +154,8 @@ userSchema.methods.findOneAndUpdateMovie = (user, movies) => {
 								message: `Couldn't update the user [${user.name}], because of server error`
 							});
 						}
-						debug(chalk.green(`Movie [${reqMovie.imdbID}] updated for [${user.username}]...`));
-						return resolve(_.find(updatedUser.movies, { _id: reqMovie.imdbID }));
+						debug(chalk.green(`Movie [${reqMovie._id}] updated for [${user.username}]...`));
+						return resolve(_.find(updatedUser.movies, { _id: reqMovie._id }));
 					}).catch((error) => {
 						debug(chalk.bold.red(error));
 						return reject({
@@ -231,7 +231,6 @@ userSchema.methods.findOneAndAddList = (user, list) => {
 	debug(chalk.yellow(`Adding list [${list.name}] to [${user.username}]`));
 	return new Promise((resolve, reject) => {
 		user.model('User').findById(user._id).then((foundedUser) => {
-			debug(foundedUser);
 			if (!foundedUser) {
 				return reject({
 					status: 404,
@@ -255,6 +254,52 @@ userSchema.methods.findOneAndAddList = (user, list) => {
 				new: true
 			}).then((updatedUser) => {
 				debug(chalk.green(`List [${list.name}] added to user [${user.username}]`));
+				resolve(updatedUser);
+			}).catch((error) => {
+				debug(chalk.bold.red(error));
+				reject({
+					status: 500,
+					message: `Couldn't add list [${list.name}] to user [${user.username}]`
+				});
+			});
+		}).catch((error) => {
+			debug(chalk.bold.red(error));
+			return reject({
+				status: 500,
+				message: 'Database error'
+			});
+		});
+	});
+};
+
+userSchema.methods.findOneAndDeleteList = (user, list) => {
+	debug(chalk.yellow(`Deleting list [${list.name}] from [${user.username}]`));
+	return new Promise((resolve, reject) => {
+		user.model('User').findById(user._id).then((foundedUser) => {
+			if (!foundedUser) {
+				return reject({
+					status: 404,
+					message: `User [${user.username}] doesn't exist`
+				});
+			}
+			debug(foundedUser);
+			debug(list);
+			if (!_.find(foundedUser.lists, { _id: list._id })) {
+				return reject({
+					status: 403,
+					message: `List [${list.slug}] doesn't belong to [${foundedUser.username}]`
+				});
+			}
+			user.model('User').findByIdAndUpdate(foundedUser._id, {
+				$pull: {
+					lists: {
+						_id: list._id
+					}
+				}
+			}, {
+				new: true
+			}).then((updatedUser) => {
+				debug(chalk.green(`List [${list.slug}]  deleted from user [${foundedUser.username}]`));
 				resolve(updatedUser);
 			}).catch((error) => {
 				debug(chalk.bold.red(error));
