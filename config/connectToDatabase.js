@@ -4,7 +4,7 @@ const debug = require('debug')('development');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = (mongoose) => {
-	mongoose.connect('mongodb://localhost:27017/pixr', {
+	mongoose.connect('mongodb://localhost:27017/huffilm', {
 		useMongoClient: true,
 		autoReconnect: true
 	});
