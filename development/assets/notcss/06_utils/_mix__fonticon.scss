@@ -1,0 +1,5 @@
+@mixin fonticon($font-size:1.1em , $margin-left:.5rem ) {
+	font-size: $font-size;
+	margin-left: $margin-left;
+	@include flex(center, center);
+}

@@ -1,0 +1,44 @@
+@import-normalize;
+
+body {
+	margin: 0;
+}
+
+a {
+	 text-decoration: none;
+	 color: currentColor;
+}
+
+#gridpak {
+	 pointer-events: none !important;
+	 max-width: 100% !important;
+	 right: 0 !important;
+	 left: 0 !important;
+	 margin: auto !important;
+	 z-index: 20 !important;
+	 opacity: 0.5 !important;
+	 position: fixed !important;
+}
+
+input[type=range] {
+		-webkit-appearance: none;
+}
+
+p {
+	color: currentColor;
+}
+
+button {
+	border: none;
+	outline: none;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	cursor: default;
+}

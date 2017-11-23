@@ -5,12 +5,12 @@ const postcssPlugins = require('./postcss.config');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
-const developmentPath = path.resolve(__dirname, 'public', 'development');
+// const developmentPath = path.resolve(__dirname, 'public', 'development');
 const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
 
 const { ifProduction } = getIfUtils(process.env.NODE_ENV);
@@ -81,7 +81,7 @@ if (ifProduction()) {
 
 module.exports = {
 	entry: [
-		'webpack-hot-middleware/client?reload=true',
+		// 'webpack-hot-middleware/client?reload=true',
 		mainJSPath
 	],
 	output: {
@@ -118,8 +118,9 @@ module.exports = {
 				exclude: [nodeModulesPath]
 			}),
 			removeEmpty({
-				test: /(main\.scss|\.css)$/,
-				use: myCSSLoader
+				test: /\.scss$/,
+				use: myCSSLoader,
+				exclude: [nodeModulesPath]
 			}),
 			removeEmpty({
 				test: /\.js$/,
@@ -127,21 +128,22 @@ module.exports = {
 				options: {
 					plugins: ['lodash'],
 					presets: [['env', { modules: false, targets: { node: 4 } }]]
-				}
+				},
+				exclude: [nodeModulesPath]
 			})
 		]
 	},
 	plugins: removeEmpty([
 		new HtmlWebpackPlugin({
 			template: 'views/index.ejs',
-			inject: 'body',
+			inject: true,
 			filename: 'index.html'
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new DashboardPlugin(),
-		new LodashModuleReplacementPlugin(),
-		ifProduction(new BundleAnalyzerPlugin()),
+		// new LodashModuleReplacementPlugin(),
+		// ifProduction(new BundleAnalyzerPlugin()),
 		ifProduction(new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: JSON.stringify('production')
@@ -177,6 +179,10 @@ module.exports = {
 		compress: true,
 		historyApiFallback: true,
 		hot: true,
+		watchOptions: {
+			poll: true
+		},
+		progress: true,
 		proxy: {
 			'^/api/*': {
 				target: 'http://localhost:3000/api/v1/',
@@ -191,5 +197,6 @@ module.exports = {
 	},
 	performance: {
 		hints: false
-	}
+	},
+	devtool: 'cheap-module-source-map'
 };

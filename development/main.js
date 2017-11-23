@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 
-import './assets/notcss/main.scss';
+import './assets/notcss/00_base/base.scss';
 
 new Vue({
 	el: '#app',
