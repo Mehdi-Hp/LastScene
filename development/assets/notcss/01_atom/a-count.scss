@@ -1,0 +1,13 @@
+.a-count {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: ms(-2);
+	font-weight: bold;
+	border-radius: 50px;
+	size: 25px;
+	background-color: #4e8466;
+	&--weeny {
+		background-color: transparentize(white, .75);
+	}
+}

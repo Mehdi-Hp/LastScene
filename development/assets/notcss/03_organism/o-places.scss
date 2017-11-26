@@ -1,0 +1,17 @@
+.o-places {
+	display: flex;
+	flex-direction: column;
+	margin: .75rem 0;
+
+	&__title {
+		font-size: ms(-1);
+		font-weight: bold;
+		color: hsl(0, 0, 80);
+		margin-bottom: .5rem;
+	}
+	&__nested {
+		padding-left: 1rem;
+	}
+}
+
+@import '../02_molecule/m-place.scss';

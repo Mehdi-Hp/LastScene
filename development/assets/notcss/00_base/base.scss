@@ -1,3 +1,6 @@
+@import "~modularscale-sass/stylesheets/_modularscale.scss";
+
 @import './reset';
 @import './general';
 @import './typography';
+@import '../01_atom/atoms';

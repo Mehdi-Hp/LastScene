@@ -43,6 +43,14 @@ if (ifProduction()) {
 
 					]
 				}
+			},
+			{
+				loader: 'sass-resources-loader',
+				options: {
+					resources: [
+						'./development/assets/notcss/base/base.scss'
+					]
+				},
 			}
 		]
 	});
@@ -75,6 +83,12 @@ if (ifProduction()) {
 
 				]
 			}
+		},
+		{
+			loader: 'sass-resources-loader',
+			options: {
+				resources: './development/assets/notcss/00_base/base.scss'
+			},
 		}
 	];
 }
@@ -118,9 +132,8 @@ module.exports = {
 				exclude: [nodeModulesPath]
 			}),
 			removeEmpty({
-				test: /\.scss$/,
-				use: myCSSLoader,
-				exclude: [nodeModulesPath]
+				test: /(\.scss|\.pcss)$/,
+				use: myCSSLoader
 			}),
 			removeEmpty({
 				test: /\.js$/,

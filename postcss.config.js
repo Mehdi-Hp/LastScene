@@ -19,6 +19,8 @@ module.exports = [
 	require('postcss-magic-animations')(),
 	require('postcss-light-text')(),
 	require('postcss-selector-not')(),
+	require('postcss-gradient-transparency-fix')(),
+	require('postcss-easing-gradients')(),
 	require('postcss-ant')(),
 	require('autoprefixer')({
 		browsers: ['last 2 versions']
