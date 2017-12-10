@@ -1,5 +1,5 @@
 {
-	"extends": "airbnb",
+	"extends": ["airbnb", "plugin:vue/essential"],
 	"rules": {
 		"indent": [2, "tab"],
 		"no-tabs": 0,
@@ -13,6 +13,10 @@
 		"no-shadow": "off",
 		"no-plusplus": "off",
 		"no-prototype-builtins": "off",
-		"no-underscore-dangle": "off"
+		"no-underscore-dangle": "off",
+		"prefer-promise-reject-errors": "off",
+		"function-paren-newline": "off",
+		"no-console": "off",
+		"max-len": "off"
 	}
 }

@@ -1,0 +1,25 @@
+.m-movie-box {
+	position: relative;
+	cursor: pointer;
+
+	&__rate {
+		position: absolute;
+		top: 0.25rem;
+		right: 0.25rem;
+		padding: 0.25rem;
+		font-size: ms(-2);
+		color: $gold;
+		mix-blend-mode: luminosity;
+		transition: background-color 0.1s ease-in-out;
+
+		&--is-visible {
+			background-color: $purple;
+			transition: background-color 0.1s ease-in-out;
+		}
+	}
+
+	&__menu {
+		position: absolute 0 auto auto 0;
+		margin: .5rem;
+	}
+}

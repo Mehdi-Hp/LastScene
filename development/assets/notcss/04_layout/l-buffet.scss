@@ -1,0 +1,9 @@
+.l-buffet {
+	width: sizes(270px auto 200px) pluck(2);
+	background: $buffet-background;
+	position: relative;
+
+	&__micro-movies {
+		padding: 6rem;
+	}
+}

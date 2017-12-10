@@ -5,6 +5,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 const mongoose = require('mongoose');
 // const webpack = require('webpack');
 // const webpackMiddleware = require('webpack-dev-middleware');
@@ -35,6 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(helmet({}));
+app.use(cors());
 
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

@@ -4,7 +4,7 @@
 			<div class="o-lggdin-user__avatar">
 				<img class="o-lggdin-user__image" src="" alt=""></img>
 			</div>
-			<span class="o-lggdin-user__name">Mehdi Hoseini</span>
+			<span class="o-lggdin-user__name">{{ user.info.name }}</span>
 			<button class="o-lggdin-user__settings-btn"></button>
 		</div>
 
@@ -35,6 +35,9 @@
 						<li class="m-place__name | m-place__name--nested">Top Rated By</li>
 						<img class="m-place__indication" src="" alt="">
 					</a>
+					<a href="#" class="m-place" v-for="collection in user.collections" :key="collection.key">
+						<li class="m-place__name | m-place__name--nested">{{ collection.data.name }}</li>
+					</a>
 				</ul>
 			</div>
 
@@ -61,13 +64,18 @@
 </template>
 
 <script>
-import '../assets/notcss/04_layout/l-sideabr.scss';
+import '../assets/notcss/04_layout/l-sidebar.scss';
 
 export default {
 	name: 'sidebar',
 	data() {
 		return {
 
+		}
+	},
+	computed: {
+		user() {
+			return this.$store.state.user;
 		}
 	}
 };

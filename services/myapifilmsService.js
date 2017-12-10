@@ -51,6 +51,7 @@ const myapifilms = {
 				if (_.has(body, 'error')) {
 					debug(chalk.bold.red(JSON.stringify(body.error)));
 					/* eslint-disable indent */
+					debug(body);
 					switch (body.error.code) {
 						case 110:
 							response.status = {
@@ -86,6 +87,7 @@ const myapifilms = {
 					}
 					response.data = body.data.movies.map((currentMovie) => {
 						let movie = {};
+						debug(currentMovie);
 						movie.directors = currentMovie.directors.map((currentDirector) => {
 							return {
 								name: currentDirector.name,

@@ -1,0 +1,24 @@
+.l-sidebar {
+	width: sizes(270px auto 200px) pluck(1);
+	height: 100%;
+	background: linear-gradient(to bottom, #615c70 -10%, #42404c 30%, #4c4250 55%, #263740 80%, #2e293d 100%);
+	color: white;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.2);
+	z-index: g-index('land');
+	position: fixed;
+
+	&__loggdin-user {
+		margin: 1rem 0;
+	}
+
+	&__places {
+		display: flex;
+		flex-direction: column;
+		padding: 1rem 2rem;
+	}
+}
+
+@import '../03_organism/o-loggdin-user.scss';
+@import '../03_organism/o-places.scss';

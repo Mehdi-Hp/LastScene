@@ -5,8 +5,11 @@ const postcssPlugins = require('./postcss.config');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+require('pretty-error').start();
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
@@ -47,10 +50,8 @@ if (ifProduction()) {
 			{
 				loader: 'sass-resources-loader',
 				options: {
-					resources: [
-						'./development/assets/notcss/base/base.scss'
-					]
-				},
+					resources: './development/assets/notcss/00_base/base.scss'
+				}
 			}
 		]
 	});
@@ -88,7 +89,7 @@ if (ifProduction()) {
 			loader: 'sass-resources-loader',
 			options: {
 				resources: './development/assets/notcss/00_base/base.scss'
-			},
+			}
 		}
 	];
 }
@@ -106,7 +107,7 @@ module.exports = {
 	module: {
 		rules: [
 			removeEmpty({
-				test: /\.(ttf|otf|eot|svg|woff|woff2)$/,
+				test: /\.(ttf|otf|eot|woff|woff2)$/,
 				loader: 'file-loader',
 				options: {
 					name: 'fonts/[name].[ext]'
@@ -114,13 +115,12 @@ module.exports = {
 				exclude: [nodeModulesPath]
 			}),
 			removeEmpty({
-				test: /\.(jpe?g|png|gif)$/,
+				test: /\.(jpe?g|png|gif|svg)$/,
 				loaders: [
 					{
 						loader: 'file-loader',
 						options: {
-							name: 'images/[name].[ext]',
-							useRelativePath: true
+							name: 'images/[name].[ext]'
 						}
 					}
 				],
@@ -152,9 +152,20 @@ module.exports = {
 			inject: true,
 			filename: 'index.html'
 		}),
+		new HtmlWebpackIncludeAssetsPlugin({
+			assets: [
+
+			],
+			append: true
+		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new DashboardPlugin(),
+		ifProduction(new LodashModuleReplacementPlugin({
+			collections: true,
+			paths: true
+		})),
+		ifProduction(new webpack.optimize.UglifyJsPlugin()),
 		// new LodashModuleReplacementPlugin(),
 		// ifProduction(new BundleAnalyzerPlugin()),
 		ifProduction(new webpack.DefinePlugin({
@@ -197,10 +208,7 @@ module.exports = {
 		},
 		progress: true,
 		proxy: {
-			'^/api/*': {
-				target: 'http://localhost:3000/api/v1/',
-				secure: false
-			}
+			'/api': 'http://localhost:3000'
 		},
 		overlay: {
 			warnings: true,

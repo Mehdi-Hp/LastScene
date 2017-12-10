@@ -7,6 +7,7 @@ app.route('/')
 
 app.use('/find', require('./api/findMeta'));
 app.use('/meta', require('./api/getMeta'));
+app.use('/user', require('./api/users'));
 app.use('/:username?/movies', (req, res, next) => {
 	res.locals.customUser = req.params.username;
 	next();

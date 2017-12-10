@@ -1,0 +1,46 @@
+.a-rate {
+	display: flex;
+	position: relative;
+	font-family: 'PT Sans Narrow';
+	&--horiz {
+		position: absolute;
+		flex-direction: column;
+	}
+
+	&__value {
+		font-size: ms(4);
+		font-weight: 100;
+		display: flex;
+		position: relative;
+		top: -0.7rem;
+		color: $purple__shade--4;
+		&--horiz {
+			top: 0;
+			color: currentColor;
+		}
+	}
+
+	&__base {
+		display: flex;
+		font-family: 'Fira Sans';
+		color: $purple__shade--2;
+		font-size: ms(-2);
+		font-weight: 700;
+		&:before {
+			content: '/';
+		}
+		&--horiz {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			color: currentColor;
+			font-weight: 400;
+			&:before {
+				content: '';
+				width: 1rem;
+				height: 2px;
+				background-color: currentColor;
+			}
+		}
+	}
+}

@@ -1,24 +1,34 @@
 <template>
-	<div id="app">
+	<main id="app" v-if="user">
 		<sidebar></sidebar>
-		<hutch></hutch>
-	</div>
+		<buffet class="p-dashboard__buffet"></buffet>
+	</main>
 </template>
 
 <script>
-import sidebar from './components/sidebar.vue';
-import hutch from './components/hutch.vue';
+import sidebar from './components/Sidebar.vue';
+import buffet from './components/Buffet.vue';
+
+import './assets/notcss/05_page/p-dashboard.scss';
 
 export default {
 	name: 'app',
-	data () {
+	data() {
 		return {
 
-		}
+		};
 	},
 	components: {
-		sidebar
-		hutch
+		sidebar,
+		buffet
+	},
+	computed: {
+		user() {
+			return this.$store.state.user;
+		}
+	},
+	created() {
+		this.$store.dispatch('fetchUser');
 	}
-}
+};
 </script>

@@ -3,11 +3,14 @@
 	justify-content: center;
 	align-items: center;
 	font-size: ms(-2);
-	font-weight: bold;
+	font-weight: 700;
 	border-radius: 50px;
-	size: 25px;
+	size: 22px;
 	background-color: #4e8466;
+	box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.1);
+
 	&--weeny {
-		background-color: transparentize(white, .75);
+		background-color: rgba(255, 255, 255, 0.1);
+		color: #a6a6a6;
 	}
 }
