@@ -63,7 +63,9 @@ if (ifProduction()) {
 		{
 			loader: 'css-loader',
 			options: {
-				importLoaders: 1
+				importLoaders: 4,
+				import: false,
+				minimize: true
 			}
 		},
 		{
@@ -88,7 +90,7 @@ if (ifProduction()) {
 		{
 			loader: 'sass-resources-loader',
 			options: {
-				resources: './development/assets/notcss/00_base/base.scss'
+				resources: './development/assets/notcss/_utils/_all-utils.scss'
 			}
 		}
 	];
@@ -96,7 +98,6 @@ if (ifProduction()) {
 
 module.exports = {
 	entry: [
-		// 'webpack-hot-middleware/client?reload=true',
 		mainJSPath
 	],
 	output: {
@@ -115,7 +116,7 @@ module.exports = {
 				exclude: [nodeModulesPath]
 			}),
 			removeEmpty({
-				test: /\.(jpe?g|png|gif|svg)$/,
+				test: /\.(jpe?g|png|gif)$/,
 				loaders: [
 					{
 						loader: 'file-loader',
@@ -125,6 +126,10 @@ module.exports = {
 					}
 				],
 				exclude: [nodeModulesPath]
+			}),
+			removeEmpty({
+				test: /\.svg$/,
+				loader: 'svg-sprite-loader'
 			}),
 			removeEmpty({
 				test: /\.vue$/,
@@ -202,6 +207,7 @@ module.exports = {
 		noInfo: true,
 		compress: true,
 		historyApiFallback: true,
+		disableHostCheck: true,
 		hot: true,
 		watchOptions: {
 			poll: true

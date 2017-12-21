@@ -1,7 +1,6 @@
 const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
-const _ = require('lodash');
 const User = require('../../models/user');
 const List = require('../../models/list');
 const mergeForPut = require('../../services/mergeForPut');

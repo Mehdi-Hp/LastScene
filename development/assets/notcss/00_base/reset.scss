@@ -40,3 +40,13 @@ ul {
 	margin: 0;
 	padding: 0;
 }
+
+svg:not(:root) {
+	overflow: visible;
+}
+
+svg {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+}

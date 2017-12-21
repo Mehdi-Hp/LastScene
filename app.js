@@ -33,7 +33,7 @@ require('./config/passport')(passport);
 /* eslint-disable no-console */
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'html');
 
 app.use(helmet({}));
 app.use(cors());

@@ -143,6 +143,7 @@ app.route('/:movie_id')
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
 		const reqMovie = [req.body];
+		reqMovie[0]._id = req.params.movie_id;
 		const user = new User(req.user);
 		Promise.all(user.findOneAndUpdateMovie(user, reqMovie)).then((updatedUser) => {
 			res.status(200).json(updatedUser.pop());

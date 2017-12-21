@@ -14,9 +14,11 @@ const moviesSubSchema = new Schema({
 		type: String,
 		ref: Movie
 	},
-	state: String,
 	rate: Number,
-	note: String
+	note: String,
+	watched: Boolean,
+	watchList: Boolean,
+	favourite: Boolean
 }, {
 	timestamps: true
 });

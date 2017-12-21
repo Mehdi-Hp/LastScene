@@ -1,7 +1,6 @@
-/* eslint-disable global-require */
-
 module.exports = [
 	require('postcss-console')(),
+	require('postcss-discard-duplicates')(),
 	require('css-declaration-sorter')(),
 	// require('postcss-uncss')(),
 	require('postcss-atrule-bem'),
@@ -24,11 +23,8 @@ module.exports = [
 	require('postcss-ant')(),
 	require('autoprefixer')({
 		browsers: ['last 2 versions']
+	}),
+	require('cssnano')({
+		preset: 'default'
 	})
 ];
-
-if (process.env.NODE_ENV === 'production') {
-	module.exports.push(require('cssnano')({
-		preset: 'default'
-	}));
-}

@@ -64,14 +64,12 @@
 </template>
 
 <script>
-import '../assets/notcss/04_layout/l-sidebar.scss';
-
 export default {
 	name: 'sidebar',
 	data() {
 		return {
 
-		}
+		};
 	},
 	computed: {
 		user() {

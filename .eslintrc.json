@@ -14,9 +14,12 @@
 		"no-plusplus": "off",
 		"no-prototype-builtins": "off",
 		"no-underscore-dangle": "off",
+		"global-require": "off",
 		"prefer-promise-reject-errors": "off",
 		"function-paren-newline": "off",
 		"no-console": "off",
+		"prefer-arrow-callback": "off",
+		"func-names": "off",
 		"max-len": "off"
 	}
 }

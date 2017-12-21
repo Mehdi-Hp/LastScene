@@ -1,0 +1,85 @@
+.m-menu {
+	display: flex;
+	flex-direction: column;
+	size: 30px;
+	overflow: hidden;
+	z-index: g-index('land');
+	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color .2s;
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+	border-radius: 50%;
+
+	&--is-visible {
+		background-color: transparentize($purple, .2);
+		will-change: width, height, border-radius, box-shadow;
+	}
+
+	&--is-open {
+		width: 250px;
+		border-radius: 0 0 0 0;
+		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
+		box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+		z-index: g-index('hill');
+	}
+
+	&__icon {
+		size: 30px;
+		border-radius: 50%;
+		flex-shrink: 0;
+		transition: all 0.2s 0.2s;
+		z-index: g-index('land');
+
+		&--is-visible {
+			will-change: box-shadow;
+		}
+
+		&--is-open {
+			box-shadow: none;
+		}
+	}
+
+	&__options {
+		width: 250px;
+		padding: 0.5rem 0;
+		display: flex;
+		flex-direction: column;
+		font-size: ms(-4);
+		color: hsl(0, 0%, 40%);
+		font-weight: 500;
+		position: absolute;
+		opacity: 0;
+		padding-top: 1.5rem;
+		transition: background-color 0.2s, opacity .2s .2s;
+		background-color: white;
+
+		&--is-open {
+			opacity: 1;
+			background-color: white;
+			transition: background-color 0.2s, opacity .2s;
+		}
+	}
+
+	&__option {
+		display: flex;
+		align-items: center;
+		padding: 0.5rem 1rem;
+		color: currentColor;
+
+		&:hocus {
+			color: $purple;
+			background-color: hsl(0, 0%, 98%);
+		}
+	}
+
+	&__opticon {
+		position: relative;
+		margin-right: .5em;
+		width: 1.4em;
+		height: 1.1em;
+		position: relative;
+
+		&--eye {
+			top: -0.15em;
+			left: -0.05em;
+		}
+	}
+}

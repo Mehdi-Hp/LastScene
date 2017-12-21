@@ -1,3 +1,12 @@
+@import "~modularscale-sass/stylesheets/_modularscale.scss";
+
+$modularscale: (
+	base: 1em,
+	ratio: $minor-second
+);
+
+@import "_grid";
+
 @import "_var__colors";
 @import "_var__element-colors";
 

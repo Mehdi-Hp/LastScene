@@ -6,6 +6,11 @@
 		box-shadow: 0 0 50px 15px rgba(0, 0, 0, 0.15);
 	}
 
+	&__menu {
+		position: absolute 0 auto auto 0;
+		margin: .5rem;
+	}
+
 	&__information {
 		display: flex;
 		flex-direction: column;
@@ -15,7 +20,7 @@
 
 	&__name {
 		text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-		font-size: ms(1);
+		font-size: ms(2);
 		color: hsla(0, 0%, 90%, 1);
 		font-weight: bolder;
 		font-family: 'PT Sans Narrow';
