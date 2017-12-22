@@ -4,7 +4,7 @@
 	size: 30px;
 	overflow: hidden;
 	z-index: g-index('land');
-	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color .2s;
+	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 
@@ -48,13 +48,13 @@
 		position: absolute;
 		opacity: 0;
 		padding-top: 1.5rem;
-		transition: background-color 0.2s, opacity .2s .2s;
+		transition: background-color 0.2s, opacity 0.2s 0.2s;
 		background-color: white;
 
 		&--is-open {
 			opacity: 1;
 			background-color: white;
-			transition: background-color 0.2s, opacity .2s;
+			transition: background-color 0.2s, opacity 0.2s;
 		}
 	}
 
@@ -72,7 +72,7 @@
 
 	&__opticon {
 		position: relative;
-		margin-right: .5em;
+		margin-right: 0.5em;
 		width: 1.4em;
 		height: 1.1em;
 		position: relative;
@@ -80,6 +80,10 @@
 		&--eye {
 			top: -0.15em;
 			left: -0.05em;
+		}
+
+		&--list {
+			
 		}
 	}
 }

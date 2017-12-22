@@ -8,7 +8,9 @@
 				@addToFavourites="addToFavourites()"
 				@removeFromFavourites="removeFromFavourites()"
 				@addToWatched="addToWatched()"
-				@removeFromWatched="removeFromWatched()">
+				@removeFromWatched="removeFromWatched()"
+				@addToWatchList="addToWatchList()"
+				@removeFromWatchList="removeFromWatchList()">
 			</the-menu>
 			<div class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz" :class="{ 'm-movie-box__rate--is-visible': movie.hovered }">
 				<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
@@ -87,6 +89,22 @@ export default {
 			this.$store.dispatch('removeMovieFromWatched', this.movie).then((updatedMovie) => {
 				this.movie.bus.watched = false;
 				this.movie.watched = false;
+				this.$forceUpdate();
+			});
+		},
+		addToWatchList() {
+			this.movie.bus.watchList = true;
+			this.$store.dispatch('addMovieToWatchList', this.movie).then((updatedMovie) => {
+				this.movie.bus.watchList = false;
+				this.movie.watchList = true;
+				this.$forceUpdate();
+			});
+		},
+		removeFromWatchList() {
+			this.movie.bus.watchList = true;
+			this.$store.dispatch('removeMovieFromWatchList', this.movie).then((updatedMovie) => {
+				this.movie.bus.watchList = false;
+				this.movie.watchList = false;
 				this.$forceUpdate();
 			});
 		}

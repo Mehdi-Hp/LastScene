@@ -1,25 +1,25 @@
-@keyframes iconEyeAround__isPending {
+@keyframes iconLabelAround__isPending {
 	0% {
-		transform: scaleY(1);
+		transform: rotateZ(-25deg);
 	}
 
 	50% {
-		transform: scaleY(.2);
+		transform: rotateZ(25deg);
 	}
 
 	100% {
-		transform: scaleY(1);
+		transform: rotateZ(-25deg);
 	}
 }
 
-@keyframes iconEyeBall__isPending {
+@keyframes iconLabelDot__isPending {
 	0% {
 		transform: scaleY(1);
 		opacity: 1;
 	}
 
 	50% {
-		transform: scaleY(.2);
+		transform: scaleY(1.5);
 		opacity: 0;
 	}
 
@@ -30,46 +30,45 @@
 }
 
 .a-icon-list {
-	color: transparent;
+	color: $purple;
 
 	&__path {
-		transform-origin: center;
-
 		&--is-pending {
 		}
 
 		&--is-done {
-		}
-	}
-
-	&__eyeball {
-		color: #a1a1a1;
-		&--is-pending {
-			animation: iconEyeBall__isPending 1s cubic-bezier(0.96, -0.03, 0.58, 1);
-			animation-iteration-count: infinite;
-			animation-fill-mode: both;
-			color: mix($cyan, white, 30%);
-			transition: color 1s;
-		}
-		&--is-done {
-			color: mix($cyan, white, 30%);
-			transform: scale(1.1);
 		}
 	}
 
 	&__around {
-		stroke: $purple;
-		stroke-width: 5;
+		transform-origin: 50px;
+		stroke: #4c4554;
+		stroke-width: 9;
+		stroke-dasharray: 300;
+		color: transparent;
 		&--is-pending {
-			animation: iconEyeAround__isPending 1s cubic-bezier(0.96, -0.03, 0.58, 1);
+			animation: iconLabelAround__isPending 1.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 			animation-iteration-count: infinite;
 			animation-fill-mode: both;
-			color: $purple;
-			transition: color 1s;
 		}
 		&--is-done {
 			color: $purple;
 			stroke-width: 0;
+			transform: scale(1.05);
+			transition: transform .1s;
+		}
+	}
+
+	&__dot {
+		color: #cda8a8;
+		&--is-pending {
+			animation: iconLabelDot__isPending 1s ease-in-out;
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+		}
+		&--is-done {
+			color: mix($orange, white, 50%);
+			transform-origin: center;
 			transform: scale(1.1);
 		}
 	}

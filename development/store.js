@@ -46,6 +46,14 @@ const store = new Vuex.Store({
 				}
 			});
 			state.user.movies[theMovieIndex].watched = !state.user.movies[theMovieIndex].watched;
+		},
+		toggleMovieWatchList(state, movie) {
+			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+				data: {
+					_id: movie.data._id
+				}
+			});
+			state.user.movies[theMovieIndex].watchList = !state.user.movies[theMovieIndex].watchList;
 		}
 	},
 	actions: {
@@ -102,6 +110,32 @@ const store = new Vuex.Store({
 					watched: false
 				}).then((updatedMovie) => {
 					commit('toggleMovieWatched', movie);
+					resolve();
+				}).catch((error) => {
+					reject(error);
+				});
+			});
+		},
+		addMovieToWatchList({ commit, state }, movie) {
+			return new Promise((resolve, reject) => {
+				Vue.$axios.put(`/movies/${movie.data._id}`, {
+					watchList: true
+				}).then((updatedMovie) => {
+					setTimeout(function () {
+						commit('toggleMovieWatchList', movie);
+						resolve();
+					}, 2000);
+				}).catch((error) => {
+					reject(error);
+				});
+			});
+		},
+		removeMovieFromWatchList({ commit, state }, movie) {
+			return new Promise((resolve, reject) => {
+				Vue.$axios.put(`/movies/${movie.data._id}`, {
+					watchList: false
+				}).then((updatedMovie) => {
+					commit('toggleMovieWatchList', movie);
 					resolve();
 				}).catch((error) => {
 					reject(error);

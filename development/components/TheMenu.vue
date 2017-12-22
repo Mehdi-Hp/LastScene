@@ -10,9 +10,9 @@
 				<icon-watch class="m-menu__opticon | m-menu__opticon--eye " :is-done="movie.watched" :is-pending="bus.watched"></icon-watch>
 				{{ watchedText }}
 			</li>
-			<li class="m-menu__option">
-				<icon-list class="m-menu__opticon | m-menu__opticon--list " :is-done="movie.watched" :is-pending="bus.watched"></icon-list>
-				Add to watch list
+			<li class="m-menu__option" @click="toggleWatchList()">
+				<icon-list class="m-menu__opticon | m-menu__opticon--list " :is-done="movie.watchList" :is-pending="bus.watchList"></icon-list>
+				{{ watchListText }}
 			</li>
 			<li class="m-menu__option">
 				Add/Remove from collections
@@ -53,6 +53,12 @@ export default {
 				return 'Watched it';
 			}
 			return 'Not watched yet';
+		},
+		watchListText() {
+			if (!this.movie.watchList) {
+				return 'Watch next...';
+			}
+			return 'Not gonna watch soon';
 		}
 	},
 	components: {
@@ -91,6 +97,13 @@ export default {
 				this.$emit('addToWatched');
 			} else {
 				this.$emit('removeFromWatched');
+			}
+		},
+		toggleWatchList() {
+			if (!this.movie.watchList) {
+				this.$emit('addToWatchList');
+			} else {
+				this.$emit('removeFromWatchList');
 			}
 		}
 	}
