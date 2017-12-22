@@ -5,12 +5,13 @@
 				<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small" :alt="movie.data.title">
 			</div>
 			<the-menu class="o-micro-movie__menu | m-movie-box__menu" :movie="movie" :hovered="movie.hovered" :bus="movie.bus"
-				@addToFavourites="addToFavourites()"
-				@removeFromFavourites="removeFromFavourites()"
-				@addToWatched="addToWatched()"
-				@removeFromWatched="removeFromWatched()"
-				@addToWatchList="addToWatchList()"
-				@removeFromWatchList="removeFromWatchList()">
+				@addToFavourites="addToFavourites"
+				@removeFromFavourites="removeFromFavourites"
+				@addToWatched="addToWatched"
+				@removeFromWatched="removeFromWatched"
+				@addToWatchList="addToWatchList"
+				@removeFromWatchList="removeFromWatchList"
+				@removeMovie="removeMovie">
 			</the-menu>
 			<div class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz" :class="{ 'm-movie-box__rate--is-visible': movie.hovered }">
 				<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
@@ -105,6 +106,14 @@ export default {
 			this.$store.dispatch('removeMovieFromWatchList', this.movie).then((updatedMovie) => {
 				this.movie.bus.watchList = false;
 				this.movie.watchList = false;
+				this.$forceUpdate();
+			});
+		},
+		removeMovie(collectionsToo) {
+			console.log(collectionsToo);
+			this.movie.bus.remove = true;
+			this.$store.dispatch('removeMovie', this.movie).then((removedMovie) => {
+				this.movie.bus.remove = false;
 				this.$forceUpdate();
 			});
 		}

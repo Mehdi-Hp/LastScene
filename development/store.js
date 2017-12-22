@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import renameObjectsKeys from './helpers/renameObjectsKeys';
 
-
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -24,7 +23,8 @@ const store = new Vuex.Store({
 				movie.bus = {
 					favourite: false,
 					watched: false,
-					watchList: false
+					watchList: false,
+					remove: false
 				};
 			});
 			state.user.collections = renameObjectsKeys(user.data.lists, {
@@ -54,6 +54,14 @@ const store = new Vuex.Store({
 				}
 			});
 			state.user.movies[theMovieIndex].watchList = !state.user.movies[theMovieIndex].watchList;
+		},
+		removeMovie(state, movie) {
+			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+				data: {
+					_id: movie.data._id
+				}
+			});
+			state.user.movies.splice(theMovieIndex, 1);
 		}
 	},
 	actions: {
@@ -69,7 +77,7 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					favourite: true
 				}).then((updatedMovie) => {
-					setTimeout(function () {
+					setTimeout(() => {
 						commit('toggleMovieFavourite', movie);
 						resolve();
 					}, 2000);
@@ -95,10 +103,10 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					watched: true
 				}).then((updatedMovie) => {
-					setTimeout(function () {
+					setTimeout(() => {
 						commit('toggleMovieWatched', movie);
 						resolve();
-					}, 2000);
+					}, 1400);
 				}).catch((error) => {
 					reject(error);
 				});
@@ -121,10 +129,10 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					watchList: true
 				}).then((updatedMovie) => {
-					setTimeout(function () {
+					setTimeout(() => {
 						commit('toggleMovieWatchList', movie);
 						resolve();
-					}, 2000);
+					}, 2500);
 				}).catch((error) => {
 					reject(error);
 				});
@@ -136,7 +144,19 @@ const store = new Vuex.Store({
 					watchList: false
 				}).then((updatedMovie) => {
 					commit('toggleMovieWatchList', movie);
-					resolve();
+					resolve(updatedMovie);
+				}).catch((error) => {
+					reject(error);
+				});
+			});
+		},
+		removeMovie({ commit, state }, movie) {
+			return new Promise((resolve, reject) => {
+				Vue.$axios.delete(`/movies/0`).then((deletedMovie) => {
+					setTimeout(() => {
+						commit('removeMovie', movie);
+						resolve(deletedMovie);
+					}, 1500);
 				}).catch((error) => {
 					reject(error);
 				});

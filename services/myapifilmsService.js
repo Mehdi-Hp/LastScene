@@ -51,7 +51,6 @@ const myapifilms = {
 				if (_.has(body, 'error')) {
 					debug(chalk.bold.red(JSON.stringify(body.error)));
 					/* eslint-disable indent */
-					debug(body);
 					switch (body.error.code) {
 						case 110:
 							response.status = {
@@ -180,7 +179,7 @@ const myapifilms = {
 									new: true
 								}).then((movieWithPoster) => {
 									if (movieWithPoster) {
-										debug(chalk.dim(`Posters psuhed to movie [${movieWithPoster._id}]`));
+										debug(chalk.dim(`Posters pushed to movie [${movieWithPoster._id}]`));
 									}
 								}).catch((error) => {
 									debug(chalk.bold.red(error));

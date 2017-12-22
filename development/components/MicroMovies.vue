@@ -1,6 +1,6 @@
 <template>
 	<section class="l-micro-movies">
-		<micro-movie v-for="movie in movies" :key="movie.key" :initial-movie="movie"></micro-movie>
+		<micro-movie v-for="movie in movies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
 	</section>
 </template>
 

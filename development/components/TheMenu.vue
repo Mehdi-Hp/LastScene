@@ -17,6 +17,9 @@
 			<li class="m-menu__option">
 				Add/Remove from collections
 			</li>
+			<li class="m-menu__option" @click="removeMovie()">
+				Remove
+			</li>
 		</ul>
 	</div>
 </template>
@@ -105,6 +108,9 @@ export default {
 			} else {
 				this.$emit('removeFromWatchList');
 			}
+		},
+		removeMovie() {
+			this.$emit('removeMovie', false);
 		}
 	}
 };
