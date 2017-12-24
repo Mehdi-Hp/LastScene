@@ -8724,6 +8724,10 @@ vue-clickaway@^2.1.0:
   dependencies:
     loose-envify "^1.2.0"
 
+vue-esc@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-esc/-/vue-esc-2.0.0.tgz#5870532da4ca8e5b8864fc2bb8fbad5185028712"
+
 vue-eslint-parser@^2.0.1-beta.1:
   version "2.0.1-beta.2"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.1-beta.2.tgz#82e5130ac18ae4b0c894a7c831b55ec92478fa2f"

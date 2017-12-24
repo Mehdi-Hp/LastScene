@@ -1,10 +1,13 @@
 <template>
-	<div class="o-micro-movie" @mouseover="hoverOnMovie()" @mouseout="blurOnMovie()">
-		<div class="o-micro-movie__movie-box | m-movie-box">
+	<div class="o-micro-movie" :class="{
+		'o-micro-movie--is-deleting': movie.bus.remove
+		}" @mouseover="hoverOnMovie()" @mouseout="blurOnMovie()">
+		<div class="o-micro-movie__movie-box | m-movie-box" :class="{ 'o-micro-movie__movie-box--is-deleting': movie.bus.remove }">
 			<div class="m-movie-box__cover | a-movie-cover">
 				<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small" :alt="movie.data.title">
 			</div>
-			<the-menu class="o-micro-movie__menu | m-movie-box__menu" :movie="movie" :hovered="movie.hovered" :bus="movie.bus"
+			<the-menu class="o-micro-movie__menu | m-movie-box__menu" :movie="movie" :hovered="movie.hovered" :bus="movie.bus" :is-open="movie.openMenu"
+				@toggleMenu="toggleMenu"
 				@addToFavourites="addToFavourites"
 				@removeFromFavourites="removeFromFavourites"
 				@addToWatched="addToWatched"
@@ -19,9 +22,11 @@
 			</div>
 		</div>
 		<div class="o-micro-movie__information">
-			<h3 class="o-micro-movie__name">{{ movie.data.title }}</h3>
-			<div class="o-micro-movie__directors">
-				<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director.key">
+			<h3 class="o-micro-movie__title" :class="{ 'o-micro-movie__title--is-deleting': movie.bus.remove }">
+				{{ movie.data.title }}
+			</h3>
+			<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
+				<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id">
 					{{ director.name }}
 				</h4>
 			</div>
@@ -60,6 +65,13 @@ export default {
 		},
 		blurOnMovie() {
 			this.movie.hovered = false;
+		},
+		toggleMenu(forceState) {
+			if (typeof forceState !== 'undefined') {
+				this.movie.openMenu = forceState;
+			} else {
+				this.movie.openMenu = !this.movie.openMenu;
+			}
 		},
 		addToFavourites() {
 			this.movie.bus.favourite = true;
@@ -110,7 +122,7 @@ export default {
 			});
 		},
 		removeMovie(collectionsToo) {
-			console.log(collectionsToo);
+			this.toggleMenu(false);
 			this.movie.bus.remove = true;
 			this.$store.dispatch('removeMovie', this.movie).then((removedMovie) => {
 				this.movie.bus.remove = false;

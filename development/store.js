@@ -20,6 +20,7 @@ const store = new Vuex.Store({
 			});
 			Vue.$_.forEach(state.user.movies, (movie, key) => {
 				movie.hovered = false;
+				movie.openMenu = false;
 				movie.bus = {
 					favourite: false,
 					watched: false,

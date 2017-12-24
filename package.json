@@ -5,7 +5,7 @@
 	"author": "Mehdi Hoseini <mehdi.hoseinipjooh@gmail.com>",
 	"private": true,
 	"scripts": {
-		"dev-client": "cross-env NODE_ENV=development DEBUG=development webpack-dashboard -- webpack-dev-server --host 0.0.0.0",
+		"dev-client": "cross-env NODE_ENV=development DEBUG=development webpack-dashboard -- webpack-dev-server",
 		"dev-server": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
 		"compile": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules"
 	},
@@ -55,6 +55,7 @@
 		"vue-axios": "^2.0.2",
 		"vue-cli": "^2.8.2",
 		"vue-clickaway": "^2.1.0",
+		"vue-esc": "^2.0.0",
 		"vue-router": "^3.0.1",
 		"vuex": "^3.0.1",
 		"webpack-bundle-analyzer": "^2.9.1"

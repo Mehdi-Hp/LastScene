@@ -1,5 +1,5 @@
 <template>
-	<div class="m-menu" :style="{ 'height': menuHeight }" :class="{ 'm-menu--is-open': isOpen, 'm-menu--is-visible': hovered }" v-on-clickaway="closeMenu">
+	<div class="m-menu" :style="{ 'height': menuHeight }" :class="{ 'm-menu--is-open': isOpen, 'm-menu--is-visible': hovered }" v-on-clickaway="closeMenu" v-esc="closeMenu">
 		<icon-menu class="m-menu__icon" :class="{ 'm-menu__icon--is-visible': hovered, 'm-menu__icon--is-open': isOpen, 'a-icon-menu--is-open': isOpen, 'a-icon-menu--is-visible': hovered }" @click.native="toggleMenu()" :isOpen="isOpen" :hovered="hovered"></icon-menu>
 		<ul class="m-menu__options" :class="{ 'm-menu__options--is-open':  isOpen}" ref="menuOptions">
 			<li class="m-menu__option" @click="toggleFavourite()">
@@ -34,13 +34,13 @@ import IconList from './icons/List.vue';
 export default {
 	name: 'TheMenu',
 	props: [
+		'isOpen',
 		'movie',
 		'hovered',
 		'bus'
 	],
 	data() {
 		return {
-			isOpen: false,
 			menuHeight: '30px'
 		};
 	},
@@ -74,19 +74,13 @@ export default {
 		onClickaway
 	},
 	methods: {
-		getMenuHeight() {
-			if (this.isOpen === true) {
-				return `${this.$refs.menuOptions.clientHeight}px`;
-			}
-			return '30px';
-		},
 		toggleMenu() {
-			this.isOpen = !this.isOpen;
-			this.menuHeight = this.getMenuHeight();
+			this.$emit('toggleMenu');
 		},
 		closeMenu() {
-			this.isOpen = false;
-			this.menuHeight = this.getMenuHeight();
+			if (this.isOpen) {
+				this.$emit('toggleMenu', false);
+			}
 		},
 		toggleFavourite() {
 			if (!this.movie.favourite) {
@@ -111,6 +105,15 @@ export default {
 		},
 		removeMovie() {
 			this.$emit('removeMovie', false);
+		}
+	},
+	watch: {
+		isOpen(gotOpened) {
+			if (gotOpened) {
+				this.menuHeight = `${this.$refs.menuOptions.clientHeight}px`;
+			} else {
+				this.menuHeight = '30px';
+			}
 		}
 	}
 };

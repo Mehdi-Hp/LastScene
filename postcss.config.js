@@ -25,6 +25,7 @@ module.exports = [
 		browsers: ['last 2 versions']
 	}),
 	require('cssnano')({
-		preset: 'default'
+		preset: 'default',
+		reduceIdents: false
 	})
 ];

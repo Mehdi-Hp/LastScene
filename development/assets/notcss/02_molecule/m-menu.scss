@@ -4,19 +4,21 @@
 	size: 30px;
 	overflow: hidden;
 	z-index: g-index('land');
-	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
+	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out,
+		border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 	border-radius: 50%;
 
 	&--is-visible {
-		background-color: transparentize($purple, .2);
+		background-color: transparentize($purple, 0.2);
 		will-change: width, height, border-radius, box-shadow;
 	}
 
 	&--is-open {
 		width: 250px;
 		border-radius: 0 0 0 0;
-		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
+		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out,
+			box-shadow 0.2s;
 		box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
 		z-index: g-index('hill');
 	}
@@ -84,19 +86,6 @@
 		}
 
 		&--list {
-
 		}
 	}
-}
-
-.list-item {
-	display: inline-block;
-	margin-right: 10px;
-}
-.list-enter-active, .list-leave-active {
-	transition: all 1s;
-}
-.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-	opacity: 0;
-	transform: translateY(30px);
 }

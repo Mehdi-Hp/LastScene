@@ -22,9 +22,9 @@
 		stroke: $purple;
 		stroke-width: 6;
 		transform-origin: center;
+		stroke-dasharray: 181.1662139892578;
 
 		&--is-pending {
-			stroke-dasharray: 181.1662139892578;
 			animation: iconHeart__isPending 2s cubic-bezier(0.04, 0.88, 0.7, 0.12);
 			animation-iteration-count: infinite;
 			animation-fill-mode: both;

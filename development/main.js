@@ -5,7 +5,8 @@ import LodashForVue from 'lodash-for-vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
-import svg from 'svg.js';
+// import svg from 'svg.js';
+import VueEsc from 'vue-esc';
 import App from './App.vue';
 // import Routes from './routes';
 import invertColor from './helpers/invertColor';
@@ -16,7 +17,9 @@ Vue.use(LodashForVue);
 Vue.prototype.$_ = Vue.$lodash;
 Vue.$_ = Vue.$lodash;
 
-Vue.prototype.$svg = svg;
+// Vue.prototype.$svg = svg;
+
+Vue.use(VueEsc);
 
 Vue.use(VueRouter);
 // const router = new VueRouter({
