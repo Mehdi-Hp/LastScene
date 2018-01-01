@@ -7,7 +7,8 @@
 	"scripts": {
 		"dev-client": "cross-env NODE_ENV=development DEBUG=development webpack-dashboard -- webpack-dev-server",
 		"dev-server": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
-		"compile": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules"
+		"compile": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --hide-modules",
+		"tlapse": "tlapse -- localhost:8080 --directory /data/Projects/_Designs/LastScene"
 	},
 	"dependencies": {
 		"axios": "^0.17.1",

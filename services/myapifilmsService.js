@@ -6,7 +6,6 @@ const apiKeys = require('../config/apiKeys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
 const getBackdrop = require('./getBackdrop');
-// const debug = require('debug')('development');
 
 const myapifilms = {
 	getMovie: (imdbID) => {
@@ -86,7 +85,6 @@ const myapifilms = {
 					}
 					response.data = body.data.movies.map((currentMovie) => {
 						let movie = {};
-						debug(currentMovie);
 						movie.directors = currentMovie.directors.map((currentDirector) => {
 							return {
 								name: currentDirector.name,
@@ -109,27 +107,28 @@ const myapifilms = {
 							};
 						});
 						movie.awards = currentMovie.awards.map((currentAward) => {
-							const outcomes = currentAward.titlesAwards.map((currentOutcome) => {
-								const categories = currentOutcome.categories.map((currentCategory) => {
-									const names = currentCategory.names.map((currentName) => {
+							const titleAward = currentAward.titlesAwards.map((titleAward) => {
+								const result = (titleAward.titleAwardOutcome.includes('Won')) ? 'won' : 'nominated';
+								let title = '';
+								let participants = '';
+								titleAward.categories.forEach((currentCategory) => {
+									title = currentCategory.category;
+									participants = currentCategory.names.map((currentName) => {
 										return {
-											name: currentName.name,
-											id: currentName.id
+											name: currentName.name
 										};
 									});
-									return {
-										for: currentCategory.category,
-										by: names
-									};
 								});
 								return {
-									name: currentOutcome.titleAwardOutcome,
-									categories
+									title,
+									result,
+									participants
 								};
 							});
 							return {
-								name: currentAward.award,
-								outcomes
+								name: (currentAward.award.includes(',')) ? currentAward.award.substring(0, currentAward.award.lastIndexOf(',')) : currentAward.award.substring(0, currentAward.award.match(/\s\d{4}/).index),
+								year: _.trim(currentAward.award.match(/\s\d{4}/)[0]),
+								categories: titleAward
 							};
 						});
 						movie = new Movie({
@@ -220,7 +219,7 @@ const myapifilms = {
 									return reject(error);
 								});
 						});
-
+						debug(movie.awards[2].categories);
 						return movie;
 					});
 				}

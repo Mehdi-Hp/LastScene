@@ -45,7 +45,7 @@
 	}
 
 	&__title {
-		text-shadow: 10px 10px 30px rgba(0,0,0,.5);
+		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
 		font-size: ms(2);
 		color: hsla(0, 0%, 90%, 1);
 		font-weight: bolder;
@@ -62,7 +62,7 @@
 	&__directors {
 		color: mix($purple, white, 70%);
 		display: flex;
-		text-shadow: 10px 10px 30px rgba(0,0,0,.5);
+		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5);
 		transition: transform 0.3s 0.3s, opacity 0.3s;
 		transform-origin: left;
 		&--is-deleting {
@@ -83,15 +83,9 @@
 		}
 	}
 
-	&__traits {
+	&__awards {
 		margin-top: 0.5rem;
 		display: flex;
-		justify-content: space-between;
-		color: $kinda-white;
-	}
-
-	&__awards {
-		opacity: 0;
 	}
 
 	&__rate {

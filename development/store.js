@@ -21,6 +21,10 @@ const store = new Vuex.Store({
 			Vue.$_.forEach(state.user.movies, (movie, key) => {
 				movie.hovered = false;
 				movie.openMenu = false;
+				Vue.set(movie, 'favourite', Vue.$_.defaultTo(movie.favourite, false));
+				Vue.set(movie, 'watched', Vue.$_.defaultTo(movie.watched, false));
+				Vue.set(movie, 'watchList', Vue.$_.defaultTo(movie.watchList, false));
+				Vue.set(movie, 'remove', Vue.$_.defaultTo(movie.remove, false));
 				movie.bus = {
 					favourite: false,
 					watched: false,
@@ -153,7 +157,7 @@ const store = new Vuex.Store({
 		},
 		removeMovie({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.delete(`/movies/0`).then((deletedMovie) => {
+				Vue.$axios.delete(`/movies/${movie._id}`).then((deletedMovie) => {
 					setTimeout(() => {
 						commit('removeMovie', movie);
 						resolve(deletedMovie);

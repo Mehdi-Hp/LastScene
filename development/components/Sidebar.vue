@@ -2,9 +2,9 @@
 	<nav class="l-sidebar">
 		<div class="l-sidebar__loggdin-user | o-lggdin-user">
 			<div class="o-lggdin-user__avatar">
-				<img class="o-lggdin-user__image" src="" alt=""></img>
+				<img class="o-lggdin-user__image" src="" alt="">
 			</div>
-			<span class="o-lggdin-user__name">{{ user.info.name }}</span>
+			<span class="o-lggdin-user__name">{{ info.name }}</span>
 			<button class="o-lggdin-user__settings-btn"></button>
 		</div>
 
@@ -18,7 +18,9 @@
 			<div class="o-places">
 				<a href="#" class="m-place">
 					<li class="m-place__name">Watch Next...</li>
-					<span class="m-place__count | a-count | a-count--weeny">2</span>
+					<span class="m-place__count | a-count | a-count--weeny">
+						{{ watchListCount }}
+					</span>
 				</a>
 			</div>
 
@@ -35,7 +37,7 @@
 						<li class="m-place__name | m-place__name--nested">Top Rated By</li>
 						<img class="m-place__indication" src="" alt="">
 					</a>
-					<a href="#" class="m-place" v-for="collection in user.collections" :key="collection.key">
+					<a href="#" class="m-place" v-for="collection in collections" :key="collection._id">
 						<li class="m-place__name | m-place__name--nested">{{ collection.data.name }}</li>
 					</a>
 				</ul>
@@ -72,8 +74,19 @@ export default {
 		};
 	},
 	computed: {
-		user() {
-			return this.$store.state.user;
+		info() {
+			return this.$store.state.user.info;
+		},
+		movies() {
+			return this.$store.state.user.movies;
+		},
+		collections() {
+			return this.$store.state.user.collections;
+		},
+		watchListCount() {
+			return this.$_.filter(this.movies, {
+				watchList: true
+			}).length;
 		}
 	}
 };

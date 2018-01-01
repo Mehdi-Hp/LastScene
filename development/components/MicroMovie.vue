@@ -31,16 +31,23 @@
 				</h4>
 			</div>
 		</div>
-		<div class="o-micro-movie__traits">
-			<div class="o-micro-movie__awards | m-micro-awards" id="drawing">
-				hey
-			</div>
+		<div class="o-micro-movie__awards | m-micro-awards">
+			<icon-oscar class="m-micro-awards__award | m-micro-awards__award--nominated"></icon-oscar>
+			<icon-golden-globe class="m-micro-awards__award | m-micro-awards__award--won"></icon-golden-globe>
+			<icon-cannes class="m-micro-awards__award | m-micro-awards__award--won"></icon-cannes>
+			<icon-bafta class="m-micro-awards__award | m-micro-awards__award--nominated"></icon-bafta>
+			<icon-golden-bear class="m-micro-awards__award | m-micro-awards__award--nominated"></icon-golden-bear>
 		</div>
 	</div>
 </template>
 
 <script>
 import TheMenu from './TheMenu.vue';
+import IconOscar from './icons/Oscar.vue';
+import IconGoldenGlobe from './icons/GoldenGlobe.vue';
+import IconCannes from './icons/Cannes.vue';
+import IconBafta from './icons/Bafta.vue';
+import IconGoldenBear from './icons/GoldenBear.vue';
 
 export default {
 	name: 'microMovie',
@@ -56,7 +63,12 @@ export default {
 
 	},
 	components: {
-		TheMenu
+		TheMenu,
+		IconOscar,
+		IconGoldenGlobe,
+		IconBafta,
+		IconGoldenBear,
+		IconCannes
 	},
 
 	methods: {

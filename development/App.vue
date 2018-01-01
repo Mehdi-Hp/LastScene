@@ -34,6 +34,14 @@ export default {
 	},
 	mounted() {
 		this.$store.dispatch('fetchUser');
+	},
+	watch: {
+		// user: {
+		// 	handler(newValue, oldVali) {
+		// 		console.log(newValue);
+		// 	},
+		// 	deep: true
+		// }
 	}
 };
 </script>

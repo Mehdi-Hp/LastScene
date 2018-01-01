@@ -77,14 +77,12 @@ const movieSchema = new Schema({
 
 	awards: [new Schema({
 		name: String,
-		outcomes: [new Schema({
-			name: String,
-			categories: [new Schema({
-				name: String,
-				by: [new Schema({
-					name: String,
-					id: String
-				}, { _id: false })]
+		year: String,
+		categories: [new Schema({
+			title: String,
+			result: String,
+			participants: [new Schema({
+				name: String
 			}, { _id: false })]
 		}, { _id: false })]
 	}, { _id: false })]
