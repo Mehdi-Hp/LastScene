@@ -1,12 +1,15 @@
 .m-micro-awards {
 	&__award {
 		margin-right: .5em;
+		color: $silver;
+		opacity: 0.3;
 		&--won {
 			color: $gold;
+			opacity: 1;
 		}
 		&--nominated {
 			color: $silver;
-			opacity: 0.5;
+			opacity: 0.4;
 		}
 	}
 }

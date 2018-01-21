@@ -8,7 +8,8 @@ app.route('/movie/:id')
 	.get((req, res, next) => {
 		if (req.query.id_type === 'tmdb') {
 			req.params.id = tmdbIDToImdbID(req.params.id).then((imdbID) => {
-				getMovie(imdbID).then((gottedMovie) => {
+				const tmdbID = req.params.id;
+				getMovie(imdbID, tmdbID).then((gottedMovie) => {
 					res.json(gottedMovie);
 				}).catch((error) => {
 					debug(`ERROR: ${error}`);

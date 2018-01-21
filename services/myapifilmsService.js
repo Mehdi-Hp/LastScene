@@ -25,14 +25,12 @@ const myapifilms = {
 			},
 			json: true
 		};
-		const requestOptionsToFanart = {
+		const requestOptionsToTMDB = {
 			method: 'GET',
-			url: `http://webservice.fanart.tv/v3/movies/${imdbID}`,
+			url: `https://api.themoviedb.org/3/find/${imdbID}`,
 			qs: {
-				api_key: apiKeys.fanart
-			},
-			header: {
-				'api-key': apiKeys.fanart
+				api_key: apiKeys.tmdb.v3,
+				external_source: 'imdb_id'
 			},
 			json: true
 		};
@@ -189,37 +187,39 @@ const myapifilms = {
 								return reject(error);
 							});
 
-						request(requestOptionsToFanart, (error, res, body) => {
+						request(requestOptionsToTMDB, (error, res, body) => {
 							if (error) {
 								debug(chalk.bold.red(error));
 								return reject(error);
 							}
-							getBackdrop(body.moviebackground[0].url, movie.id.imdb)
-								.then((backdrops) => {
-									movie.images.backdrop = backdrops;
-									Movie.findByIdAndUpdate(movie.id.imdb, {
-										'images.backdrop': {
-											small: backdrops.small,
-											medium: backdrops.medium,
-											big: backdrops.big
-										}
-									},
-									{
-										new: true
-									}).then((movieWithBackdrop) => {
-										if (movieWithBackdrop) {
-											debug(chalk.dim(`Backdrops pushed to movie [${movieWithBackdrop._id}]`));
-										}
+							if (body.movie_results[0].backdrop_path.length) {
+								getBackdrop(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`, movie.id.imdb)
+									.then((backdrop) => {
+										console.log(backdrop);
+										movie.images.backdrop = backdrop;
+										Movie.findByIdAndUpdate(movie.id.imdb, {
+											'images.backdrop': {
+												small: backdrop.small,
+												medium: backdrop.medium,
+												big: backdrop.big
+											}
+										},
+										{
+											new: true
+										}).then((movieWithBackdrop) => {
+											if (movieWithBackdrop) {
+												debug(chalk.dim(`Backdrops pushed to movie [${movieWithBackdrop._id}]`));
+											}
+										}).catch((error) => {
+											debug(chalk.bold.red(error));
+											return reject(error);
+										});
 									}).catch((error) => {
 										debug(chalk.bold.red(error));
 										return reject(error);
 									});
-								}).catch((error) => {
-									debug(chalk.bold.red(error));
-									return reject(error);
-								});
+							}
 						});
-						debug(movie.awards[2].categories);
 						return movie;
 					});
 				}

@@ -38,20 +38,20 @@ app.route('/')
 	})
 	.post((req, res, next) => {
 		currentOrCustomUser(req, res);
-		const imdbID = req.body;
+		const imdbIDs = req.body;
 		const user = new User(req.user);
-		if (imdbID === null) {
+		if (imdbIDs === null) {
 			return res.status(400).json({
 				message: 'You should provide one or many imdbIDs in your request'
 			});
 		}
-		if (!imdbID || !imdbID.length) {
+		if (!imdbIDs || !imdbIDs.length) {
 			return res.status(400).json({
-				message: 'Your request doesn\'t fit in our standards'
+				message: 'Your request doesn\'t fit in the standards'
 			});
 		}
-		getMovie(imdbID);
-		Promise.all(user.findOneAndAddMovie(user, imdbID)).then((updatedUser) => {
+		getMovie(imdbIDs);
+		Promise.all(user.findOneAndAddMovie(user, imdbIDs)).then((updatedUser) => {
 			res.status(200).json(updatedUser);
 		}).catch((error) => {
 			res.status(error.status).json({
