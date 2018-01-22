@@ -2,12 +2,11 @@ const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const User = require('../../models/user');
-const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/:username?')
 	.get((req, res, next) => {
 		let theUsername;
-		if (!req.params.username || req.params.username == req.user.username) {
+		if (!req.params.username || req.params.username === req.user.username) {
 			debug(chalk.yellow('Getting user data...'));
 			theUsername = req.user.username;
 		}	else if (req.params.username !== req.user.username) {
@@ -15,30 +14,32 @@ app.route('/:username?')
 			theUsername = req.params.username;
 		}
 		User.findOne({ username: theUsername })
-		.select('-authentication')
-		.populate({
-			path: 'movies._id',
-			model: 'Movie',
-			select: ['title', 'year', 'rate', 'images', 'awards', 'directors']
-		}).populate({
-			path: 'lists._id',
-			model: 'List'
-		}).then((user) => {
-			if (!user) {
-				res.status(404).json({
-					message: `Couldn't find user ${theUsername}.`
+			.select('-authentication')
+			.populate({
+				path: 'movies._id',
+				model: 'Movie',
+				select: ['title', 'originalTitle', 'year', 'rate', 'images', 'awards', 'directors']
+			}).populate({
+				path: 'lists._id',
+				model: 'List'
+			})
+			.then((user) => {
+				if (!user) {
+					res.status(404).json({
+						message: `Couldn't find user ${theUsername}.`
+					});
+				}
+				res.status(200).json({
+					user: theUsername,
+					data: user
 				});
-			}
-			res.status(200).json({
-				user: theUsername,
-				data: user
+			})
+			.catch((error) => {
+				debug(chalk.bold.red(error));
+				res.status(500).json({
+					message: `Couldn't find user ${theUsername}, because of database error`
+				});
 			});
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			res.status(500).json({
-				message: `Couldn't find user ${theUsername}, because of database error`
-			});
-		});
 	});
 
 module.exports = app;

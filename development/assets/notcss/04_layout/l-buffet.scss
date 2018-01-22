@@ -1,6 +1,7 @@
 .l-buffet {
 	width: sizes(270px auto 200px) pluck(2);
-	background: $buffet-background;
+	background: linear-gradient(to bottom, $clay 30%, $clay--light 100%);
+	background-attachment: fixed;
 	position: relative;
 
 	&__micro-movies {

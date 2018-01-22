@@ -7,6 +7,7 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 // import svg from 'svg.js';
 import VueEsc from 'vue-esc';
+import VueTippy from 'vue-tippy';
 import App from './App.vue';
 // import Routes from './routes';
 import invertColor from './helpers/invertColor';
@@ -20,6 +21,11 @@ Vue.$_ = Vue.$lodash;
 // Vue.prototype.$svg = svg;
 
 Vue.use(VueEsc);
+Vue.use(VueTippy, {
+	arrow: true,
+	arrowType: 'round',
+	duration: 200
+});
 
 Vue.use(VueRouter);
 // const router = new VueRouter({

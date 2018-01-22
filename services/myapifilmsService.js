@@ -25,15 +25,6 @@ const myapifilms = {
 			},
 			json: true
 		};
-		const requestOptionsToTMDB = {
-			method: 'GET',
-			url: `https://api.themoviedb.org/3/find/${imdbID}`,
-			qs: {
-				api_key: apiKeys.tmdb.v3,
-				external_source: 'imdb_id'
-			},
-			json: true
-		};
 		return new Promise((resolve, reject) => {
 			debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
 			request(requestOptions, (error, res, body) => {
@@ -107,10 +98,12 @@ const myapifilms = {
 						movie.awards = currentMovie.awards.map((currentAward) => {
 							const titleAward = currentAward.titlesAwards.map((titleAward) => {
 								const result = (titleAward.titleAwardOutcome.includes('Won')) ? 'won' : 'nominated';
-								let title = '';
+								console.log(titleAward);
+								let title = _.trim(titleAward.titleAwardOutcome.substring(titleAward.titleAwardOutcome.indexOf(' ')));
+								console.log(title);
 								let participants = '';
 								titleAward.categories.forEach((currentCategory) => {
-									title = currentCategory.category;
+									title = (currentCategory.category.length) ? currentCategory.category : title;
 									participants = currentCategory.names.map((currentName) => {
 										return {
 											name: currentName.name
@@ -187,7 +180,15 @@ const myapifilms = {
 								return reject(error);
 							});
 
-						request(requestOptionsToTMDB, (error, res, body) => {
+						request({
+							method: 'GET',
+							url: `https://api.themoviedb.org/3/find/${imdbID}`,
+							qs: {
+								api_key: apiKeys.tmdb.v3,
+								external_source: 'imdb_id'
+							},
+							json: true
+						}, (error, res, body) => {
 							if (error) {
 								debug(chalk.bold.red(error));
 								return reject(error);
@@ -195,7 +196,6 @@ const myapifilms = {
 							if (body.movie_results[0].backdrop_path.length) {
 								getBackdrop(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`, movie.id.imdb)
 									.then((backdrop) => {
-										console.log(backdrop);
 										movie.images.backdrop = backdrop;
 										Movie.findByIdAndUpdate(movie.id.imdb, {
 											'images.backdrop': {

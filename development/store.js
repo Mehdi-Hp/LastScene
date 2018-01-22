@@ -157,7 +157,7 @@ const store = new Vuex.Store({
 		},
 		removeMovie({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.delete(`/movies/${movie._id}`).then((deletedMovie) => {
+				Vue.$axios.delete(`/movies/${movie.data._id}`).then((deletedMovie) => {
 					setTimeout(() => {
 						commit('removeMovie', movie);
 						resolve(deletedMovie);

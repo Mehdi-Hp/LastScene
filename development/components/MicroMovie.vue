@@ -24,6 +24,9 @@
 		<div class="o-micro-movie__information">
 			<h3 class="o-micro-movie__title" :class="{ 'o-micro-movie__title--is-deleting': movie.bus.remove }">
 				{{ movie.data.title }}
+				<h3 class="o-micro-movie__title | o-micro-movie__title--small" :class="{ 'o-micro-movie__title--is-deleting': movie.bus.remove }">
+					{{ movie.data.originalTitle }}
+				</h3>
 			</h3>
 			<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
 				<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id">
