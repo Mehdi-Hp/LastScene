@@ -214,7 +214,7 @@ module.exports = {
 		disableHostCheck: true,
 		hot: true,
 		watchOptions: {
-			poll: true
+			ignored: '/node_modules/'
 		},
 		progress: true,
 		proxy: {
@@ -229,5 +229,5 @@ module.exports = {
 	performance: {
 		hints: false
 	},
-	devtool: 'cheap-module-source-map'
+	devtool: 'eval'
 };

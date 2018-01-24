@@ -1,17 +1,23 @@
 <template>
 	<section class="l-buffet">
-		<micro-movies class="l-buffet__micro-movies" :initial-movies="movies"></micro-movies>
+		<search-bar @search="search"></search-bar>
+		<micro-movies class="l-buffet__micro-movies"
+			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
+			:mode="(filteredMovies) ? 'search' : null"
+		></micro-movies>
 	</section>
 </template>
 
 <script>
-import microMovies from './MicroMovies.vue';
+import _ from 'lodash';
+import MicroMovies from './MicroMovies.vue';
+import SearchBar from './SearchBar.vue';
 
 export default {
 	name: 'buffet',
 	data() {
 		return {
-
+			filteredMovies: null
 		};
 	},
 	computed: {
@@ -20,7 +26,33 @@ export default {
 		}
 	},
 	components: {
-		microMovies
+		MicroMovies,
+		SearchBar
+	},
+	methods: {
+		search(searchQuery) {
+			if (!searchQuery.length) {
+				this.filteredMovies = null;
+				return;
+			}
+			this.filteredMovies = {
+				title: _.filter(this.movies, (movie) => {
+					return movie.data.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) || movie.data.originalTitle.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+				}),
+				directors: _.filter(this.movies, (movie) => {
+					let includeState = false;
+					movie.data.directors.forEach((director) => {
+						includeState = director.name.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+					});
+					return includeState;
+				}),
+				awards: _.filter(this.movies, (movie) => {
+					return movie.data.awards.some((award) => {
+						return `${award.name} ${award.year}`.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+					});
+				})
+			};
+		}
 	}
 };
 </script>

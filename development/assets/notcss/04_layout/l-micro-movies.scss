@@ -1,3 +1,34 @@
 .l-micro-movies {
-	gg: columns(1/5 1/5 1/5 1/5 1/5);
+
+	&__holder {
+		gg: columns(1/5 1/5 1/5 1/5 1/5);
+	}
+
+	&--searching {
+		gg: columns(1/1);
+	}
+
+	&__search-row {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__title {
+		margin-bottom: 2rem;
+		font-size: ms(1);
+		color: $clay__twisted-spot--2;
+		font-weight: 500;
+		text-transform: uppercase;
+
+		&--empty {
+			color: $clay__shade--1;
+			margin-bottom: 1rem;
+		}
+	}
+
+	&__no-search-result {
+		color: $clay__shade--1;
+		font-weight: 300;
+		font-style: italic;
+	}
 }

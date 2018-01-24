@@ -1,6 +1,27 @@
 <template>
-	<section class="l-micro-movies">
-		<micro-movie v-for="movie in movies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
+	<section class="l-micro-movies" :class="{
+			'l-micro-movies--searching': mode === 'search'
+		}">
+		<div class="l-micro-movies__holder" v-if="mode !== 'search'" >
+			<micro-movie v-for="movie in movies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
+		</div>
+		<div class="l-micro-movies__search-row"
+			v-if="mode === 'search'"
+			v-for="(filteredMovies, filteredMoviesKey, filteredMoviesIndex) in movies"
+			:key="filteredMoviesIndex"
+		>
+			<h3 class="l-micro-movies__title" :class="{
+				'l-micro-movies__title--empty': !filteredMovies.length
+			}">
+				{{ filteredMoviesKey }}
+			</h3>
+			<span class="l-micro-movies__no-search-result" v-if="!filteredMovies.length">
+				No Search Result!
+			</span>
+			<div class="l-micro-movies__holder" v-if="mode === 'search'" >
+				<micro-movie v-for="movie in filteredMovies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
+			</div>
+		</div>
 	</section>
 </template>
 
@@ -10,7 +31,8 @@ import MicroMovie from './MicroMovie.vue';
 export default {
 	name: 'microMovies',
 	props: [
-		'initialMovies'
+		'initialMovies',
+		'mode'
 	],
 	data() {
 		return {

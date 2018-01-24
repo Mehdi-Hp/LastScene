@@ -10,6 +10,7 @@
 			reactive : true }">
 		</icon-oscar>
 		<micro-award-title tippy-id="m-micro-awards__title--oscars" :award="cermony('Academy Awards')"></micro-award-title>
+
 		<icon-golden-globe
 			class="m-micro-awards__award"
 			:class="{ 'm-micro-awards__award--won': cermony('Golden Globes').categories[0].result === 'won' }"
@@ -18,6 +19,7 @@
 			interactive : true,
 			reactive : true }"></icon-golden-globe>
 		<micro-award-title tippy-id="m-micro-awards__title--golden-globe" :award="cermony('Golden Globes')"></micro-award-title>
+
 		<icon-cannes
 			class="m-micro-awards__award"
 			:class="{ 'm-micro-awards__award--won': cermony('Cannes Film Festival').categories[0].result === 'won' }"
@@ -27,6 +29,7 @@
 			reactive : true }">
 		</icon-cannes>
 		<micro-award-title tippy-id="m-micro-awards__title--cannes" :award="cermony('Cannes Film Festival')"></micro-award-title>
+		
 		<icon-bafta
 			class="m-micro-awards__award"
 			:class="{ 'm-micro-awards__award--won': cermony('BAFTA Awards').categories[0].result === 'won' }"
@@ -36,6 +39,7 @@
 				reactive : true }">
 			</icon-bafta>
 		<micro-award-title tippy-id="m-micro-awards__title--bafta" :award="cermony('BAFTA Awards')"></micro-award-title>
+
 		<icon-golden-bear
 			class="m-micro-awards__award"
 			:class="{ 'm-micro-awards__award--won': cermony('Berlin International Film Festival').categories[0].result === 'won' }"

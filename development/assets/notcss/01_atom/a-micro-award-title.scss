@@ -4,8 +4,9 @@
 	align-items: flex-start;
 	text-align: left;
 	&__cermony {
-		color: #6C7888;
+		color: $clay--light;
 		margin-bottom: .5em;
+		font-weight: 700;
 	}
 	&__awards {
 		display: flex;
