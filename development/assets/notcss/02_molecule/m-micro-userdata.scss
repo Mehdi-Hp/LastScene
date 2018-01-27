@@ -1,0 +1,33 @@
+.m-micro-userdata {
+	display: flex;
+	padding: 0.25em 0.5em;
+	position: relative;
+	overflow: hidden;
+
+	&__background {
+		position: absolute 0 0 0 0;
+		background-position: bottom;
+		background-size: cover;
+		filter: blur(5px);
+	}
+
+	&__icon {
+		margin-right: 0.3em;
+		width: 0.9em;
+		position: relative;
+
+		&--heart {
+			width: 1em;
+		}
+
+		&--watch {
+			color: $green;
+			width: 1.1em;
+		}
+
+		&--list {
+			color: $yellorange;
+			top: -.05em;
+		}
+	}
+}

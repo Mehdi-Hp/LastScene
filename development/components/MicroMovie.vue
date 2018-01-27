@@ -1,7 +1,8 @@
 <template>
 	<div class="o-micro-movie" :class="{
 		'o-micro-movie--is-deleting': movie.bus.remove
-		}" @mouseover="hoverOnMovie()" @mouseout="blurOnMovie()">
+		}" @mouseover="hoverOnMovie()" @mouseout="blurOnMovie()"
+	>
 		<div class="o-micro-movie__movie-box | m-movie-box" :class="{ 'o-micro-movie__movie-box--is-deleting': movie.bus.remove }">
 			<div class="m-movie-box__cover | a-movie-cover">
 				<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small" :alt="movie.data.title">
@@ -20,6 +21,7 @@
 				<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
 				<span class="a-rate__base | a-rate__base--horiz">10</span>
 			</div>
+			<micro-userdata class="o-micro-movie__userdata" :movie="movie"></micro-userdata>
 		</div>
 		<div class="o-micro-movie__information">
 			<h3 class="o-micro-movie__title" :class="{ 'o-micro-movie__title--is-deleting': movie.bus.remove }">
@@ -41,6 +43,10 @@
 <script>
 import TheMenu from './TheMenu.vue';
 import MicroAwards from './MicroAwards.vue';
+import MicroUserdata from './MicroUserdata.vue';
+import IconHeart from './icons/Heart.vue';
+import IconWatch from './icons/Watch.vue';
+import IconList from './icons/List.vue';
 
 export default {
 	name: 'microMovie',
@@ -57,7 +63,11 @@ export default {
 	},
 	components: {
 		TheMenu,
-		MicroAwards
+		MicroUserdata,
+		MicroAwards,
+		IconHeart,
+		IconWatch,
+		IconList
 	},
 
 	methods: {

@@ -11,7 +11,6 @@
 		transform: rotateZ(-25deg);
 	}
 }
-
 @keyframes iconLabelDot__isPending {
 	0% {
 		transform: scaleY(1);
@@ -33,11 +32,9 @@
 	color: $purple;
 
 	&__path {
-		&--is-pending {
-		}
+		&--is-pending {}
 
-		&--is-done {
-		}
+		&--is-done {}
 	}
 
 	&__around {
@@ -46,30 +43,42 @@
 		stroke-width: 9;
 		stroke-dasharray: 300;
 		color: transparent;
+
 		&--is-pending {
 			animation: iconLabelAround__isPending 1.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 			animation-iteration-count: infinite;
 			animation-fill-mode: both;
 		}
+
 		&--is-done {
 			color: $purple;
 			stroke-width: 0;
 			transform: scale(1.05);
-			transition: transform .1s;
+			transition: transform 0.1s;
+		}
+
+		&--custom-color {
+			// color: currentColor;
 		}
 	}
 
 	&__dot {
-		color: #cda8a8;
+		color: $pink;
+
 		&--is-pending {
 			animation: iconLabelDot__isPending 1s ease-in-out;
 			animation-iteration-count: infinite;
 			animation-fill-mode: both;
 		}
+
 		&--is-done {
 			color: mix($orange, white, 50%);
 			transform-origin: center;
 			transform: scale(1.1);
+		}
+
+		&--custom-color {
+			color: currentColor;
 		}
 	}
 }

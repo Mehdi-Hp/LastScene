@@ -3,7 +3,7 @@
 		<icon-menu class="m-menu__icon" :class="{ 'm-menu__icon--is-visible': hovered, 'm-menu__icon--is-open': isOpen, 'a-icon-menu--is-open': isOpen, 'a-icon-menu--is-visible': hovered }" @click.native="toggleMenu()" :isOpen="isOpen" :hovered="hovered"></icon-menu>
 		<ul class="m-menu__options" :class="{ 'm-menu__options--is-open':  isOpen}" ref="menuOptions">
 			<li class="m-menu__option" @click="toggleFavourite()">
-				<icon-heart class="m-menu__opticon" :is-done="movie.favourite" :is-pending="bus.favourite"></icon-heart>
+				<icon-heart class="m-menu__opticon | m-menu__opticon--heart" :is-done="movie.favourite" :is-pending="bus.favourite"></icon-heart>
 				{{ favouriteText }}
 			</li>
 			<li class="m-menu__option" @click="toggleWatched()">

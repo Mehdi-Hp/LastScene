@@ -15,10 +15,14 @@
 	}
 }
 .a-icon-heart {
-	color: currentColor;
+	color: transparent;
+
+	&--is-done {
+		color: $red;
+		stroke: $red;
+	}
 
 	&__path {
-		color: transparent;
 		stroke: $purple;
 		stroke-width: 6;
 		transform-origin: center;
@@ -31,9 +35,11 @@
 		}
 
 		&--is-done {
-			color: $red;
-			stroke: $red;
 			stroke-width: 0;
 		}
+
+		// &--washy {
+		// 	color: $clay__twisted-spot--3;
+		// }
 	}
 }
