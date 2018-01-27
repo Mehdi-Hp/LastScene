@@ -29,7 +29,7 @@
 		transform: scaleX(1);
 		transition: transform 0.2s ease-in;
 		&--is-open {
-			transform: scaleX(.6);
+			transform: scaleX(.5) translateX(0.5em);
 		}
 
 		&--is-visible {}
@@ -46,6 +46,12 @@
 			ry: 0;
 			transform: scale(1.5, 0.5);
 			transition: ry 0.3s ease-in, transform 0.3s ease-in, color 0.2s;
+		}
+
+		&--center {
+			&--is-open {
+				transform: scale(3, 0.5);
+			}
 		}
 
 		&--is-visible {
