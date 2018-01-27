@@ -1,15 +1,16 @@
 .o-places {
 	display: flex;
 	flex-direction: column;
-	margin: .75rem 0;
+	margin: 0.75rem 0;
 
 	&__title {
 		font-size: ms(-2);
 		font-weight: 600;
 		color: mix($purple, white, 75%);
-		margin-bottom: .5rem;
+		margin-bottom: 0.5rem;
 		font-family: 'Lato';
 	}
+
 	&__nested {
 		padding-left: 1rem;
 	}
