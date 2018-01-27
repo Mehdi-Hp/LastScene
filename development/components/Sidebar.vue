@@ -5,7 +5,9 @@
 				<img class="o-lggdin-user__image" src="" alt="">
 			</div>
 			<span class="o-lggdin-user__name">{{ info.name }}</span>
-			<button class="o-lggdin-user__settings-btn"></button>
+			<button class="o-lggdin-user__settings-btn">
+				<icon-setting></icon-setting>
+			</button>
 		</div>
 
 		<ul class="l-sidebar__places">
@@ -66,6 +68,8 @@
 </template>
 
 <script>
+import IconSetting from './icons/Setting.vue';
+
 export default {
 	name: 'sidebar',
 	data() {
@@ -88,6 +92,9 @@ export default {
 				watchList: true
 			}).length;
 		}
+	},
+	components: {
+		IconSetting
 	}
 };
 </script>
