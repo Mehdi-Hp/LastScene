@@ -1,7 +1,10 @@
 <template>
-	<main id="app" v-if="user">
-		<sidebar></sidebar>
+	<main id="app" v-if="user" class="p-dashboard">
+		<div class="p-dashboard__sidebar-holder">
+			<sidebar class="p-dashboard__sidebar"></sidebar>
+		</div>
 		<buffet class="p-dashboard__buffet"></buffet>
+		<div class="p-dashboard__friends"></div>
 	</main>
 </template>
 

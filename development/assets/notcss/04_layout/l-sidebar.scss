@@ -1,6 +1,4 @@
 .l-sidebar {
-	width: sizes(270px auto 200px) pluck(1);
-	height: 100%;
 	background: linear-gradient(to bottom, #474C5B 20%, #414054 55%, #263740 90%);
 	color: white;
 	display: flex;
@@ -10,12 +8,18 @@
 	position: fixed;
 
 	&__loggdin-user {
-		margin: 1rem 0;
+		height:
+			sizes(
+				ratio($golden-ratio, 1)
+				ratio($golden-ratio, 5)
+			) pluck(1);
+		margin: $gutter--thin;
 	}
 
 	&__places {
 		display: flex;
 		flex-direction: column;
-		padding: 1rem 2rem;
+		padding: 0 $gutter--thin;
+		flex-grow: 1;
 	}
 }

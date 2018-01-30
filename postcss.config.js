@@ -1,5 +1,4 @@
 module.exports = [
-	require('postcss-console')(),
 	require('postcss-discard-duplicates')(),
 	require('css-declaration-sorter')(),
 	// require('postcss-uncss')(),
@@ -23,9 +22,9 @@ module.exports = [
 	require('postcss-ant')(),
 	require('autoprefixer')({
 		browsers: ['last 2 versions']
-	}),
-	require('cssnano')({
-		preset: 'default',
-		reduceIdents: false
 	})
+	// require('cssnano')({
+	// 	preset: 'default',
+	// 	reduceIdents: false
+	// })
 ];

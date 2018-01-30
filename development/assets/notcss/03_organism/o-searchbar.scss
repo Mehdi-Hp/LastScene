@@ -1,6 +1,5 @@
 .o-searchbar {
-	margin: 2rem;
-	margin-bottom: 0;
+	height: 3rem;
 
 	&__holder {
 		background-color: transparentize(white, 0.9);
@@ -8,6 +7,7 @@
 		font-size: ms(-2);
 		display: flex;
 		align-items: center;
+		height: 100%;
 	}
 
 	&__search-icon {

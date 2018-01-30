@@ -5,8 +5,6 @@ $modularscale: (
 	ratio: $minor-second
 );
 
-@import "_grid";
-
 @import "_var__colors";
 @import "_var__element-colors";
 
@@ -16,3 +14,5 @@ $modularscale: (
 @import "_pla__background-center";
 
 @import "_pla__fade";
+
+@import "_set__ant";

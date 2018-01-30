@@ -1,11 +1,30 @@
 .l-buffet {
-	width: sizes(270px auto 200px) pluck(2);
 	background: linear-gradient(to bottom, $clay 30%, $clay--light 100%);
 	background-attachment: fixed;
 	position: relative;
 
+	&__searchbar {
+		height:
+			sizes(
+				ratio($golden-ratio, 1)
+				ratio($golden-ratio, 1)
+				ratio($golden-ratio, 6)
+			) pluck(1);
+		margin: $gutter--thin;
+	}
+
+	&__tools {
+		height:
+			sizes(
+				ratio($golden-ratio, 1)
+				ratio($golden-ratio, 1)
+				ratio($golden-ratio, 6)
+			) pluck(2);
+		margin: $gutter--thin;
+	}
+
 	&__micro-movies {
 		padding: 0 6rem;
-		margin-top: 4rem;
+		margin-top: $gutter--thin;
 	}
 }

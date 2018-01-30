@@ -1,6 +1,7 @@
 <template>
 	<section class="l-buffet">
-		<search-bar @search="search"></search-bar>
+		<search-bar class="l-buffet__searchbar" @search="search"></search-bar>
+		<buffet-tools class="l-buffet__tools"></buffet-tools>
 		<micro-movies class="l-buffet__micro-movies"
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
 			:mode="(filteredMovies) ? 'search' : null"
@@ -12,6 +13,7 @@
 import _ from 'lodash';
 import MicroMovies from './MicroMovies.vue';
 import SearchBar from './SearchBar.vue';
+import BuffetTools from './BuffetTools.vue';
 
 export default {
 	name: 'buffet',
@@ -26,8 +28,9 @@ export default {
 		}
 	},
 	components: {
-		MicroMovies,
-		SearchBar
+		SearchBar,
+		BuffetTools,
+		MicroMovies
 	},
 	methods: {
 		search(searchQuery) {

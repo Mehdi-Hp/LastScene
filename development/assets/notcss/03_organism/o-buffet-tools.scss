@@ -1,0 +1,21 @@
+.o-buffet-tools {
+	display: flex;
+
+	&__item-holder {
+		&--add {
+			flex-grow: 1;
+		}
+		&--sort {
+
+		}
+	}
+
+	&__item {
+		&--add {
+
+		}
+		&--sort {
+
+		}
+	}
+}

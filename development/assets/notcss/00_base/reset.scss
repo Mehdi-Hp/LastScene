@@ -20,9 +20,13 @@ p {
 
 button {
 	border: none;
-	outline: none;
-	cursor: pointer;
-	font-family: inherit;
+	 cursor: pointer;
+	 font-family: inherit;
+	 outline: none;
+	 background: gainsboro;
+	 color: #757575;
+	 font-size: .9rem;
+	 padding: 0.5rem 1rem;
 }
 
 h1,
@@ -51,6 +55,7 @@ svg {
 }
 
 input {
+	font-family: inherit;
 		overflow: visible;
 		background-color: white;
 		-webkit-appearance: none;
