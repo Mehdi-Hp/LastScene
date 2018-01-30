@@ -1,5 +1,6 @@
 .o-buffet-tools {
 	display: flex;
+	font-size: ms(1);
 
 	&__item-holder {
 		&--add {
@@ -11,11 +12,21 @@
 	}
 
 	&__item {
+		background: none;
+		padding: 0;
+		color: $clay__shade--5;
+		display: flex;
+		align-items: center;
+
 		&--add {
 
 		}
 		&--sort {
 
 		}
+	}
+
+	&__icon {
+		margin-right: .5em;
 	}
 }

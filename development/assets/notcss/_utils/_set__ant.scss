@@ -1,4 +1,4 @@
 $golden-ratio: 1.618;
-@ant-gutters 3em;
-$gutter: 3em;
-$gutter--thin: $gutter / $golden-ratio;
+@ant-gutters #{$golden-ratio * 2}em;
+$gutter: $golden-ratio * 2em;
+$gutter--thin: $gutter / 2;

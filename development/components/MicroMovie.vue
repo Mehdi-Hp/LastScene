@@ -7,8 +7,11 @@
 			<div class="m-movie-box__cover | a-movie-cover">
 				<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small" :alt="movie.data.title">
 			</div>
-			<the-menu class="o-micro-movie__menu | m-movie-box__menu" :movie="movie" :hovered="movie.hovered" :bus="movie.bus" :is-open="movie.openMenu"
-				@toggleMenu="toggleMenu"
+			<micro-movie-menu class="o-micro-movie__menu | m-movie-box__menu"
+				:movie="movie"
+				:hovered="movie.hovered"
+				:bus="movie.bus"
+				:is-open="movie.openMenu"
 				@addToFavourites="addToFavourites"
 				@removeFromFavourites="removeFromFavourites"
 				@addToWatched="addToWatched"
@@ -16,7 +19,7 @@
 				@addToWatchList="addToWatchList"
 				@removeFromWatchList="removeFromWatchList"
 				@removeMovie="removeMovie">
-			</the-menu>
+			</micro-movie-menu>
 			<div class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz" :class="{ 'm-movie-box__rate--is-visible': movie.hovered }">
 				<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
 				<span class="a-rate__base | a-rate__base--horiz">10</span>
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-import TheMenu from './TheMenu.vue';
+import MicroMovieMenu from './MicroMovieMenu.vue';
 import MicroAwards from './MicroAwards.vue';
 import MicroUserdata from './MicroUserdata.vue';
 import IconHeart from './icons/Heart.vue';
@@ -62,7 +65,7 @@ export default {
 
 	},
 	components: {
-		TheMenu,
+		MicroMovieMenu,
 		MicroUserdata,
 		MicroAwards,
 		IconHeart,
@@ -76,13 +79,6 @@ export default {
 		},
 		blurOnMovie() {
 			this.movie.hovered = false;
-		},
-		toggleMenu(forceState) {
-			if (typeof forceState !== 'undefined') {
-				this.movie.openMenu = forceState;
-			} else {
-				this.movie.openMenu = !this.movie.openMenu;
-			}
 		},
 		addToFavourites() {
 			this.movie.bus.favourite = true;

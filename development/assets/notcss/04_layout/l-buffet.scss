@@ -4,27 +4,17 @@
 	position: relative;
 
 	&__searchbar {
-		height:
-			sizes(
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 6)
-			) pluck(1);
+		height: 3rem;
 		margin: $gutter--thin;
 	}
 
 	&__tools {
-		height:
-			sizes(
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 6)
-			) pluck(2);
+		height: 3rem;
 		margin: $gutter--thin;
 	}
 
 	&__micro-movies {
-		padding: 0 6rem;
+		padding: 0 $gutter;
 		margin-top: $gutter--thin;
 	}
 }

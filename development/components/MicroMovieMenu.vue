@@ -1,7 +1,13 @@
 <template>
-	<div class="m-menu" :style="{ 'height': menuHeight }" :class="{ 'm-menu--is-open': isOpen, 'm-menu--is-visible': hovered }" v-on-clickaway="closeMenu" v-esc="closeMenu">
-		<icon-menu class="m-menu__icon" :class="{ 'm-menu__icon--is-visible': hovered, 'm-menu__icon--is-open': isOpen, 'a-icon-menu--is-open': isOpen, 'a-icon-menu--is-visible': hovered }" @click.native="toggleMenu()" :isOpen="isOpen" :hovered="hovered"></icon-menu>
-		<ul class="m-menu__options" :class="{ 'm-menu__options--is-open':  isOpen}" ref="menuOptions">
+	<dropdown
+		:movie="movie"
+		:iconName="iconMenu"
+		:hovered="hovered"
+		:is-open="dropdownState"
+		:menu-height="menuHeight"
+		:initial-height="initialHeight"
+	>
+		<ul class="m-menu__options" :class="{ 'm-menu__options--is-open':  dropdownState}" ref="menu">
 			<li class="m-menu__option" @click="toggleFavourite()">
 				<icon-heart class="m-menu__opticon | m-menu__opticon--heart" :is-done="movie.favourite" :is-pending="bus.favourite"></icon-heart>
 				{{ favouriteText }}
@@ -21,27 +27,30 @@
 				Remove
 			</li>
 		</ul>
-	</div>
+	</dropdown>
 </template>
 
 <script>
 import { directive as onClickaway } from 'vue-clickaway';
+import Dropdown from './Dropdown.vue';
 import IconMenu from './icons/Menu.vue';
 import IconHeart from './icons/Heart.vue';
 import IconWatch from './icons/Watch.vue';
 import IconList from './icons/List.vue';
 
 export default {
-	name: 'TheMenu',
+	name: 'MicroMovieMenu',
 	props: [
-		'isOpen',
 		'movie',
 		'hovered',
 		'bus'
 	],
 	data() {
 		return {
-			menuHeight: '30px'
+			iconMenu: IconMenu,
+			menuHeight: '',
+			initialHeight: '',
+			dropdownState: false
 		};
 	},
 	computed: {
@@ -64,7 +73,12 @@ export default {
 			return 'Not gonna watch soon';
 		}
 	},
+	mounted() {
+		this.menuHeight = this.$refs.menu.clientHeight;
+		this.initialHeight = 30;
+	},
 	components: {
+		Dropdown,
 		IconMenu,
 		IconHeart,
 		IconWatch,
@@ -74,14 +88,6 @@ export default {
 		onClickaway
 	},
 	methods: {
-		toggleMenu() {
-			this.$emit('toggleMenu');
-		},
-		closeMenu() {
-			if (this.isOpen) {
-				this.$emit('toggleMenu', false);
-			}
-		},
 		toggleFavourite() {
 			if (!this.movie.favourite) {
 				this.$emit('addToFavourites');
@@ -108,13 +114,7 @@ export default {
 		}
 	},
 	watch: {
-		isOpen(gotOpened) {
-			if (gotOpened) {
-				this.menuHeight = `${this.$refs.menuOptions.clientHeight}px`;
-			} else {
-				this.menuHeight = '30px';
-			}
-		}
+
 	}
 };
 </script>

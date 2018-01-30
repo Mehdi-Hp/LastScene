@@ -91,7 +91,10 @@ if (ifProduction()) {
 		{
 			loader: 'sass-resources-loader',
 			options: {
-				resources: './development/assets/notcss/_utils/_all-utils.scss'
+				resources: [
+					'./development/assets/notcss/_utils/_all-vendors.scss',
+					'./development/assets/notcss/_utils/_all-utils.scss'
+				]
 			}
 		}
 	];
