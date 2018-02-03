@@ -1,32 +1,41 @@
 .o-buffet-tools {
 	display: flex;
 	font-size: ms(1);
+	color: $clay__shade--5;
 
 	&__item-holder {
+		display: flex;
+		position: relative;
+		z-index: g-index('land');
+
 		&--add {
 			flex-grow: 1;
 		}
-		&--sort {
 
-		}
+		&--sort {}
 	}
 
 	&__item {
-		background: none;
-		padding: 0;
-		color: $clay__shade--5;
-		display: flex;
-		align-items: center;
+
 
 		&--add {
-
+			font-weight: 500;
 		}
+
 		&--sort {
+			&--enabled {
 
+			}
 		}
 	}
+}
 
-	&__icon {
-		margin-right: .5em;
-	}
+.slide-left-enter-active,
+.slide-left-leave-active {
+	transition: opacity 0.5s;
+}
+
+.slide-left-enter,
+.slide-left-leave-to {
+	opacity: 0;
 }

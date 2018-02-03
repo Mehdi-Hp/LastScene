@@ -1,29 +1,44 @@
 <template>
 	<dropdown
+		:parentClass="parentClass"
 		:movie="movie"
 		:iconName="iconMenu"
-		:hovered="hovered"
+		:hover-state="hoverState"
 		:is-open="dropdownState"
 		:menu-height="menuHeight"
+		:menu-width="menuWidth"
 		:initial-height="initialHeight"
+		:initial-width="initialWidth"
+		@toggleExpand="toggleDropdown"
+		class="o-micro-movie__dropdown"
+		:class="{
+			'o-micro-movie__dropdown--is-open':  dropdownState,
+			'o-micro-movie__dropdown--is-visible':  hoverState
+		}"
 	>
-		<ul class="m-menu__options" :class="{ 'm-menu__options--is-open':  dropdownState}" ref="menu">
-			<li class="m-menu__option" @click="toggleFavourite()">
-				<icon-heart class="m-menu__opticon | m-menu__opticon--heart" :is-done="movie.favourite" :is-pending="bus.favourite"></icon-heart>
+		<ul class="o-micro-movie__dropdown-menu | m-dropdown__menu"
+			:class="{
+				'm-dropdown__menu--is-open':  dropdownState,
+				'o-micro-movie__dropdown-menu--is-open':  dropdownState
+			}"
+			ref="menu"
+		>
+			<li class="m-dropdown__option" @click="toggleFavourite()">
+				<icon-heart class="m-dropdown__opticon | m-dropdown__opticon--heart" :is-done="movie.favourite" :is-pending="bus.favourite"></icon-heart>
 				{{ favouriteText }}
 			</li>
-			<li class="m-menu__option" @click="toggleWatched()">
-				<icon-watch class="m-menu__opticon | m-menu__opticon--eye " :is-done="movie.watched" :is-pending="bus.watched"></icon-watch>
+			<li class="m-dropdown__option" @click="toggleWatched()">
+				<icon-watch class="m-dropdown__opticon | m-dropdown__opticon--eye " :is-done="movie.watched" :is-pending="bus.watched"></icon-watch>
 				{{ watchedText }}
 			</li>
-			<li class="m-menu__option" @click="toggleWatchList()">
-				<icon-list class="m-menu__opticon | m-menu__opticon--list " :is-done="movie.watchList" :is-pending="bus.watchList"></icon-list>
+			<li class="m-dropdown__option" @click="toggleWatchList()">
+				<icon-list class="m-dropdown__opticon | m-dropdown__opticon--list " :is-done="movie.watchList" :is-pending="bus.watchList"></icon-list>
 				{{ watchListText }}
 			</li>
-			<li class="m-menu__option">
+			<li class="m-dropdown__option">
 				Add/Remove from collections
 			</li>
-			<li class="m-menu__option" @click="removeMovie()">
+			<li class="m-dropdown__option" @click="removeMovie()">
 				Remove
 			</li>
 		</ul>
@@ -31,7 +46,6 @@
 </template>
 
 <script>
-import { directive as onClickaway } from 'vue-clickaway';
 import Dropdown from './Dropdown.vue';
 import IconMenu from './icons/Menu.vue';
 import IconHeart from './icons/Heart.vue';
@@ -42,15 +56,18 @@ export default {
 	name: 'MicroMovieMenu',
 	props: [
 		'movie',
-		'hovered',
-		'bus'
+		'hoverState',
+		'bus',
+		'parentClass'
 	],
 	data() {
 		return {
+			dropdownState: this.movie.openMenu,
 			iconMenu: IconMenu,
 			menuHeight: '',
-			initialHeight: '',
-			dropdownState: false
+			menuWidth: '',
+			initialHeight: 27,
+			initialWidth: 27
 		};
 	},
 	computed: {
@@ -75,7 +92,7 @@ export default {
 	},
 	mounted() {
 		this.menuHeight = this.$refs.menu.clientHeight;
-		this.initialHeight = 30;
+		this.menuWidth = this.$refs.menu.clientWidth;
 	},
 	components: {
 		Dropdown,
@@ -84,10 +101,11 @@ export default {
 		IconWatch,
 		IconList
 	},
-	directives: {
-		onClickaway
-	},
 	methods: {
+		toggleDropdown() {
+			this.dropdownState = !this.dropdownState;
+			this.$emit('toggleMenu', !this.dropdownState);
+		},
 		toggleFavourite() {
 			if (!this.movie.favourite) {
 				this.$emit('addToFavourites');
@@ -112,9 +130,6 @@ export default {
 		removeMovie() {
 			this.$emit('removeMovie', false);
 		}
-	},
-	watch: {
-
 	}
 };
 </script>

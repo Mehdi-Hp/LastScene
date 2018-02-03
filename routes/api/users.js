@@ -18,7 +18,16 @@ app.route('/:username?')
 			.populate({
 				path: 'movies._id',
 				model: 'Movie',
-				select: ['title', 'originalTitle', 'year', 'rate', 'images', 'awards', 'directors']
+				select: [
+					'title',
+					'originalTitle',
+					'year',
+					'createdAt',
+					'rate',
+					'images',
+					'awards',
+					'directors'
+				]
 			}).populate({
 				path: 'lists._id',
 				model: 'List'

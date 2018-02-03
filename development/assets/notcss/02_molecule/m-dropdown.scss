@@ -1,28 +1,21 @@
-.m-menu {
+.m-dropdown {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	size: 30px;
 	overflow: hidden;
-	z-index: g-index('land');
-	transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-	border-radius: 50%;
+	z-index: g-index('mountain');
+
 
 	&--is-visible {
-		background-color: transparentize($purple, 0.2);
 		will-change: width, height, border-radius, box-shadow;
 	}
 
 	&--is-open {
-		width: 250px;
-		border-radius: 0 0 0 0;
-		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
 		box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
 		z-index: g-index('hill');
 	}
 
 	&__icon {
-		size: 30px;
 		border-radius: 50%;
 		flex-shrink: 0;
 		transition: all 0.2s 0.2s;
@@ -37,8 +30,7 @@
 		}
 	}
 
-	&__options {
-		width: 250px;
+	&__menu {
 		padding: 0.5rem 0;
 		display: flex;
 		flex-direction: column;
@@ -46,15 +38,9 @@
 		color: hsl(0, 0%, 40%);
 		font-weight: 500;
 		position: absolute;
-		opacity: 0;
-		padding-top: 1.5rem;
-		transition: background-color 0.2s, opacity 0.2s 0.2s;
-		background-color: white;
 
 		&--is-open {
-			opacity: 1;
-			background-color: white;
-			transition: background-color 0.2s, opacity 0.2s;
+
 		}
 	}
 
@@ -63,6 +49,7 @@
 		align-items: center;
 		padding: 0.5rem 1rem;
 		color: currentColor;
+		cursor: pointer;
 		user-select: none;
 
 		&:hocus {

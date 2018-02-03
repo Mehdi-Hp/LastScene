@@ -1,0 +1,131 @@
+.m-sort-tool {
+	display: flex;
+	align-items: center;
+	position: relative;
+	z-index: g-index('cloud');
+
+	&__clear {
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		pointer-events: none;
+		background: none;
+		padding: 0;
+		color: $clay__shade--1;
+		transform: translateX(-7.5em);
+		transition: opacity .20s .3s;
+
+		&--is-enabled {
+			opacity: 1;
+			pointer-events: all;
+		}
+	}
+
+	&__inner {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		position: relative;
+		z-index: 1;
+		transition: transform 0.2s 0.1s, color 0.2s 0.1s;
+		transition-timing-function: ease-out;
+
+		&--is-enabled {
+			&--asc {
+				transform: translateX(-5em);
+				// transition: transform 0.2s;
+			}
+
+			&--desc {
+				transform: translateX(-5.5em);
+				// transition: transform 0.2s;
+			}
+		}
+	}
+
+	&__button {
+		background: none;
+		padding: 0;
+		color: $clay__shade--5;
+		display: flex;
+		align-items: center;
+
+		&--is-enabled {
+			color: $yellorange;
+		}
+	}
+
+	&__icon {
+		margin-right: 0.5em;
+	}
+
+	&__dropdown {
+		position: absolute;
+		width: 10em;
+		height: 5em;
+		right: 50%;
+		transform: translateX(50%) translateY(-20px);
+		pointer-events: none;
+		transform-origin: top;
+		border-radius: 3rem;
+		transition: transform 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, border-top-right-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
+
+		&--is-open {
+			pointer-events: all;
+			border-radius: 0;
+			transform: translateX(50%) translateY(0);
+			transition: transform 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
+		}
+	}
+
+	&__dropdown-menu {
+		top: 0;
+		right: 0;
+		width: 10em;
+		opacity: 0;
+		transition: opacity 0.2s, background-color 0.2s;
+
+		&--is-open {
+			opacity: 1;
+			background-color: white;
+			transition: opacity 0.2s;
+		}
+	}
+
+	&__extra {
+		position: absolute;
+		right: 0;
+		margin-left: 0.5em;
+		display: flex;
+		flex-direction: column;
+		align-self: center;
+		border-left: 2px solid $yellorange;
+		font-size: ms(-4);
+		transition: transform 0.2s 0.3s, opacity 0.2s 0.3s;
+		transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+		transform: translateX(3em);
+		opacity: 0;
+
+		&--is-visible {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+
+	&__sorted-by {
+		color: white;
+		font-weight: 800;
+		font-size: ms(-1);
+		font-weight: 700;
+		padding: 0 0.5em;
+		text-transform: uppercase;
+	}
+
+	&__order {
+		background: none;
+		color: $yellorange;
+		font-weight: 700;
+		padding: 0 0.5em;
+		font-size: ms(0);
+	}
+}

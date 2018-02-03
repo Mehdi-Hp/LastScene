@@ -1,30 +1,31 @@
 <template>
 	<div
-		class="m-menu"
+		class="m-dropdown"
 		:style="{
-			'height': dropdownHeight
+			'height': dropdownHeight,
+			'width': dropdownWidth
 		}"
 		:class="{
-			'm-menu--is-open': isOpen,
-			'm-menu--is-visible': hovered
+			'm-dropdown--is-open': isOpen,
+			'm-dropdown--is-visible': hoverState
 		}"
 		v-on-clickaway="closeMenu"
 		v-esc="closeMenu"
-		@toggleDropdown="toggleDropdown"
 	>
-		<component :is="iconName"
-			class="m-menu__icon"
-			:class="{
-				'm-menu__icon--is-visible': hovered,
-				'm-menu__icon--is-open': isOpen,
+		<component :is="iconName" v-if="iconName"
+			class="m-dropdown__icon"
+			:class="[{
+				'm-dropdown__icon--is-visible': hoverState,
+				'm-dropdown__icon--is-open': isOpen,
 				'a-icon-menu--is-open': isOpen,
-				'a-icon-menu--is-visible': hovered
-			}"
+				'a-icon-menu--is-visible': hoverState
+			}, getIconClass]"
 			@click.native="toggleDropdown"
-			:isOpen="isOpen" :hovered="hovered"
+			:isOpen="isOpen"
+			:hover-state="hoverState"
 		></component>
 
-		<slot></slot>
+		<slot class="m-dropdown__menu"></slot>
 	</div>
 </template>
 
@@ -35,37 +36,70 @@ export default {
 	name: 'Dropdown',
 	props: [
 		'movie',
-		'hovered',
+		'hoverState',
 		'menuHeight',
+		'menuWidth',
 		'initialHeight',
-		'iconName'
+		'initialWidth',
+		'iconName',
+		'parentClass',
+		'isOpen'
 	],
 	data() {
 		return {
-			isOpen: false,
-			dropdownHeight: ''
+			dropdownHeight: null,
+			dropdownWidth: null
 		};
+	},
+	computed: {
+		getIconClass() {
+			const iconClasses = [`${this.parentClass}__dropdown-icon`];
+			if (this.isOpen) {
+				iconClasses.push([`${this.parentClass}__dropdown-icon--is-open`]);
+			}
+			if (this.hoverState) {
+				iconClasses.push([`${this.parentClass}__dropdown-icon--is-hovered`]);
+			}
+			return iconClasses;
+		},
+		getMenuClass() {
+			const menuClasses = [`${this.parentClass}__dropdown-menu`];
+			if (this.isOpen) {
+				menuClasses.push([`${this.parentClass}__dropdown-menu--is-open`]);
+			}
+			if (this.hoverState) {
+				menuClasses.push([`${this.parentClass}__dropdown-menu--is-hovered`]);
+			}
+			return menuClasses;
+		}
 	},
 	directives: {
 		onClickaway
 	},
 	methods: {
 		closeMenu() {
-			this.isOpen = false;
-			this.$parent.dropdownState = this.isOpen;
+			if (this.isOpen) {
+				this.$emit('toggleExpand', false);
+			}
 		},
 		toggleDropdown() {
-			this.isOpen = !this.isOpen;
-			this.$parent.dropdownState = this.isOpen;
+			this.$emit('toggleExpand');
 		}
+	},
+	mounted() {
+		this.dropdownHeight = `${this.initialHeight}px`;
+		this.dropdownWidth = `${this.initialWidth}px`;
 	},
 	watch: {
 		isOpen(gotOpened) {
 			if (gotOpened) {
 				this.dropdownHeight = `${this.menuHeight}px`;
+				this.dropdownWidth = `${this.menuWidth}px`;
 			} else {
 				this.dropdownHeight = `${this.initialHeight}px`;
+				this.dropdownWidth = `${this.initialWidth}px`;
 			}
+			// this.$emit('toggleExpand', gotOpened);
 		}
 	}
 };

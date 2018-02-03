@@ -7,11 +7,13 @@
 			<div class="m-movie-box__cover | a-movie-cover">
 				<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small" :alt="movie.data.title">
 			</div>
-			<micro-movie-menu class="o-micro-movie__menu | m-movie-box__menu"
+			<micro-movie-menu class="o-micro-movie__dropdown"
+				parent-class="o-micro-movie"
 				:movie="movie"
-				:hovered="movie.hovered"
+				:hoverState="movie.hoverState"
 				:bus="movie.bus"
-				:is-open="movie.openMenu"
+				:dropdownState="movie.openMenu"
+				@toggleMenu="toggleMenu"
 				@addToFavourites="addToFavourites"
 				@removeFromFavourites="removeFromFavourites"
 				@addToWatched="addToWatched"
@@ -20,7 +22,7 @@
 				@removeFromWatchList="removeFromWatchList"
 				@removeMovie="removeMovie">
 			</micro-movie-menu>
-			<div class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz" :class="{ 'm-movie-box__rate--is-visible': movie.hovered }">
+			<div class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz" :class="{ 'm-movie-box__rate--is-visible': movie.hoverState }">
 				<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
 				<span class="a-rate__base | a-rate__base--horiz">10</span>
 			</div>
@@ -74,11 +76,14 @@ export default {
 	},
 
 	methods: {
+		toggleMenu(menuState) {
+			this.movie.openMenu = menuState;
+		},
 		hoverOnMovie() {
-			this.movie.hovered = true;
+			this.movie.hoverState = true;
 		},
 		blurOnMovie() {
-			this.movie.hovered = false;
+			this.movie.hoverState = false;
 		},
 		addToFavourites() {
 			this.movie.bus.favourite = true;

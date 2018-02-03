@@ -1,9 +1,9 @@
 .p-dashboard {
 	generate-grid:
 		columns(
-			ratio($golden-ratio, 2)
+			ratio($golden-ratio, 1.8)
 			ratio($golden-ratio, 5)
-			ratio($golden-ratio, 2)
+			ratio($golden-ratio, 1.5)
 		) gutter(0);
 	flex-wrap: nowrap;
 
@@ -14,9 +14,9 @@
 
 	&__sidebar {
 		width: sizes(
-			ratio($golden-ratio, 2)
+			ratio($golden-ratio, 1.8)
 			ratio($golden-ratio, 5)
-			ratio($golden-ratio, 2)
+			ratio($golden-ratio, 1.5)
 		) gutter(0) pluck(1);
 		height: 100%;
 	}
@@ -24,9 +24,9 @@
 	&__buffet {
 		margin-left:
 			sizes(
-				ratio($golden-ratio, 2)
+				ratio($golden-ratio, 1.8)
 				ratio($golden-ratio, 5)
-				ratio($golden-ratio, 2)
+				ratio($golden-ratio, 1.5)
 			) gutter(0) pluck(1);
 	}
 

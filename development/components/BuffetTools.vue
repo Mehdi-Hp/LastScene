@@ -6,26 +6,35 @@
 			</button>
 		</div>
 		<div class="o-buffet-tools__item-holder | o-buffet-tools__item-holder--sort">
-			<button class="o-buffet-tools__item | o-buffet-tools__item--sort">
-				<icon-sort class="o-buffet-tools__icon"></icon-sort>
-				Sort
-			</button>
-			
+			<sort-tool class="o-buffet-tools__item | o-buffet-tools__item--sort"></sort-tool>
 		</div>
 	</div>
 </template>
 
 <script>
-import IconSort from './icons/Sort.vue';
+import SortTool from './SortTool.vue';
 
 export default {
+	name: 'BuffetTools',
+	props: [
+
+	],
 	data() {
 		return {
 
 		};
 	},
+	computed: {
+
+	},
 	components: {
-		IconSort
+		SortTool
+	},
+	methods: {
+
+	},
+	mounted() {
+
 	}
 };
 </script>

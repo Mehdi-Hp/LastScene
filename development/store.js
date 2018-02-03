@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import fastSort from 'fast-sort';
 import renameObjectsKeys from './helpers/renameObjectsKeys';
 
 Vue.use(Vuex);
@@ -12,14 +13,20 @@ const store = new Vuex.Store({
 			collections: {}
 		}
 	},
+	getters: {
+
+	},
 	mutations: {
 		setUset(state, user) {
 			state.user.info = Vue.$_.omit(user.data, ['movies', 'lists']);
 			state.user.movies = renameObjectsKeys(user.data.movies, {
 				_id: 'data'
 			});
+			state.user.movies = fastSort(state.user.movies).desc((movie) => {
+				return movie.data.createdAt;
+			});
 			Vue.$_.forEach(state.user.movies, (movie, key) => {
-				movie.hovered = false;
+				movie.hoverState = false;
 				movie.openMenu = false;
 				Vue.set(movie, 'favourite', Vue.$_.defaultTo(movie.favourite, false));
 				Vue.set(movie, 'watched', Vue.$_.defaultTo(movie.watched, false));
@@ -67,6 +74,44 @@ const store = new Vuex.Store({
 				}
 			});
 			state.user.movies.splice(theMovieIndex, 1);
+		},
+		setMovies(state, movies) {
+			state.user.movies = movies;
+		},
+		sortMovies(state, { sortBy, order }) {
+			const sortCase = {
+				title(movie) {
+					return movie.data.title;
+				},
+				director(movie) {
+					return movie.data.directors[0].name;
+				},
+				year(movie) {
+					return movie.data.year;
+				},
+				createdAt(movie) {
+					return movie.data.createdAt;
+				},
+				rate(movie) {
+					return movie.rate;
+				},
+				imdbRate(movie) {
+					return movie.data.rate.imdb;
+				},
+				mostAwards(movie) {
+					console.log(movie.data.awards.length);
+					return movie.data.awards.length;
+				}
+			};
+			if (order === 'asc') {
+				state.user.movies = fastSort(state.user.movies).asc((movie) => {
+					return sortCase[sortBy](movie);
+				});
+			} else if (order === 'desc') {
+				state.user.movies = fastSort(state.user.movies).desc((movie) => {
+					return sortCase[sortBy](movie);
+				});
+			}
 		}
 	},
 	actions: {
