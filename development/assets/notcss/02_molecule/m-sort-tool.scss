@@ -13,11 +13,18 @@
 		padding: 0;
 		color: $clay__shade--1;
 		transform: translateX(-7.5em);
-		transition: opacity .20s .3s;
+		transition: opacity .2s .3s;
 
 		&--is-enabled {
 			opacity: 1;
 			pointer-events: all;
+			transition: opacity .2s .3s, transform .2s;
+			&--asc {
+				transform: translateX(-7.5em);
+			}
+			&--desc {
+				transform: translateX(-8em);
+			}
 		}
 	}
 

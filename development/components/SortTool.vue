@@ -1,7 +1,9 @@
 <template>
 	<div class="m-sort-tool">
 		<button class="m-sort-tool__clear" :class="{
-				'm-sort-tool__clear--is-enabled': sortBy
+				'm-sort-tool__clear--is-enabled': sortBy,
+				'm-sort-tool__clear--is-enabled--asc': sortOrder === 'asc',
+				'm-sort-tool__clear--is-enabled--desc': sortOrder === 'desc'
 			}" @click="clear"
 		>
 			<icon-x></icon-x>

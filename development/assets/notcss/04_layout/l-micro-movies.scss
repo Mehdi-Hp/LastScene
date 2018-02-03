@@ -2,6 +2,10 @@
 
 	&__holder {
 		gg: columns(1/5 1/5 1/5 1/5 1/5);
+
+		&--is-moving {
+			transition: transform .6s;
+		}
 	}
 
 	&--searching {
@@ -31,4 +35,8 @@
 		font-weight: 300;
 		font-style: italic;
 	}
+}
+
+.flip-list-move {
+	transition: transform .6s;
 }

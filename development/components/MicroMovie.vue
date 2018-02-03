@@ -1,5 +1,5 @@
 <template>
-	<div class="o-micro-movie" :class="{
+	<li class="o-micro-movie" :class="{
 		'o-micro-movie--is-deleting': movie.bus.remove
 		}" @mouseover="hoverOnMovie()" @mouseout="blurOnMovie()"
 	>
@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<micro-awards class="o-micro-movie__awards" :awards="movie.data.awards"></micro-awards>
-	</div>
+	</li>
 </template>
 
 <script>
