@@ -1,0 +1,18 @@
+.m-back {
+	display: flex;
+	align-items: center;
+	color: mix($overlay-color--light, black, 80%);
+
+	&:hover {
+		color: mix($overlay-color--light, black, 50%);
+	}
+
+	&__icon {
+		width: 1em;
+		margin-right: .5em;
+	}
+
+	&__button {
+
+	}
+}

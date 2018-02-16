@@ -1,16 +1,20 @@
 const app = require('express')();
-const tmdb = require('../../services/tmdbService');
+const movieService = require('../../services/movieService');
 
 app.route('/movie/:title')
 	.get((req, res, next) => {
-		tmdb.findMovie({
+		movieService.search({
 			title: req.params.title
-		})
-		.then((movies) => {
-			res.send(movies);
-		})
-		.catch((error) => {
-			res.send(error);
+		}).then((movies) => {
+			if (!movies.length) {
+				res.status(404).json({});
+			}
+			res.status(200).json(movies);
+		}).catch((error) => {
+			res.status(error.status).json({
+				error: true,
+				message: error.message
+			});
 		});
 	});
 

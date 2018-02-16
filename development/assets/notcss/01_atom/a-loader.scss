@@ -1,0 +1,18 @@
+@keyframes loading {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.a-loader {
+	position: absolute 0 0 0 0;
+	margin: auto;
+	background: linear-gradient(to right, transparent 0%, mix(white, black, 85%) 50%, transparent 100%);
+	animation: loading;
+	animation-duration: 1.2s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}

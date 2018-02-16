@@ -1,0 +1,14 @@
+.m-add-movie-tool {
+	&__button {
+		display: flex;
+		align-items: center;
+	}
+
+	&__icon {
+		margin-right: 0.5em;
+		position: relative;
+		top: -.1em;
+	}
+
+	&__text {}
+}

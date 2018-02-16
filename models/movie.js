@@ -1,19 +1,18 @@
 const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamp');
 
-const Schema = mongoose.Schema;
-
-const movieSchema = new Schema({
+const movieSchema = new mongoose.Schema({
 	_id: {
 		type: String
 	},
+
 	title: {
 		type: String
 	},
 
 	originalTitle: String,
 
-	id: new Schema({
+	id: new mongoose.Schema({
 		imdb: {
 			type: String,
 			required: true
@@ -21,33 +20,33 @@ const movieSchema = new Schema({
 		tmdb: String
 	}, { _id: false }),
 
-	url: new Schema({
+	url: new mongoose.Schema({
 		imdb: String
 	}, { _id: false }),
 
 	year: String,
 
-	rate: new Schema({
+	rate: new mongoose.Schema({
 		imdb: String,
 		metascore: String
 	}, { _id: false }),
 
 	runtime: String,
 
-	images: new Schema({
-		poster: new Schema({
+	images: new mongoose.Schema({
+		poster: new mongoose.Schema({
 			small: String,
 			medium: String,
 			big: String
 		}, { _id: false }),
-		backdrop: new Schema({
+		backdrop: new mongoose.Schema({
 			small: String,
 			medium: String,
 			big: String
 		}, { _id: false })
 	}, { _id: false }),
 
-	plot: new Schema({
+	plot: new mongoose.Schema({
 		simple: String,
 		full: String
 	}, { _id: false }),
@@ -58,34 +57,37 @@ const movieSchema = new Schema({
 
 	genres: [String],
 
-	directors: [new Schema({
+	directors: [new mongoose.Schema({
 		name: String,
 		id: String
 	}, { _id: false })],
 
-	writers: [new Schema({
+	writers: [new mongoose.Schema({
 		name: String,
 		id: String
 	}, { _id: false })],
 
-	actors: [new Schema({
+	actors: [new mongoose.Schema({
 		name: String,
 		id: String,
 		profile: String,
 		character: String
 	}, { _id: false })],
 
-	awards: [new Schema({
+	awards: [new mongoose.Schema({
 		name: String,
 		year: String,
-		categories: [new Schema({
+		categories: [new mongoose.Schema({
 			title: String,
 			result: String,
-			participants: [new Schema({
+			participants: [new mongoose.Schema({
 				name: String
 			}, { _id: false })]
 		}, { _id: false })]
-	}, { _id: false })]
+	}, { _id: false })],
+
+	loading: Boolean,
+	fulfilled: Boolean
 });
 movieSchema.plugin(timestamps);
 

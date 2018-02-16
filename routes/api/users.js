@@ -26,7 +26,9 @@ app.route('/:username?')
 					'rate',
 					'images',
 					'awards',
-					'directors'
+					'directors',
+					'loading',
+					'fulfilled'
 				]
 			}).populate({
 				path: 'lists._id',

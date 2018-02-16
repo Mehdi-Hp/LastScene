@@ -8,5 +8,6 @@ module.exports = {
 		clientID: '0eda1e97f6ba5d11892d82832186e2d8ec2ac47a9e1b51c673d9c2e967ca257e',
 		clientSecret: 'c925655149c2b02fb0a1fe07f8de6f0571cf992dac320753c01be9953bf83932'
 	},
-	fanart: '01de34d1791062fe845dc686f7db98ff'
+	fanart: '01de34d1791062fe845dc686f7db98ff',
+	omdb: 'e8a4fc'
 };

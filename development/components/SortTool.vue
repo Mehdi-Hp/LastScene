@@ -12,7 +12,7 @@
 				'm-sort-tool__inner--is-enabled--asc': sortOrder === 'asc',
 				'm-sort-tool__inner--is-enabled--desc': sortOrder === 'desc'
 			}">
-			<button class="m-sort-tool__button"
+			<button class="m-sort-tool__button | a-button | a-button--plain"
 				:class="{
 					'm-sort-tool__button--is-enabled': sortBy
 				}"
@@ -87,7 +87,7 @@ import IconSort from './icons/Sort.vue';
 import IconX from './icons/X--circle.vue';
 
 export default {
-	name: 'SortButton',
+	name: 'SortTool',
 	data() {
 		return {
 			hoverState: false,

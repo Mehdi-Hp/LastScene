@@ -13,9 +13,7 @@ const store = new Vuex.Store({
 			collections: {}
 		}
 	},
-	getters: {
-
-	},
+	getters: {},
 	mutations: {
 		setUset(state, user) {
 			state.user.info = Vue.$_.omit(user.data, ['movies', 'lists']);
@@ -42,6 +40,9 @@ const store = new Vuex.Store({
 			state.user.collections = renameObjectsKeys(user.data.lists, {
 				_id: 'data'
 			});
+		},
+		pushMovie(state, movie) {
+			state.user.movies.unshift(movie);
 		},
 		toggleMovieFavourite(state, movie) {
 			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
@@ -99,7 +100,6 @@ const store = new Vuex.Store({
 					return movie.data.rate.imdb;
 				},
 				mostAwards(movie) {
-					console.log(movie.data.awards.length);
 					return movie.data.awards.length;
 				}
 			};
@@ -115,6 +115,27 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
+		addMovie({ commit, state }, { imdbID, movieName }) {
+			return new Promise((resolve, reject) => {
+				if (!imdbID) {
+					reject({
+						error: true,
+						message: 'Bad request. No IMDB ID.'
+					});
+				}
+				Vue.$axios.post('/movies', [imdbID]).then((addedMovie) => {
+					const newMovie = {
+						bus: {},
+						data: {
+							title: movieName,
+							loading: true,
+							_id: addedMovie.data[0]._id
+						}
+					};
+					commit('pushMovie', newMovie);
+				});
+			});
+		},
 		fetchUser({ commit, state }) {
 			Vue.$axios.get('/user').then((user) => {
 				commit('setUset', user.data);
@@ -212,7 +233,8 @@ const store = new Vuex.Store({
 				});
 			});
 		}
-	}
+	},
+	root: true
 });
 
 export default store;

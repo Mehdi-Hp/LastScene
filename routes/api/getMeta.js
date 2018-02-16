@@ -1,13 +1,13 @@
 const app = require('express')();
 const _ = require('lodash');
 const debug = require('debug')('development');
-const tmdbIDToImdbID = require('../../services/tmdbIDToImdbID');
+const tmdbService = require('../../services/tmdbService');
 const getMovie = require('../../services/getMovie');
 
 app.route('/movie/:id')
 	.get((req, res, next) => {
 		if (req.query.id_type === 'tmdb') {
-			req.params.id = tmdbIDToImdbID(req.params.id).then((imdbID) => {
+			req.params.id = tmdbService.findImdbID(req.params.id).then((imdbID) => {
 				const tmdbID = req.params.id;
 				getMovie(imdbID, tmdbID).then((gottedMovie) => {
 					res.json(gottedMovie);

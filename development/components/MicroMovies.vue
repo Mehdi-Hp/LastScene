@@ -3,7 +3,7 @@
 			'l-micro-movies--searching': mode === 'search'
 		}">
 		<transition-group tag="ul" name="flip-list" class="l-micro-movies__holder" v-if="mode !== 'search'">
-			<micro-movie v-for="movie in movies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
+			<micro-movie v-for="(movie, movieIndex) in movies" :key="movieIndex" :initial-movie="movie" :loading="movie.data.loading"></micro-movie>
 		</transition-group>
 		<div class="l-micro-movies__search-row"
 			v-if="mode === 'search'"
@@ -18,8 +18,8 @@
 			<span class="l-micro-movies__no-search-result" v-if="!filteredMovies.length">
 				No Search Result!
 			</span>
-			<transition-group name="flip-list" class="l-micro-movies__holder" v-if="mode === 'search'" >
-				<micro-movie v-for="movie in filteredMovies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
+			<transition-group tag="ul" name="flip-list" class="l-micro-movies__holder" v-if="mode === 'search'" >
+				<micro-movie v-for="(movie, movieIndex) in filteredMovies" :key="movieIndex" :initial-movie="movie"></micro-movie>
 			</transition-group>
 		</div>
 	</section>
@@ -36,15 +36,20 @@ export default {
 	],
 	data() {
 		return {
-			movies: this.initialMovies
+
 		};
 	},
 	computed: {
-
+		movies() {
+			return this.initialMovies;
+		}
 	},
 	watch: {
-		initialMovies() {
-			this.$set(this, 'movies', this.initialMovies);
+		movies() {
+			setTimeout(() => {
+				this.$forceUpdate();
+				console.log('UPDATE');
+			}, 1000);
 		}
 	},
 	components: {

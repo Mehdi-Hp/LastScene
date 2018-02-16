@@ -98,9 +98,7 @@ const myapifilms = {
 						movie.awards = currentMovie.awards.map((currentAward) => {
 							const titleAward = currentAward.titlesAwards.map((titleAward) => {
 								const result = (titleAward.titleAwardOutcome.includes('Won')) ? 'won' : 'nominated';
-								console.log(titleAward);
 								let title = _.trim(titleAward.titleAwardOutcome.substring(titleAward.titleAwardOutcome.indexOf(' ')));
-								console.log(title);
 								let participants = '';
 								titleAward.categories.forEach((currentCategory) => {
 									title = (currentCategory.category.length) ? currentCategory.category : title;

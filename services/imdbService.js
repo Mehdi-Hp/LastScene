@@ -19,8 +19,6 @@ const imdbService = {
 					reject(error);
 				}
 				const $ = cheerio.load(html);
-				console.log($('.title_wrapper h1').text());
-				console.log(_.trim($('.title_wrapper h1').text(), '('));
 				resolve(movies);
 			});
 		});

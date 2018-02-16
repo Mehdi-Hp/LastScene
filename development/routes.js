@@ -1,9 +1,20 @@
+import Dashboard from './components/Dashboard.vue';
+import AddMovie from './components/AddMovie.vue';
+
 export default [
 	{
-		path: '/contact',
-		name: 'contact',
-		components: {
-
-		}
+		path: '/',
+		components:	{
+			dashboard: Dashboard
+		},
+		children: [
+			{
+				path: '/add',
+				name: 'addMovie',
+				components: {
+					addMovie: AddMovie
+				}
+			}
+		]
 	}
 ];

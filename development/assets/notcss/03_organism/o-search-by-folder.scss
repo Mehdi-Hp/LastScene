@@ -1,0 +1,20 @@
+.o-search-by-folder {
+	display: flex;
+	flex-direction: column;
+
+	&__title {
+		margin-bottom: .25em;
+		font-size: ms(6);
+		color: mix($overlay-color--light, black, 35%);
+	}
+
+	&__sub-title {
+		font-size: ms(-1);
+		margin-bottom: $gutter--thin;
+		color: $green;
+	}
+
+	&__drop {
+		box-shadow: 0 -15px 60px 0 mix($overlay-color--light, black, 94%);
+	}
+}

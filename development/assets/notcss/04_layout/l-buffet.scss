@@ -1,5 +1,5 @@
 .l-buffet {
-	background: linear-gradient(to bottom, $clay 30%, $clay--light 100%);
+	background: linear-gradient(to bottom, $clay 30%, $clay__shade--1 100%);
 	background-attachment: fixed;
 	position: relative;
 
@@ -10,7 +10,7 @@
 
 	&__tools {
 		height: 3rem;
-		margin: $gutter--thin;
+		margin: $gutter--thin $gutter;
 	}
 
 	&__micro-movies {

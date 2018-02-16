@@ -10,32 +10,24 @@
 
 		&--add {
 			flex-grow: 1;
+			text-shadow: -0.7em -10px 40px $clay__generic-gre--3;
+			color: $cyan;
 		}
 
 		&--sort {}
 	}
 
 	&__item {
-
+		display: flex;
+		align-content: center;
+		font-size: ms(-1);
 
 		&--add {
 			font-weight: 500;
 		}
 
 		&--sort {
-			&--enabled {
-
-			}
+			&--enabled {}
 		}
 	}
-}
-
-.slide-left-enter-active,
-.slide-left-leave-active {
-	transition: opacity 0.5s;
-}
-
-.slide-left-enter,
-.slide-left-leave-to {
-	opacity: 0;
 }

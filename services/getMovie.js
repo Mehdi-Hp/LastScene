@@ -36,15 +36,29 @@ module.exports = (imdbIDs) => {
 					}
 					movieQueue.add(imdbID);
 					debug(chalk.yellow(`__Not in database. Searching for movie information [${imdbID}] ...`));
+					Movie.create({
+						_id: imdbID,
+						loading: true,
+						fulfilled: false
+					}).then((initialMovie) => {
+						debug(chalk.yellow(`__Added initial movie data [${imdbID}] ...`));
+					}).catch((error) => {
+						reject({
+							status: 500,
+							message: 'Error saving movie in database'
+						});
+					});
 					myapifilmsService.getMovie(imdbID).then((movie) => {
+						movie.data[0].loading = false;
+						movie.data[0].fulfilled = true;
 						debug(chalk.green(`__Got movie information: [${imdbID}]. adding it to database...`));
 						i += 1;
 						getMovieEvent.emit('gotIt', i);
-						Movie.create(movie.data).then((newMovie) => {
+						Movie.findByIdAndUpdate(imdbID, movie.data[0], { new: true }).then((fulfilledMovie) => {
 							debug(chalk.green(`__Movie [${imdbID}] added to database`));
 							movieQueue.delete(imdbID);
-							getMoviesPromise.push(newMovie);
-							resolve(newMovie);
+							getMoviesPromise.push(fulfilledMovie);
+							resolve(fulfilledMovie);
 						}).catch((error) => {
 							debug(chalk.bold.red(error));
 							movieQueue.delete(imdbID);

@@ -7,9 +7,7 @@ const _ = require('lodash');
 const List = require('../models/list');
 const Movie = require('../models/movie');
 
-const Schema = mongoose.Schema;
-
-const moviesSubSchema = new Schema({
+const moviesSubSchema = new mongoose.Schema({
 	_id: {
 		type: String,
 		ref: Movie
@@ -23,7 +21,7 @@ const moviesSubSchema = new Schema({
 	timestamps: true
 });
 
-const listsSubSchema = new Schema({
+const listsSubSchema = new mongoose.Schema({
 	_id: {
 		type: String,
 		default: shortid.generate,
@@ -31,7 +29,7 @@ const listsSubSchema = new Schema({
 	}
 });
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
 	_id: {
 		type: String,
 		default: shortid.generate
@@ -88,7 +86,8 @@ userSchema.methods.findOneAndAddMovie = (user, imdbIDs) => {
 					foundedUser.model('User').findByIdAndUpdate(foundedUser._id, {
 						$push: {
 							movies: {
-								_id: imdbID
+								_id: imdbID,
+								loading: true
 							}
 						}
 					}, {

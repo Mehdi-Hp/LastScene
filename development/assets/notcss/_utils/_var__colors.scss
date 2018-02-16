@@ -23,7 +23,7 @@ $purple__highlight-3: #E8D5B5;
 
 $blue: #56889A;
 
-$cyan: #71B7A9;
+$cyan: #4DB6AC;
 
 $red: #cb5451;
 
@@ -46,7 +46,12 @@ $silver: #e5e5e5;
 $black: #525252;
 
 $clay: #2b323b;
-$clay--light: #485563;
+$clay__shade--0: #141B23;
+$clay__shade--1: #4F5660;
+$clay__shade--2: #767D88;
+$clay__shade--3: #9FA7B2;
+$clay__shade--4: #CAD3DE;
+$clay__shade--5: #D6DFEB;
 $clay__switch--1: #BFC7D3;
 $clay__switch--2: #BE861F;
 $clay__switch--3: #344A61;
@@ -57,12 +62,7 @@ $clay__classy--1: #92AECF;
 $clay__classy--2: #6C7888;
 $clay__classy--3: #442A33;
 $clay__classy--4: #755862;
-$clay__shade--0: #141B23;
-$clay__shade--1: #4F5660;
-$clay__shade--2: #767D88;
-$clay__shade--3: #9FA7B2;
-$clay__shade--4: #CAD3DE;
-$clay__shade--5: #D6DFEB;
+
 $clay__generic-gre--1: #285A6B;
 $clay__generic-gre--2: #01868A;
 $clay__generic-gre--3: #3AB28F;
@@ -76,3 +76,5 @@ $clay__matching-gre--5: #E8B8CF;
 
 
 $main-color: $clay;
+
+$overlay-color--light: #f6f6f6;

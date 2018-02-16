@@ -29,7 +29,7 @@
 			reactive : true }">
 		</icon-cannes>
 		<micro-award-title tippy-id="m-micro-awards__title--cannes" :award="cermony('Cannes Film Festival')"></micro-award-title>
-		
+
 		<icon-bafta
 			class="m-micro-awards__award"
 			:class="{ 'm-micro-awards__award--won': cermony('BAFTA Awards').categories[0].result === 'won' }"

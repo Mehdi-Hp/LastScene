@@ -5,11 +5,10 @@ import LodashForVue from 'lodash-for-vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
-// import svg from 'svg.js';
 import VueEsc from 'vue-esc';
 import VueTippy from 'vue-tippy';
 import App from './App.vue';
-// import Routes from './routes';
+import Routes from './routes';
 import invertColor from './helpers/invertColor';
 import store from './store';
 import './assets/notcss/00_base/base.scss';
@@ -17,8 +16,6 @@ import './assets/notcss/00_base/base.scss';
 Vue.use(LodashForVue);
 Vue.prototype.$_ = Vue.$lodash;
 Vue.$_ = Vue.$lodash;
-
-// Vue.prototype.$svg = svg;
 
 Vue.use(VueEsc);
 Vue.use(VueTippy, {
@@ -28,10 +25,10 @@ Vue.use(VueTippy, {
 });
 
 Vue.use(VueRouter);
-// const router = new VueRouter({
-// 	mode: 'history',
-// 	routes: Routes
-// });
+const router = new VueRouter({
+	mode: 'history',
+	routes: Routes
+});
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = 'http://localhost:3000/api/v1';
@@ -48,6 +45,7 @@ new Vue({
 	el: '#app',
 	render: h => h(App),
 	store,
+	router,
 	performance: true,
 	productionTip: false
 });
