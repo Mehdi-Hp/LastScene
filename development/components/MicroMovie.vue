@@ -68,7 +68,7 @@
 					</h3>
 				</h3>
 				<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
-					<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id"
+					<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director"
 						:class="{
 							'o-micro-movie__director--box' : outsider,
 							'o-micro-movie__director--minimal' : minimal,

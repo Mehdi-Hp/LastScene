@@ -17,11 +17,13 @@ const store = new Vuex.Store({
 	mutations: {
 		setUset(state, user) {
 			state.user.info = Vue.$_.omit(user.data, ['movies', 'lists']);
+
 			state.user.movies = renameObjectsKeys(user.data.movies, {
 				_id: 'data'
 			});
+
 			state.user.movies = fastSort(state.user.movies).desc((movie) => {
-				return movie.data.createdAt;
+				return movie.createdAt;
 			});
 			Vue.$_.forEach(state.user.movies, (movie, key) => {
 				movie.hoverState = false;
@@ -37,6 +39,7 @@ const store = new Vuex.Store({
 					remove: false
 				};
 			});
+
 			state.user.collections = renameObjectsKeys(user.data.lists, {
 				_id: 'data'
 			});
@@ -137,8 +140,8 @@ const store = new Vuex.Store({
 			});
 		},
 		fetchUser({ commit, state }) {
-			Vue.$axios.get('/user').then((user) => {
-				commit('setUset', user.data);
+			Vue.$axios.get('/user').then((res) => {
+				commit('setUset', res.data);
 			}).catch((error) => {
 				console.log(error);
 			});
