@@ -20,13 +20,16 @@ module.exports = (query) => {
 		request(requestOptions, (error, res, body) => {
 			if (error) {
 				debug(chalk.red(error));
-				reject({
+				return reject({
 					status: 500,
 					message: 'Server error when searching for movie'
 				});
 			}
-			if (!body.Response || !body) {
-				resolve({});
+			if (!body.Response || !body || body.Response === 'False') {
+				return reject({
+					status: 404,
+					message: 'No movie got found'
+				});
 			}
 			body.Search.forEach((omdbMovie) => {
 				movies.push(

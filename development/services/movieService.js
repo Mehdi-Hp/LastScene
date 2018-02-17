@@ -10,6 +10,10 @@ export default {
 				});
 			}
 			Vue.$axios.get(`/find/movie/${searchQuery}`).then((res) => {
+				console.log('res', res);
+				if (res.error) {
+					return reject(res.error);
+				}
 				const flattenFoundedMovies = res.data;
 				const standardedMovies = [];
 				const imdbIDsInArchive = Vue.$_.flatMap(movies, (movie) => {
@@ -28,11 +32,7 @@ export default {
 				});
 				resolve(standardedMovies);
 			}).catch((error) => {
-				console.log(error);
-				reject({
-					error: true,
-					message: 'Network error'
-				});
+				reject(error.response.data);
 			});
 		});
 	},

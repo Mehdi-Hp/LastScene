@@ -8,10 +8,11 @@
 			autofocus
 		>
 		<search-result class="o-search-field__result"
-			v-if="searchResult || loading"
-			:searchResult="searchResult.results"
+			v-if="mutedSearchResult.query && mutedSearchResult.results && loading"
+			:searchResult="mutedSearchResult.results"
 			:loading="loading"
 		></search-result>
+		<span class="o-search-field__no-result" v-if="!mutedSearchResult.results && mutedSearchResult.submitted">NO RESULT</span>
 	</div>
 </template>
 
@@ -28,6 +29,7 @@ export default {
 	],
 	data() {
 		return {
+			mutedSearchResult: this.searchResult,
 			searchQuery: null,
 			index: 0
 		};
@@ -49,6 +51,11 @@ export default {
 		}
 		if (this.fieldIndex) {
 			this.index = this.fieldIndex;
+		}
+	},
+	watch: {
+		searchResult() {
+			this.mutedSearchResult = this.searchResult;
 		}
 	}
 };

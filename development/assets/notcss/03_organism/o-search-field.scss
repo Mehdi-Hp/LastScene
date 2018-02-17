@@ -23,4 +23,15 @@
 	&__result {
 		margin: $gutter--thin 0 $gutter 0;
 	}
+
+	&__no-result {
+		margin: $gutter--thin 0 $gutter 0;
+		font-weight: 200;
+		color: $clay__classy--2;
+		font-size: ms(4);
+		font-style: italic;
+		padding: $gutter;
+		border: 2px solid mix($clay__classy--2, $overlay-color--light, 30%);
+		border-radius: 3px;
+	}
 }

@@ -13,6 +13,7 @@ app.route('/movie/:title')
 		}).catch((error) => {
 			res.status(error.status).json({
 				error: true,
+				status: error.status,
 				message: error.message
 			});
 		});

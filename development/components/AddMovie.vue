@@ -15,6 +15,7 @@
 					<search-field
 						v-if="!searchResults.length"
 						:loading="false"
+						:searchResult="[]"
 					></search-field>
 					<search-field
 						v-if="searchResults.length"
@@ -87,11 +88,13 @@ export default {
 		},
 		gotQuery(movieName, resultsIndex = 0) {
 			this.searchResults[resultsIndex] = this.searchForMovie(movieName);
+			this.$set(this.searchResults[resultsIndex], 'submitted', true);
 			this.searchResults[resultsIndex].results.then((results) => {
-				this.searchResults[resultsIndex].results = results;
+				this.$set(this.searchResults[resultsIndex], 'results', results);
 				this.$forceUpdate();
 			}).catch((error) => {
 				console.log(error);
+				this.$set(this.searchResults[resultsIndex], 'results', null);
 			});
 			this.$forceUpdate();
 		},
