@@ -68,7 +68,7 @@
 					</h3>
 				</h3>
 				<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
-					<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director"
+					<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id"
 						:class="{
 							'o-micro-movie__director--box' : outsider,
 							'o-micro-movie__director--minimal' : minimal,
@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import movieService from '../services/movieService';
 import MicroMovieMenu from './MicroMovieMenu.vue';
 import MicroAwards from './MicroAwards.vue';
 import MicroUserdata from './MicroUserdata.vue';
@@ -218,10 +219,26 @@ export default {
 	},
 	watch: {
 		initialMovie() {
-			this.movie = this.$_.extend({}, this.movie, this.initialMovie);
+			this.movie = this.initialMovie;
 		},
 		loading() {
 			this.isLoading = this.loading;
+		}
+	},
+	mounted() {
+		if (!this.outsider) {
+			const refreshMovie = setInterval(() => {
+				if (this.movie.data.loading) {
+					movieService.checkForFulfilled(this.movie.data._id).then((movie) => {
+						console.log(movie);
+						if (movie.fulfilled) {
+							this.$store.commit('updateMovieData', movie);
+							this.$forceUpdate();
+							clearInterval(refreshMovie);
+						}
+					});
+				}
+			}, 3000);
 		}
 	}
 };

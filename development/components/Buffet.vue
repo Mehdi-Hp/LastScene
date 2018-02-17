@@ -6,7 +6,9 @@
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
 			:mode="(filteredMovies) ? 'search' : null"
 		></micro-movies>
+		<keep-alive>
 		<router-view name="addMovie"></router-view>
+	</keep-alive>
 	</section>
 </template>
 

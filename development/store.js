@@ -47,6 +47,30 @@ const store = new Vuex.Store({
 		pushMovie(state, movie) {
 			state.user.movies.unshift(movie);
 		},
+		updateMovieData(state, newMovieData) {
+			const newMovie = {};
+			newMovie.data = newMovieData;
+			newMovie.hoverState = false;
+			newMovie.openMenu = false;
+			Vue.set(newMovie, 'favourite', Vue.$_.defaultTo(newMovie.favourite, false));
+			Vue.set(newMovie, 'watched', Vue.$_.defaultTo(newMovie.watched, false));
+			Vue.set(newMovie, 'watchList', Vue.$_.defaultTo(newMovie.watchList, false));
+			Vue.set(newMovie, 'remove', Vue.$_.defaultTo(newMovie.remove, false));
+			newMovie.bus = {
+				favourite: false,
+				watched: false,
+				watchList: false,
+				remove: false
+			};
+			const oldMovieIndex = Vue.$_.findIndex(state.user.movies, {
+				data: {
+					_id: newMovieData._id
+				}
+			});
+			console.log(newMovie);
+			console.log(state.user.movies[oldMovieIndex]);
+			Vue.set(state.user.movies, oldMovieIndex, newMovie);
+		},
 		toggleMovieFavourite(state, movie) {
 			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
 				data: {

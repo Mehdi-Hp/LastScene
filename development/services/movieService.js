@@ -36,6 +36,24 @@ export default {
 			});
 		});
 	},
+	get(imdbID) {
+		return new Promise((resolve, reject) => {
+			Vue.$axios.get(`/movies/${imdbID}`).then((res) => {
+				resolve(res.data.data._id);
+			}).catch((error) => {
+				reject(error);
+			});
+		});
+	},
+	checkForFulfilled(imdbID) {
+		return new Promise((resolve, reject) => {
+			this.get(imdbID).then((movie) => {
+				resolve(movie);
+			}).catch((error) => {
+				reject(error);
+			});
+		});
+	},
 	addToArchive(imdbID, movieName) {
 		return new Promise((resolve, reject) => {
 			if (!imdbID) {

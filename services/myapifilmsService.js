@@ -216,12 +216,12 @@ const myapifilms = {
 										debug(chalk.bold.red(error));
 										return reject(error);
 									});
+									resolve(response);
 							}
 						});
 						return movie;
 					});
 				}
-				resolve(response);
 			});
 		});
 	}
