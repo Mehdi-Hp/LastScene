@@ -5,7 +5,7 @@
 	"author": "Mehdi Hoseini <mehdi.hoseinipjooh@gmail.com>",
 	"private": true,
 	"scripts": {
-		"build": "webpack --hide-modules",
+		"build": "cross-env NODE_ENV=production webpack --hide-modules",
 		"start": "cross-env NODE_ENV=production DEBUG=development node ./bin/www",
 		"build:dev": "cross-env NODE_ENV=development nodemon --watch webpack.config.js ./node_modules/.bin/webpack-dashboard -- webpack-dev-server",
 		"start:dev": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
@@ -79,8 +79,7 @@
 		"vue-esc": "^2.0.0",
 		"vue-router": "^3.0.1",
 		"vue-tippy": "^2.0.8",
-		"vuex": "^3.0.1",
-		"webpack-bundle-analyzer": "^2.10.0"
+		"vuex": "^3.0.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^8.0.0",
@@ -152,6 +151,7 @@
 		"vue-loader": "^14.1.1",
 		"vue-template-compiler": "^2.3.3",
 		"webpack": "^3.11.0",
+		"webpack-bundle-analyzer": "^2.10.0",
 		"webpack-combine-loaders": "^2.0.3",
 		"webpack-config-utils": "^2.3.0",
 		"webpack-dashboard": "^1.1.1",
