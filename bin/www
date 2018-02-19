@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* eslint-disable */
+
 /**
  * Module dependencies.
  */
@@ -7,6 +9,7 @@
 var app = require('../app');
 var debug = require('debug')('framee:server');
 var http = require('http');
+require('dotenv').config();
 
 /**
  * Get port from environment and store in Express.

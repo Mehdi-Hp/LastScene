@@ -48,6 +48,7 @@ app.route('/:username?')
 			.catch((error) => {
 				debug(chalk.bold.red(error));
 				res.status(500).json({
+					error: true,
 					message: `Couldn't find user ${theUsername}, because of database error`
 				});
 			});

@@ -17,7 +17,10 @@
 					}"
 				>
 				<div class="m-movie-box__cover | a-movie-cover">
-					<img class="a-movie-cover__image" v-if="movie.data.images.poster" :src="movie.data.images.poster.small || movie.data.images.poster.default" :alt="movie.data.title">
+					<img class="a-movie-cover__image"
+						v-if="movie.data.images.poster"
+						:src="movie.data.images.poster.small || movie.data.images.poster.default"
+						:alt="movie.data.title">
 				</div>
 				<micro-movie-menu class="o-micro-movie__dropdown"
 					v-if="!outsider"

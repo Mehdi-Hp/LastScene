@@ -29,8 +29,8 @@ const myapifilms = {
 			debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
 			request(requestOptions, (error, res, body) => {
 				if (error) {
-					debug(chalk.bold.red(error));
-					reject({
+					debug(chalk.bold.red(JSON.parse(JSON.stringify(error))));
+					return reject({
 						status: 500,
 						message: error
 					});

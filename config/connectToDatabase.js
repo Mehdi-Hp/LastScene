@@ -1,10 +1,8 @@
 const chalk = require('chalk');
 const debug = require('debug')('development');
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
-
 module.exports = (mongoose) => {
-	mongoose.connect('mongodb://localhost:27017/huffilm', {
+	mongoose.connect('mongodb://mehdi:5BB4nlLLGXS4EYFWNhSR6CumGAOfgqb16@ds237748.mlab.com:37748/lastscene', {
 		autoReconnect: true
 	});
 	mongoose.Promise = global.Promise;
@@ -13,18 +11,12 @@ module.exports = (mongoose) => {
 		throw error;
 	});
 	mongooseConnection.once('connection', () => {
-		if (isDevelopment) {
-			debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
-		}
+		debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
 	});
 	mongooseConnection.once('open', () => {
-		if (isDevelopment) {
-			debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
-		}
+		debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
 	});
 	mongooseConnection.once('reconnect', () => {
-		if (isDevelopment) {
-			debug(chalk.bold.cyan(`reConnected to MongoDB, ${mongooseConnection.name} collection`));
-		}
+		debug(chalk.bold.cyan(`reConnected to MongoDB, ${mongooseConnection.name} collection`));
 	});
 };

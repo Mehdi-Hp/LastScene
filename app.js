@@ -16,11 +16,12 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const secretKey = require('./config/secretKey');
 const slugHero = require('mongoose-slug-hero');
+require('now-logs')(secretKey);
 
 slugHero.config.counter = 'slug_counters';
 
-const DIST_DIR = path.join(__dirname, 'public', 'production');
-const HTML_FILE = path.join(DIST_DIR, 'index.html');
+// const DIST_DIR = path.join(__dirname, 'public', 'production');
+// const HTML_FILE = path.join(DIST_DIR, 'index.html');
 // const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 const productionPath = path.resolve(__dirname, 'public/production');
@@ -32,7 +33,9 @@ require('./config/passport')(passport);
 
 /* eslint-disable no-console */
 
-app.set('views', path.join(__dirname, 'views'));
+app.engine('html', require('ejs').renderFile);
+
+app.set('views', path.join(__dirname, 'public', 'production'));
 app.set('view engine', 'html');
 
 app.use(helmet({}));
@@ -45,6 +48,7 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(cookieParser());
+app.use('/public', express.static('/public/files'));
 app.use(express.static(productionPath));
 
 app.use(session({
@@ -71,11 +75,11 @@ if (isDevelopment) {
 	// 	});
 	// });
 } else {
-	console.log('*** IS PRODUCTION ENV ***');
-	app.use(express.static(DIST_DIR));
-	app.get('*', (req, res) => {
-		res.sendFile(HTML_FILE);
-	});
+	// console.log('*** IS PRODUCTION ENV ***');
+	// app.use(express.static(DIST_DIR));
+	// app.get('*', (req, res) => {
+	// 	res.sendFile(HTML_FILE);
+	// });
 }
 
 app.use(require('./routes/all'));
@@ -92,7 +96,7 @@ app.use((error, req, res, next) => {
 	res.locals.message = error.message;
 	res.locals.error = req.app.get('env') === 'development' ? error : {};
 	res.status(error.status || 500);
-	res.render('error');
+	res.render('index');
 });
 
 module.exports = app;

@@ -8,7 +8,7 @@
 			autofocus
 		>
 		<search-result class="o-search-field__result"
-			v-if="mutedSearchResult.query && mutedSearchResult.results && loading"
+			v-if="(mutedSearchResult.query && mutedSearchResult.results) || loading"
 			:searchResult="mutedSearchResult.results"
 			:loading="loading"
 		></search-result>

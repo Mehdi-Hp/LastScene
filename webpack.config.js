@@ -1,13 +1,14 @@
 const webpack = require('webpack');
+// const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssPlugins = require('./postcss.config');
-const DashboardPlugin = require('webpack-dashboard/plugin');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const Jarvis = require('webpack-jarvis');
+// const Jarvis = require('webpack-jarvis');
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 require('pretty-error').start();
@@ -26,7 +27,9 @@ if (ifProduction()) {
 			{
 				loader: 'css-loader',
 				options: {
-					importLoaders: 1
+					importLoaders: 4,
+					import: false,
+					minimize: true
 				}
 			},
 			{
@@ -51,7 +54,10 @@ if (ifProduction()) {
 			{
 				loader: 'sass-resources-loader',
 				options: {
-					resources: './development/assets/notcss/00_base/base.scss'
+					resources: [
+						'./development/assets/notcss/_utils/_all-vendors.scss',
+						'./development/assets/notcss/_utils/_all-utils.scss'
+					]
 				}
 			}
 		]
@@ -108,6 +114,9 @@ module.exports = {
 		path: productionPath,
 		publicPath: '/',
 		filename: 'bundle.js'
+	},
+	stats: {
+		children: false
 	},
 	module: {
 		rules: [
@@ -169,39 +178,33 @@ module.exports = {
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
-		new DashboardPlugin(),
-		new Jarvis({
-			port: 1337
-		}),
-		ifProduction(new LodashModuleReplacementPlugin({
-			collections: true,
-			paths: true
-		})),
-		ifProduction(new webpack.optimize.UglifyJsPlugin()),
-		// new LodashModuleReplacementPlugin(),
-		// ifProduction(new BundleAnalyzerPlugin()),
-		ifProduction(new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: JSON.stringify('production')
-			}
-		})),
-		ifProduction(new ExtractTextPlugin('[name].bundle.css')),
-		ifProduction(new webpack.LoaderOptionsPlugin({
-			minimize: true,
-			quiet: true
-		})),
+		// new DashboardPlugin(),
+		// new Jarvis({
+		// 	port: 1337
+		// }),
 		ifProduction(new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"production"'
 			}
 		})),
-		ifProduction(new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				screw_ie8: true,
-				warnings: false
-			},
-			sourceMap: false
-		}))
+		ifProduction(new LodashModuleReplacementPlugin({
+			collections: true,
+			paths: true
+		})),
+		ifProduction(new webpack.optimize.UglifyJsPlugin()),
+		// ifProduction(new BundleAnalyzerPlugin()),
+		ifProduction(new ExtractTextPlugin('[name].bundle.css')),
+		ifProduction(new webpack.LoaderOptionsPlugin({
+			minimize: true,
+			quiet: true
+		})),
+		// ifProduction(new webpack.optimize.UglifyJsPlugin({
+		// 	compress: {
+		// 		screw_ie8: true,
+		// 		warnings: false
+		// 	},
+		// 	sourceMap: false
+		// }))
 	]),
 	resolve: {
 		alias: {

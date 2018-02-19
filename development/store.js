@@ -142,6 +142,13 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
+		fetchUser({ commit, state }) {
+			Vue.$axios.get('/user').then((res) => {
+				commit('setUset', res.data);
+			}).catch((error) => {
+				throw new Error(error);
+			});
+		},
 		addMovie({ commit, state }, { imdbID, movieName }) {
 			return new Promise((resolve, reject) => {
 				if (!imdbID) {
@@ -161,13 +168,6 @@ const store = new Vuex.Store({
 					};
 					commit('pushMovie', newMovie);
 				});
-			});
-		},
-		fetchUser({ commit, state }) {
-			Vue.$axios.get('/user').then((res) => {
-				commit('setUset', res.data);
-			}).catch((error) => {
-				console.log(error);
 			});
 		},
 		addMovieToFavourites({ commit, state }, movie) {
