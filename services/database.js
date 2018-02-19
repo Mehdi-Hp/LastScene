@@ -4,9 +4,8 @@ const keys = require('../config/keys');
 
 module.exports = {
 	connect(mongoose) {
-		console.log(process.env.omdb);
 		if (process.env.NODE_ENV === 'production') {
-			mongoose.connect(`mongodb://${keys.mongodb.username}:${keys.mongodb.password}@ds237748.mlab.com:37748/lastscene`, {
+			mongoose.connect(`mongodb://${keys.mongodb.username}:${keys.mongodb.password}@:37748/lastscene`, {
 				autoReconnect: true
 			});
 		} else {
