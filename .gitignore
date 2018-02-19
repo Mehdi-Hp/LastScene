@@ -1,6 +1,5 @@
 .sass-cache/
 [Ee]xpress/
-public/production/*
 bower_components/
 node_modules/
 .git/
