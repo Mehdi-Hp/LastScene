@@ -3,6 +3,7 @@ const debug = require('debug')('development');
 
 module.exports = {
 	connect(mongoose) {
+		console.log(process.env);
 		if (process.env.MONGODB_USERNAME) {
 			mongoose.connect(`mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/lastscene`, {
 				autoReconnect: true
