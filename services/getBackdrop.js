@@ -44,9 +44,9 @@ module.exports = (backdropLink, backdropName) => {
 			});
 		} else {
 			resolve({
-				small: `./public/files/backdrop/${backdropName}--small.jpeg`,
-				medium: `./public/files/backdrop/${backdropName}--medium.jpeg`,
-				big: `./public/files/backdrop/${backdropName}--big.jpeg`
+				small: `${backdropName}--small.jpeg`,
+				medium: `${backdropName}--medium.jpeg`,
+				big: `${backdropName}--big.jpeg`
 			});
 		}
 	});

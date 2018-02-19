@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssPlugins = require('./postcss.config');
-// const DashboardPlugin = require('webpack-dashboard/plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -178,7 +178,7 @@ module.exports = {
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
-		// new DashboardPlugin(),
+		new DashboardPlugin(),
 		// new Jarvis({
 		// 	port: 1337
 		// }),
@@ -197,7 +197,7 @@ module.exports = {
 		ifProduction(new webpack.LoaderOptionsPlugin({
 			minimize: true,
 			quiet: true
-		})),
+		}))
 		// ifProduction(new webpack.optimize.UglifyJsPlugin({
 		// 	compress: {
 		// 		screw_ie8: true,
@@ -212,7 +212,7 @@ module.exports = {
 		}
 	},
 	devServer: {
-		contentBase: process.cwd(),
+		contentBase: path.resolve(__dirname, 'public'),
 		publicPath: '/',
 		noInfo: true,
 		compress: true,

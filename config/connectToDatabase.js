@@ -2,9 +2,12 @@ const chalk = require('chalk');
 const debug = require('debug')('development');
 
 module.exports = (mongoose) => {
-	mongoose.connect('mongodb://mehdi:5BB4nlLLGXS4EYFWNhSR6CumGAOfgqb16@ds237748.mlab.com:37748/lastscene', {
+	mongoose.connect('mongodb://localhost:27017/lastscene', {
 		autoReconnect: true
 	});
+	// mongoose.connect('mongodb://mehdi:5BB4nlLLGXS4EYFWNhSR6CumGAOfgqb16@ds237748.mlab.com:37748/lastscene', {
+	// 	autoReconnect: true
+	// });
 	mongoose.Promise = global.Promise;
 	const mongooseConnection = mongoose.connection;
 	mongooseConnection.on('error', (error) => {

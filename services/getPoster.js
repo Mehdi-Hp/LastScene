@@ -45,9 +45,9 @@ module.exports = (posterLink, posterName) => {
 		} else {
 			debug(chalk.dim(`Poster of [${posterName}] already exist`));
 			resolve({
-				small: `./public/files/poster/${posterName}--small.jpeg`,
-				medium: `./public/files/poster/${posterName}--medium.jpeg`,
-				big: `./public/files/poster/${posterName}--big.jpeg`
+				small: `${posterName}--small.jpeg`,
+				medium: `${posterName}--medium.jpeg`,
+				big: `${posterName}--big.jpeg`
 			});
 		}
 	});

@@ -19,7 +19,7 @@
 				<div class="m-movie-box__cover | a-movie-cover">
 					<img class="a-movie-cover__image"
 						v-if="movie.data.images.poster"
-						:src="movie.data.images.poster.small || movie.data.images.poster.default"
+						:src="moviePoster"
 						:alt="movie.data.title">
 				</div>
 				<micro-movie-menu class="o-micro-movie__dropdown"
@@ -142,7 +142,12 @@ export default {
 		};
 	},
 	computed: {
-
+		moviePoster() {
+			if (this.movie.data.images.poster.small) {
+				return `./files/poster/${this.movie.data.images.poster.small}`;
+			}
+			return this.movie.data.images.poster.default;
+		}
 	},
 	components: {
 		MicroMovieMenu,
