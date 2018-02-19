@@ -3,3 +3,7 @@
 bower_components/
 node_modules/
 .git/
+public/
+config/apiKeys.js
+config/secretKey.js
+config/connectToDatabase.js
