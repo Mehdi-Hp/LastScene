@@ -2,7 +2,6 @@ const request = require('request');
 const _ = require('lodash');
 const debug = require('debug')('development');
 const chalk = require('chalk');
-const keys = require('../config/keys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
 const getBackdrop = require('./getBackdrop');
@@ -14,7 +13,7 @@ const myapifilms = {
 			url: 'http://www.myapifilms.com/imdb/idIMDB',
 			qs: {
 				idIMDB: imdbID,
-				token: keys.myapifilms,
+				token: process.env.MYAPIFILMS,
 				format: 'json',
 				filter: '3',
 				trailers: '1',
@@ -185,7 +184,7 @@ const myapifilms = {
 							method: 'GET',
 							url: `https://api.themoviedb.org/3/find/${imdbID}`,
 							qs: {
-								api_key: keys.tmdb.v3,
+								api_key: process.env.TMDB_V3,
 								external_source: 'imdb_id'
 							},
 							json: true

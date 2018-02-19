@@ -1,5 +1,4 @@
 require('dotenv').config();
-console.log(process.env);
 const express = require('express');
 const path = require('path');
 // const favicon = require('serve-favicon');
@@ -14,8 +13,6 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const slugHero = require('mongoose-slug-hero');
-
-const keys = require('./config/keys');
 
 slugHero.config.counter = 'slug_counters';
 
@@ -41,7 +38,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/public', serveIndex('public'));
 
 app.use(session({
-	secret: keys.secret,
+	secret: process.env.SECRET,
 	resave: true,
 	saveUninitialized: true
 }));

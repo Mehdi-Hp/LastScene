@@ -1,15 +1,14 @@
 const chalk = require('chalk');
 const debug = require('debug')('development');
-const keys = require('../config/keys');
 
 module.exports = {
 	connect(mongoose) {
-		if (process.env.NODE_ENV === 'production') {
-			mongoose.connect(`mongodb://${keys.mongodb.username}:${keys.mongodb.password}@:37748/lastscene`, {
+		if (process.env.MONGODB_USERNAME) {
+			mongoose.connect(`mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/lastscene`, {
 				autoReconnect: true
 			});
 		} else {
-			mongoose.connect('mongodb://localhost:27017/lastscene', {
+			mongoose.connect(`mongodb://@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/lastscene`, {
 				autoReconnect: true
 			});
 		}

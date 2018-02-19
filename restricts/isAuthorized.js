@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
 const debug = require('debug')('development');
 const chalk = require('chalk');
-const User = require('../models/user');
 
 module.exports = (req, res, next) => {
 	const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -12,7 +10,7 @@ module.exports = (req, res, next) => {
 			message: 'No token provided'
 		});
 	}
-	jwt.verify(token, keys, (error, decoded) => {
+	jwt.verify(token, process.env.SECRET, (error, decoded) => {
 		if (error) {
 			debug(chalk.bold.red(error));
 			if (error.name === 'TokenExpiredError') {
