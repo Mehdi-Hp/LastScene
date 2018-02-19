@@ -1,10 +1,10 @@
 const Trakt = require('trakt.tv');
-const apiKeys = require('../config/apiKeys');
+const keys = require('../config/keys');
 // const Movie = require('../classes/movie');
 
 const trakt = new Trakt({
-	client_id: apiKeys.trakt.clientID,
-	client_secret: apiKeys.trakt.clientSecret,
+	client_id: keys.trakt.clientID,
+	client_secret: keys.trakt.clientSecret,
 	api_url: null, // defaults to 'https://api.trakt.tv'
 	debug: true
 });

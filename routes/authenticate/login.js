@@ -2,7 +2,7 @@ const app = require('express')();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const debug = require('debug')('development');
-const secretKey = require('../../config/secretKey');
+const keys = require('../../config/keys');
 
 app.route('/')
 	.get((req, res, next) => {
@@ -24,7 +24,7 @@ app.route('/')
 					message: error
 				});
 			}
-			const token = jwt.sign({ data: user }, secretKey, {});
+			const token = jwt.sign({ data: user }, keys, {});
 			return res.json({
 				auth: true,
 				token

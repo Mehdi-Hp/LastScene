@@ -43,6 +43,7 @@ module.exports = (backdropLink, backdropName) => {
 				});
 			});
 		} else {
+			debug(chalk.dim(`Backdrop of [${backdropName}] already exist`));
 			resolve({
 				small: `${backdropName}--small.jpeg`,
 				medium: `${backdropName}--medium.jpeg`,

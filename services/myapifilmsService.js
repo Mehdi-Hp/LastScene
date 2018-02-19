@@ -2,7 +2,7 @@ const request = require('request');
 const _ = require('lodash');
 const debug = require('debug')('development');
 const chalk = require('chalk');
-const apiKeys = require('../config/apiKeys');
+const keys = require('../config/keys');
 const Movie = require('../models/movie');
 const getPoster = require('./getPoster');
 const getBackdrop = require('./getBackdrop');
@@ -14,7 +14,7 @@ const myapifilms = {
 			url: 'http://www.myapifilms.com/imdb/idIMDB',
 			qs: {
 				idIMDB: imdbID,
-				token: apiKeys.myapifilms,
+				token: keys.myapifilms,
 				format: 'json',
 				filter: '3',
 				trailers: '1',
@@ -165,15 +165,18 @@ const myapifilms = {
 								},
 								{
 									new: true
-								}).then((movieWithPoster) => {
+								})
+								.then((movieWithPoster) => {
 									if (movieWithPoster) {
 										debug(chalk.dim(`Posters pushed to movie [${movieWithPoster._id}]`));
 									}
-								}).catch((error) => {
+								})
+								.catch((error) => {
 									debug(chalk.bold.red(error));
 									return reject(error);
 								});
-							}).catch((error) => {
+							})
+							.catch((error) => {
 								debug(chalk.bold.red(error));
 								return reject(error);
 							});
@@ -182,7 +185,7 @@ const myapifilms = {
 							method: 'GET',
 							url: `https://api.themoviedb.org/3/find/${imdbID}`,
 							qs: {
-								api_key: apiKeys.tmdb.v3,
+								api_key: keys.tmdb.v3,
 								external_source: 'imdb_id'
 							},
 							json: true
@@ -204,15 +207,18 @@ const myapifilms = {
 										},
 										{
 											new: true
-										}).then((movieWithBackdrop) => {
+										})
+										.then((movieWithBackdrop) => {
 											if (movieWithBackdrop) {
 												debug(chalk.dim(`Backdrops pushed to movie [${movieWithBackdrop._id}]`));
 											}
-										}).catch((error) => {
+										})
+										.catch((error) => {
 											debug(chalk.bold.red(error));
 											return reject(error);
 										});
-									}).catch((error) => {
+									})
+									.catch((error) => {
 										debug(chalk.bold.red(error));
 										return reject(error);
 									});

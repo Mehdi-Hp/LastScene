@@ -2,17 +2,17 @@ const request = require('request');
 const chalk = require('chalk');
 const debug = require('debug')('development');
 const OmdbApi = require('omdb-api-pt');
-const apiKeys = require('../config/apiKeys');
+const keys = require('../config/keys');
 
 const omdb = new OmdbApi({
-	apiKey: apiKeys.omdb
+	apiKey: keys.omdb
 });
 
 module.exports = (query) => {
 	const movies = [];
 	const requestOptions = {
 		method: 'GET',
-		url: `http://www.omdbapi.com/?apikey=${apiKeys.omdb}&s=${query.title}`,
+		url: `http://www.omdbapi.com/?apikey=${keys.omdb}&s=${query.title}`,
 		json: true
 	};
 	return new Promise((resolve, reject) => {

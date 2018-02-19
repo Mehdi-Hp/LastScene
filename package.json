@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "webpack --hide-modules",
 		"start": "cross-env NODE_ENV=production DEBUG=development node ./bin/www",
-		"build:dev": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server",
+		"build:dev": "cross-env NODE_ENV=development nodemon --watch webpack.config.js ./node_modules/.bin/webpack-dashboard -- webpack-dev-server",
 		"start:dev": "cross-env NODE_ENV=development DEBUG=development nodemon ./bin/www",
 		"tlapse": "tlapse -- localhost:8080 --directory /data/Projects/_Designs/LastScene"
 	},
@@ -19,8 +19,8 @@
 			"entry": "tab",
 			"layout": [
 				"mongod",
-				"npm run dev-server",
-				"npm run dev-client"
+				"npm run start:dev",
+				"npm run build:dev"
 			]
 		}
 	},
@@ -65,6 +65,7 @@
 		"request": "^2.81.0",
 		"sanitize-filename": "^1.6.1",
 		"serve-favicon": "~2.4.2",
+		"serve-index": "^1.9.1",
 		"sharp": "^0.18.4",
 		"shortid": "^2.2.8",
 		"slug": "^0.9.1",

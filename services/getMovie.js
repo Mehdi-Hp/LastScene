@@ -51,7 +51,7 @@ module.exports = (imdbIDs) => {
 					myapifilmsService.getMovie(imdbID).then((movie) => {
 						movie.data[0].loading = false;
 						movie.data[0].fulfilled = true;
-						debug(chalk.green(`__Got movie information: [${imdbID}]. adding it to database...`));
+						debug(chalk.green(`____Got movie information: [${imdbID}]. adding it to database...`));
 						i += 1;
 						getMovieEvent.emit('gotIt', i);
 						Movie.findByIdAndUpdate(imdbID, movie.data[0], { new: true }).then((fulfilledMovie) => {

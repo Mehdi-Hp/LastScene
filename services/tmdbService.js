@@ -1,7 +1,7 @@
 const request = require('request');
 const chalk = require('chalk');
 const debug = require('debug')('development');
-const apiKeys = require('../config/apiKeys');
+const keys = require('../config/keys');
 
 let movies = {};
 let rateLimit = 40;
@@ -15,7 +15,7 @@ const tmdbService = {
 				query: information.title,
 				year: information.year || undefined,
 				page: information.page || undefined,
-				api_key: apiKeys.tmdb.v3
+				api_key: keys.tmdb.v3
 			},
 			json: true
 		};
@@ -74,7 +74,7 @@ const tmdbService = {
 			method: 'GET',
 			url: `https://api.themoviedb.org/3/movie/${tmdbID}`,
 			qs: {
-				api_key: apiKeys.tmdb.v3
+				api_key: keys.tmdb.v3
 			},
 			json: true
 		};
