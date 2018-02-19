@@ -5,6 +5,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const ejs = require('ejs');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -21,8 +22,14 @@ const app = express();
 require('./services/database').connect(mongoose);
 require('./services/passport')(passport);
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+if (process.env.NODE_ENV === 'production') {
+	app.engine('html', ejs.renderFile);
+	app.set('views', path.join(__dirname, '/public/production'));
+	app.set('view engine', 'html');
+} else {
+	app.set('views', path.join(__dirname, 'views'));
+	app.set('view engine', 'ejs');
+}
 
 app.use(helmet({}));
 app.use(cors());
@@ -34,7 +41,8 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(cookieParser());
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/files', express.static(path.join(__dirname, 'public/files')));
+app.use('/production', express.static(path.join(__dirname, 'public/production')));
 app.use('/public', serveIndex('public'));
 
 app.use(session({
