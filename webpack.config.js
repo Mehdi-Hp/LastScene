@@ -9,14 +9,11 @@ const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-// const Jarvis = require('webpack-jarvis');
 
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 require('pretty-error').start();
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
-// const developmentPath = path.resolve(__dirname, 'public', 'development');
 const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
 
 const { ifProduction } = getIfUtils(process.env.NODE_ENV);
@@ -156,10 +153,23 @@ module.exports = {
 			}),
 			removeEmpty({
 				test: /\.js$/,
-				loader: 'babel-loader',
-				options: {
-					plugins: ['lodash'],
-					presets: [['env', { modules: false, targets: { node: 4 } }]]
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [
+							['@babel/preset-env', {
+								env: {
+									production: {
+										plugins: ['minify']
+									}
+								},
+								targets: {
+									browsers: ['last 2 versions']
+								},
+								spec: true
+							}]
+						]
+					}
 				},
 				exclude: [nodeModulesPath]
 			})
@@ -167,20 +177,21 @@ module.exports = {
 	},
 	plugins: removeEmpty([
 		new HtmlWebpackPlugin({
-			template: 'views/index.ejs',
+			template: 'views/index.html',
 			inject: true,
 			filename: 'index.html'
 		}),
-		new HtmlWebpackIncludeAssetsPlugin({
-			assets: [],
-			append: true
-		}),
+		ifProduction(new HtmlWebpackIncludeAssetsPlugin({
+			assets: [
+				'main.bundle.css',
+				'bundle.js'
+			],
+			append: true,
+			publicPath: '/production/'
+		})),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
 		new DashboardPlugin(),
-		// new Jarvis({
-		// 	port: 1337
-		// }),
 		ifProduction(new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"production"'
@@ -197,13 +208,6 @@ module.exports = {
 			minimize: true,
 			quiet: true
 		}))
-		// ifProduction(new webpack.optimize.UglifyJsPlugin({
-		// 	compress: {
-		// 		screw_ie8: true,
-		// 		warnings: false
-		// 	},
-		// 	sourceMap: false
-		// }))
 	]),
 	resolve: {
 		alias: {
