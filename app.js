@@ -23,10 +23,12 @@ require('./services/database').connect(mongoose);
 require('./services/passport')(passport);
 
 if (process.env.NODE_ENV === 'production') {
+	console.log('---- PRODUCTION ENVIRONMENT ----');
 	app.engine('html', ejs.renderFile);
 	app.set('views', path.join(__dirname, '/public/production'));
 	app.set('view engine', 'html');
 } else {
+	console.log('---- DEV ENVIRONMENT ----');
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'ejs');
 }
