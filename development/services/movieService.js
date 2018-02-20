@@ -10,7 +10,6 @@ export default {
 				});
 			}
 			Vue.$axios.get(`/find/movie/${searchQuery}`).then((res) => {
-				console.log('res', res);
 				if (res.error) {
 					return reject(res.error);
 				}
@@ -38,20 +37,23 @@ export default {
 	},
 	get(imdbID) {
 		return new Promise((resolve, reject) => {
-			Vue.$axios.get(`/movies/${imdbID}`).then((res) => {
-				resolve(res.data.data._id);
-			}).catch((error) => {
-				reject(error);
-			});
+			Vue.$axios.get(`/movies/${imdbID}`)
+				.then((res) => {
+					resolve(res.data.data._id);
+				})
+				.catch((error) => {
+					reject(error);
+				});
 		});
 	},
 	checkForFulfilled(imdbID) {
 		return new Promise((resolve, reject) => {
-			this.get(imdbID).then((movie) => {
-				resolve(movie);
-			}).catch((error) => {
-				reject(error);
-			});
+			this.get(imdbID)
+				.then((movie) => {
+					resolve(movie);
+				}).catch((error) => {
+					reject(error);
+				});
 		});
 	},
 	addToArchive(imdbID, movieName) {
@@ -62,8 +64,9 @@ export default {
 					message: 'Bad request. No IMDB ID.'
 				});
 			}
-			Vue.$axios.post('/movies', [imdbID]).then((addedMovie) => {
+			Vue.$axios.post(`/movies/${imdbID}`).then((addedMovie) => {
 				addedMovie.data[0].title = movieName;
+				resolve(addedMovie);
 			});
 		});
 	}

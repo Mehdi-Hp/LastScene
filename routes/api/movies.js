@@ -3,7 +3,7 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 const _ = require('lodash');
 const User = require('../../models/user');
-const getMovie = require('../../services/getMovie');
+const movieService = require('../../services/movieService');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
 app.route('/')
@@ -35,63 +35,6 @@ app.route('/')
 				message: `Couldn't find user ${theUsername}, because of database error`
 			});
 		});
-	})
-	.post((req, res, next) => {
-		currentOrCustomUser(req, res);
-		const imdbIDs = req.body;
-		const user = new User(req.user);
-		if (imdbIDs === null) {
-			return res.status(400).json({
-				message: 'You should provide one or many imdbIDs in your request'
-			});
-		}
-		if (!imdbIDs || !imdbIDs.length) {
-			return res.status(400).json({
-				message: 'Your request doesn\'t fit in the standards'
-			});
-		}
-		getMovie(imdbIDs);
-		Promise.all(user.findOneAndAddMovie(user, imdbIDs)).then((updatedUser) => {
-			res.status(200).json(updatedUser);
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
-			});
-		});
-	})
-	.delete((req, res, next) => {
-		currentOrCustomUser(req, res);
-		const imdbID = req.body;
-		const user = new User(req.user);
-		if (imdbID === null) {
-			return res.status(400).json({
-				message: 'You should provide one or many imdbIDs in your request'
-			});
-		}
-		if (!imdbID || !imdbID.length) {
-			return res.status(400).json({
-				message: 'Your request doesn\'t fit in our standards'
-			});
-		}
-		Promise.all(user.findOneAndDeleteMovie(user, imdbID)).then((updatedUser) => {
-			res.status(200).json(updatedUser);
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
-			});
-		});
-	})
-	.put((req, res, next) => {
-		currentOrCustomUser(req, res);
-		const reqMovies = req.body;
-		const user = new User(req.user);
-		Promise.all(user.findOneAndUpdateMovie(user, reqMovies)).then((updatedUser) => {
-			res.status(200).json(updatedUser);
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
-			});
-		});
 	});
 
 app.route('/:movie_id')
@@ -114,6 +57,7 @@ app.route('/:movie_id')
 		}).then((user) => {
 			if (!user) {
 				res.status(404).json({
+					error: true,
 					message: `Couldn't find user ${theUsername}.`
 				});
 			}
@@ -124,7 +68,31 @@ app.route('/:movie_id')
 		}).catch((error) => {
 			debug(chalk.bold.red(error));
 			res.status(500).json({
+				error: true,
 				message: `Couldn't find user ${theUsername}, because of database error`
+			});
+		});
+	})
+	.post((req, res, next) => {
+		currentOrCustomUser(req, res);
+		const imdbID = req.params.movie_id;
+		const user = new User(req.user);
+		if (imdbID === null) {
+			return res.status(400).json({
+				message: 'You should provide imdbID in your request'
+			});
+		}
+		if (!imdbID || !imdbID.length) {
+			return res.status(400).json({
+				message: 'Your request doesn\'t fit in the standards'
+			});
+		}
+		movieService.getComplete(imdbID);
+		user.findOneAndAddMovie(user, imdbID).then((updatedUser) => {
+			res.status(200).json(updatedUser);
+		}).catch((error) => {
+			res.status(error.status).json({
+				message: error.message
 			});
 		});
 	})

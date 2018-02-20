@@ -157,13 +157,13 @@ const store = new Vuex.Store({
 						message: 'Bad request. No IMDB ID.'
 					});
 				}
-				Vue.$axios.post('/movies', [imdbID]).then((addedMovie) => {
+				Vue.$axios.post(`/movies/${imdbID}`).then((addedMovie) => {
 					const newMovie = {
 						bus: {},
 						data: {
 							title: movieName,
 							loading: true,
-							_id: addedMovie.data[0]._id
+							_id: addedMovie.data._id
 						}
 					};
 					commit('pushMovie', newMovie);

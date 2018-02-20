@@ -34,9 +34,9 @@ module.exports = (posterPath, posterName) => {
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((postersPath) => {
 			mainResolve({
-				small: postersPath[0],
-				medium: postersPath[1],
-				big: postersPath[2]
+				small: `${posterName}--small.jpeg`,
+				medium: `${posterName}--medium.jpeg`,
+				big: `${posterName}--big.jpeg`
 			});
 		});
 	});

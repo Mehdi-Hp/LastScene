@@ -16,7 +16,7 @@ module.exports = (posterLink, posterName) => {
 			request(posterLink, (error, response) => {
 				if (error) {
 					debug(chalk.bold.red(error));
-					reject(error);
+					return reject(error);
 				}
 				data.contentType = _.split(response.headers['content-type'], '/')[1];
 				debug(chalk.dim(`Got poster for [${posterName}]. generating diffrent sizes...`));

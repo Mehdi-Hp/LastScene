@@ -34,9 +34,9 @@ module.exports = (backdropPath, backdropName) => {
 		});
 		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((backdropsPath) => {
 			mainResolve({
-				small: backdropsPath[0],
-				medium: backdropsPath[1],
-				big: backdropsPath[2]
+				small: `${backdropName}--small.jpeg`,
+				medium: `${backdropName}--medium.jpeg`,
+				big: `${backdropName}--big.jpeg`
 			});
 		});
 	});

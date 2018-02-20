@@ -3,8 +3,7 @@ const _ = require('lodash');
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const Movie = require('../models/movie');
-const getPoster = require('./getPoster');
-const getBackdrop = require('./getBackdrop');
+const downloadPoster = require('./downloadPoster');
 
 const myapifilms = {
 	getMovie: (imdbID) => {
@@ -25,13 +24,13 @@ const myapifilms = {
 			json: true
 		};
 		return new Promise((resolve, reject) => {
-			debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
 			request(requestOptions, (error, res, body) => {
+				const posterURL = body.data.movies[0].urlPoster;
 				if (error) {
 					debug(chalk.bold.red(JSON.parse(JSON.stringify(error))));
 					return reject({
 						status: 500,
-						message: error
+						message: 'Server error. could not connect to API'
 					});
 				}
 				const response = {};
@@ -139,8 +138,16 @@ const myapifilms = {
 								full: currentMovie.plot
 							},
 							images: {
-								poster: '',
-								backdrop: ''
+								poster: {
+									small: `${currentMovie.idIMDB}--small.jpeg`,
+									medium: `${currentMovie.idIMDB}--medium.jpeg`,
+									big: `${currentMovie.idIMDB}--big.jpeg`
+								},
+								backdrop: {
+									small: `${currentMovie.idIMDB}--small.jpeg`,
+									medium: `${currentMovie.idIMDB}--medium.jpeg`,
+									big: `${currentMovie.idIMDB}--big.jpeg`
+								}
 							},
 							runtime: currentMovie.runtime,
 							trailer: currentMovie.trailer.videoURL,
@@ -151,81 +158,20 @@ const myapifilms = {
 							genres: currentMovie.genres,
 							awards: movie.awards
 						});
-
-						getPoster(currentMovie.urlPoster, movie.id.imdb)
-							.then((posters) => {
-								movie.images.poster = posters;
-								Movie.findByIdAndUpdate(movie.id.imdb, {
-									'images.poster': {
-										small: posters.small,
-										medium: posters.medium,
-										big: posters.big
-									}
-								},
-								{
-									new: true
-								})
-								.then((movieWithPoster) => {
-									if (movieWithPoster) {
-										debug(chalk.dim(`Posters pushed to movie [${movieWithPoster._id}]`));
-									}
-								})
-								.catch((error) => {
-									debug(chalk.bold.red(error));
-									return reject(error);
-								});
-							})
-							.catch((error) => {
-								debug(chalk.bold.red(error));
-								return reject(error);
-							});
-
-						request({
-							method: 'GET',
-							url: `https://api.themoviedb.org/3/find/${imdbID}`,
-							qs: {
-								api_key: process.env.TMDB_V3,
-								external_source: 'imdb_id'
-							},
-							json: true
-						}, (error, res, body) => {
-							if (error) {
-								debug(chalk.bold.red(error));
-								return reject(error);
-							}
-							if (body.movie_results[0].backdrop_path.length) {
-								getBackdrop(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`, movie.id.imdb)
-									.then((backdrop) => {
-										movie.images.backdrop = backdrop;
-										Movie.findByIdAndUpdate(movie.id.imdb, {
-											'images.backdrop': {
-												small: backdrop.small,
-												medium: backdrop.medium,
-												big: backdrop.big
-											}
-										},
-										{
-											new: true
-										})
-										.then((movieWithBackdrop) => {
-											if (movieWithBackdrop) {
-												debug(chalk.dim(`Backdrops pushed to movie [${movieWithBackdrop._id}]`));
-											}
-										})
-										.catch((error) => {
-											debug(chalk.bold.red(error));
-											return reject(error);
-										});
-									})
-									.catch((error) => {
-										debug(chalk.bold.red(error));
-										return reject(error);
-									});
-									resolve(response);
-							}
-						});
 						return movie;
 					});
+
+					downloadPoster(posterURL, response.data[0]._id)
+						.then((posters) => {
+							resolve(response);
+						})
+						.catch((error) => {
+							debug(chalk.bold.red(error));
+							reject({
+								status: 500,
+								message: 'Error downloading movie poster'
+							});
+						});
 				}
 			});
 		});
