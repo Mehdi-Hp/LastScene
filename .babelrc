@@ -1,12 +1,6 @@
 {
 	"presets": [
-		["env", {
-			"modules": false,
-			"targets": {
-				"node": "current",
-				"uglify": true
-			}
-		}]
+		
 	],
 
 	"plugins": ["syntax-dynamic-import"]
