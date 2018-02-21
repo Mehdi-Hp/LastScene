@@ -156,19 +156,22 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
+						plugins: ['lodash'],
 						presets: [
 							['@babel/preset-env', {
-								env: {
-									production: {
-										plugins: ['minify']
-									}
-								},
 								targets: {
 									browsers: ['last 2 versions']
 								},
 								spec: true
 							}]
 						]
+						// env: {
+						// 	production: {
+						// 		presets: ['minify', {
+						// 			removeUndefined: false
+						// 		}]
+						// 	}
+						// }
 					}
 				},
 				exclude: [nodeModulesPath]
