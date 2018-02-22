@@ -7,6 +7,7 @@ const Movie = require('../models/movie');
 const movieQueue = require('../config/movieQueue')();
 // const downloadPoster = require('./downloadPoster');
 const downloadBackdrop = require('./downloadBackdrop');
+const downloadPoster = require('./downloadPoster');
 
 module.exports = {
 	search(query) {
@@ -101,7 +102,22 @@ module.exports = {
 		});
 	},
 	getPoster(imdbID) {
-
+		return new Promise((resolve, reject) => {
+			tmdbService.getPosterURL(imdbID)
+				.then((posterURL) => {
+					downloadPoster(posterURL, imdbID)
+						.then((poster) => {
+							resolve(poster);
+						})
+						.catch((error) => {
+							debug(chalk.bold.red(error));
+							reject(error);
+						});
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
 	},
 	getBackdrop(imdbID) {
 		return new Promise((resolve, reject) => {
