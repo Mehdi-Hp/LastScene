@@ -22,33 +22,7 @@ const app = express();
 require('./services/database').connect(mongoose);
 require('./services/passport')(passport);
 
-if (process.env.NODE_ENV === 'production') {
-	console.log('---- PRODUCTION ENVIRONMENT ----');
-	app.engine('html', ejs.renderFile);
-	app.set('views', path.join(__dirname, '/public/production'));
-	app.set('view engine', 'html');
-} else {
-	console.log('---- DEV ENVIRONMENT ----');
-	app.set('views', path.join(__dirname, 'views'));
-	app.set('view engine', 'ejs');
-}
 
-app.use(helmet({}));
-app.use(cors());
-
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
-app.use(cookieParser());
-
-app.use('/files', express.static(path.join(__dirname, 'public/files')));
-app.use('/production', express.static(path.join(__dirname, 'public/production')));
-if (process.env.NODE_ENV !== 'production') {
-	app.use('/public', serveIndex('public'));
-}
 
 app.use(session({
 	secret: process.env.SECRET,
