@@ -10,7 +10,7 @@ const data = {};
 
 module.exports = (posterLink, posterName) => {
 	return new Promise((resolve, reject) => {
-		debug(chalk.dim(`Checking if there is backdrop for [${posterName}]`));
+		debug(chalk.dim(`Checking if there is poster for [${posterName}]`));
 		if (!isThere(`./public/files/poster/${posterName}--small.jpeg`) || !isThere(`./public/files/poster/${posterName}--medium.jpeg`) || !isThere(`./public/files/poster/${posterName}--big.jpeg`)) {
 			debug(chalk.dim(`No poster for [${posterName}]. getting one...`));
 			request(posterLink, (error, response) => {

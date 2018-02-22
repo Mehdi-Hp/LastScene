@@ -43,9 +43,12 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(cookieParser());
+
 app.use('/files', express.static(path.join(__dirname, 'public/files')));
 app.use('/production', express.static(path.join(__dirname, 'public/production')));
-app.use('/public', serveIndex('public'));
+if (process.env.NODE_ENV !== 'production') {
+	app.use('/public', serveIndex('public'));
+}
 
 app.use(session({
 	secret: process.env.SECRET,
@@ -55,7 +58,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
 
 app.use(require('./routes/all'));
 

@@ -3,7 +3,7 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 
 module.exports = (posterPath, posterName) => {
-	return new Promise((mainResolve, mainReject) => {
+	return new Promise((resolve, reject) => {
 		debug('Generating poster from original file...');
 		const jpegSmall = new Promise((resolve, reject) => {
 			sharp(posterPath)
@@ -32,12 +32,16 @@ module.exports = (posterPath, posterName) => {
 					debug(chalk.green('Poster--big generated.'));
 				});
 		});
-		Promise.all([jpegSmall, jpegMedium, jpegBig]).then((postersPath) => {
-			mainResolve({
-				small: `${posterName}--small.jpeg`,
-				medium: `${posterName}--medium.jpeg`,
-				big: `${posterName}--big.jpeg`
+		Promise.all([jpegSmall, jpegMedium, jpegBig])
+			.then((postersPath) => {
+				resolve({
+					small: `${posterName}--small.jpeg`,
+					medium: `${posterName}--medium.jpeg`,
+					big: `${posterName}--big.jpeg`
+				});
+			})
+			.catch((error) => {
+				reject(error);
 			});
-		});
 	});
 };

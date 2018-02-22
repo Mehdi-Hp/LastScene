@@ -92,8 +92,30 @@ const tmdbService = {
 			});
 		});
 	},
-	getPosterURL() {
-
+	getPosterURL(imdbID) {
+		debug(chalk.green(`Getting poster URL for ${imdbID} using TMDB`));
+		return new Promise((resolve, reject) => {
+			request({
+				method: 'GET',
+				url: `https://api.themoviedb.org/3/find/${imdbID}`,
+				qs: {
+					api_key: process.env.TMDB_V3,
+					external_source: 'imdb_id'
+				},
+				json: true
+			}, (error, res, body) => {
+				if (error) {
+					debug(chalk.bold.red(error));
+					reject({
+						status: 500,
+						message: `Error getting poster URL: ${error}`
+					});
+				}
+				if (body.movie_results[0].poster_path.length) {
+					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].poster_path}`);
+				}
+			});
+		});
 	},
 	getBackdropURL(imdbID) {
 		debug(chalk.green(`Getting backdrop URL for ${imdbID} using TMDB`));
@@ -111,7 +133,7 @@ const tmdbService = {
 					debug(chalk.bold.red(error));
 					reject({
 						status: 500,
-						message: `Error getting backdrop: ${error}`
+						message: `Error getting backdrop URL: ${error}`
 					});
 				}
 				if (body.movie_results[0].backdrop_path.length) {
