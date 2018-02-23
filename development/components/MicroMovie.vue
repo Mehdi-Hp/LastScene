@@ -18,9 +18,9 @@
 				>
 				<div class="m-movie-box__cover | a-movie-cover">
 					<img class="a-movie-cover__image"
-						v-if="movie.data.images.poster"
 						:src="moviePoster"
-						:alt="movie.data.title">
+						:alt="movie.data.title"
+					>
 				</div>
 				<micro-movie-menu class="o-micro-movie__dropdown"
 					v-if="!outsider"
@@ -144,7 +144,7 @@ export default {
 	computed: {
 		moviePoster() {
 			if (this.movie.data.images.poster.small) {
-				return `./files/poster/${this.movie.data.images.poster.small}`;
+				return `/files/poster/${this.movie.data.images.poster.small}`;
 			}
 			return this.movie.data.images.poster.default;
 		}
@@ -238,7 +238,6 @@ export default {
 			const refreshMovie = setInterval(() => {
 				if (this.movie.data.loading) {
 					movieService.checkForFulfilled(this.movie.data._id).then((movie) => {
-						console.log(movie);
 						if (movie.fulfilled) {
 							this.$store.commit('updateMovieData', movie);
 							this.$forceUpdate();

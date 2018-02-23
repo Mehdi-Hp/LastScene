@@ -107,15 +107,15 @@ module.exports = {
 				.then((posterURL) => {
 					downloadPoster(posterURL, imdbID)
 						.then((poster) => {
-							resolve(poster);
+							return resolve(poster);
 						})
 						.catch((error) => {
 							debug(chalk.bold.red(error));
-							reject(error);
+							return reject(error);
 						});
 				})
 				.catch((error) => {
-					reject(error);
+					return reject(error);
 				});
 		});
 	},
