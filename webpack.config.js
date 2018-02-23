@@ -201,8 +201,11 @@ module.exports = {
 			}
 		})),
 		ifProduction(new LodashModuleReplacementPlugin({
+			shorthands: true,
+			cloning: true,
 			collections: true,
-			paths: true
+			paths: true,
+			flattening: true
 		})),
 		ifProduction(new webpack.optimize.UglifyJsPlugin()),
 		ifProduction(new BundleAnalyzerPlugin()),
