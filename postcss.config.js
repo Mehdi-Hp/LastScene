@@ -1,6 +1,5 @@
 module.exports = [
 	require('postcss-discard-duplicates')(),
-	require('css-declaration-sorter')(),
 	// require('postcss-uncss')(),
 	require('postcss-atrule-bem'),
 	// require('postcss-color-palette')(),
