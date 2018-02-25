@@ -62,14 +62,14 @@
 						'o-micro-movie__title-holder--light-box' : minimal
 					}"
 				>
-					<span class="o-micro-movie__title">
+					<span class="o-micro-movie__title | u-text-masker">
 						{{ movie.data.title }}
 					</span>
 					<span class="o-micro-movie__year">
-						— {{ movie.data.year }}
+						{{ movie.data.year }}
 					</span>
 				</h3>
-				<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
+				<div class="o-micro-movie__directors | u-text-masker" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
 					<span class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id"
 						:class="{
 							'o-micro-movie__director--box' : outsider,
@@ -79,7 +79,7 @@
 						{{ director.name }}
 					</span>
 				</div>
-				<span class="o-micro-movie__simpleAwards" v-if="movie.data.simpleAwards && movie.data.simpleAwards!=='N/A' && outsider">
+				<span class="o-micro-movie__simpleAwards | u-text-masker" v-if="movie.data.simpleAwards && movie.data.simpleAwards!=='N/A' && outsider">
 					{{ movie.data.simpleAwards }}
 				</span>
 				<micro-awards class="o-micro-movie__awards" :awards="movie.data.awards" v-if="!outsider"></micro-awards>

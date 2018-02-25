@@ -12,6 +12,8 @@
 	position: relative;
 	transition: filter 0.3s ease-in-out;
 	display: block;
+	background-color: mix($clay, white, 92%);
+	box-shadow: 0 3px 40px 0 rgba(0,0,0,.05);
 
 	&__inner {
 		width: 100%;
@@ -21,12 +23,10 @@
 
 		&--dark {
 			background: $clay__shade--0;
-			border-radius: 3px;
 		}
 
 		&--light {
 			background: mix(white, black, 90%);
-			border-radius: 3px;
 		}
 
 		&--is-deleting {
@@ -52,8 +52,6 @@
 	}
 
 	&__movie-box {
-		box-shadow: 0 0 50px 15px rgba(0, 0, 0, 0.15);
-
 		&--is-deleting {
 			box-shadow: none;
 		}
@@ -102,12 +100,8 @@
 		display: flex;
 		flex-direction: column;
 		color: $kinda-white;
-		margin-top: 0.75rem;
 		perspective: 200px;
-		mask-image: linear-gradient(to right, black 70%, transparent 90%);
-		margin: -1.5em;
-		padding: 1.5em;
-		margin-top: -1em;
+		padding: .5em;
 
 		&--in-box {
 			margin: 0;
@@ -115,7 +109,7 @@
 		}
 	}
 
-	&__title {
+	&__title-holder {
 		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
 		font-size: ms(2);
 		color: hsla(0, 0%, 90%, 1);
@@ -152,12 +146,25 @@
 		}
 	}
 
+	&__title {
+		flex-grow: 1;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	&__year {
+		font-size: ms(-4);
+		color: mix($clay, white, 60%);
+	}
+
 	&__directors {
-		color: mix($purple, white, 70%);
+		font-family: 'PT Sans Narrow';
+		color: $clay__twisted-spot--3;
 		display: flex;
 		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
 		transition: transform 0.3s 0.3s, opacity 0.3s;
 		transform-origin: left;
+		font-size: ms(-1);
 
 		&--is-deleting {
 			transform: rotateY(110deg);
@@ -166,7 +173,6 @@
 	}
 
 	&__director {
-		font-weight: 400;
 		display: flex;
 		white-space: nowrap;
 
@@ -178,11 +184,10 @@
 		}
 
 		&--box {
-			margin-top: .25em;
 		}
 
 		&--minimal {
-			font-size: ms(-6);
+			font-size: ms(-4);
 		}
 	}
 
@@ -193,7 +198,7 @@
 	}
 
 	&__awards {
-		margin-top: 0.5rem;
+		margin-top: 0.25em;
 		display: flex;
 		z-index: g-index('land');
 	}
