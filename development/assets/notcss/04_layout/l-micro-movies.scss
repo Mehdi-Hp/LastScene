@@ -1,7 +1,7 @@
 .l-micro-movies {
 
 	&__holder {
-		gg: columns(1/5 1/5 1/5 1/5 1/5);
+		gg: columns(1/5 1/5 1/5 1/5 1/5) gutter($gutter);
 
 		&--is-moving {
 			transition: transform .6s;

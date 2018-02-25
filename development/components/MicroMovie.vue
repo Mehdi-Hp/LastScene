@@ -17,6 +17,7 @@
 					}"
 				>
 				<div class="m-movie-box__cover | a-movie-cover">
+					<icon-film class="a-movie-cover__back-icon"></icon-film>
 					<img class="a-movie-cover__image"
 						:src="moviePoster"
 						:alt="movie.data.title"
@@ -125,6 +126,7 @@ import MicroUserdata from './MicroUserdata.vue';
 import IconHeart from './icons/Heart.vue';
 import IconWatch from './icons/Watch.vue';
 import IconList from './icons/List.vue';
+import IconFilm from './icons/Film.vue';
 
 export default {
 	name: 'microMovie',
@@ -154,7 +156,8 @@ export default {
 		MicroAwards,
 		IconHeart,
 		IconWatch,
-		IconList
+		IconList,
+		IconFilm
 	},
 
 	methods: {
