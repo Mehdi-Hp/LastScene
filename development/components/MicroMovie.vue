@@ -54,37 +54,36 @@
 						'o-micro-movie__information--in-box' : outsider
 					}"
 				>
-				<h3 class="o-micro-movie__title"
+				<h3 class="o-micro-movie__title-holder"
 					:class="{
-						'o-micro-movie__title--is-deleting': movie.bus.removeMovie,
-						'o-micro-movie__title--box' : outsider,
-						'o-micro-movie__title--minimal' : minimal,
-						'o-micro-movie__title--light-box' : minimal
+						'o-micro-movie__title-holder--is-deleting': movie.bus.removeMovie,
+						'o-micro-movie__title-holder--box' : outsider,
+						'o-micro-movie__title-holder--minimal' : minimal,
+						'o-micro-movie__title-holder--light-box' : minimal
 					}"
 				>
-					{{ movie.data.title }}
-					<span class="o-micro-movie__title--small">
+					<span class="o-micro-movie__title">
+						{{ movie.data.title }}
+					</span>
+					<span class="o-micro-movie__year">
 						— {{ movie.data.year }}
 					</span>
-					<h3 class="o-micro-movie__title | o-micro-movie__title--small" :class="{ 'o-micro-movie__title--is-deleting': movie.bus.remove }" v-if="movie.data.originalTitle">
-						— {{ movie.data.originalTitle }}
-					</h3>
 				</h3>
 				<div class="o-micro-movie__directors" :class="{'o-micro-movie__directors--is-deleting': movie.bus.remove}">
-					<h4 class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id"
+					<span class="o-micro-movie__director" v-for="director in movie.data.directors" :key="director._id"
 						:class="{
 							'o-micro-movie__director--box' : outsider,
 							'o-micro-movie__director--minimal' : minimal,
 						}"
 					>
 						{{ director.name }}
-					</h4>
+					</span>
 				</div>
 				<span class="o-micro-movie__simpleAwards" v-if="movie.data.simpleAwards && movie.data.simpleAwards!=='N/A' && outsider">
 					{{ movie.data.simpleAwards }}
 				</span>
+				<micro-awards class="o-micro-movie__awards" :awards="movie.data.awards" v-if="!outsider"></micro-awards>
 			</div>
-			<micro-awards class="o-micro-movie__awards" :awards="movie.data.awards" v-if="!outsider"></micro-awards>
 		</div>
 		<div class="o-micro-movie__loader" v-if="isLoading"
 			:class="{
