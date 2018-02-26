@@ -67,15 +67,17 @@
 		border-radius: 50%;
 		width: 18em;
 		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+		background-color: transparentize($purple, 0.2);
+		mix-blend-mode: luminosity;
 		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
 
 		&--is-open {
 			border-radius: 0;
+			mix-blend-mode: unset;
 			transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
 		}
 
 		&--is-visible {
-			background-color: transparentize($purple, 0.2);
 		}
 	}
 
@@ -212,5 +214,6 @@
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		overflow: hidden;
 	}
 }

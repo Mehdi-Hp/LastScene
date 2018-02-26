@@ -25,9 +25,10 @@
 		color: $gold;
 		mix-blend-mode: luminosity;
 		transition: background-color 0.1s ease-in-out;
+		background-color: $clay;
 
 		&--is-visible {
-			background-color: $clay;
+
 		}
 
 		&--is-loading {
@@ -48,6 +49,6 @@
 	}
 
 	&__loader {
-		filter: blur(3px);
+		
 	}
 }

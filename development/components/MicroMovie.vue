@@ -98,7 +98,6 @@
 					<span class="a-rate__value | a-rate__value--horiz">-</span>
 					<span class="a-rate__base | a-rate__base--horiz">10</span>
 				</div>
-				<div class="m-movie-box__loader | a-loader"></div>
 			</div>
 			<div class="o-micro-movie__information"
 				:class="{
@@ -111,9 +110,11 @@
 						'o-micro-movie__title--minimal' : minimal,
 						'o-micro-movie__title--light-box' : minimal
 					}"
+
 				>
 				</h3>
 			</div>
+			<div class="m-movie-box__loader | a-loader"></div>
 		</div>
 	</li>
 </template>

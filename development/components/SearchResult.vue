@@ -16,7 +16,7 @@
 				>{{ (firstResult.inArchive) ? 'Already there' : 'Add to archive' }}</button>
 			</div>
 		</div>
-		<div class="o-search-result__others-holder" v-if="chunkedMovies.length">
+		<div class="o-search-result__others-holder" v-if="chunkedMovies.length || loading">
 			<div class="o-search-result__navigation | o-search-result__navigation--left"
 				@click="previousPage()"
 			>

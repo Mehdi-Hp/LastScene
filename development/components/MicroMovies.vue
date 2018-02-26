@@ -3,7 +3,7 @@
 			'l-micro-movies--searching': mode === 'search'
 		}">
 		<transition-group tag="ul" name="flip-list" class="l-micro-movies__holder" v-if="mode !== 'search'">
-			<micro-movie v-for="movie in movies" :key="movie.data._id" :initial-movie="movie" :loading="movie.data.loading"></micro-movie>
+			<micro-movie v-for="(movie, movieIndex) in movies" :key="movie.data._id" :initial-movie="movie" :loading="movie.data.loading"></micro-movie>
 		</transition-group>
 		<div class="l-micro-movies__search-row"
 			v-if="mode === 'search'"
