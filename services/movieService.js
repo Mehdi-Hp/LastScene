@@ -69,7 +69,6 @@ module.exports = {
 						message: 'Error saving movie in database'
 					});
 				});
-				debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
 				myapifilmsService.getMovie(imdbID).then((movie) => {
 					debug(chalk.green(`____Got movie information: [${imdbID}]. adding it to database...`));
 					movie.data[0].loading = false;
@@ -86,10 +85,7 @@ module.exports = {
 				}).catch((error) => {
 					movieQueue.delete(imdbID);
 					debug(chalk.red.bold(`____Error in request to myapifilms for [${imdbID}]: ${error}`));
-					reject({
-						status: error.status,
-						message: error.message
-					});
+					reject(error);
 				});
 			}).catch((error) => {
 				console.dir(error);

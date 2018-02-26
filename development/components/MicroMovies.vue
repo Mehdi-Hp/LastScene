@@ -44,14 +44,6 @@ export default {
 			return this.initialMovies;
 		}
 	},
-	watch: {
-		// movies() {
-		// 	setTimeout(() => {
-		// 		this.$forceUpdate();
-		// 		console.log('UPDATE');
-		// 	}, 1000);
-		// }
-	},
 	components: {
 		MicroMovie
 	},

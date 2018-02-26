@@ -2,74 +2,90 @@ const request = require('request');
 const _ = require('lodash');
 const debug = require('debug')('development');
 const chalk = require('chalk');
+const events = require('events');
 const Movie = require('../models/movie');
 const downloadPoster = require('./downloadPoster');
 
+const eventEmitter = new events.EventEmitter();
+let i = 0;
+
 const myapifilms = {
+	bus: [],
 	getMovie: (imdbID) => {
-		const requestOptions = {
-			method: 'GET',
-			url: 'http://www.myapifilms.com/imdb/idIMDB',
-			qs: {
-				idIMDB: imdbID,
-				token: process.env.MYAPIFILMS,
-				format: 'json',
-				filter: '3',
-				trailers: '1',
-				awards: '1',
-				actors: '1',
-				quotes: '1',
-				fullSize: '1'
-			},
-			json: true
-		};
+		myapifilms.bus.push(imdbID);
 		return new Promise((resolve, reject) => {
-			request(requestOptions, (error, res, body) => {
-				const posterURL = body.data.movies[0].urlPoster;
-				if (error) {
-					debug(chalk.bold.red(JSON.parse(JSON.stringify(error))));
-					return reject({
-						status: 500,
-						message: 'Server error. could not connect to API'
-					});
-				}
-				const response = {};
-				if (_.has(body, 'error')) {
-					debug(chalk.bold.red(JSON.stringify(body.error)));
-					/* eslint-disable indent */
-					switch (body.error.code) {
-						case 110:
-							response.status = {
-								status: 404,
-								message: `Couldn't find [${imdbID}] in IMDB`
-							};
-							break;
-						case 112:
-							response.status = {
-								status: 400,
-								message: 'Invalid imdbID'
-							};
-							break;
-						case 113:
-							response.status = {
-								status: 503,
-								message: 'IMDB Service is currently unavailable, Sorry!'
-							};
-							break;
-						default:
-							response.status = {
-								status: 500,
-								message: 'There was an unknown error in server'
-							};
+			const getMovieFunction = (imdbID) => {
+				const requestOptions = {
+					method: 'GET',
+					url: 'http://www.myapifilms.com/imdb/idIMDB',
+					qs: {
+						idIMDB: imdbID,
+						token: process.env.MYAPIFILMS,
+						format: 'json',
+						filter: '3',
+						trailers: '1',
+						awards: '1',
+						actors: '1',
+						quotes: '1',
+						fullSize: '1'
+					},
+					json: true
+				};
+				debug(chalk.yellow(`____Making a request to myapifilms for [${imdbID}]...`));
+				request(requestOptions, (error, res, body) => {
+					debug(chalk.yellow(`____Request fulfilled for [${imdbID}]...`));
+					eventEmitter.removeListener('getNextMovie', getMovieFunction);
+					myapifilms.bus = _.drop(myapifilms.bus);
+					if (myapifilms.bus.length) {
+						eventEmitter.emit('getNextMovie', _.head(myapifilms.bus));
 					}
-					reject(response);
-				} else {
+					if (error || !body.data) {
+						debug(chalk.bold.red(JSON.parse(JSON.stringify(error))));
+						debug(chalk.bold.red((JSON.parse(JSON.stringify(body)))));
+						return reject({
+							status: 500,
+							message: 'Server error. could not connect to API'
+						});
+					}
+					const response = {};
+					if (_.has(body, 'error')) {
+						debug(chalk.bold.red(JSON.stringify(body.error)));
+						/* eslint-disable indent */
+						switch (body.error.code) {
+							case 110:
+								response.status = {
+									status: 404,
+									message: `Couldn't find [${imdbID}] in IMDB`
+								};
+								break;
+							case 112:
+								response.status = {
+									status: 400,
+									message: 'Invalid imdbID'
+								};
+								break;
+							case 113:
+								response.status = {
+									status: 503,
+									message: 'IMDB Service is currently unavailable, Sorry!'
+								};
+								break;
+							default:
+								response.status = {
+									status: 500,
+									message: 'There was an unknown error in server'
+								};
+						}
+						return reject(response);
+					}
 					if (!body.data.movies.type === 'Movie') {
-						reject({
+						debug(chalk.bold.red('IMDB ID is not for a movie'));
+						return reject({
 							code: 400,
 							message: 'You should send an imdbID for a "Movie"; not anything else'
 						});
 					}
+					const posterURL = body.data.movies[0].urlPoster;
 					response.data = body.data.movies.map((currentMovie) => {
 						let movie = {};
 						movie.directors = currentMovie.directors.map((currentDirector) => {
@@ -163,17 +179,21 @@ const myapifilms = {
 
 					downloadPoster(posterURL, response.data[0]._id)
 						.then((posters) => {
-							resolve(response);
+							return resolve(response);
 						})
 						.catch((error) => {
 							debug(chalk.bold.red(error));
-							reject({
+							return reject({
 								status: 500,
 								message: 'Error downloading movie poster'
 							});
 						});
-				}
-			});
+				});
+			}
+			eventEmitter.on('getNextMovie', getMovieFunction);
+			if (myapifilms.bus.length === 1) {
+				eventEmitter.emit('getNextMovie', _.head(myapifilms.bus));
+			}
 		});
 	}
 };
