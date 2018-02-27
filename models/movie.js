@@ -27,8 +27,8 @@ const movieSchema = new mongoose.Schema({
 	year: String,
 
 	rate: new mongoose.Schema({
-		imdb: String,
-		metascore: String
+		imdb: Number,
+		metascore: Number
 	}, { _id: false }),
 
 	runtime: String,
