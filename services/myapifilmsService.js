@@ -7,7 +7,6 @@ const Movie = require('../models/movie');
 const downloadPoster = require('./downloadPoster');
 
 const eventEmitter = new events.EventEmitter();
-let i = 0;
 
 const myapifilms = {
 	bus: [],
@@ -40,8 +39,8 @@ const myapifilms = {
 						eventEmitter.emit('getNextMovie', _.head(myapifilms.bus));
 					}
 					if (error || !body.data) {
-						debug(chalk.bold.red(JSON.parse(JSON.stringify(error))));
-						debug(chalk.bold.red((JSON.parse(JSON.stringify(body)))));
+						debug(chalk.bold.red(JSON.stringify(error)));
+						debug(chalk.bold.red((JSON.stringify(body))));
 						return reject({
 							status: 500,
 							message: 'Server error. could not connect to API'
@@ -111,6 +110,9 @@ const myapifilms = {
 						});
 						movie.awards = currentMovie.awards.map((currentAward) => {
 							const titleAward = currentAward.titlesAwards.map((titleAward) => {
+								if (!titleAward) {
+									return {};
+								}
 								const result = (titleAward.titleAwardOutcome.includes('Won')) ? 'won' : 'nominated';
 								let title = _.trim(titleAward.titleAwardOutcome.substring(titleAward.titleAwardOutcome.indexOf(' ')));
 								let participants = '';
@@ -189,7 +191,7 @@ const myapifilms = {
 							});
 						});
 				});
-			}
+			};
 			eventEmitter.on('getNextMovie', getMovieFunction);
 			if (myapifilms.bus.length === 1) {
 				eventEmitter.emit('getNextMovie', _.head(myapifilms.bus));

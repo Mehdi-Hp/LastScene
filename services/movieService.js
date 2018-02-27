@@ -47,7 +47,7 @@ module.exports = {
 			Movie.findOne({
 				_id: imdbID
 			}).then((existedMovie) => {
-				if (existedMovie) {
+				if (existedMovie && existedMovie.fulfilled) {
 					debug(chalk.green(`Movie information: [${imdbID}] already exist in database`));
 					return resolve(existedMovie);
 				}

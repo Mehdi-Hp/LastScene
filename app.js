@@ -14,6 +14,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const slugHero = require('mongoose-slug-hero');
+require('util').inspect.defaultOptions.depth = null;
 
 slugHero.config.counter = 'slug_counters';
 

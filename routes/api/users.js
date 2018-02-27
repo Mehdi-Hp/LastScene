@@ -2,6 +2,7 @@ const app = require('express')();
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const User = require('../../models/user');
+const movieService = require('../../services/movieService');
 
 app.route('/:username?')
 	.get((req, res, next) => {
@@ -35,6 +36,12 @@ app.route('/:username?')
 				model: 'List'
 			})
 			.then((user) => {
+				user.movies.forEach((movie) => {
+					if (!movie._id.fulfilled) {
+						debug(chalk.yellow(`The movie ${movie._id._id} is not in database. Getting it...`));
+						movieService.getComplete(movie._id._id);
+					}
+				});
 				if (!user) {
 					res.status(404).json({
 						message: `Couldn't find user ${theUsername}.`
