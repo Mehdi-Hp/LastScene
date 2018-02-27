@@ -1,9 +1,9 @@
 <template>
-	<li class="o-micro-movie"
-		@mouseover="hoverOnMovie()"
-		@mouseout="blurOnMovie()"
-	>
-		<div class="o-micro-movie__inner" v-if="!isLoading"
+	<li class="o-micro-movie">
+		<div class="o-micro-movie__inner"
+			v-if="!isLoading"
+			@mouseover="hoverOnMovie()"
+			@mouseout="blurOnMovie()"
 			:class="{
 				'o-micro-movie__inner--is-deleting': movie.bus.remove,
 				'o-micro-movie__inner--dark' : outsider,

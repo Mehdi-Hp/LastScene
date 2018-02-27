@@ -56,6 +56,7 @@ export default {
 	watch: {
 		searchResult() {
 			this.mutedSearchResult = this.searchResult;
+			this.searchQuery = this.searchResult.query;
 		}
 	}
 };

@@ -37,10 +37,12 @@ export default {
 			this.isDropped = true;
 		},
 		fileChange(event) {
-			const folderNames = this.$_.flatMap(event.target.files, (folder) => {
-				return folder.name.substr(0, folder.name.lastIndexOf('.'));
-			});
-			this.$emit('gotMovies', folderNames);
+			if (event.target.files) {
+				const folderNames = this.$_.flatMap(event.target.files, (folder) => {
+					return folder.name.substr(0, folder.name.lastIndexOf('.'));
+				});
+				this.$emit('gotMovies', folderNames);
+			}
 		}
 	}
 };

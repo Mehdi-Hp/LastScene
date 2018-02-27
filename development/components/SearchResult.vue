@@ -5,8 +5,8 @@
 				<micro-movie class="o-search-result__movie"
 					:initial-movie="firstResult"
 					outsider="true"
-					:loading="loading"
-				 ></micro-movie>
+					:loading="loading">
+				</micro-movie>
 				<button class="o-search-result__add | a-button"
 					v-if="searchResult.length && !loading"
 					:class="{
@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import movieService from '../services/movieService';
 import MicroMovie from './MicroMovie.vue';
 import IconArrowLeft from './icons/ArrowLeft.vue';
 import IconArrowRight from './icons/ArrowRight.vue';
@@ -89,12 +88,12 @@ export default {
 		},
 		nextPage() {
 			if (this.chunkedMoviesCurrentPage < this.chunkedMoviesTotalPages - 1) {
-				this.chunkedMoviesCurrentPage++;
+				this.chunkedMoviesCurrentPage += 1;
 			}
 		},
 		previousPage() {
 			if (this.chunkedMoviesCurrentPage > 0) {
-				this.chunkedMoviesCurrentPage--;
+				this.chunkedMoviesCurrentPage -= 1;
 			}
 		}
 	}
