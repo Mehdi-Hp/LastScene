@@ -19,7 +19,7 @@
 
 <script>
 export default {
-	name: 'icon',
+	name: 'iconList',
 	props: [
 		'isPending',
 		'isDone',

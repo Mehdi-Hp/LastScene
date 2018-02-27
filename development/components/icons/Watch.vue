@@ -19,7 +19,7 @@
 
 <script>
 export default {
-	name: 'icon',
+	name: 'iconEye',
 	props: [
 		'isPending',
 		'isDone',

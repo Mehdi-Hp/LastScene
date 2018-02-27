@@ -6,6 +6,6 @@
 
 <script>
 export default {
-	name: 'IconCannes'
+	name: 'IconBafta'
 };
 </script>
