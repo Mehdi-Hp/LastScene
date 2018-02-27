@@ -45,7 +45,7 @@
 						'm-movie-box__rate--big' : outsider && !minimal,
 					}"
 				>
-					<span class="a-rate__value | a-rate__value--horiz">{{ movie.data.rate.imdb }}</span>
+					<span class="a-rate__value | a-rate__value--horiz">{{ getDecimaledMovieRate }}</span>
 					<span class="a-rate__base | a-rate__base--horiz">10</span>
 				</div>
 				<micro-userdata class="o-micro-movie__userdata" :movie="movie" v-if="!outsider"></micro-userdata>
@@ -149,6 +149,9 @@ export default {
 				return `/files/poster/${this.movie.data.images.poster.small}`;
 			}
 			return this.movie.data.images.poster.default;
+		},
+		getDecimaledMovieRate() {
+			return parseFloat(this.movie.data.rate.imdb).toFixed(1);
 		}
 	},
 	components: {
