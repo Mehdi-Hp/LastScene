@@ -11,7 +11,7 @@ module.exports = (query) => {
 	const movies = [];
 	const requestOptions = {
 		method: 'GET',
-		url: `http://www.omdbapi.com/?apikey=${process.env.OMDB}&s=${query.title}`,
+		url: `http://www.omdbapi.com/?apikey=${process.env.OMDB}&s=${query.title}&type=movie`,
 		json: true
 	};
 	return new Promise((resolve, reject) => {
