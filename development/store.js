@@ -32,12 +32,13 @@ const store = new Vuex.Store({
 				Vue.set(movie, 'watched', Vue.$_.defaultTo(movie.watched, false));
 				Vue.set(movie, 'watchList', Vue.$_.defaultTo(movie.watchList, false));
 				Vue.set(movie, 'remove', Vue.$_.defaultTo(movie.remove, false));
-				movie.bus = {
+				Vue.set(movie, 'bus', {
 					favourite: false,
 					watched: false,
 					watchList: false,
-					remove: false
-				};
+					remove: false,
+					isAdding: false
+				});
 			});
 
 			state.user.collections = renameObjectsKeys(user.data.lists, {
@@ -157,17 +158,19 @@ const store = new Vuex.Store({
 						message: 'Bad request. No IMDB ID.'
 					});
 				}
-				Vue.$axios.post(`/movies/${imdbID}`).then((addedMovie) => {
-					const newMovie = {
-						bus: {},
-						data: {
-							title: movieName,
-							loading: true,
-							_id: addedMovie.data._id
-						}
-					};
-					commit('pushMovie', newMovie);
-				});
+				Vue.$axios.post(`/movies/${imdbID}`)
+					.then((addedMovie) => {
+						const newMovie = {
+							bus: {},
+							data: {
+								title: movieName,
+								loading: true,
+								_id: addedMovie.data._id
+							}
+						};
+						resolve(newMovie);
+						commit('pushMovie', newMovie);
+					});
 			});
 		},
 		addMovieToFavourites({ commit, state }, movie) {

@@ -99,7 +99,6 @@ export default {
 			this.$forceUpdate();
 		},
 		searchForMovie(searchQuery) {
-			console.log(`Searching for [${searchQuery}]`);
 			const movie = {
 				loading: true,
 				query: searchQuery,

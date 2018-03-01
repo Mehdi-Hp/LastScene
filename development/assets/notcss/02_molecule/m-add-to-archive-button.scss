@@ -1,0 +1,122 @@
+@keyframes addToArchiveIconAnimation {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	20% {
+		color: $orange;
+		transform: rotateZ(180deg);
+	}
+	40% {
+		color: $clay__matching-gre--5;
+		transform: rotateZ(0deg);
+	}
+	60% {
+		color: $cyan;
+		transform: rotateZ(180deg);
+	}
+	80% {
+		color: $purple__highlight-3;
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(180deg);
+		color: $clay__classy--1;
+	}
+}
+
+.m-add-to-archive-button {
+	font-weight: 600;
+	background: $green;
+	color: white;
+	padding: 0.75em 1em;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+
+	&:hover {
+		background-color: mix($green, black, 90%);
+		border-color: mix($green, black, 90%);
+	}
+
+	&--is-adding {}
+
+	&--plain {
+		font-size: ms(-4);
+		font-weight: 500;
+		background: transparent;
+		color: $green;
+		box-shadow: none;
+		padding: 0.5em;
+
+		&:hover {
+			background-color: inherit;
+			color: mix($green, black, 70%);
+		}
+	}
+
+	&--is-disabled {
+		background: transparent;
+		color: mix(white, black, 80%);
+		box-shadow: none;
+		pointer-events: none;
+	}
+
+	&--is-archived {
+
+	}
+
+	&__layer {
+		content: '';
+		position: absolute;
+		background-color: mix($green, $purple, 50%);
+		width: 7em;
+		height: 7em;
+		border-radius: 10em;
+		transition: transform 0.3s cubic-bezier(0.04, 0.51, 0.54, 0.96);
+		transform: translate(-100%, 50%) scale(.8);
+
+		&--is-disabled {}
+
+		&--is-adding {
+			transform: translate(0%,0%) scale(1.7);
+		}
+	}
+
+	&__icon {
+		margin-right: 0.5em;
+		z-index: g-index('land');
+		pointer-events: none;
+		position: absolute;
+		opacity: 0;
+		transform: scale(.5);
+		transition: all .2s .1s cubic-bezier(0.95, 0.91, 0.57, 2);
+		transition-property: transform, opacity;
+
+		&--is-disabled {}
+
+		&--is-adding {
+			opacity: 1;
+			transform: scale(1);
+			animation: addToArchiveIconAnimation 5s 1s ease-in-out;
+			animation-iteration-count: infinite;
+			animation-direction: alternate-reverse;
+		}
+	}
+
+	&__text {
+		z-index: g-index('land');
+		pointer-events: none;
+		transition: margin-left .2s .1s ease-in-out;
+
+		&--is-disabled {}
+
+		&--is-adding {
+			transition: margin-left .2s ease-in-out;
+			margin-left: 1.7em;
+			color: mix(white, $green, 35%);
+		}
+	}
+}

@@ -14,7 +14,6 @@
 		display: flex;
 		flex-wrap: nowrap;
 		overflow-x: hidden;
-		opacity: .8;
 		flex-grow: 1;
 	}
 
@@ -59,42 +58,14 @@
 		}
 	}
 
-	&__movie {}
+	&__movie {
+		margin-bottom: .5em;
+	}
 
 	&__add {
-		margin-top: 0.5em;
 		font-size: ms(-3);
-		font-weight: 600;
-		background: $green;
-		color: white;
-		box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-		padding: .75em 1em;
-
-		&:hover {
-			background-color: mix($green, black, 90%);
-			border-color: mix($green, black, 90%);
-		}
-
 		&--plain {
-			font-size: ms(-4);
-			font-weight: 500;
-			border: 2px solid $green;
-			background: transparent;
-			padding: 0.5em;
-			color: $green;
 			box-shadow: none;
-
-			&:hover {
-				background-color: mix(white, black, 90%);
-			}
-		}
-
-		&--is-disabled {
-			background: transparent;
-			border: 3px solid mix(white, black, 80%);
-			color: mix(white, black, 80%);
-			box-shadow: none;
-			pointer-events: none;
 		}
 	}
 }

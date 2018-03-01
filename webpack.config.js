@@ -53,7 +53,7 @@ if (ifProduction()) {
 				loader: 'sass-resources-loader',
 				options: {
 					resources: [
-						'./development/assets/notcss/_utils/_all-vendors.scss',
+						'./development/assets/notcss/_vendor/_all-vendors.scss',
 						'./development/assets/notcss/_utils/_all-utils.scss'
 					]
 				}
@@ -96,7 +96,7 @@ if (ifProduction()) {
 			loader: 'sass-resources-loader',
 			options: {
 				resources: [
-					'./development/assets/notcss/_utils/_all-vendors.scss',
+					'./development/assets/notcss/_vendor/_all-vendors.scss',
 					'./development/assets/notcss/_utils/_all-utils.scss'
 				]
 			}

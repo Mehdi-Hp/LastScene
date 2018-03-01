@@ -7,13 +7,38 @@
 					outsider="true"
 					:loading="loading">
 				</micro-movie>
-				<button class="o-search-result__add | a-button"
-					v-if="searchResult.length && !loading"
-					:class="{
-						'o-search-result__add--is-disabled' : firstResult.inArchive
-					}"
-					@click="addToArchive(firstResult.data.id.imdb, firstResult.data.title)"
-				>{{ (firstResult.inArchive) ? 'Already there' : 'Add to archive' }}</button>
+				<touch-ripple :speed="2" :opacity="0.1" color="#fff" transition="ease-in-out">
+					<button class="o-search-result__add | m-add-to-archive-button | a-button"
+						v-if="searchResult.length && !loading"
+						:class="{
+							'm-add-to-archive-button--is-disabled' : firstResult.inArchive,
+							'm-add-to-archive-button--is-adding': firstResult.bus.isAdding,
+							'm-add-to-archive-button--is-archived': firstResult.inArchive
+						}"
+						@click="addToArchive(firstResult)"
+					>
+						<div class="m-add-to-archive-button__layer"
+							:class="{
+								'm-add-to-archive-button__layer--is-disabled' : firstResult.inArchive,
+								'm-add-to-archive-button__layer--is-adding': firstResult.bus.isAdding
+							}">
+						</div>
+						<icon-film
+							class="m-add-to-archive-button__icon"
+							:class="{
+								'm-add-to-archive-button__icon--is-adding': firstResult.bus.isAdding
+							}">
+						</icon-film>
+						<span
+							class="m-add-to-archive-button__text"
+							:class="{
+								'm-add-to-archive-button__text--is-adding': firstResult.bus.isAdding
+							}"
+						>
+							{{ (firstResult.inArchive) ? 'Movie exists' : 'Add to archive' }}
+						</span>
+					</button>
+				</touch-ripple>
 			</div>
 		</div>
 		<div class="o-search-result__others-holder" v-if="chunkedMovies.length || loading">
@@ -32,13 +57,15 @@
 						minimal="true"
 						:loading="loading"
 					></micro-movie>
-					<button class="o-search-result__add | o-search-result__add--plain | a-button"
-					v-if="searchResult.length && !loading"
-						:class="{
-							'o-search-result__add--is-disabled' : movie.inArchive
-						}"
-						@click="addToArchive(movie.data.id.imdb, movie.data.title)"
-					>{{ (movie.inArchive) ? 'Already there' : 'Add to archive' }}</button>
+					<touch-ripple :speed="2" :opacity="0.1" color="#000" transition="ease-in-out">
+						<button class="o-search-result__add | o-search-result__add--plain | m-add-to-archive-button | m-add-to-archive-button--plain | a-button"
+							v-if="searchResult.length && !loading"
+							:class="{
+								'm-add-to-archive-button--is-disabled' : movie.inArchive
+							}"
+							@click="addToArchive(movie)"
+						>{{ (movie.inArchive) ? 'Movie exists' : 'Add to archive' }}</button>
+					</touch-ripple>
 				</div>
 			</ul>
 			<div class="o-search-result__navigation | o-search-result__navigation--right"
@@ -51,9 +78,11 @@
 </template>
 
 <script>
+import { touchRipple } from 'vue-touch-ripple';
 import MicroMovie from './MicroMovie.vue';
 import IconArrowLeft from './icons/ArrowLeft.vue';
 import IconArrowRight from './icons/ArrowRight.vue';
+import IconFilm from './icons/Film.vue';
 
 export default {
 	name: 'SearchResult',
@@ -63,6 +92,7 @@ export default {
 	],
 	data() {
 		return {
+			addButtonText: 'Add to archive',
 			chunkedMoviesCurrentPage: 0
 		};
 	},
@@ -80,11 +110,27 @@ export default {
 	components: {
 		MicroMovie,
 		IconArrowLeft,
-		IconArrowRight
+		IconArrowRight,
+		IconFilm,
+		touchRipple
 	},
 	methods: {
-		addToArchive(imdbID, movieName) {
-			this.$store.dispatch('addMovie', { imdbID, movieName });
+		addToArchive(movie) {
+			movie.bus.isAdding = true;
+			this.$forceUpdate();
+			this.$store.dispatch('addMovie', {
+				imdbID: movie.data.id.imdb,
+				movieName: movie.data.id.title
+			})
+				.then(() => {
+					movie.bus.isAdding = false;
+					movie.inArchive = true;
+					this.addButtonText = 'Movie added'
+					this.$forceUpdate();
+				})
+				.catch((error) => {
+					throw new Error(error);
+				});
 		},
 		nextPage() {
 			if (this.chunkedMoviesCurrentPage < this.chunkedMoviesTotalPages - 1) {

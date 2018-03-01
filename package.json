@@ -82,6 +82,7 @@
 		"vue-esc": "^2.0.0",
 		"vue-router": "^3.0.1",
 		"vue-tippy": "^2.0.8",
+		"vue-touch-ripple": "^3.0.0",
 		"vuex": "^3.0.1"
 	},
 	"devDependencies": {
