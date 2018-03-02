@@ -8,6 +8,7 @@
 		"build": "cross-env NODE_ENV=production webpack --hide-modules",
 		"start": "cross-env NODE_ENV=production DEBUG=development node ./bin/www",
 		"build:dev": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server",
+		"postinstall": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server",
 		"start:dev": "cross-env NODE_ENV=development DEBUG=development nodemon --inspect ./bin/www",
 		"tlapse": "tlapse -- localhost:8080 --directory /data/Projects/_Designs/LastScene"
 	},
