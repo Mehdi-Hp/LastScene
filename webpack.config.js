@@ -156,7 +156,7 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						plugins: ['lodash'],
+						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
 						presets: [
 							['@babel/preset-env', {
 								targets: {

@@ -125,7 +125,7 @@ export default {
 				.then(() => {
 					movie.bus.isAdding = false;
 					movie.inArchive = true;
-					this.addButtonText = 'Movie added'
+					this.addButtonText = 'Movie added';
 					this.$forceUpdate();
 				})
 				.catch((error) => {

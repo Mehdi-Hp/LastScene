@@ -1,7 +1,7 @@
 <template>
 	<li class="o-micro-movie"
 		:class="{
-			'o-micro-movie--is-deleting': movie.bus.remove,
+			'o-micro-movie--is-deleting': !outsider && movie.bus.remove,
 		}"
 		>
 		<div class="o-micro-movie__inner"
@@ -230,9 +230,7 @@ export default {
 			this.toggleMenu(false);
 			this.$forceUpdate();
 			this.movie.bus.remove = true;
-			this.$store.dispatch('removeMovie', this.movie).then((removedMovie) => {
-				// this.movie.bus.remove = false;
-			});
+			this.$store.dispatch('removeMovie', this.movie).then((removedMovie) => {});
 		}
 	},
 	watch: {
