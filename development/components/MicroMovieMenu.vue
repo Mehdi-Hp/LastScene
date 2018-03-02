@@ -62,7 +62,6 @@ export default {
 	],
 	data() {
 		return {
-			dropdownState: this.movie.openMenu,
 			iconMenu: IconMenu,
 			menuHeight: '',
 			menuWidth: '',
@@ -71,6 +70,9 @@ export default {
 		};
 	},
 	computed: {
+		dropdownState() {
+			return this.movie.openMenu;
+		},
 		favouriteText() {
 			if (!this.movie.favourite) {
 				return 'Add to favourites';
@@ -103,7 +105,6 @@ export default {
 	},
 	methods: {
 		toggleDropdown() {
-			this.dropdownState = !this.dropdownState;
 			this.$emit('toggleMenu', !this.dropdownState);
 		},
 		toggleFavourite() {

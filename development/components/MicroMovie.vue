@@ -1,5 +1,9 @@
 <template>
-	<li class="o-micro-movie">
+	<li class="o-micro-movie"
+		:class="{
+			'o-micro-movie--is-deleting': movie.bus.remove,
+		}"
+		>
 		<div class="o-micro-movie__inner"
 			v-if="!isLoading"
 			@mouseover="hoverOnMovie()"
@@ -57,7 +61,7 @@
 				>
 				<h3 class="o-micro-movie__title-holder"
 					:class="{
-						'o-micro-movie__title-holder--is-deleting': movie.bus.removeMovie,
+						'o-micro-movie__title-holder--is-deleting': movie.bus.remove,
 						'o-micro-movie__title-holder--box' : outsider,
 						'o-micro-movie__title-holder--minimal' : minimal,
 						'o-micro-movie__title-holder--light-box' : minimal
@@ -224,10 +228,10 @@ export default {
 		},
 		removeMovie(collectionsToo) {
 			this.toggleMenu(false);
+			this.$forceUpdate();
 			this.movie.bus.remove = true;
 			this.$store.dispatch('removeMovie', this.movie).then((removedMovie) => {
-				this.movie.bus.remove = false;
-				this.$forceUpdate();
+				// this.movie.bus.remove = false;
 			});
 		}
 	},
@@ -243,13 +247,14 @@ export default {
 		if (!this.outsider) {
 			const refreshMovie = setInterval(() => {
 				if (this.movie.data.loading) {
-					movieService.checkForFulfilled(this.movie.data._id).then((movie) => {
-						if (movie.fulfilled) {
-							this.$store.commit('updateMovieData', movie);
-							this.$forceUpdate();
-							clearInterval(refreshMovie);
-						}
-					});
+					movieService.checkForFulfilled(this.movie.data._id)
+						.then((movie) => {
+							if (movie.fulfilled) {
+								this.$store.commit('updateMovieData', movie);
+								this.$forceUpdate();
+								clearInterval(refreshMovie);
+							}
+						});
 				}
 			}, 3000);
 		}

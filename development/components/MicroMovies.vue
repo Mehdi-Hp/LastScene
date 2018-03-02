@@ -2,9 +2,11 @@
 	<section class="l-micro-movies" :class="{
 			'l-micro-movies--searching': mode === 'search'
 		}">
+
 		<transition-group tag="ul" name="flip-list" class="l-micro-movies__holder" v-if="mode !== 'search'">
 			<micro-movie v-for="(movie, movieIndex) in movies" :key="movie.data._id" :initial-movie="movie" :loading="movie.data.loading"></micro-movie>
 		</transition-group>
+
 		<div class="l-micro-movies__search-row"
 			v-if="mode === 'search'"
 			v-for="(filteredMovies, filteredMoviesKey, filteredMoviesIndex) in movies"
@@ -21,6 +23,7 @@
 			<transition-group tag="ul" name="flip-list" class="l-micro-movies__holder" v-if="mode === 'search'" >
 				<micro-movie v-for="movie in filteredMovies" :key="movie.data._id" :initial-movie="movie"></micro-movie>
 			</transition-group>
+
 		</div>
 	</section>
 </template>

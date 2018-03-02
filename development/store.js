@@ -257,7 +257,7 @@ const store = new Vuex.Store({
 					setTimeout(() => {
 						commit('removeMovie', movie);
 						resolve(deletedMovie);
-					}, 1500);
+					}, 500);
 				}).catch((error) => {
 					reject(error);
 				});

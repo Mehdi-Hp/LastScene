@@ -14,6 +14,13 @@
 	display: block;
 	background-color: mix($clay, white, 92%);
 	box-shadow: 0 3px 40px 0 rgba(0,0,0,.05);
+	transition: width .2s .8s ease-in-out, margin .2s .8s ease-in-out, opacity .2s .8s ease-in-out;
+
+	&--is-deleting {
+		width: 0 !important;
+		margin: 0 !important;
+		opacity: 0;
+	}
 
 	&__inner {
 		width: 100%;
@@ -116,11 +123,16 @@
 		color: hsla(0, 0%, 90%, 1);
 		font-weight: bolder;
 		font-family: 'PT Sans Narrow';
-		transition: transform 0.3s, opacity 0.3s;
-		transform-origin: left;
 		white-space: nowrap;
 		display: flex;
 		align-items: baseline;
+		transform-origin: left;
+		transition: transform 0.3s 0.4s, opacity 0.3s 0.4s;
+
+		&--is-deleting {
+			transform: rotateY(110deg);
+			opacity: 0;
+		}
 
 		&--small {
 			font-size: ms(-3);
@@ -140,11 +152,6 @@
 			font-size: ms(0);
 			color: mix($clay, white, 60%);
 		}
-
-		&--is-deleting {
-			transform: rotateY(110deg);
-			opacity: 0;
-		}
 	}
 
 	&__title {
@@ -163,9 +170,9 @@
 		color: $clay__twisted-spot--3;
 		display: flex;
 		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
-		transition: transform 0.3s 0.3s, opacity 0.3s;
-		transform-origin: left;
 		font-size: ms(-1);
+		transform-origin: left;
+		transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
 
 		&--is-deleting {
 			transform: rotateY(110deg);
