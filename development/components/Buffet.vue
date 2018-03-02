@@ -45,6 +45,9 @@ export default {
 				title: _.filter(this.movies, (movie) => {
 					return movie.data.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) || movie.data.originalTitle.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
 				}),
+				year: _.filter(this.movies, (movie) => {
+					return movie.data.year === searchQuery;
+				}),
 				directors: _.filter(this.movies, (movie) => {
 					let includeState = false;
 					movie.data.directors.forEach((director) => {
