@@ -14,7 +14,8 @@
 				'o-micro-movie__inner--light' : minimal
 			}"
 		>
-			<div class="o-micro-movie__movie-box | m-movie-box"
+			<router-link :to="`/movies/${movie.data._id}`"
+				class="o-micro-movie__movie-box | m-movie-box"
 				:class="{
 					'o-micro-movie__movie-box--is-deleting': movie.bus.remove,
 					'o-micro-movie__movie-box--minimal': minimal
@@ -53,7 +54,7 @@
 					<span class="a-rate__base | a-rate__base--horiz">10</span>
 				</div>
 				<micro-userdata class="o-micro-movie__userdata" :movie="movie" v-if="!outsider"></micro-userdata>
-			</div>
+			</router-link>
 			<div class="o-micro-movie__information"
 				:class="{
 						'o-micro-movie__information--in-box' : outsider

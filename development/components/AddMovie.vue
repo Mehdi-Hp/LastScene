@@ -105,7 +105,7 @@ export default {
 				results: []
 			};
 			movie.results = new Promise((resolve, reject) => {
-				movieService.search(searchQuery, this.$store.state.user.movies)
+				movieService.search(searchQuery, this.$store.state.movies)
 					.then((foundedMovies) => {
 						movie.loading = false;
 						resolve(foundedMovies);

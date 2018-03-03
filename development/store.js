@@ -7,25 +7,31 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		user: {
-			info: {},
-			movies: {},
-			collections: {}
+		info: {},
+		movies: {},
+		collections: {}
+	},
+	getters: {
+		movie(state) {
+			return (imdbID) => {
+				return state.movies.filter((movie) => {
+					return movie.data._id === imdbID;
+				})[0];
+			};
 		}
 	},
-	getters: {},
 	mutations: {
 		setUset(state, user) {
-			state.user.info = Vue.$_.omit(user.data, ['movies', 'lists']);
+			state.info = Vue.$_.omit(user.data, ['movies', 'lists']);
 
-			state.user.movies = renameObjectsKeys(user.data.movies, {
+			state.movies = renameObjectsKeys(user.data.movies, {
 				_id: 'data'
 			});
 
-			state.user.movies = fastSort(state.user.movies).desc((movie) => {
+			state.movies = fastSort(state.movies).desc((movie) => {
 				return movie.createdAt;
 			});
-			Vue.$_.forEach(state.user.movies, (movie, key) => {
+			Vue.$_.forEach(state.movies, (movie, key) => {
 				movie.hoverState = false;
 				movie.openMenu = false;
 				Vue.set(movie, 'favourite', Vue.$_.defaultTo(movie.favourite, false));
@@ -41,12 +47,12 @@ const store = new Vuex.Store({
 				});
 			});
 
-			state.user.collections = renameObjectsKeys(user.data.lists, {
+			state.collections = renameObjectsKeys(user.data.lists, {
 				_id: 'data'
 			});
 		},
 		pushMovie(state, movie) {
-			state.user.movies.unshift(movie);
+			state.movies.unshift(movie);
 		},
 		updateMovieData(state, newMovieData) {
 			const newMovie = {};
@@ -63,49 +69,49 @@ const store = new Vuex.Store({
 				watchList: false,
 				remove: false
 			};
-			const oldMovieIndex = Vue.$_.findIndex(state.user.movies, {
+			const oldMovieIndex = Vue.$_.findIndex(state.movies, {
 				data: {
 					_id: newMovieData._id
 				}
 			});
 			console.log(newMovie);
-			console.log(state.user.movies[oldMovieIndex]);
-			Vue.set(state.user.movies, oldMovieIndex, newMovie);
+			console.log(state.movies[oldMovieIndex]);
+			Vue.set(state.movies, oldMovieIndex, newMovie);
 		},
 		toggleMovieFavourite(state, movie) {
-			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+			const theMovieIndex = Vue.$_.findIndex(state.movies, {
 				data: {
 					_id: movie.data._id
 				}
 			});
-			state.user.movies[theMovieIndex].favourite = !state.user.movies[theMovieIndex].favourite;
+			state.movies[theMovieIndex].favourite = !state.movies[theMovieIndex].favourite;
 		},
 		toggleMovieWatched(state, movie) {
-			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+			const theMovieIndex = Vue.$_.findIndex(state.movies, {
 				data: {
 					_id: movie.data._id
 				}
 			});
-			state.user.movies[theMovieIndex].watched = !state.user.movies[theMovieIndex].watched;
+			state.movies[theMovieIndex].watched = !state.movies[theMovieIndex].watched;
 		},
 		toggleMovieWatchList(state, movie) {
-			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+			const theMovieIndex = Vue.$_.findIndex(state.movies, {
 				data: {
 					_id: movie.data._id
 				}
 			});
-			state.user.movies[theMovieIndex].watchList = !state.user.movies[theMovieIndex].watchList;
+			state.movies[theMovieIndex].watchList = !state.movies[theMovieIndex].watchList;
 		},
 		removeMovie(state, movie) {
-			const theMovieIndex = Vue.$_.findIndex(state.user.movies, {
+			const theMovieIndex = Vue.$_.findIndex(state.movies, {
 				data: {
 					_id: movie.data._id
 				}
 			});
-			state.user.movies.splice(theMovieIndex, 1);
+			state.movies.splice(theMovieIndex, 1);
 		},
 		setMovies(state, movies) {
-			state.user.movies = movies;
+			state.movies = movies;
 		},
 		sortMovies(state, { sortBy, order }) {
 			const sortCase = {
@@ -132,11 +138,11 @@ const store = new Vuex.Store({
 				}
 			};
 			if (order === 'asc') {
-				state.user.movies = fastSort(state.user.movies).asc((movie) => {
+				state.movies = fastSort(state.movies).asc((movie) => {
 					return sortCase[sortBy](movie);
 				});
 			} else if (order === 'desc') {
-				state.user.movies = fastSort(state.user.movies).desc((movie) => {
+				state.movies = fastSort(state.movies).desc((movie) => {
 					return sortCase[sortBy](movie);
 				});
 			}

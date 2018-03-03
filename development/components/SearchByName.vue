@@ -1,5 +1,5 @@
 <template>
-	
+
 </template>
 
 <script>
@@ -32,7 +32,7 @@ export default {
 				movie.query = movieName;
 				this.searchResults.push(movie);
 				searchPromises.push(
-					movieService.search(movieName, this.$store.state.user.movies).then((foundedMovies) => {
+					movieService.search(movieName, this.$store.state.movies).then((foundedMovies) => {
 						movie.loading = false;
 						movie.foundedMovies = foundedMovies;
 						return movie;

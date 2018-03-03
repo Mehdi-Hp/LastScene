@@ -120,7 +120,7 @@ export default {
 			this.dropdownState = newDropdownState;
 		},
 		sortMovies(sortBy, order) {
-			this.initialMovies = Object.assign(this.$store.state.user.movies);
+			this.initialMovies = Object.assign(this.$store.state.movies);
 			this.sortBy = sortBy;
 			this.sortOrder = order;
 			this.$store.commit('sortMovies', {

@@ -83,13 +83,13 @@ export default {
 	},
 	computed: {
 		info() {
-			return this.$store.state.user.info;
+			return this.$store.state.info;
 		},
 		movies() {
-			return this.$store.state.user.movies;
+			return this.$store.state.movies;
 		},
 		collections() {
-			return this.$store.state.user.collections;
+			return this.$store.state.collections;
 		},
 		watchListCount() {
 			return this.$_.filter(this.movies, {

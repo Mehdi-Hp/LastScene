@@ -27,7 +27,7 @@ export default {
 	},
 	computed: {
 		movies() {
-			return this.$store.state.user.movies;
+			return this.$store.state.movies;
 		}
 	},
 	components: {
