@@ -4,7 +4,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssPlugins = require('./postcss.config');
 const DashboardPlugin = require('webpack-dashboard/plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { getIfUtils, removeEmpty } = require('webpack-config-utils');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -211,7 +211,7 @@ module.exports = {
 			flattening: true
 		})),
 		ifProduction(new webpack.optimize.UglifyJsPlugin()),
-		ifProduction(new BundleAnalyzerPlugin()),
+		// ifProduction(new BundleAnalyzerPlugin()),
 		ifProduction(new ExtractTextPlugin('[name].bundle.css')),
 		ifProduction(new webpack.LoaderOptionsPlugin({
 			minimize: true,
