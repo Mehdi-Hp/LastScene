@@ -1,5 +1,5 @@
 <template>
-	<main id="app" class="p-app">
+	<main id="app" class="p-app" v-if="userInfo">
 		<div class="p-app__sidebar-holder">
 			<sidebar class="p-app__sidebar"></sidebar>
 		</div>
@@ -26,6 +26,11 @@ export default {
 		return {
 
 		};
+	},
+	computed: {
+		userInfo() {
+			return this.$store.state.info;
+		}
 	},
 	components: {
 		Sidebar

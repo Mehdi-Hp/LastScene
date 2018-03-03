@@ -77,9 +77,7 @@ import IconWatch from './icons/Watch.vue';
 export default {
 	name: 'sidebar',
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	computed: {
 		info() {

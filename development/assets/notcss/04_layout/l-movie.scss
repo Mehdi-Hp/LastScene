@@ -1,0 +1,37 @@
+.l-movie {
+	display: flex;
+	flex-direction: column;
+	background: linear-gradient(to bottom, $clay 30%, $clay__shade--1 100%);
+	background-attachment: fixed;
+	position: relative;
+
+	&__back {
+		position: absolute;
+		left: 0;
+		top: 0;
+		padding: $gutter--thin;
+
+
+		&:hover {
+			background-color: transparentize($clay, .9);
+			color: white;
+		}
+	}
+
+	&__backdrop {
+		width: 100%;
+		height:
+			sizes(
+				ratio($golden-ratio, 2)
+				ratio($golden-ratio, 1)
+			) pluck(1);
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&__backdrop-image {
+		width: 100%;
+	}
+}

@@ -7,9 +7,9 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		info: {},
-		movies: {},
-		collections: {}
+		info: null,
+		movies: null,
+		collections: null
 	},
 	getters: {
 		movie(state) {

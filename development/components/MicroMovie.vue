@@ -14,20 +14,20 @@
 				'o-micro-movie__inner--light' : minimal
 			}"
 		>
-			<router-link :to="`/movies/${movie.data._id}`"
-				class="o-micro-movie__movie-box | m-movie-box"
+			<div class="o-micro-movie__movie-box | m-movie-box"
 				:class="{
 					'o-micro-movie__movie-box--is-deleting': movie.bus.remove,
 					'o-micro-movie__movie-box--minimal': minimal
 					}"
 				>
-				<div class="m-movie-box__cover | a-movie-cover">
+				<router-link :to="`/movies/${movie.data._id}`"
+					class="m-movie-box__cover | a-movie-cover">
 					<icon-film class="a-movie-cover__back-icon"></icon-film>
 					<img class="a-movie-cover__image"
 						:src="moviePoster"
 						:alt="movie.data.title"
 					>
-				</div>
+				</router-link>
 				<micro-movie-menu class="o-micro-movie__dropdown"
 					v-if="!outsider"
 					parent-class="o-micro-movie"
@@ -54,7 +54,7 @@
 					<span class="a-rate__base | a-rate__base--horiz">10</span>
 				</div>
 				<micro-userdata class="o-micro-movie__userdata" :movie="movie" v-if="!outsider"></micro-userdata>
-			</router-link>
+			</div>
 			<div class="o-micro-movie__information"
 				:class="{
 						'o-micro-movie__information--in-box' : outsider

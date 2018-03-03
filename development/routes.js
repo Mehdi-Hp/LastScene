@@ -1,12 +1,12 @@
-import Dashboard from './components/Dashboard.vue';
+import Buffet from './components/Buffet.vue';
 import AddMovie from './components/AddMovie.vue';
+import Movie from './components/Movie.vue';
 
 export default [
 	{
 		path: '/',
-		components:	{
-			dashboard: Dashboard
-		},
+		alias: '/movies',
+		component: Buffet,
 		children: [
 			{
 				path: '/add',
@@ -16,5 +16,9 @@ export default [
 				}
 			}
 		]
+	},
+	{
+		path: '/movies/:movie_id',
+		component:	Movie
 	}
 ];
