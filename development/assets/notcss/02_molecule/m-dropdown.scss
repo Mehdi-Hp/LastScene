@@ -3,16 +3,27 @@
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	z-index: g-index('mountain');
-
+	transition: all .2s ease-in-out;
+	background-color: $clay;
+	border-radius: 50%;
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+	background-color: transparentize($purple, 0.2);
+	size: 40px;
+	transition: width 0.2s, height 0.2s, border-radius 0.2s, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
+	transition-timing-function: ease-in-out;
+	cursor: pointer;
 
 	&--is-visible {
 		will-change: width, height, border-radius, box-shadow;
 	}
 
 	&--is-open {
+		cursor: default;
+		background-color: white;
 		box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
 		z-index: g-index('hill');
+		border-radius: 0;
+		transition: width 0.2s, height 0.2s, border-radius 0.2s, border-top-left-radius 0.2s, box-shadow 0.2s, background-color 0.2s;
 	}
 
 	&__icon {
@@ -20,6 +31,7 @@
 		flex-shrink: 0;
 		transition: all 0.2s 0.2s;
 		z-index: g-index('land');
+		size: 30px;
 
 		&--is-visible {
 			will-change: box-shadow;
@@ -36,7 +48,7 @@
 		flex-direction: column;
 		font-size: ms(-4);
 		color: hsl(0, 0%, 40%);
-		font-weight: 500;
+		font-weight: 600;
 		position: absolute;
 
 		&--is-open {
@@ -71,10 +83,16 @@
 
 		&--eye {
 			top: -0.1em;
+			& .a-icon-watch__around {
+				stroke: $purple;
+			}
 		}
 
 		&--list {
 			top: -0.1em;
+			& .a-icon-list__around {
+				stroke: $purple;
+			}
 		}
 	}
 }

@@ -22,7 +22,7 @@
 		width: 100%;
 		height:
 			sizes(
-				ratio($golden-ratio, 2)
+				ratio($golden-ratio, 1)
 				ratio($golden-ratio, 1)
 			) pluck(1);
 		overflow: hidden;
@@ -33,5 +33,9 @@
 
 	&__backdrop-image {
 		width: 100%;
+	}
+
+	&__essense {
+		transform: translateY(-50%);
 	}
 }

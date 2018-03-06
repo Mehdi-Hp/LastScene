@@ -11,7 +11,6 @@ import App from './App.vue';
 import Routes from './routes';
 import invertColor from './helpers/invertColor';
 import store from './store';
-import './assets/notcss/00_base/base.scss';
 
 Vue.use(LodashForVue);
 Vue.prototype.$_ = Vue.$lodash;

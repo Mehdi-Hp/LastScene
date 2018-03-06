@@ -1,10 +1,5 @@
 @import "~modularscale-sass/stylesheets/_modularscale.scss";
 
-$modularscale: (
-	base: 1em,
-	ratio: $minor-second
-);
-
 @import "_var__colors";
 @import "_var__element-colors";
 
@@ -16,5 +11,7 @@ $modularscale: (
 @import "_pla__fade";
 
 @import "_set__ant";
+
+@import "_set__typography";
 
 @import "_util__text-masker";

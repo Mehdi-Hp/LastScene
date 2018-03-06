@@ -40,7 +40,7 @@
 	}
 
 	&__around {
-		stroke: $purple;
+		stroke: currentColor;
 		stroke-width: 6;
 
 		&--is-pending {

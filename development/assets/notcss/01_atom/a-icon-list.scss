@@ -39,7 +39,7 @@
 
 	&__around {
 		transform-origin: 50px;
-		stroke: #4c4554;
+		stroke: currentColor;
 		stroke-width: 9;
 		stroke-dasharray: 300;
 		color: transparent;
@@ -56,10 +56,6 @@
 			transform: scale(1.05);
 			transition: transform 0.1s;
 		}
-
-		&--custom-color {
-			// color: currentColor;
-		}
 	}
 
 	&__dot {
@@ -75,10 +71,6 @@
 			color: mix($orange, white, 50%);
 			transform-origin: center;
 			transform: scale(1.1);
-		}
-
-		&--custom-color {
-			color: currentColor;
 		}
 	}
 }

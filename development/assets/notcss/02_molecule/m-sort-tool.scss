@@ -13,15 +13,17 @@
 		padding: 0;
 		color: $clay__shade--1;
 		transform: translateX(-7.5em);
-		transition: opacity .2s .3s;
+		transition: opacity 0.2s 0.3s;
 
 		&--is-enabled {
 			opacity: 1;
 			pointer-events: all;
-			transition: opacity .2s .3s, transform .2s;
+			transition: opacity 0.2s 0.3s, transform 0.2s;
+
 			&--asc {
 				transform: translateX(-7.5em);
 			}
+
 			&--desc {
 				transform: translateX(-8em);
 			}
@@ -40,12 +42,10 @@
 		&--is-enabled {
 			&--asc {
 				transform: translateX(-5em);
-				// transition: transform 0.2s;
 			}
 
 			&--desc {
 				transform: translateX(-5.5em);
-				// transition: transform 0.2s;
 			}
 		}
 	}
@@ -70,34 +70,32 @@
 
 	&__dropdown {
 		position: absolute;
-		width: 10em;
-		height: 5em;
 		right: 50%;
 		transform: translateX(50%) translateY(-20px);
 		pointer-events: none;
 		transform-origin: top;
-		border-radius: 3rem;
-		transition: transform 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, border-top-right-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
+		border-radius: 10em;
+		width: 7em;
+		opacity: 0;
+		transition: opacity .2s, background-color .2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius .2s .2s, border-top-right-radius .2s .2s, box-shadow 0.2s;
+		transition-timing-function: ease-in-out;
 
 		&--is-open {
 			pointer-events: all;
+			opacity: 1;
 			border-radius: 0;
+			transition: opacity .2s, background-color .2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius .1s, border-top-right-radius .1s, box-shadow 0.2s;
 			transform: translateX(50%) translateY(0);
-			transition: transform 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
 		}
 	}
 
 	&__dropdown-menu {
 		top: 0;
 		right: 0;
-		width: 10em;
-		opacity: 0;
+		min-width: 10em;
 		transition: opacity 0.2s, background-color 0.2s;
 
 		&--is-open {
-			opacity: 1;
-			background-color: white;
-			transition: opacity 0.2s;
 		}
 	}
 

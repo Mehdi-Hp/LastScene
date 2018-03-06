@@ -69,18 +69,13 @@
 	}
 
 	&__dropdown {
+		size: 27px;
 		position: absolute 0 auto auto 0;
 		margin: 0.5rem;
-		border-radius: 50%;
-		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-		background-color: transparentize($purple, 0.2);
 		mix-blend-mode: luminosity;
-		transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
 
 		&--is-open {
-			border-radius: 0;
 			mix-blend-mode: unset;
-			transition: width 0.2s, height 0.2s, border-radius 0.2s ease-out, box-shadow 0.2s;
 		}
 
 		&--is-visible {
@@ -92,16 +87,8 @@
 	}
 
 	&__dropdown-menu {
-		width: 18em;
-		transition: background-color 0.2s, opacity 0.2s 0.2s;
-		opacity: 0;
+		min-width: 18em;
 		padding-top: 1.5rem;
-
-		&--is-open {
-			opacity: 1;
-			background-color: white;
-			transition: opacity 0.2s;
-		}
 	}
 
 	&__information {

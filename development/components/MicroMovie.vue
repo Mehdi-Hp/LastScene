@@ -33,7 +33,6 @@
 					parent-class="o-micro-movie"
 					:movie="movie"
 					:hoverState="movie.hoverState"
-					:bus="movie.bus"
 					:dropdownState="movie.openMenu"
 					@toggleMenu="toggleMenu"
 					@addToFavourites="addToFavourites"
@@ -97,9 +96,9 @@
 				'o-micro-movie__inner--light' : minimal
 			}"
 		>
-			<div class="o-micro-movie__movie-box | o-micro-movie__movie-box--minimal | m-movie-box | m-movie-box--is-loading">
+			<div class="o-micro-movie__movie-box | o-micro-movie__movie-box--minimal | m-movie-box">
 				<div class="m-movie-box__cover | a-movie-cover"></div>
-				<div class="o-micro-movie__rate | m-movie-box__rate | m-movie-box__rate--is-loading | a-rate | a-rate--horiz">
+				<div class="o-micro-movie__rate | m-movie-box__rate | m-movie-box__rate | a-rate | a-rate--horiz">
 					<span class="a-rate__value | a-rate__value--horiz">-</span>
 					<span class="a-rate__base | a-rate__base--horiz">10</span>
 				</div>

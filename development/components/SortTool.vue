@@ -18,31 +18,24 @@
 				}"
 				@mouseover="hoverState = true"
 				@mouseout="hoverState = false"
-				@click="toggleDropdown"
+				@click="toggleDropdown(!dropdownState)"
 			>
 				<icon-sort class="m-sort-tool__icon"></icon-sort>
 				Sort
 			</button>
 			<dropdown
 				class="m-sort-tool__dropdown"
-				parent-class="m-sort-tool"
-				:hover-state="hoverState"
-				:is-open="dropdownState"
-				:menu-height="menuHeight"
-				:menu-width="menuWidth"
-				:initial-height="initialHeight"
-				:initial-width="menuWidth"
-				@toggleExpand="toggleDropdown"
 				:class="{
 					'm-sort-tool__dropdown--is-open':  dropdownState
 				}"
+				parent-class="m-sort-tool"
+				:state="dropdownState"
+				@toggle="toggleDropdown"
 			>
-				<ul class="m-sort-tool__dropdown-menu | m-dropdown__menu"
+				<ul class="m-sort-tool__dropdown-menu"
 					:class="{
-						'm-dropdown__menu--is-open':  dropdownState,
 						'm-sort-tool__dropdown-menu--is-open':  dropdownState
 					}"
-					ref="menu"
 				>
 					<li class="m-dropdown__option" @click="sortMovies('title', 'asc')">
 						Title
@@ -134,11 +127,6 @@ export default {
 			this.sortBy = null;
 			this.sortOrder = false;
 		}
-	},
-	mounted() {
-		this.menuHeight = this.$refs.menu.clientHeight;
-		this.menuWidth = this.$refs.menu.clientWidth;
-		this.initialHeight = this.menuHeight / 2;
 	}
 };
 </script>

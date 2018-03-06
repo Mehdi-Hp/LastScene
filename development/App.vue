@@ -13,6 +13,7 @@
 <script>
 import Sidebar from './components/Sidebar.vue';
 
+import './assets/notcss/00_base/base.scss';
 import './assets/notcss/01_atom/atoms.scss';
 import './assets/notcss/02_molecule/molecules.scss';
 import './assets/notcss/03_organism/organisms.scss';

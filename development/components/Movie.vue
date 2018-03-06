@@ -4,11 +4,13 @@
 			<back class="l-movie__back"></back>
 			<img class="l-movie__backdrop-image" :src="`/files/backdrop/${movie.data.images.backdrop.medium}`" alt="">
 		</div>
+		<movie-essense class="l-movie__essense" :movie="movie"></movie-essense>
 	</div>
 </template>
 
 <script>
 import Back from './Back.vue';
+import MovieEssense from './MovieEssense.vue';
 
 export default {
 	name: 'Dashboard',
@@ -23,7 +25,8 @@ export default {
 		}
 	},
 	components: {
-		Back
+		Back,
+		MovieEssense
 	}
 };
 </script>

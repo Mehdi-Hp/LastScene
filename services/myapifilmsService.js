@@ -113,7 +113,7 @@ const myapifilms = {
 								if (!titleAward) {
 									return {};
 								}
-								const result = (titleAward.titleAwardOutcome.includes('Won')) ? 'won' : 'nominated';
+								const result = (titleAward.titleAwardOutcome.includes('Winner')) ? 'won' : 'nominated';
 								let title = _.trim(titleAward.titleAwardOutcome.substring(titleAward.titleAwardOutcome.indexOf(' ')));
 								let participants = '';
 								titleAward.categories.forEach((currentCategory) => {
