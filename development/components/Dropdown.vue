@@ -103,10 +103,8 @@ export default {
 		}
 	},
 	mounted() {
-		Array.from(this.$refs.menu.firstChild.children).forEach((listItem, listIndex) => {
-			this.$refs.menu.firstChild.children[listIndex].classList.add('m-dropdown__option');
-			this.$refs.menu.firstChild.children[listIndex].classList.add(`${this.parentClass}__option`);
-		});
+		this.$u(this.$refs.menu).children('ul').addClass('m-dropdown__options');
+		this.$u(this.$refs.menu).find('ul > li').addClass(['m-dropdown__option', `${this.parentClass}__option`]);
 	}
 };
 </script>

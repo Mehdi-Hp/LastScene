@@ -60,6 +60,7 @@
 
 	&__information {
 		display: flex;
+		flex-wrap: wrap;
 		margin-top: $gutter--thin;
 	}
 
@@ -104,6 +105,28 @@
 			color: $gold;
 			opacity: 1;
 		}
+	}
+
+	&__collections {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		margin-top: $gutter--thin;
+		color: $clay__shade--4;
+	}
+
+	&__collections-icon {
+		margin-right: .5em;
+	}
+
+	&__collections-text {
+		font-weight: 400;
+		margin-right: .25em;
+	}
+
+	&__collections-name {
+		margin-right: .25em;
+		color: $purple__gradient-5;
 	}
 
 	&__state {
@@ -173,6 +196,7 @@
 		display: flex;
 		align-items: flex-end;
 		background-color: $clay__generic-gre--2;
+		box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.3);
 
 		&.m-dropdown--is-open {
 			padding-right: .5em;
@@ -182,6 +206,7 @@
 
 	&__dropdown-icon {
 		size: 50px;
+		padding: 10px;
 		& .a-icon-menu__hole {
 			color: $kinda-white;
 			&--is-open {
@@ -193,6 +218,45 @@
 	&__dropdown-menu {
 		width: 15em;
 		font-size: ms(0);
+		padding-left: 0.5em;
+
+		& .m-dropdown__option {
+			padding-right: 3em;
+		}
+	}
+
+	&__favourite-button-holder {
+		size: 50px;
+		position: absolute;
+		right:4em;
+		top: 0;
+		display: flex;
+		align-items: flex-end;
+		border-radius: 50%;
+		box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.3);
+	}
+
+	&__favourite-button {
+		background-color: $kinda-white;
+		border-radius: 50%;
+		size: 100%;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&:hocus {
+			background-color: mix($kinda-white, black, 95%);
+		}
+	}
+
+	&__favourite-icon {
+		size: 1.3em;
+
+		& .a-icon-heart__path {
+			stroke: $red;
+			stroke-width: 8;
+		}
 	}
 
 	&__favourite-of-holder {

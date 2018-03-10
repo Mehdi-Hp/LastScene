@@ -20,11 +20,7 @@
 
 	&__backdrop {
 		width: 100%;
-		height:
-			sizes(
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 1)
-			) pluck(1);
+		height: calc(100vh / #{$golden-ratio});
 		overflow: hidden;
 		display: flex;
 		align-items: center;
@@ -36,6 +32,11 @@
 	}
 
 	&__essense {
-		transform: translateY(-50%);
+		margin-top: -20%;
+		margin-bottom: $gutter--fat;
+	}
+
+	&__information {
+
 	}
 }

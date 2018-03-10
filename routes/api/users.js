@@ -20,16 +20,7 @@ app.route('/:username?')
 				path: 'movies._id',
 				model: 'Movie',
 				select: [
-					'title',
-					'originalTitle',
-					'year',
-					'createdAt',
-					'rate',
-					'images',
-					'awards',
-					'directors',
-					'loading',
-					'fulfilled'
+					'-__v'
 				]
 			}).populate({
 				path: 'lists._id',

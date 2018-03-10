@@ -49,6 +49,13 @@
 					</div>
 					<micro-awards class="o-movie-essense__awards" :awards="movie.data.awards"></micro-awards>
 				</div>
+				<div class="o-movie-essense__collections">
+					<icon-archive class="o-movie-essense__collections-icon"></icon-archive>
+					<span class="o-movie-essense__collections-text">In</span>
+					<span class="o-movie-essense__collections-name">Best of someone</span>
+					<span class="o-movie-essense__collections-text">and</span>
+					<span class="o-movie-essense__collections-name">more...</span>
+				</div>
 			</div>
 			<div class="o-movie-essense__state">
 				<button class="o-movie-essense__state-button | a-button | a-button--plain">
@@ -69,14 +76,15 @@
 					icon-name="iconMenu"
 				>
 					<ul>
-						<li>sroug</li>
-						<li>sroug</li>
-						<li>sroug</li>
-						<li>sroug</li>
-						<li>sroug</li>
-						<li>sroug</li>
+						<li>Add/Remove from collections</li>
+						<li>Update movie data</li>
 					</ul>
 				</dropdown>
+				<div class="o-movie-essense__favourite-button-holder">
+					<button class="o-movie-essense__favourite-button">
+						<icon-heart class="o-movie-essense__favourite-icon"></icon-heart>
+					</button>
+				</div>
 			</div>
 			<div class="o-movie-essense__favourite-of-holder">
 
@@ -93,6 +101,8 @@ import IconFilm from './icons/Film.vue';
 import IconWatch from './icons/Watch.vue';
 import IconList from './icons/List.vue';
 import IconMenu from './icons/Menu.vue';
+import IconHeart from './icons/Heart.vue';
+import IconArchive from './icons/Archive.vue';
 
 export default {
 	name: 'MovieEssense',
@@ -114,7 +124,9 @@ export default {
 		IconFilm,
 		IconWatch,
 		IconList,
-		IconMenu
+		IconMenu,
+		IconHeart,
+		IconArchive
 	}
 };
 </script>

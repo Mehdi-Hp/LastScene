@@ -9,23 +9,23 @@
 		}"
 		@toggle="toggleMenu"
 	>
-		<ul class="o-micro-movie__dropdown-menu">
-			<li class="m-dropdown__option" @click="toggleFavourite()">
+		<ul>
+			<li @click="toggleFavourite()">
 				<icon-heart class="m-dropdown__opticon | m-dropdown__opticon--heart" :is-done="movie.favourite" :is-pending="movie.bus.favourite"></icon-heart>
 				{{ favouriteText }}
 			</li>
-			<li class="m-dropdown__option" @click="toggleWatched()">
+			<li @click="toggleWatched()">
 				<icon-watch class="m-dropdown__opticon | m-dropdown__opticon--eye " :is-done="movie.watched" :is-pending="movie.bus.watched"></icon-watch>
 				{{ watchedText }}
 			</li>
-			<li class="m-dropdown__option" @click="toggleWatchList()">
+			<li @click="toggleWatchList()">
 				<icon-list class="m-dropdown__opticon | m-dropdown__opticon--list " :is-done="movie.watchList" :is-pending="movie.bus.watchList"></icon-list>
 				{{ watchListText }}
 			</li>
-			<li class="m-dropdown__option">
+			<li>
 				Add/Remove from collections
 			</li>
-			<li class="m-dropdown__option" @click="removeMovie()">
+			<li @click="removeMovie()">
 				Remove
 			</li>
 		</ul>

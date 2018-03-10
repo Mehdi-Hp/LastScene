@@ -1,0 +1,50 @@
+.o-movie-information {
+	display: flex;
+	flex-direction: column;
+	margin: 0 $gutter;
+
+	&__section {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__title {
+		font-size: ms(6);
+		color: $purple__highlight-3;
+		margin-bottom: $gutter--thin;
+		font-family: $secondary-typeface;
+	}
+
+	&__content {
+		generate-grid:
+			columns(
+				1/5 1/5 auto,
+				1/5 1/5 auto,
+				1/5 1/5 1/5 1/5 1/5
+			)
+			gutter(
+				$gutter--thin
+			)
+	}
+
+	&__pair {
+		display: flex;
+		flex-direction: column;
+		border-radius: 2px;
+		box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .1);
+		padding: 1em;
+		background-color: transparentize($purple, .8);
+	}
+
+	&__key {
+		font-weight: 600;
+		color: $clay__shade--4;
+		margin-bottom: .25em;
+	}
+
+	&__value {
+		font-size: ms(2);
+		font-weight: 400;
+		color: $kinda-white;
+	}
+}
