@@ -16,7 +16,7 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
 const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
 
-const { ifProduction } = getIfUtils(process.env.NODE_ENV);
+const {ifProduction, ifNotProduction} = getIfUtils(process.env.NODE_ENV)
 
 let myCSSLoader = {};
 if (ifProduction()) {
@@ -194,10 +194,10 @@ module.exports = {
 		})),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
-		new DashboardPlugin({
+		ifNotProduction(new DashboardPlugin({
 			minified: false,
 			gzip: false
-		}),
+		})),
 		ifProduction(new webpack.DefinePlugin({
 			'process.env': {
 				NODE_ENV: '"production"'
