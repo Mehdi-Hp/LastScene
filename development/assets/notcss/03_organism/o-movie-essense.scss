@@ -133,16 +133,22 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		font-size: ms(1);
+		font-size: ms(-1);
 	}
 
 	&__state-button {
 		color: $kinda-white;
 		margin-top: .25em;
-		padding: .25em;
-		color: $clay__twisted-spot--2;
+		color: white;
 		font-weight: 600;
-		border-bottom: 2px solid $clay__shade--2;
+		padding: .5em .5em 0 .5em;
+		// border-radius: 0;
+
+		&:first-of-type {
+			padding: .5em;
+			background-color: $clay__shade--0;
+			box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.2);
+		}
 	}
 
 	&__state-icon {

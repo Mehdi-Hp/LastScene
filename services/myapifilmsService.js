@@ -174,7 +174,8 @@ const myapifilms = {
 							writers: movie.writers,
 							languages: currentMovie.languages,
 							genres: currentMovie.genres,
-							awards: movie.awards
+							awards: movie.awards,
+							countries: currentMovie.countries
 						});
 						return movie;
 					});

@@ -136,8 +136,13 @@ const tmdbService = {
 						message: `Error getting backdrop URL: ${error}`
 					});
 				}
-				if (body.movie_results[0].backdrop_path.length) {
+				if (body.movie_results[0].backdrop_path && body.movie_results[0].backdrop_path.length) {
 					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`);
+				} else {
+					reject({
+						status: 404,
+						message: 'No backdrop found'
+					});
 				}
 			});
 		});
