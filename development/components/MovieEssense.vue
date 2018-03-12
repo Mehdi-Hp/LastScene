@@ -58,29 +58,46 @@
 				<span class="o-movie-essense__collections-name">more...</span>
 			</div>
 			<div class="o-movie-essense__state">
-				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.5" color="#4c4554" transition="ease-in-out">
+				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.2" color="#4c4554" transition="ease-in-out">
 					<button
 						class="o-movie-essense__state-button | o-movie-essense__state-button--catchy | a-button | a-button--plain"
 						:class="{
-							'o-movie-essense__state-button--is-true': movie.watched
+							'o-movie-essense__state-button--is-true': movie.watched,
+							'o-movie-essense__state-button--is-pending': movie.bus.watched
 						}"
 						@click="toggleWatched"
 					>
-						<icon-watch
+						<icon-eye
 							class="o-movie-essense__state-icon | o-movie-essense__state-icon--watch"
 							:class="{
-
+								'o-movie-essense__state-icon--watch--is-pending': movie.bus.watched
 							}"
 							:isPending="movie.bus.watched"
 							:isDone="movie.watched"
-						></icon-watch>
+						></icon-eye>
 						{{ (!movie.watched) ? 'Mark as watched' : 'Mark as not watched' }}
 					</button>
 				</touch-ripple>
-				<button class="o-movie-essense__state-button | a-button | a-button--plain">
-					<icon-list class="o-movie-essense__state-icon | o-movie-essense__state-icon--list"></icon-list>
-					Add to watch list
-				</button>
+				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.2" color="#fff" transition="ease-in-out">
+					<button
+						class="o-movie-essense__state-button | a-button | a-button--plain"
+						:class="{
+							'o-movie-essense__state-button--is-true': movie.watchList,
+							'o-movie-essense__state-button--is-pending': movie.bus.watchList
+						}"
+						@click="toggleWatchList"
+					>
+						<icon-flag
+							class="o-movie-essense__state-icon | o-movie-essense__state-icon--flag"
+							:class="{
+								'o-movie-essense__state-icon--flag--is-pending': movie.bus.watchList
+							}"
+							:isPending="movie.bus.watchList"
+							:isDone="movie.watchList"
+						></icon-flag>
+						{{ (!movie.watchList) ? 'Add to watch list' : 'Remove from watch list' }}
+					</button>
+				</touch-ripple>
 			</div>
 		</div>
 		<div class="o-movie-essense__extra">
@@ -125,11 +142,12 @@ import Back from './Back.vue';
 import Dropdown from './Dropdown.vue';
 import MicroAwards from './MicroAwards.vue';
 import IconFilm from './icons/Film.vue';
-import IconWatch from './icons/Watch.vue';
+import IconEye from './icons/Eye.vue';
 import IconList from './icons/List.vue';
 import IconMenu from './icons/Menu.vue';
 import IconHeart from './icons/Heart.vue';
 import IconArchive from './icons/Archive.vue';
+import IconFlag from './icons/Flag.vue';
 
 export default {
 	name: 'MovieEssense',
@@ -150,11 +168,12 @@ export default {
 		Dropdown,
 		MicroAwards,
 		IconFilm,
-		IconWatch,
+		IconEye,
 		IconList,
 		IconMenu,
 		IconHeart,
-		IconArchive
+		IconArchive,
+		IconFlag
 	},
 	methods: {
 		toggleFavourite() {
@@ -162,6 +181,9 @@ export default {
 		},
 		toggleWatched() {
 			this.$emit('toggleWatched', this.movie);
+		},
+		toggleWatchList() {
+			this.$emit('toggleWatchList', this.movie);
 		}
 	}
 };

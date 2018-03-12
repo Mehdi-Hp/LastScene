@@ -102,5 +102,21 @@ export default {
 					movie.watched = false;
 				});
 		}
+	},
+	toggleWatchList(movie) {
+		movie.bus.watchList = true;
+		if (!movie.watchList) {
+			store.dispatch('addMovieToWatchList', movie)
+				.then((updatedMovie) => {
+					movie.bus.watchList = false;
+					movie.watchList = true;
+				});
+		} else {
+			store.dispatch('removeMovieFromWatchList', movie)
+				.then((updatedMovie) => {
+					movie.bus.watchList = false;
+					movie.watchList = false;
+				});
+		}
 	}
 };

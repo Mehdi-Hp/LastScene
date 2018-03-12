@@ -146,7 +146,9 @@
 
 	&__state-button {
 		color: $kinda-white;
-		padding: .5em .5em 0 .5em;
+		padding: .5em;
+		transition: background-color .2s ease-in-out;
+		perspective: 250px;
 
 		&--catchy {
 			padding: .5em;
@@ -155,31 +157,35 @@
 		}
 
 		&--is-true {
-			
+			background-color: transparent;
+			box-shadow: none;
+		}
+
+		&--is-pending {
+			background-color: $clay__shade--1;
 		}
 	}
 
 	&__state-icon {
 		width: 1.2em;
-		color: white;
-		margin-right: .25em;
-		color: transparent;
+		color: $clay__twisted-spot--2;
+		margin-right: .5em;
+
 		&--watch {
-			& .a-icon-watch__eyeball {
+			& .a-icon-watch__path {
 				color: $clay__twisted-spot--2;
 			}
-			& .a-icon-watch__around {
-				stroke: $clay__shade--3;
+
+			&--is-pending {
+				color: $gold;
 			}
 		}
 
-		&--list {
-			height: .9em;
-			& .a-icon-list__dot{
-				color: $clay__twisted-spot--2;
-			}
-			& .a-icon-list__around {
-				stroke: $clay__shade--3;
+		&--flag {
+			color: $clay__twisted-spot--2;
+
+			&--is-pending {
+				color: $yellorange;
 			}
 		}
 	}

@@ -20,7 +20,7 @@
 			<div class="o-places">
 				<a href="#" class="m-place">
 					<li class="m-place__name">
-						<icon-watch class="m-place__icon" is-done="true" custom-color="true"></icon-watch>
+						<icon-flag class="m-place__icon" is-done="true" custom-color="true"></icon-flag>
 						Watch Next...
 					</li>
 					<span class="m-place__count | a-count | a-count--weeny">
@@ -72,7 +72,7 @@
 
 <script>
 import IconSetting from './icons/Setting.vue';
-import IconWatch from './icons/Watch.vue';
+import IconFlag from './icons/Flag.vue';
 
 export default {
 	name: 'sidebar',
@@ -97,7 +97,7 @@ export default {
 	},
 	components: {
 		IconSetting,
-		IconWatch
+		IconFlag
 	}
 };
 </script>

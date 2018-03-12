@@ -17,7 +17,7 @@
 
 <script>
 export default {
-	name: 'iconEye',
+	name: 'iconWatch',
 	props: [
 		'isPending',
 		'isDone'
