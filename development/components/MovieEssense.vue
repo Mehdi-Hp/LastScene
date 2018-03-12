@@ -70,12 +70,13 @@
 						<icon-eye
 							class="o-movie-essense__state-icon | o-movie-essense__state-icon--watch"
 							:class="{
-								'o-movie-essense__state-icon--watch--is-pending': movie.bus.watched
+								'o-movie-essense__state-icon--is-pending': movie.bus.watched,
+								'o-movie-essense__state-icon--is-true': movie.watched
 							}"
 							:isPending="movie.bus.watched"
 							:isDone="movie.watched"
 						></icon-eye>
-						{{ (!movie.watched) ? 'Mark as watched' : 'Mark as not watched' }}
+						{{ (!movie.watched) ? 'Mark as watched' : 'Already watched' }}
 					</button>
 				</touch-ripple>
 				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.2" color="#fff" transition="ease-in-out">
@@ -90,7 +91,8 @@
 						<icon-flag
 							class="o-movie-essense__state-icon | o-movie-essense__state-icon--flag"
 							:class="{
-								'o-movie-essense__state-icon--flag--is-pending': movie.bus.watchList
+								'o-movie-essense__state-icon--is-pending': movie.bus.watchList,
+								'o-movie-essense__state-icon--is-true': movie.watchList
 							}"
 							:isPending="movie.bus.watchList"
 							:isDone="movie.watchList"

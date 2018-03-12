@@ -152,6 +152,9 @@
 				);
 			border-right: 3px solid $clay__shade--1;
 			padding-right: $gutter--thin / 2;
+			&:last-of-type {
+				border-right: none;
+			}
 		}
 	}
 

@@ -21,7 +21,7 @@
 
 		&--is-pending {
 			transition: color 1s;
-			animation: iconFlag__isPending 1s ease-in-out;
+			animation: iconFlag__isPending 1s cubic-bezier(0.96, -0.03, 0.17, 0.99);
 			animation-iteration-count: infinite;
 			animation-direction: alternate-reverse;
 		}

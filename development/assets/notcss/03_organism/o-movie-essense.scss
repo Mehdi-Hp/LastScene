@@ -157,7 +157,7 @@
 		}
 
 		&--is-true {
-			background-color: transparent;
+			background-color: $clay__shade--1;
 			box-shadow: none;
 		}
 
@@ -171,22 +171,18 @@
 		color: $clay__twisted-spot--2;
 		margin-right: .5em;
 
-		&--watch {
-			& .a-icon-watch__path {
-				color: $clay__twisted-spot--2;
-			}
+		&--is-pending {
+			color: $yellorange;
+		}
 
-			&--is-pending {
-				color: $gold;
-			}
+		&--is-true {
+			color: $yellorange;
+		}
+
+		&--watch {
 		}
 
 		&--flag {
-			color: $clay__twisted-spot--2;
-
-			&--is-pending {
-				color: $yellorange;
-			}
 		}
 	}
 
