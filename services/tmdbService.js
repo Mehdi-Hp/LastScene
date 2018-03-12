@@ -111,6 +111,7 @@ const tmdbService = {
 						message: `Error getting poster URL: ${error}`
 					});
 				}
+				console.log(body);
 				if (body && body.movie_results[0].poster_path.length) {
 					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].poster_path}`);
 				} else {
@@ -141,7 +142,6 @@ const tmdbService = {
 						message: `Error getting backdrop URL: ${error}`
 					});
 				}
-				console.log(body);
 				if (body.movie_results[0].backdrop_path && body.movie_results[0].backdrop_path.length) {
 					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`);
 				} else {
