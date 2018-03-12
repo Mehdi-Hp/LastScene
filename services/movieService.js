@@ -61,32 +61,36 @@ module.exports = {
 					_id: imdbID,
 					loading: true,
 					fulfilled: false
-				}).then((initialMovie) => {
-					debug(chalk.yellow(`__Added initial movie data [${imdbID}] ...`));
-				}).catch((error) => {
-					return reject({
-						status: 500,
-						message: 'Error saving movie in database'
+				})
+					.then((initialMovie) => {
+						debug(chalk.yellow(`__Added initial movie data [${imdbID}] ...`));
+					})
+					.catch((error) => {
+						return reject({
+							status: 500,
+							message: 'Error saving movie in database'
+						});
 					});
-				});
-				myapifilmsService.getMovie(imdbID).then((movie) => {
-					debug(chalk.green(`____Got movie information: [${imdbID}]. adding it to database...`));
-					movie.data[0].loading = false;
-					movie.data[0].fulfilled = true;
-					Movie.findByIdAndUpdate(imdbID, movie.data[0], { new: true }).then((fulfilledMovie) => {
-						debug(chalk.green(`__Movie [${imdbID}] added to database`));
+				myapifilmsService.getMovie(imdbID)
+					.then((movie) => {
+						debug(chalk.green(`____Got movie information: [${imdbID}]. adding it to database...`));
+						movie.data[0].loading = false;
+						movie.data[0].fulfilled = true;
+						Movie.findByIdAndUpdate(imdbID, movie.data[0], { new: true }).then((fulfilledMovie) => {
+							debug(chalk.green(`__Movie [${imdbID}] added to database`));
+							movieQueue.delete(imdbID);
+							resolve(fulfilledMovie);
+						}).catch((error) => {
+							debug(chalk.bold.red(error));
+							movieQueue.delete(imdbID);
+							reject(error);
+						});
+					})
+					.catch((error) => {
 						movieQueue.delete(imdbID);
-						resolve(fulfilledMovie);
-					}).catch((error) => {
-						debug(chalk.bold.red(error));
-						movieQueue.delete(imdbID);
+						debug(chalk.red.bold(`____Error in request to myapifilms for [${imdbID}]: ${error}`));
 						reject(error);
 					});
-				}).catch((error) => {
-					movieQueue.delete(imdbID);
-					debug(chalk.red.bold(`____Error in request to myapifilms for [${imdbID}]: ${error}`));
-					reject(error);
-				});
 			}).catch((error) => {
 				console.dir(error);
 				debug(chalk.bold.red(error));

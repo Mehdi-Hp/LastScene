@@ -5,16 +5,26 @@
 	background-attachment: fixed;
 	position: relative;
 
+	& .headroom {
+		right: auto !important;
+		left: auto !important;
+		z-index: g-index('mountain');
+	}
+
 	&__back {
-		position: absolute;
-		left: 0;
-		top: 0;
-		padding: $gutter--thin;
+		margin: $gutter--thin calc(#{$gutter} - .4em);
+		border: 3px solid $clay;
+		font-weight: 700;
+		filter: drop-shadow(0 3px 3px rgba(0,0,0,.2));
+		color: white;
 
-
-		&:hover {
-			background-color: transparentize($clay, .9);
+		&:hocus {
 			color: white;
+		}
+
+		&:active {
+			transform: scale(0.95);
+			border-color: white;
 		}
 	}
 
@@ -24,7 +34,6 @@
 		overflow: hidden;
 		display: flex;
 		align-items: center;
-		justify-content: center;
 	}
 
 	&__backdrop-image {
@@ -34,6 +43,8 @@
 	&__essense {
 		margin-top: -20%;
 		margin-bottom: $gutter;
+		padding: 0 $gutter;
+		width: 100%;
 	}
 
 	&__information {

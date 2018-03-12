@@ -88,11 +88,8 @@
 			}
 		}
 
-		&--list {
-			top: -0.1em;
-			& .a-icon-list__around {
-				stroke: $purple;
-			}
+		&--flag {
+			color: $purple;
 		}
 	}
 }

@@ -15,11 +15,11 @@
 				{{ favouriteText }}
 			</li>
 			<li @click="toggleWatched()">
-				<icon-watch class="m-dropdown__opticon | m-dropdown__opticon--eye " :is-done="movie.watched" :is-pending="movie.bus.watched"></icon-watch>
+				<icon-watch class="m-dropdown__opticon | m-dropdown__opticon--eye" :is-done="movie.watched" :is-pending="movie.bus.watched"></icon-watch>
 				{{ watchedText }}
 			</li>
 			<li @click="toggleWatchList()">
-				<icon-list class="m-dropdown__opticon | m-dropdown__opticon--list " :is-done="movie.watchList" :is-pending="movie.bus.watchList"></icon-list>
+				<icon-flag class="m-dropdown__opticon | m-dropdown__opticon--flag" :is-done="movie.watchList" :is-pending="movie.bus.watchList"></icon-flag>
 				{{ watchListText }}
 			</li>
 			<li>
@@ -36,7 +36,7 @@
 import Dropdown from './Dropdown.vue';
 import IconHeart from './icons/Heart.vue';
 import IconWatch from './icons/Watch.vue';
-import IconList from './icons/List.vue';
+import IconFlag from './icons/Flag.vue';
 
 export default {
 	name: 'MicroMovieMenu',
@@ -74,7 +74,7 @@ export default {
 		Dropdown,
 		IconHeart,
 		IconWatch,
-		IconList
+		IconFlag
 	},
 	methods: {
 		toggleMenu(state) {

@@ -5,15 +5,15 @@
 		}"
 		></div>
 		<icon-heart v-if="movie.favourite" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--heart" custom-color="true"></icon-heart>
-		<icon-watch v-if="movie.watched" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--watch" custom-color="true"></icon-watch>
-		<icon-list v-if="movie.watchList" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--list" custom-color="true"></icon-list>
+		<icon-eye v-if="movie.watched" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--eye" custom-color="true"></icon-eye>
+		<icon-flag v-if="movie.watchList" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--flag" custom-color="true"></icon-flag>
 	</div>
 </template>
 
 <script>
 import IconHeart from './icons/Heart.vue';
-import IconWatch from './icons/Watch.vue';
-import IconList from './icons/List.vue';
+import IconEye from './icons/Eye.vue';
+import IconFlag from './icons/Flag.vue';
 
 export default {
 	name: 'MicroUserdata',
@@ -30,8 +30,8 @@ export default {
 	},
 	components: {
 		IconHeart,
-		IconWatch,
-		IconList
+		IconEye,
+		IconFlag
 	},
 
 	methods: {

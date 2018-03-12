@@ -145,7 +145,6 @@ import Dropdown from './Dropdown.vue';
 import MicroAwards from './MicroAwards.vue';
 import IconFilm from './icons/Film.vue';
 import IconEye from './icons/Eye.vue';
-import IconList from './icons/List.vue';
 import IconMenu from './icons/Menu.vue';
 import IconHeart from './icons/Heart.vue';
 import IconArchive from './icons/Archive.vue';
@@ -171,7 +170,6 @@ export default {
 		MicroAwards,
 		IconFilm,
 		IconEye,
-		IconList,
 		IconMenu,
 		IconHeart,
 		IconArchive,

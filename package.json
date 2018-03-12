@@ -82,6 +82,7 @@
 		"vue-cli": "^2.9.3",
 		"vue-clickaway": "^2.1.0",
 		"vue-esc": "^2.0.0",
+		"vue-headroom": "^0.8.1",
 		"vue-router": "^3.0.1",
 		"vue-tippy": "^2.0.8",
 		"vue-touch-ripple": "^3.0.0",

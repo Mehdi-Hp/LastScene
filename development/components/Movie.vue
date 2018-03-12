@@ -1,7 +1,9 @@
 <template>
 	<div class="l-movie">
 		<div class="l-movie__backdrop">
-			<back class="l-movie__back"></back>
+			<headroom upTolerance="10" downTolerance="10">
+				<back class="l-movie__back"></back>
+			</headroom>
 			<img class="l-movie__backdrop-image" :src="`/files/backdrop/${movie.data.images.backdrop.medium}`" alt="">
 		</div>
 		<movie-essense
@@ -16,6 +18,7 @@
 </template>
 
 <script>
+import { headroom } from 'vue-headroom';
 import movieService from '../services/movieService';
 import Back from './Back.vue';
 import MovieEssense from './MovieEssense.vue';
@@ -34,6 +37,7 @@ export default {
 		}
 	},
 	components: {
+		headroom,
 		Back,
 		MovieEssense,
 		MovieInformation

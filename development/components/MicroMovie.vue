@@ -128,10 +128,6 @@ import movieService from '../services/movieService';
 import MicroMovieMenu from './MicroMovieMenu.vue';
 import MicroAwards from './MicroAwards.vue';
 import MicroUserdata from './MicroUserdata.vue';
-import IconHeart from './icons/Heart.vue';
-import IconWatch from './icons/Watch.vue';
-import IconList from './icons/List.vue';
-import IconFilm from './icons/Film.vue';
 
 export default {
 	name: 'microMovie',
@@ -161,11 +157,7 @@ export default {
 	components: {
 		MicroMovieMenu,
 		MicroUserdata,
-		MicroAwards,
-		IconHeart,
-		IconWatch,
-		IconList,
-		IconFilm
+		MicroAwards
 	},
 
 	methods: {
