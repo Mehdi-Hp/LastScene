@@ -27,7 +27,16 @@ Vue.use(VueTippy, {
 Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'history',
-	routes: Routes
+	routes: Routes,
+	scrollBehavior(to, from, savedPosition) {
+		if (savedPosition) {
+			return savedPosition;
+		}
+		return {
+			x: 0,
+			y: 0
+		};
+	}
 });
 
 Vue.use(VueAxios, axios);
