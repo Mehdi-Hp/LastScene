@@ -51,7 +51,7 @@
 						<h3 class="o-movie-information__award-name">
 							{{ award.name }} {{ award.year }}
 						</h3>
-						<div class="o-movie-information__awards" v-for="awardCategory in award.categories" :key="awardCategory.title">
+						<div class="o-movie-information__awards" v-for="(awardCategory, awardCategoryIndex) in award.categories" :key="awardCategoryIndex.title">
 							<div class="o-movie-information__pair | o-movie-information__pair--boxy"
 								:class="{
 									'o-movie-information__pair--colorfull-2': $_.find(award.categories, { result: 'won' })
@@ -73,7 +73,7 @@
 				</div>
 			</div>
 			<div class="o-movie-information__content | o-movie-information__content--normal-awards" v-if="awards.normal.length">
-				<div class="o-movie-information__award-holder | o-movie-information__award-holder--normal" v-for="award in awards.normal" :key="award.name">
+				<div class="o-movie-information__award-holder | o-movie-information__award-holder--normal" v-for="(award, awardIndex) in awards.normal" :key="awardIndex">
 					<div class="o-movie-information__awards-inner">
 						<h3 class="o-movie-information__key">
 							{{ award.name }} {{ award.year }}
@@ -133,7 +133,7 @@ export default {
 				normal: []
 			};
 			this.movie.data.awards.forEach((award) => {
-				if (['Academy Awards', 'Golden Globes', 'BAFTA Awards', 'Cannes'].includes(award.name)) {
+				if (['Academy Awards', 'Golden Globes', 'BAFTA Awards', 'Cannes', 'Berlin International Film Festival'].includes(award.name)) {
 					awards.important.push(award);
 				} else {
 					awards.normal.push(award);
@@ -148,7 +148,8 @@ export default {
 				'Academy Awards': IconOscar,
 				'Golden Globes': IconGoldenGlobe,
 				'BAFTA Awards': IconBafta,
-				Cannes: IconCannes
+				Cannes: IconCannes,
+				'Berlin International Film Festival': IconGoldenBear
 			};
 			return awardChoose[name];
 		},

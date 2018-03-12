@@ -86,5 +86,21 @@ export default {
 					movie.favourite = false;
 				});
 		}
+	},
+	toggleWatched(movie) {
+		movie.bus.watched = true;
+		if (!movie.watched) {
+			store.dispatch('addMovieToWatched', movie)
+				.then((updatedMovie) => {
+					movie.bus.watched = false;
+					movie.watched = true;
+				});
+		} else {
+			store.dispatch('removeMovieFromWatched', movie)
+				.then((updatedMovie) => {
+					movie.bus.watched = false;
+					movie.watched = false;
+				});
+		}
 	}
 };

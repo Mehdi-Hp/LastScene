@@ -58,10 +58,25 @@
 				<span class="o-movie-essense__collections-name">more...</span>
 			</div>
 			<div class="o-movie-essense__state">
-				<button class="o-movie-essense__state-button | a-button | a-button--plain">
-					<icon-watch class="o-movie-essense__state-icon | o-movie-essense__state-icon--watch"></icon-watch>
-					Mark as watched
-				</button>
+				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.5" color="#4c4554" transition="ease-in-out">
+					<button
+						class="o-movie-essense__state-button | o-movie-essense__state-button--catchy | a-button | a-button--plain"
+						:class="{
+							'o-movie-essense__state-button--is-true': movie.watched
+						}"
+						@click="toggleWatched"
+					>
+						<icon-watch
+							class="o-movie-essense__state-icon | o-movie-essense__state-icon--watch"
+							:class="{
+
+							}"
+							:isPending="movie.bus.watched"
+							:isDone="movie.watched"
+						></icon-watch>
+						{{ (!movie.watched) ? 'Mark as watched' : 'Mark as not watched' }}
+					</button>
+				</touch-ripple>
 				<button class="o-movie-essense__state-button | a-button | a-button--plain">
 					<icon-list class="o-movie-essense__state-icon | o-movie-essense__state-icon--list"></icon-list>
 					Add to watch list
@@ -144,6 +159,9 @@ export default {
 	methods: {
 		toggleFavourite() {
 			this.$emit('toggleFavourite', this.movie);
+		},
+		toggleWatched() {
+			this.$emit('toggleWatched', this.movie);
 		}
 	}
 };

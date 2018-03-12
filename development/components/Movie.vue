@@ -8,6 +8,7 @@
 			class="l-movie__essense"
 			:movie="movie"
 			@toggleFavourite="toggleFavourite"
+			@toggleWatched="toggleWatched"
 		></movie-essense>
 		<movie-information class="l-movie__information" :movie="movie"></movie-information>
 	</div>
@@ -39,6 +40,9 @@ export default {
 	methods: {
 		toggleFavourite() {
 			movieService.toggleFavourite(this.movie);
+		},
+		toggleWatched() {
+			movieService.toggleWatched(this.movie);
 		}
 	}
 };

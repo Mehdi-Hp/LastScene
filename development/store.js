@@ -210,8 +210,10 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					watched: true
 				}).then((updatedMovie) => {
-					commit('toggleMovieWatched', movie);
-					resolve();
+					setTimeout(() => {
+						commit('toggleMovieWatched', movie);
+						resolve();
+					}, 1500);
 				}).catch((error) => {
 					reject(error);
 				});

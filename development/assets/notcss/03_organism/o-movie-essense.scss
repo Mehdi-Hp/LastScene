@@ -140,18 +140,22 @@
 		font-size: ms(-1);
 	}
 
+	&__state-button-holder {
+		margin-top: .25em;
+	}
+
 	&__state-button {
 		color: $kinda-white;
-		margin-top: .25em;
-		color: white;
-		font-weight: 600;
 		padding: .5em .5em 0 .5em;
-		// border-radius: 0;
 
-		&:first-of-type {
+		&--catchy {
 			padding: .5em;
 			background-color: $clay__shade--0;
 			box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.2);
+		}
+
+		&--is-true {
+			
 		}
 	}
 
@@ -291,7 +295,7 @@
 
 		&--is-pending {
 			& .a-icon-heart__path {
-				
+
 			}
 		}
 	}
