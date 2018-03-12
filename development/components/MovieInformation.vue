@@ -24,7 +24,7 @@
 						'o-movie-information__pair--colorfull-1': actorIndex < 3,
 						'o-movie-information__pair--plain': actorIndex > 2
 					}"
-					v-for="(actor, actorIndex) in movie.data.actors" :key="actor.name"
+					v-for="(actor, actorIndex) in movie.data.actors" :key="actorIndex"
 				>
 					<h3 class="o-movie-information__value">
 						{{ actor.name }}
@@ -39,7 +39,7 @@
 		<div class="o-movie-information__section">
 			<h3 class="o-movie-information__title">Awards</h3>
 			<div class="o-movie-information__content | o-movie-information__content--important-awards" v-if="awards.important.length">
-				<div class="o-movie-information__award-holder" v-for="award in awards.important" :key="award.name">
+				<div class="o-movie-information__award-holder" v-for="(award, awardIndex) in awards.important" :key="awardIndex">
 					<component :is="getAwardIcon(award.name)"
 						class="o-movie-information__award-icon"
 						:class="{
@@ -78,7 +78,7 @@
 						<h3 class="o-movie-information__key">
 							{{ award.name }} {{ award.year }}
 						</h3>
-						<div class="o-movie-information__awards | o-movie-information__awards--normal" v-for="awardCategory in award.categories" :key="awardCategory.title">
+						<div class="o-movie-information__awards | o-movie-information__awards--normal" v-for="(awardCategory, awardCategoryIndex) in award.categories" :key="awardCategoryIndex">
 							<div class="o-movie-information__pair">
 								<span class="o-movie-information__value">
 									{{ awardCategory.result }}

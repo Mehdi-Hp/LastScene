@@ -187,7 +187,7 @@ const store = new Vuex.Store({
 					setTimeout(() => {
 						commit('toggleMovieFavourite', movie);
 						resolve();
-					}, 2000);
+					}, 1500);
 				}).catch((error) => {
 					reject(error);
 				});
@@ -210,10 +210,8 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					watched: true
 				}).then((updatedMovie) => {
-					setTimeout(() => {
-						commit('toggleMovieWatched', movie);
-						resolve();
-					}, 1400);
+					commit('toggleMovieWatched', movie);
+					resolve();
 				}).catch((error) => {
 					reject(error);
 				});
@@ -236,10 +234,8 @@ const store = new Vuex.Store({
 				Vue.$axios.put(`/movies/${movie.data._id}`, {
 					watchList: true
 				}).then((updatedMovie) => {
-					setTimeout(() => {
-						commit('toggleMovieWatchList', movie);
-						resolve();
-					}, 2500);
+					commit('toggleMovieWatchList', movie);
+					resolve();
 				}).catch((error) => {
 					reject(error);
 				});
@@ -260,10 +256,8 @@ const store = new Vuex.Store({
 		removeMovie({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
 				Vue.$axios.delete(`/movies/${movie.data._id}`).then((deletedMovie) => {
-					setTimeout(() => {
-						commit('removeMovie', movie);
-						resolve(deletedMovie);
-					}, 500);
+					commit('removeMovie', movie);
+					resolve(deletedMovie);
 				}).catch((error) => {
 					reject(error);
 				});

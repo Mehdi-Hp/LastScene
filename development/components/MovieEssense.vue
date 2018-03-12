@@ -80,11 +80,22 @@
 						<li>Update movie data</li>
 					</ul>
 				</dropdown>
-				<div class="o-movie-essense__favourite-button-holder">
-					<button class="o-movie-essense__favourite-button">
-						<icon-heart class="o-movie-essense__favourite-icon"></icon-heart>
+				<touch-ripple class="o-movie-essense__favourite-button-holder" :speed="2" :opacity="0.5" color="#cb5451" transition="ease-in-out">
+					<button class="o-movie-essense__favourite-button"
+						:class="{
+							'o-movie-essense__favourite-button--is-true': movie.favourite
+						}"
+						@click="toggleFavourite()"
+					>
+						<icon-heart class="o-movie-essense__favourite-icon"
+							:class="{
+								'o-movie-essense__favourite-icon--is-pending': movie.bus.favourite,
+								'o-movie-essense__favourite-icon--is-true': movie.favourite
+							}"
+							:isPending="movie.bus.favourite"
+						></icon-heart>
 					</button>
-				</div>
+				</touch-ripple>
 			</div>
 			<div class="o-movie-essense__favourite-of-holder">
 
@@ -94,6 +105,7 @@
 </template>
 
 <script>
+import { touchRipple } from 'vue-touch-ripple';
 import Back from './Back.vue';
 import Dropdown from './Dropdown.vue';
 import MicroAwards from './MicroAwards.vue';
@@ -119,6 +131,7 @@ export default {
 	},
 	components: {
 		Back,
+		touchRipple,
 		Dropdown,
 		MicroAwards,
 		IconFilm,
@@ -127,6 +140,11 @@ export default {
 		IconMenu,
 		IconHeart,
 		IconArchive
+	},
+	methods: {
+		toggleFavourite() {
+			this.$emit('toggleFavourite', this.movie);
+		}
 	}
 };
 </script>

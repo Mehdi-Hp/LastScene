@@ -4,12 +4,17 @@
 			<back class="l-movie__back"></back>
 			<img class="l-movie__backdrop-image" :src="`/files/backdrop/${movie.data.images.backdrop.medium}`" alt="">
 		</div>
-		<movie-essense class="l-movie__essense" :movie="movie"></movie-essense>
+		<movie-essense
+			class="l-movie__essense"
+			:movie="movie"
+			@toggleFavourite="toggleFavourite"
+		></movie-essense>
 		<movie-information class="l-movie__information" :movie="movie"></movie-information>
 	</div>
 </template>
 
 <script>
+import movieService from '../services/movieService';
 import Back from './Back.vue';
 import MovieEssense from './MovieEssense.vue';
 import MovieInformation from './MovieInformation.vue';
@@ -30,6 +35,11 @@ export default {
 		Back,
 		MovieEssense,
 		MovieInformation
+	},
+	methods: {
+		toggleFavourite() {
+			movieService.toggleFavourite(this.movie);
+		}
 	}
 };
 </script>

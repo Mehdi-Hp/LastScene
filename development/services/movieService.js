@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import store from '../store';
 
 export default {
 	search(searchQuery = '', movies = {}) {
@@ -69,5 +70,21 @@ export default {
 				resolve(addedMovie);
 			});
 		});
+	},
+	toggleFavourite(movie) {
+		movie.bus.favourite = true;
+		if (!movie.favourite) {
+			store.dispatch('addMovieToFavourites', movie)
+				.then((updatedMovie) => {
+					movie.bus.favourite = false;
+					movie.favourite = true;
+				});
+		} else {
+			store.dispatch('removeMovieFromFavourites', movie)
+				.then((updatedMovie) => {
+					movie.bus.favourite = false;
+					movie.favourite = false;
+				});
+		}
 	}
 };

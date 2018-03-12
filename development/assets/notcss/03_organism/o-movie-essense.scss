@@ -208,6 +208,10 @@
 		background-color: $clay__generic-gre--2;
 		box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.3);
 
+		&:hocus {
+			background-color: mix($clay__generic-gre--2, black, 90%);
+		}
+
 		&.m-dropdown--is-open {
 			padding-right: .5em;
 			background-color: white;
@@ -244,6 +248,8 @@
 		align-items: flex-end;
 		border-radius: 50%;
 		box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.3);
+		border-radius: 50%;
+		overflow: hidden;
 	}
 
 	&__favourite-button {
@@ -254,9 +260,18 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		transition: background-color .2s;
 
 		&:hocus {
 			background-color: mix($kinda-white, black, 95%);
+		}
+
+		&--is-true {
+			background-color: $red;
+
+			&:hocus {
+				background-color: mix($red, black, 90%);
+			}
 		}
 	}
 
@@ -266,6 +281,18 @@
 		& .a-icon-heart__path {
 			stroke: $red;
 			stroke-width: 8;
+		}
+
+		&--is-true {
+			& .a-icon-heart__path {
+				stroke: mix($red, white, 30%);
+			}
+		}
+
+		&--is-pending {
+			& .a-icon-heart__path {
+				
+			}
 		}
 	}
 
