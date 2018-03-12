@@ -123,7 +123,7 @@ const tmdbService = {
 		});
 	},
 	getBackdropURL(imdbID) {
-		debug(chalk.green(`Getting backdrop URL for ${imdbID} using TMDB`));
+		debug(chalk.green(`Getting backdrop URL for [${imdbID}] using TMDB`));
 		return new Promise((resolve, reject) => {
 			request({
 				method: 'GET',
@@ -141,6 +141,7 @@ const tmdbService = {
 						message: `Error getting backdrop URL: ${error}`
 					});
 				}
+				console.log(body);
 				if (body.movie_results[0].backdrop_path && body.movie_results[0].backdrop_path.length) {
 					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`);
 				} else {

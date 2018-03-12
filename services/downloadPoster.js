@@ -6,8 +6,6 @@ const chalk = require('chalk');
 const isThere = require('is-there');
 const generatePosters = require('./generatePosters');
 
-const data = {};
-
 module.exports = (posterLink, posterName) => {
 	return new Promise((resolve, reject) => {
 		debug(chalk.dim(`Checking if there is poster for [${posterName}]`));
@@ -18,8 +16,7 @@ module.exports = (posterLink, posterName) => {
 					debug(chalk.bold.red(error));
 					return reject(error);
 				}
-				console.log(response);
-				data.contentType = _.split(response.headers['content-type'], '/')[1];
+				_.split(response.headers['content-type'], '/');
 				debug(chalk.dim(`Got poster for [${posterName}]. generating diffrent sizes...`));
 			}).pipe(fs.createWriteStream(`./public/files/poster/${posterName}`)).on('finish', () => {
 				generatePosters(`./public/files/poster/${posterName}`).then((generatedPosters) => {
