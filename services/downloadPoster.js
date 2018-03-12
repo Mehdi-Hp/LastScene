@@ -18,6 +18,7 @@ module.exports = (posterLink, posterName) => {
 					debug(chalk.bold.red(error));
 					return reject(error);
 				}
+				console.log(response);
 				data.contentType = _.split(response.headers['content-type'], '/')[1];
 				debug(chalk.dim(`Got poster for [${posterName}]. generating diffrent sizes...`));
 			}).pipe(fs.createWriteStream(`./public/files/poster/${posterName}`)).on('finish', () => {
