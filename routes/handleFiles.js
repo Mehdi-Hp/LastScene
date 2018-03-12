@@ -10,6 +10,7 @@ router.use((req, res, next) => {
 		debug(chalk.red(`Founde no image at ${req.path}`));
 		const imdbID = fileName(req.path).slice(0, fileName(req.path).indexOf('--'));
 		movieService.getPoster(imdbID);
+		movieService.getBackdrop(imdbID);
 		res.status(200).json({
 			loading: true
 		});
