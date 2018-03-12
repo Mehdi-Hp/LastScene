@@ -111,8 +111,13 @@ const tmdbService = {
 						message: `Error getting poster URL: ${error}`
 					});
 				}
-				if (body.movie_results[0].poster_path.length) {
+				if (body && body.movie_results[0].poster_path.length) {
 					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].poster_path}`);
+				} else {
+					reject({
+						status: 500,
+						message: 'Error getting poster URL'
+					});
 				}
 			});
 		});
