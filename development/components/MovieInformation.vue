@@ -38,7 +38,7 @@
 
 		<div class="o-movie-information__section">
 			<h3 class="o-movie-information__title">Awards</h3>
-			<div class="o-movie-information__content | o-movie-information__content--important-awards">
+			<div class="o-movie-information__content | o-movie-information__content--important-awards" v-if="awards.important.length">
 				<div class="o-movie-information__award-holder" v-for="award in awards.important" :key="award.name">
 					<component :is="getAwardIcon(award.name)"
 						class="o-movie-information__award-icon"
@@ -72,7 +72,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="o-movie-information__content | o-movie-information__content--normal-awards">
+			<div class="o-movie-information__content | o-movie-information__content--normal-awards" v-if="awards.normal.length">
 				<div class="o-movie-information__award-holder | o-movie-information__award-holder--normal" v-for="award in awards.normal" :key="award.name">
 					<div class="o-movie-information__awards-inner">
 						<h3 class="o-movie-information__key">

@@ -39,7 +39,7 @@
 		</div>
 		<div class="o-movie-essense__summary">
 			<div class="o-movie-essense__information">
-				<h2 class="o-movie-essense__title">
+				<h2 class="o-movie-essense__title | u-text-masker">
 					{{ movie.data.title }}
 				</h2>
 				<div class="o-movie-essense__online-seat">
@@ -49,13 +49,13 @@
 					</div>
 					<micro-awards class="o-movie-essense__awards" :awards="movie.data.awards"></micro-awards>
 				</div>
-				<div class="o-movie-essense__collections">
-					<icon-archive class="o-movie-essense__collections-icon"></icon-archive>
-					<span class="o-movie-essense__collections-text">In</span>
-					<span class="o-movie-essense__collections-name">Best of someone</span>
-					<span class="o-movie-essense__collections-text">and</span>
-					<span class="o-movie-essense__collections-name">more...</span>
-				</div>
+			</div>
+			<div class="o-movie-essense__collections">
+				<icon-archive class="o-movie-essense__collections-icon"></icon-archive>
+				<span class="o-movie-essense__collections-text">In</span>
+				<span class="o-movie-essense__collections-name">Best of someone</span>
+				<span class="o-movie-essense__collections-text">and</span>
+				<span class="o-movie-essense__collections-name">more...</span>
 			</div>
 			<div class="o-movie-essense__state">
 				<button class="o-movie-essense__state-button | a-button | a-button--plain">
