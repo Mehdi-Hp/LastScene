@@ -128,7 +128,9 @@ module.exports = {
 			paths: true,
 			flattening: true
 		}),
-		new MiniCssExtractPlugin('[name].bundle.css'),
+		new MiniCssExtractPlugin({
+			filename: '[name].bundle.css'
+		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true,
 			quiet: true
