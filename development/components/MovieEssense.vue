@@ -5,7 +5,7 @@
 				<div :to="`/movies/${movie.data._id}`" class="m-movie-box__cover | a-movie-cover">
 					<icon-film class="a-movie-cover__back-icon"></icon-film>
 					<img class="a-movie-cover__image"
-						:src="`/files/poster/${movie.data.images.poster.medium}`"
+						:src="`/files/poster/${movie.data.images.poster}?width=350`"
 						:alt="movie.data.title"
 					>
 				</div>

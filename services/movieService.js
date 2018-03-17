@@ -1,15 +1,13 @@
 const debug = require('debug')('development');
 const chalk = require('chalk');
+const cloudinary = require('cloudinary').v2;
 const omdbService = require('./omdbService');
 const myapifilmsService = require('./myapifilmsService');
 const tmdbService = require('./tmdbService');
 const Movie = require('../models/movie');
-const movieQueue = require('../config/movieQueue')();
-// const downloadPoster = require('./downloadPoster');
-const downloadBackdrop = require('./downloadBackdrop');
-const downloadPoster = require('./downloadPoster');
 
 module.exports = {
+	queue: [],
 	search(query) {
 		return new Promise((resolve, reject) => {
 			omdbService(query).then((movies) => {
@@ -20,22 +18,6 @@ module.exports = {
 		});
 	},
 	getComplete(imdbID) {
-		Promise.all([
-			this.getInformation(imdbID),
-			this.getBackdrop(imdbID)
-		])
-			.then((movieData) => {
-				return movieData;
-			})
-			.catch((error) => {
-				debug(chalk.red.bold(error));
-				return {
-					status: 500,
-					message: 'Could not get movie information because of server error'
-				};
-			});
-	},
-	getInformation(imdbID) {
 		return new Promise((resolve, reject) => {
 			if (!imdbID) {
 				return reject({
@@ -43,7 +25,7 @@ module.exports = {
 					message: 'Your request does not fit in our standards'
 				});
 			}
-			debug(chalk.yellow(`Check movie information in database: [${imdbID}] ...`));
+			debug(chalk.greenBright(`Check movie [${imdbID}] information in database...`));
 			Movie.findOne({
 				_id: imdbID
 			}).then((existedMovie) => {
@@ -51,71 +33,116 @@ module.exports = {
 					debug(chalk.green(`Movie information: [${imdbID}] already exist in database`));
 					return resolve(existedMovie);
 				}
-				if (movieQueue.isThere(imdbID)) {
+				if (this.queue.includes(imdbID)) {
 					debug(chalk.bold(`Already looking for [${imdbID}] information...`));
-					return;
+					return resolve({
+						_id: imdbID,
+						loading: true,
+						fulfilled: false
+					});
 				}
-				movieQueue.add(imdbID);
-				debug(chalk.yellow(`__Not in database. Searching for movie information [${imdbID}] ...`));
+				this.queue.push(imdbID);
+				debug(chalk.greenBright(`Not in database. Searching for movie information [${imdbID}] ...`));
 				Movie.create({
 					_id: imdbID,
 					loading: true,
 					fulfilled: false
 				})
 					.then((initialMovie) => {
-						debug(chalk.yellow(`__Added initial movie data [${imdbID}] ...`));
+						debug(chalk.yellow(`__Added initial movie [${imdbID}] data`));
 					})
 					.catch((error) => {
 						return reject({
 							status: 500,
-							message: 'Error saving movie in database'
+							message: `Error saving initial movie [${imdbID}] in database`
 						});
 					});
-				myapifilmsService.getMovie(imdbID)
-					.then((movie) => {
-						debug(chalk.green(`____Got movie information: [${imdbID}]. adding it to database...`));
-						movie.data[0].loading = false;
-						movie.data[0].fulfilled = true;
-						Movie.findByIdAndUpdate(imdbID, movie.data[0], { new: true }).then((fulfilledMovie) => {
-							debug(chalk.green(`__Movie [${imdbID}] added to database`));
-							movieQueue.delete(imdbID);
-							resolve(fulfilledMovie);
-						}).catch((error) => {
-							debug(chalk.bold.red(error));
-							movieQueue.delete(imdbID);
-							reject(error);
-						});
+				const movieInCunstruction = {};
+				Promise.all([
+					this.getInformation(imdbID).then((movie) => {
+						movieInCunstruction.data = movie;
+					}),
+					this.getPoster(imdbID).then((poster) => {
+						movieInCunstruction.poster = poster;
+					}),
+					this.getBackdrop(imdbID).then((backdrop) => {
+						movieInCunstruction.backdrop = backdrop;
+					})
+				])
+					.then(() => {
+						debug(chalk.green.bold(`Got eveything you may need for [${imdbID}]`));
+						const movie = movieInCunstruction.data;
+						movie.images = {
+							poster: movieInCunstruction.poster,
+							backdrop: movieInCunstruction.backdrop
+						};
+						movie.fulfilled = true;
+						movie.loading = false;
+						Movie.findByIdAndUpdate(imdbID, movie, { new: true })
+							.then((fulfilledMovie) => {
+								 debug(chalk.green(`__Movie [${imdbID}] added to database`));
+								 this.queue.splice(1, this.queue.indexOf(imdbID));
+								 return resolve(movie);
+							 })
+							.catch((error) => {
+								 debug(chalk.bold.red(error));
+								 this.queue.splice(1, this.queue.indexOf(imdbID));
+								 return reject(error);
+							 });
 					})
 					.catch((error) => {
-						movieQueue.delete(imdbID);
-						debug(chalk.red.bold(`____Error in request to myapifilms for [${imdbID}]: ${error}`));
-						reject(error);
+						debug(chalk.red.bold(error));
+						return reject({
+							status: 500,
+							message: 'Could not get movie information because of server error'
+						});
 					});
 			}).catch((error) => {
-				console.dir(error);
 				debug(chalk.bold.red(error));
 				return reject({
 					status: 500,
-					message: 'Error checking movie in database'
+					message: `Error checking movie [${imdbID}] in database`
 				});
 			});
+		});
+	},
+	getInformation(imdbID) {
+		return new Promise((resolve, reject) => {
+			myapifilmsService.getMovie(imdbID)
+				.then((movie) => {
+					debug(chalk.green(`____Got movie information: [${imdbID}]`));
+					resolve(movie);
+				})
+				.catch((error) => {
+					debug(chalk.red.bold(`____Error in request to myapifilms for [${imdbID}]: ${error}`));
+					reject(error);
+				});
 		});
 	},
 	getPoster(imdbID) {
 		return new Promise((resolve, reject) => {
 			tmdbService.getPosterURL(imdbID)
 				.then((posterURL) => {
-					downloadPoster(posterURL, imdbID)
-						.then((poster) => {
-							return resolve(poster);
-						})
-						.catch((error) => {
-							debug(chalk.bold.red(error));
-							return reject(error);
-						});
+					cloudinary.uploader.upload(posterURL, {
+						public_id: imdbID,
+						folder: '/poster/'
+					}, (error, result) => {
+						if (error) {
+							reject({
+								status: 500,
+								message: 'Could not save poster'
+							})
+						}
+						debug(chalk.green(`Successfully uploaded poster of [${imdbID}] to cloudinary`));
+						resolve(result.public_id);
+					});
 				})
 				.catch((error) => {
-					return reject(error);
+					debug(chalk.bold.red(error));
+					return reject({
+						status: 500,
+						message: 'Could not get URL from TMDB'
+					});
 				});
 		});
 	},
@@ -123,17 +150,26 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			tmdbService.getBackdropURL(imdbID)
 				.then((backdropURL) => {
-					downloadBackdrop(backdropURL, imdbID)
-						.then((backdrop) => {
-							resolve(backdrop);
-						})
-						.catch((error) => {
-							debug(chalk.bold.red(error));
-							reject(error);
-						});
+					cloudinary.uploader.upload(backdropURL, {
+						public_id: imdbID,
+						folder: '/backdrop/'
+					}, (error, result) => {
+						if (error) {
+							reject({
+								status: 500,
+								message: 'Could not save backdrop'
+							})
+						}
+						debug(chalk.green(`Successfully uploaded backdrop of [${imdbID}] to cloudinary`));
+						resolve(result.public_id);
+					});
 				})
 				.catch((error) => {
-					reject(error);
+					debug(chalk.bold.red(error));
+					return reject({
+						status: 500,
+						message: 'Could not get URL from TMDB'
+					});
 				});
 		});
 	}

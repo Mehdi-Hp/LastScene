@@ -1,19 +1,19 @@
 <template>
 	<div class="l-movie">
 		<div class="l-movie__backdrop">
-			<headroom upTolerance="10" downTolerance="10">
-				<back class="l-movie__back"></back>
+			<headroom upTolerance="10"	downTolerance="10">
+				<back class="l-movie__back"/>
 			</headroom>
-			<img class="l-movie__backdrop-image" :src="`/files/backdrop/${movie.data.images.backdrop.medium}`" alt="">
+			<img :src="`/files/backdrop/${movie.data.images.backdrop}?height=600`" class="l-movie__backdrop-image" alt="">
 		</div>
 		<movie-essense
-			class="l-movie__essense"
 			:movie="movie"
+			class="l-movie__essense"
 			@toggleFavourite="toggleFavourite"
 			@toggleWatched="toggleWatched"
 			@toggleWatchList="toggleWatchList"
-		></movie-essense>
-		<movie-information class="l-movie__information" :movie="movie"></movie-information>
+		/>
+		<movie-information :movie="movie" class="l-movie__information"/>
 	</div>
 </template>
 
@@ -26,6 +26,12 @@ import MovieInformation from './MovieInformation.vue';
 
 export default {
 	name: 'Movie',
+	components: {
+		headroom,
+		Back,
+		MovieEssense,
+		MovieInformation
+	},
 	data() {
 		return {
 
@@ -35,12 +41,6 @@ export default {
 		movie() {
 			return this.$store.getters.movie(this.$route.params.movie_id);
 		}
-	},
-	components: {
-		headroom,
-		Back,
-		MovieEssense,
-		MovieInformation
 	},
 	methods: {
 		toggleFavourite() {

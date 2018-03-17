@@ -4,7 +4,6 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 const events = require('events');
 const Movie = require('../models/movie');
-const downloadPoster = require('./downloadPoster');
 
 const eventEmitter = new events.EventEmitter();
 
@@ -84,7 +83,6 @@ const myapifilms = {
 							message: 'You should send an imdbID for a "Movie"; not anything else'
 						});
 					}
-					const posterURL = body.data.movies[0].urlPoster;
 					response.data = body.data.movies.map((currentMovie) => {
 						let movie = {};
 						movie.directors = currentMovie.directors.map((currentDirector) => {
@@ -155,18 +153,6 @@ const myapifilms = {
 								simple: currentMovie.simplePlot,
 								full: currentMovie.plot
 							},
-							images: {
-								poster: {
-									small: `${currentMovie.idIMDB}--small.jpeg`,
-									medium: `${currentMovie.idIMDB}--medium.jpeg`,
-									big: `${currentMovie.idIMDB}--big.jpeg`
-								},
-								backdrop: {
-									small: `${currentMovie.idIMDB}--small.jpeg`,
-									medium: `${currentMovie.idIMDB}--medium.jpeg`,
-									big: `${currentMovie.idIMDB}--big.jpeg`
-								}
-							},
 							runtime: currentMovie.runtime,
 							trailer: currentMovie.trailer.videoURL,
 							directors: movie.directors,
@@ -179,18 +165,7 @@ const myapifilms = {
 						});
 						return movie;
 					});
-
-					downloadPoster(posterURL, response.data[0]._id)
-						.then((posters) => {
-							return resolve(response);
-						})
-						.catch((error) => {
-							debug(chalk.bold.red(error));
-							return reject({
-								status: 500,
-								message: 'Error downloading movie poster'
-							});
-						});
+					return resolve(response.data[0]);
 				});
 			};
 			eventEmitter.on('getNextMovie', getMovieFunction);

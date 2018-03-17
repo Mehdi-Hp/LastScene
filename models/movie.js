@@ -34,16 +34,8 @@ const movieSchema = new mongoose.Schema({
 	runtime: String,
 
 	images: new mongoose.Schema({
-		poster: new mongoose.Schema({
-			small: String,
-			medium: String,
-			big: String
-		}, { _id: false }),
-		backdrop: new mongoose.Schema({
-			small: String,
-			medium: String,
-			big: String
-		}, { _id: false })
+		poster: String,
+		backdrop: String
 	}, { _id: false }),
 
 	plot: new mongoose.Schema({

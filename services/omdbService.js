@@ -53,9 +53,7 @@ module.exports = (query) => {
 										imdb: extendedOmdbMovie.imdbID
 									},
 									images: {
-										poster: {
-											default: extendedOmdbMovie.Poster
-										}
+										poster: extendedOmdbMovie.Poster
 									}
 								});
 							}).catch((error) => {

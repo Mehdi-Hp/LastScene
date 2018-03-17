@@ -53,12 +53,8 @@ const tmdbService = {
 							tmdb: currentMovie.id
 						},
 						images: {
-							poster: {
-								tmdb: `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`
-							},
-							backdrop: {
-								tmdb: `https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path || currentMovie.poster_path}`
-							}
+							poster: `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`,
+							backdrop: `https://image.tmdb.org/t/p/w500${currentMovie.backdrop_path || currentMovie.poster_path}`
 						}
 					};
 				});
@@ -93,7 +89,7 @@ const tmdbService = {
 		});
 	},
 	getPosterURL(imdbID) {
-		debug(chalk.green(`Getting poster URL for ${imdbID} using TMDB`));
+		debug(chalk.green(`Getting poster URL for [${imdbID}] using TMDB`));
 		return new Promise((resolve, reject) => {
 			request({
 				method: 'GET',

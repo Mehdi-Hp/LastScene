@@ -24,7 +24,7 @@
 					class="m-movie-box__cover | a-movie-cover">
 					<icon-film class="a-movie-cover__back-icon"></icon-film>
 					<img class="a-movie-cover__image"
-						:src="moviePoster"
+						:src="(!outsider) ? `/files/poster/${movie.data.images.poster}?width=320` : movie.data.images.poster"
 						:alt="movie.data.title"
 					>
 				</router-link>
@@ -128,6 +128,7 @@ import movieService from '../services/movieService';
 import MicroMovieMenu from './MicroMovieMenu.vue';
 import MicroAwards from './MicroAwards.vue';
 import MicroUserdata from './MicroUserdata.vue';
+import IconFilm from './icons/Film.vue';
 
 export default {
 	name: 'microMovie',
@@ -144,12 +145,6 @@ export default {
 		};
 	},
 	computed: {
-		moviePoster() {
-			if (this.movie.data.images.poster.small) {
-				return `/files/poster/${this.movie.data.images.poster.small}`;
-			}
-			return this.movie.data.images.poster.default;
-		},
 		getDecimaledMovieRate() {
 			return parseFloat(this.movie.data.rate.imdb).toFixed(1);
 		}
@@ -157,7 +152,8 @@ export default {
 	components: {
 		MicroMovieMenu,
 		MicroUserdata,
-		MicroAwards
+		MicroAwards,
+		IconFilm
 	},
 
 	methods: {

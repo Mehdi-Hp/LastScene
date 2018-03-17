@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-// const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const postcssPlugins = require('./postcss.config');
@@ -16,7 +15,7 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
 const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
 
-const {ifProduction, ifNotProduction} = getIfUtils(process.env.NODE_ENV)
+const { ifProduction, ifNotProduction } = getIfUtils(process.env.NODE_ENV);
 
 let myCSSLoader = {};
 if (ifProduction()) {
@@ -44,9 +43,7 @@ if (ifProduction()) {
 				options: {
 					syntax: 'postcss-scss',
 					map: false,
-					plugins: [
-
-					]
+					plugins: []
 				}
 			},
 			{
@@ -87,9 +84,7 @@ if (ifProduction()) {
 			options: {
 				syntax: 'postcss-scss',
 				map: false,
-				plugins: [
-
-				]
+				plugins: []
 			}
 		},
 		{
@@ -105,9 +100,7 @@ if (ifProduction()) {
 }
 
 module.exports = {
-	entry: [
-		mainJSPath
-	],
+	entry: [mainJSPath],
 	output: {
 		path: productionPath,
 		publicPath: '/',
@@ -158,12 +151,15 @@ module.exports = {
 					options: {
 						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
 						presets: [
-							['@babel/preset-env', {
-								targets: {
-									browsers: ['last 2 versions']
-								},
-								spec: true
-							}]
+							[
+								'@babel/preset-env',
+								{
+									targets: {
+										browsers: ['last 2 versions']
+									},
+									spec: true
+								}
+							]
 						]
 						// env: {
 						// 	production: {
@@ -184,39 +180,46 @@ module.exports = {
 			inject: true,
 			filename: 'index.html'
 		}),
-		ifProduction(new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				'main.bundle.css',
-				'bundle.js'
-			],
-			append: true,
-			publicPath: '/production/'
-		})),
+		ifProduction(
+			new HtmlWebpackIncludeAssetsPlugin({
+				assets: ['main.bundle.css', 'bundle.js'],
+				append: true,
+				publicPath: '/production/'
+			})
+		),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
-		ifNotProduction(new DashboardPlugin({
-			minified: false,
-			gzip: false
-		})),
-		ifProduction(new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: '"production"'
-			}
-		})),
-		ifProduction(new LodashModuleReplacementPlugin({
-			shorthands: true,
-			cloning: true,
-			collections: true,
-			paths: true,
-			flattening: true
-		})),
+		ifNotProduction(
+			new DashboardPlugin({
+				minified: false,
+				gzip: false
+			})
+		),
+		ifProduction(
+			new webpack.DefinePlugin({
+				'process.env': {
+					NODE_ENV: '"production"'
+				}
+			})
+		),
+		ifProduction(
+			new LodashModuleReplacementPlugin({
+				shorthands: true,
+				cloning: true,
+				collections: true,
+				paths: true,
+				flattening: true
+			})
+		),
 		ifProduction(new webpack.optimize.UglifyJsPlugin()),
 		// ifProduction(new BundleAnalyzerPlugin()),
 		ifProduction(new ExtractTextPlugin('[name].bundle.css')),
-		ifProduction(new webpack.LoaderOptionsPlugin({
-			minimize: true,
-			quiet: true
-		}))
+		ifProduction(
+			new webpack.LoaderOptionsPlugin({
+				minimize: true,
+				quiet: true
+			})
+		)
 	]),
 	resolve: {
 		alias: {

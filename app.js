@@ -14,9 +14,16 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const slugHero = require('mongoose-slug-hero');
+const cloudinary = require('cloudinary');
 require('util').inspect.defaultOptions.depth = null;
 
 slugHero.config.counter = 'slug_counters';
+
+cloudinary.config({
+	cloud_name: 'lastscene',
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const app = express();
 
@@ -45,8 +52,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
-app.use('/files', express.static(path.join(__dirname, 'public/files')));
 app.use('/production', express.static(path.join(__dirname, 'public/production')));
+app.use('/files', require('./routes/handleFiles'));
+
 if (process.env.NODE_ENV !== 'production') {
 	app.use('/public', serveIndex('public'));
 }

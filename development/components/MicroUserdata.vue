@@ -1,7 +1,7 @@
 <template>
 	<div class="m-micro-userdata" v-if="movie.favourite || movie.watched || movie.watchList">
 		<div class="m-micro-userdata__background" :style="{
-			'background-image': `url(${movie.data.images.poster.small})`
+			'background-image': `url(${movie.data.images.poster})`
 		}"
 		></div>
 		<icon-heart v-if="movie.favourite" :is-done="true" class="m-micro-userdata__icon | m-micro-userdata__icon--heart" custom-color="true"></icon-heart>

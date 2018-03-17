@@ -1,20 +1,22 @@
 const router = require('express').Router();
-const isThere = require('is-there');
-const debug = require('debug')('development');
-const chalk = require('chalk');
-const fileName = require('file-name');
-const movieService = require('../services/movieService');
+const cloudinary = require('cloudinary').v2;
 
 router.use((req, res, next) => {
-	if (!isThere(`./public/files/${req.path}`)) {
-		debug(chalk.red(`Founde no image at ${req.path}`));
-		const imdbID = fileName(req.path).slice(0, fileName(req.path).indexOf('--'));
-		movieService.getPoster(imdbID);
-		movieService.getBackdrop(imdbID);
-		res.status(200).json({
-			loading: true
-		});
-	}
+	const publicID = req.url.slice(
+		req.url.lastIndexOf('/') + 1,
+		req.url.lastIndexOf('?')
+	);
+	const folder = req.originalUrl.includes('poster') ? 'poster' : 'backdrop';
+	res.redirect(
+		cloudinary.url(`${folder}/${publicID}.jpg`, {
+			secure: false,
+			quality: req.query.quality || 'auto',
+			width: req.query.width || undefined,
+			height: req.query.height || undefined,
+			crop: req.query.crop || undefined,
+			gravity: req.query.gravity || undefined
+		})
+	);
 });
 
 module.exports = router;
