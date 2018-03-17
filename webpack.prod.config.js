@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const postcssPlugins = require('./postcss.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
 require('pretty-error').start();
 
@@ -119,13 +118,8 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'views/index.html',
-			inject: true,
+			inject: false,
 			filename: 'index.html'
-		}),
-		new HtmlWebpackIncludeAssetsPlugin({
-			assets: ['main.bundle.css', 'bundle.js'],
-			append: true,
-			publicPath: '/production/'
 		}),
 		new LodashModuleReplacementPlugin({
 			shorthands: true,
