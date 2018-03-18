@@ -1,5 +1,5 @@
 <template>
-	<button class="m-back | a-button | a-button--plain" @click="goBack" v-esc="goBack">
+	<button v-esc="goBack" class="m-back | a-button | a-button--plain" @click="goBack">
 		<icon-arrow-left class="m-back__icon"></icon-arrow-left>
 		<span class="m-back__button">Back</span>
 	</button>
@@ -10,18 +10,21 @@ import IconArrowLeft from './icons/ArrowLeft.vue';
 
 export default {
 	name: 'Back',
+	components: {
+		IconArrowLeft
+	},
 	data() {
 		return {
 
 		};
 	},
-	components: {
-		IconArrowLeft
-	},
 	methods: {
 		goBack() {
-			this.$router.go(-1);
+			this.$router.push(this.$router.lastRoute);
 		}
+	},
+	beforeRouteEnter() {
+		console.log('test');
 	}
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<div class="l-movie">
 		<div class="l-movie__backdrop">
-			<headroom upTolerance="10"	downTolerance="10">
+			<headroom :upTolerance="10"	:downTolerance="10">
 				<back class="l-movie__back"/>
 			</headroom>
 			<img :src="`/files/backdrop/${movie.data.images.backdrop}?height=600`" class="l-movie__backdrop-image" alt="">

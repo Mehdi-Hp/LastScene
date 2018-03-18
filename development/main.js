@@ -28,6 +28,9 @@ Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'history',
 	routes: Routes,
+	beforeEach: () => {
+		console.log('test');
+	},
 	scrollBehavior(to, from, savedPosition) {
 		if (savedPosition) {
 			return savedPosition;
@@ -37,6 +40,10 @@ const router = new VueRouter({
 			y: 0
 		};
 	}
+});
+router.beforeEach((to, from, next) => {
+	router.lastRoute = from.fullPath;
+	next();
 });
 
 Vue.use(VueAxios, axios);
