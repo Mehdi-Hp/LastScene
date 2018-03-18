@@ -117,7 +117,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: 'views/index.html',
+			template: 'views/index-prod.html',
 			inject: false,
 			filename: 'index.html'
 		}),
