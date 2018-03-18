@@ -111,7 +111,7 @@
 				>
 					<ul>
 						<li>Add/Remove from collections</li>
-						<li>Update movie data</li>
+						<li @click="updateMovie">Update movie data</li>
 					</ul>
 				</dropdown>
 				<touch-ripple class="o-movie-essense__favourite-button-holder" :speed="2" :opacity="0.5" color="#cb5451" transition="ease-in-out">
@@ -152,17 +152,6 @@ import IconFlag from './icons/Flag.vue';
 
 export default {
 	name: 'MovieEssense',
-	props: [
-		'movie'
-	],
-	data() {
-		return {
-
-		};
-	},
-	computed: {
-
-	},
 	components: {
 		Back,
 		touchRipple,
@@ -175,6 +164,20 @@ export default {
 		IconArchive,
 		IconFlag
 	},
+	props: {
+		movie: {
+			type: Object,
+			required: true
+		}
+	},
+	data() {
+		return {
+
+		};
+	},
+	computed: {
+
+	},
 	methods: {
 		toggleFavourite() {
 			this.$emit('toggleFavourite', this.movie);
@@ -184,6 +187,9 @@ export default {
 		},
 		toggleWatchList() {
 			this.$emit('toggleWatchList', this.movie);
+		},
+		updateMovie() {
+			this.$store.dispatch('updateMovie', this.movie.data._id);
 		}
 	}
 };

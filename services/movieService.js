@@ -17,7 +17,7 @@ module.exports = {
 			});
 		});
 	},
-	getComplete(imdbID) {
+	getComplete(imdbID, forceGet) {
 		return new Promise((resolve, reject) => {
 			if (!imdbID) {
 				return reject({
@@ -29,7 +29,7 @@ module.exports = {
 			Movie.findOne({
 				_id: imdbID
 			}).then((existedMovie) => {
-				if (existedMovie && existedMovie.fulfilled) {
+				if (existedMovie && existedMovie.fulfilled && !forceGet) {
 					debug(chalk.green(`Movie information: [${imdbID}] already exist in database`));
 					return resolve(existedMovie);
 				}
@@ -43,20 +43,43 @@ module.exports = {
 				}
 				this.queue.push(imdbID);
 				debug(chalk.greenBright(`Not in database. Searching for movie information [${imdbID}] ...`));
-				Movie.create({
-					_id: imdbID,
-					loading: true,
-					fulfilled: false
-				})
-					.then((initialMovie) => {
-						debug(chalk.yellow(`__Added initial movie [${imdbID}] data`));
+				if (!forceGet) {
+					Movie.create({
+						_id: imdbID,
+						loading: true,
+						fulfilled: false,
+						updating: false
 					})
-					.catch((error) => {
-						return reject({
-							status: 500,
-							message: `Error saving initial movie [${imdbID}] in database`
+						.then((initialMovie) => {
+							debug(chalk.yellow(`__Added initial movie [${imdbID}] data`));
+						})
+						.catch((error) => {
+							return reject({
+								status: 500,
+								message: `Error saving initial movie [${imdbID}] in database`
+							});
 						});
-					});
+				} else {
+					Movie.findOneAndUpdate(imdbID, {
+						updating: true
+					}, { new: true })
+						.then((updatedMovie) => {
+							if (!updatedMovie) {
+								return reject({
+									status: 404,
+									message: `No movie [${imdbID}] to update`
+								});
+							}
+							debug(chalk.yellow(`__Flag movie [${imdbID}] as updating`));
+						})
+						.catch((error) => {
+							return reject({
+								status: 500,
+								message: `Error flagging movie [${imdbID}] as updating in database`
+							});
+						});
+				}
+
 				const movieInCunstruction = {};
 				Promise.all([
 					this.getInformation(imdbID).then((movie) => {
@@ -78,9 +101,10 @@ module.exports = {
 						};
 						movie.fulfilled = true;
 						movie.loading = false;
+						movie.updating = false;
 						Movie.findByIdAndUpdate(imdbID, movie, { new: true })
 							.then((fulfilledMovie) => {
-								 debug(chalk.green(`__Movie [${imdbID}] added to database`));
+								 debug(chalk.green(`__Movie [${imdbID}] is in database now`));
 								 this.queue.splice(1, this.queue.indexOf(imdbID));
 								 return resolve(movie);
 							 })

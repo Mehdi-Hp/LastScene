@@ -81,7 +81,8 @@ const movieSchema = new mongoose.Schema({
 	}, { _id: false })],
 
 	loading: Boolean,
-	fulfilled: Boolean
+	fulfilled: Boolean,
+	updating: Boolean
 });
 movieSchema.plugin(timestamps);
 

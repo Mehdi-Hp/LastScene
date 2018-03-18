@@ -34,6 +34,12 @@ import IconMenu from './icons/Menu.vue';
 
 export default {
 	name: 'Dropdown',
+	components: {
+		IconMenu
+	},
+	directives: {
+		onClickaway
+	},
 	props: [
 		'hoverState',
 		'iconName',
@@ -79,11 +85,14 @@ export default {
 			return menuClasses;
 		}
 	},
-	components: {
-		IconMenu
+	watch: {
+		state(newSalue) {
+			this.isOpen = newSalue;
+		}
 	},
-	directives: {
-		onClickaway
+	mounted() {
+		this.$u(this.$refs.menu).children('ul').addClass('m-dropdown__options');
+		this.$u(this.$refs.menu).find('ul > li').addClass(['m-dropdown__option', `${this.parentClass}__option`]);
 	},
 	methods: {
 		closeMenu() {
@@ -96,15 +105,6 @@ export default {
 			this.isOpen = !this.isOpen;
 			this.$emit('toggle', this.isOpen);
 		}
-	},
-	watch: {
-		state(newSalue) {
-			this.isOpen = newSalue;
-		}
-	},
-	mounted() {
-		this.$u(this.$refs.menu).children('ul').addClass('m-dropdown__options');
-		this.$u(this.$refs.menu).find('ul > li').addClass(['m-dropdown__option', `${this.parentClass}__option`]);
 	}
 };
 </script>

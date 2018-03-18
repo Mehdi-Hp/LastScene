@@ -74,8 +74,6 @@ const store = new Vuex.Store({
 					_id: newMovieData._id
 				}
 			});
-			console.log(newMovie);
-			console.log(state.movies[oldMovieIndex]);
 			Vue.set(state.movies, oldMovieIndex, newMovie);
 		},
 		toggleMovieFavourite(state, movie) {
@@ -262,6 +260,16 @@ const store = new Vuex.Store({
 				Vue.$axios.delete(`/movies/${movie.data._id}`).then((deletedMovie) => {
 					commit('removeMovie', movie);
 					resolve(deletedMovie);
+				}).catch((error) => {
+					reject(error);
+				});
+			});
+		},
+		updateMovie({ commit, state }, movieID) {
+			return new Promise((resolve, reject) => {
+				Vue.$axios.post(`/movies/${movieID}?force_update=true`).then((updatedMovie) => {
+					commit('updateMovieData', updatedMovie.data._id);
+					resolve(updatedMovie.data._id);
 				}).catch((error) => {
 					reject(error);
 				});

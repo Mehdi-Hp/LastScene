@@ -76,25 +76,41 @@ app.route('/:movie_id')
 	.post((req, res, next) => {
 		currentOrCustomUser(req, res);
 		const imdbID = req.params.movie_id;
+		const forceUpdate = req.query.force_update;
 		const user = new User(req.user);
-		if (imdbID === null) {
-			return res.status(400).json({
-				message: 'You should provide imdbID in your request'
-			});
-		}
 		if (!imdbID || !imdbID.length) {
 			return res.status(400).json({
 				message: 'Your request doesn\'t fit in the standards'
 			});
 		}
-		movieService.getComplete(imdbID);
-		user.findOneAndAddMovie(user, imdbID).then((updatedUser) => {
-			res.status(200).json(updatedUser);
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
-			});
-		});
+		movieService.getComplete(imdbID, forceUpdate);
+		if (!forceUpdate) {
+			user.findOneAndAddMovie(user, imdbID)
+				.then((updatedUser) => {
+					return res.status(200).json(updatedUser);
+				})
+				.catch((error) => {
+					return res.status(error.status).json({
+						message: error.message
+					});
+				});
+		} else {
+			User.findOne({
+				_id: user._id,
+				'movies._id': imdbID
+			})
+				.populate({
+					path: 'movies._id',
+					model: 'Movie'
+				}).lean()
+				.then((user) => {
+					const updatingMovie = user.movies.find((currentMovie) => {
+						return currentMovie._id._id === imdbID;
+					});
+					updatingMovie._id.updating = true;
+					return res.status(200).json(updatingMovie);
+				})
+		}
 	})
 	.delete((req, res, next) => {
 		currentOrCustomUser(req, res);

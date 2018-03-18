@@ -51,9 +51,11 @@
 		font-weight: 600;
 		position: absolute;
 
-		&--is-open {
+		&--is-open {}
+	}
 
-		}
+	&__options {
+
 	}
 
 	&__option {
@@ -63,10 +65,15 @@
 		color: currentColor;
 		cursor: pointer;
 		user-select: none;
+		pointer-events: none;
 
 		&:hocus {
 			color: $purple;
 			background-color: hsl(0, 0%, 98%);
+		}
+
+		.m-dropdown--is-open & {
+			pointer-events: all;
 		}
 	}
 
