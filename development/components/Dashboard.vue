@@ -1,5 +1,5 @@
 <template>
-	<main id="app" class="p-dashboard" v-if="userInfo">
+	<div id="app" class="p-dashboard" v-if="userInfo">
 		<div class="p-dashboard__sidebar-holder">
 			<sidebar class="p-dashboard__sidebar"></sidebar>
 		</div>
@@ -7,7 +7,7 @@
 		<div class="p-dashboard__friends-holder">
 			<div class="p-dashboard__friends"></div>
 		</div>
-	</main>
+	</div>
 </template>
 
 <script>
