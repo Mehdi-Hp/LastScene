@@ -15,7 +15,7 @@ module.exports = {
 	entry: [mainJSPath],
 	output: {
 		path: productionPath,
-		publicPath: '/',
+		publicPath: './',
 		filename: 'bundle.js'
 	},
 	stats: {
