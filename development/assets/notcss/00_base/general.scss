@@ -1,24 +1,22 @@
 html {
 	font-size: 100%;
+	min-height: 100%;
 }
 
 body {
 	font-family: $default-typeface;
 	font-size: 1em;
 	font-weight: 600;
+	min-height: 100%;
 }
 
-main {
-	display: flex;
-	flex-wrap: wrap;
-}
-
-input, textarea {
+input,
+textarea {
 	font-family: $default-typeface;
 }
 
-#app {
+main {
 	width: 100%;
 	min-height: 100vh;
-	height: 100%;
+	min-height: 100%;
 }

@@ -1,0 +1,53 @@
+.a-textfield {
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	&:before {
+		content: '';
+		position: absolute auto 0 0 0;
+		height: 2px;
+		background-color: $clay__generic-gre--2;
+		transform-origin: left;
+		transform: scaleX(0);
+		transition: transform .15s ease-in-out;
+	}
+
+	&--is-focused,
+	&--is-full {
+		&:before {
+			transform: scaleX(1);
+		}
+	}
+
+	&__input {
+		background-color: transparent;
+		border-bottom: 2px solid transparentize(black, 0.9);
+		padding: 1em .75em .5em .75em;
+		font-size: ms(1);
+		width: 100%;
+
+		&--is-focused,
+		&--is-full {
+
+		}
+	}
+
+	&__label {
+		position: absolute;
+		color: mix(white, black, 80%);
+		font-weight: 400;
+		width: 100%;
+		pointer-events: none;
+		padding: .75em;
+		transform-origin: left;
+		transition: color .15s ease-in-out, transform .15s ease-in-out;
+
+		&--is-focused,
+		&--is-full {
+			color: $black;
+			font-weight: 600;
+			transform: translateX(-.25em) translateY(-1.25em) scale(.8);
+		}
+	}
+}

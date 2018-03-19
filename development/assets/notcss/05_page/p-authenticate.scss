@@ -1,0 +1,49 @@
+.p-authenticate {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $purple;
+
+	&__box {
+		width: calc(100% - #{$gutter--fat * 4});
+		height: calc(100% - #{$gutter--fat * 2});
+		display: flex;
+		generate-grid:
+			columns(
+				ratio($golden-ratio, 2)
+				ratio($golden-ratio, 1)
+			)
+			gutter(0);
+		box-shadow: 0 3px 50px 8px rgba(0, 0, 0, 0.2);
+		min-height: 700px;
+	}
+
+	&__cover {
+		background: url('../../images/cover__1.jpg');
+		background-position: center;
+		background-size: cover;
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		&:after {
+			content: '';
+			position: absolute 0 0 0 0;
+			background-color: transparentize($purple, 0.06);
+		}
+	}
+
+	&__slug {
+		z-index: 1;
+		margin: $gutter--thin;
+		font-size: ms(20);
+		color: white;
+		mix-blend-mode: luminosity;
+	}
+
+	&__itself {
+
+	}
+}

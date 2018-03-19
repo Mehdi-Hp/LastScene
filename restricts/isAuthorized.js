@@ -5,6 +5,7 @@ const chalk = require('chalk');
 module.exports = (req, res, next) => {
 	const token = req.body.token || req.query.token || req.headers['x-access-token'];
 	if (!token) {
+		debug(chalk.bold.red('No token provided'));
 		return res.status(401).json({
 			auth: false,
 			message: 'No token provided'

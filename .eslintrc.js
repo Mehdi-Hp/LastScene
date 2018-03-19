@@ -1,5 +1,5 @@
 module.exports = {
-	plugins: ['xss',  'security', 'promise', 'no-loops'],
+	plugins: ['xss', 'security', 'promise', 'no-loops'],
 	extends: [
 		'airbnb',
 		'prettier',
@@ -7,7 +7,7 @@ module.exports = {
 		'plugin:vue/recommended',
 		'plugin:security/recommended',
 		'plugin:promise/recommended',
-		'array-func/recommended'
+		'plugin:array-func/recommended'
 	],
 	rules: {
 		indent: [2, 'tab'],
@@ -45,7 +45,6 @@ module.exports = {
 		'vue/html-self-closing': 'off',
 		'vue/attributes-order': 'off',
 		'vue/require-prop-types': 'off',
-		'xss/rule-name': 2,
 		'no-loops/no-loops': 2
 	}
 };

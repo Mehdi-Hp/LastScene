@@ -8,8 +8,8 @@
 			v-if="movies"
 		></micro-movies>
 		<keep-alive>
-		<router-view name="addMovie"></router-view>
-	</keep-alive>
+			<router-view name="addMovie"></router-view>
+		</keep-alive>
 	</section>
 </template>
 

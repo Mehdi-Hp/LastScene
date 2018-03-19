@@ -1,0 +1,114 @@
+.o-auth-form {
+	background-color: mix(white, black, 96%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+
+	&__switch {
+		align-self: flex-start;
+		padding: $gutter;
+		position: absolute 0 0 auto 0;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	&__switch-button {
+		display: flex;
+		align-items: center;
+		color: $clay__switch--2;
+
+		&:before {
+			content: '';
+			height: 2px;
+			width: 2em;
+			margin-right: .5em;
+			background-color: $clay__switch--2;
+		}
+	}
+
+	&__inner {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: $gutter * 2;
+	}
+
+	&__title {
+		font-weight: 300;
+		font-size: ms(10);
+		margin-bottom: $gutter;
+		width: 100%;
+	}
+
+	&__itself {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	&__fields {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__textfield {
+		margin-bottom: 1em;
+		width: 100%;
+	}
+
+	&__handlers {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		margin-top: $gutter--thin;
+	}
+
+	&__forgot {
+		color: mix(white, black, 75%);
+		font-weight: 400;
+		font-size: ms(-1);
+
+		&:hocus {
+			color: mix(white, black, 50%);
+		}
+	}
+
+	&__login {
+		background-color: $green;
+		color: white;
+		font-size: ms(0);
+		padding: .75em 2.5em;
+		display: flex;
+		box-shadow: 0 3px 30px -5px rgba(0,0,0,.2);
+
+		&:hocus {
+			background-color: mix($green, black, 80%);
+		}
+	}
+
+	&__extra {
+		margin-top: $gutter;
+	}
+
+	&__google {
+		display: flex;
+		align-items: center;
+		background-color: mix(white, black, 95%);
+
+
+		&:hocus {
+			background-color: mix(white, black, 90%);
+		}
+	}
+
+	&__google-text {
+
+	}
+
+	&__google-image {
+		margin-left: .5em;
+	}
+}

@@ -1,10 +1,12 @@
 const app = require('express')();
 const debug = require('debug')('development');
+const chalk = require('chalk');
 
 app.route('/')
 	.get((req, res, next) => {
-		debug('Logging out the user...');
+		debug(chalk.underline('Logging out the user...'));
 		req.logout();
+		res.redirect('/login')
 	});
 
 module.exports = app;

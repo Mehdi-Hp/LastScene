@@ -24,7 +24,7 @@ app.route('/')
 				});
 			}
 			const token = jwt.sign({ data: user }, process.env.SECRET, {});
-			return res.json({
+			return res.status(200).json({
 				auth: true,
 				token
 			});
