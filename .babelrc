@@ -1,7 +1,8 @@
 {
-	"presets": [
+	"presets": [],
 
-	],
-
-	"plugins": ["@babel/plugin-syntax-object-rest-spread", "syntax-dynamic-import"]
+	"plugins": [
+		"@babel/plugin-syntax-object-rest-spread",
+		"syntax-dynamic-import"
+	]
 }

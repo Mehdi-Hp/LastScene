@@ -1,10 +1,10 @@
 <template>
 	<div
-		class="m-dropdown"
 		:class="{
 			'm-dropdown--is-open': isOpen,
 			'm-dropdown--is-visible': hoverState
 		}"
+		class="m-dropdown"
 		:style="menuSize"
 		v-on-clickaway="closeMenu"
 		v-esc="closeMenu"
@@ -17,8 +17,8 @@
 				'a-icon-menu--is-open': isOpen,
 				'a-icon-menu--is-visible': hoverState
 			}, getIconClass]"
+			:is-open="isOpen"
 			@click.native="toggleState"
-			:isOpen="isOpen"
 			:hover-state="hoverState"
 		></component>
 

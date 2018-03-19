@@ -1,5 +1,14 @@
 module.exports = {
-	extends: ['airbnb', 'prettier', 'prettier/standard', 'plugin:vue/recommended'],
+	plugins: ['xss',  'security', 'promise', 'no-loops'],
+	extends: [
+		'airbnb',
+		'prettier',
+		'prettier/standard',
+		'plugin:vue/recommended',
+		'plugin:security/recommended',
+		'plugin:promise/recommended',
+		'array-func/recommended'
+	],
 	rules: {
 		indent: [2, 'tab'],
 		'no-tabs': 0,
@@ -32,7 +41,11 @@ module.exports = {
 		'func-names': 'off',
 		'max-len': 'off',
 		'vue/html-indent': ['error', 'tab'],
-		'vue/max-attributes-per-line': [{ 'singleline': 1 }],
-		'vue/html-self-closing': 'off'
+		'vue/max-attributes-per-line': [{ singleline: 1 }],
+		'vue/html-self-closing': 'off',
+		'vue/attributes-order': 'off',
+		'vue/require-prop-types': 'off',
+		'xss/rule-name': 2,
+		'no-loops/no-loops': 2
 	}
 };

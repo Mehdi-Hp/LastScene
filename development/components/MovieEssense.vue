@@ -73,8 +73,8 @@
 								'o-movie-essense__state-icon--is-pending': movie.bus.watched,
 								'o-movie-essense__state-icon--is-true': movie.watched
 							}"
-							:isPending="movie.bus.watched"
-							:isDone="movie.watched"
+							:is-pending="movie.bus.watched"
+							:is-done="movie.watched"
 						></icon-eye>
 						{{ (!movie.watched) ? 'Mark as watched' : 'Already watched' }}
 					</button>
@@ -94,8 +94,8 @@
 								'o-movie-essense__state-icon--is-pending': movie.bus.watchList,
 								'o-movie-essense__state-icon--is-true': movie.watchList
 							}"
-							:isPending="movie.bus.watchList"
-							:isDone="movie.watchList"
+							:is-pending="movie.bus.watchList"
+							:is-done="movie.watchList"
 						></icon-flag>
 						{{ (!movie.watchList) ? 'Add to watch list' : 'Remove from watch list' }}
 					</button>
@@ -126,7 +126,7 @@
 								'o-movie-essense__favourite-icon--is-pending': movie.bus.favourite,
 								'o-movie-essense__favourite-icon--is-true': movie.favourite
 							}"
-							:isPending="movie.bus.favourite"
+							:is-pending="movie.bus.favourite"
 						></icon-heart>
 					</button>
 				</touch-ripple>
@@ -164,12 +164,7 @@ export default {
 		IconArchive,
 		IconFlag
 	},
-	props: {
-		movie: {
-			type: Object,
-			required: true
-		}
-	},
+	props: ['movie'],
 	data() {
 		return {
 
