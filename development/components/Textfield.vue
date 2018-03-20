@@ -53,8 +53,6 @@ export default {
 			this.isFocused = false;
 		},
 		inputChange() {
-			console.log(this);
-			console.log(this.$parent.$attrs);
 			this.$emit('inputChange', this.content);
 		}
 	}

@@ -15,14 +15,14 @@
 
 	&__switch-button {
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 		color: $clay__switch--2;
 
 		&:before {
 			content: '';
 			height: 2px;
-			width: 2em;
-			margin-right: .5em;
+			width: 1.5em;
+			margin-right: .25em;
 			background-color: $clay__switch--2;
 		}
 	}
@@ -78,14 +78,61 @@
 
 	&__login {
 		background-color: $green;
-		color: white;
-		font-size: ms(0);
-		padding: .75em 2.5em;
 		display: flex;
 		box-shadow: 0 3px 30px -5px rgba(0,0,0,.2);
+		border-radius: 2px;
+		position: relative;
+		overflow: hidden;
+		width: 8em;
+		height: 3em;
+		transition: width .15s .1s, height .15s .1s, border-radius .15s .1s, background-color .15s .15s;
+		transition-timing-function: ease-in-out;
 
 		&:hocus {
 			background-color: mix($green, black, 80%);
+		}
+
+		&--is-loading {
+			size: 3em;
+			border-radius: 5em;
+			background-color: white;
+
+			&:hocus {
+				background-color: white;
+			}
+		}
+	}
+
+	&__login-button {
+		background-color: transparent;
+		color: white;
+		font-size: ms(0);
+		padding: .75em 2.5em;
+		width: 100%;
+		height: 100%;
+		opacity: 1;
+		transition: opacity .15s;
+		transition-timing-function: ease-in-out;
+
+		&--is-loading {
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
+
+	&__login-loader {
+		position: absolute 0 0 0 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		opacity: 0;
+		transform: scale(.8);
+		transition: opacity .15s .2s, transform .15s .2s;
+		transition-timing-function: ease-in-out;
+
+		&--is-loading {
+			opacity: 1;
+			transform: scale(.8);
 		}
 	}
 
@@ -105,7 +152,7 @@
 	}
 
 	&__google-text {
-
+		font-weight: 600;
 	}
 
 	&__google-image {

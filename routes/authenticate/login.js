@@ -8,7 +8,9 @@ app.route('/')
 		res.render('login.ejs');
 	})
 	.post((req, res, next) => {
-		if (!req.body) {
+		req.body.email = req.body.email.trim();
+		req.body.password = req.body.password.trim();
+		if (!req.body || !req.body.email.length || !req.body.password.length) {
 			debug('Bad login request');
 			return res.status(400).json({
 				auth: false,
@@ -26,7 +28,8 @@ app.route('/')
 			const token = jwt.sign({ data: user }, process.env.SECRET, {});
 			return res.status(200).json({
 				auth: true,
-				token
+				token,
+				redirectURL: '/'
 			});
 		})(req, res, next);
 	});

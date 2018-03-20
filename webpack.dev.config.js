@@ -148,7 +148,8 @@ module.exports = {
 		progress: true,
 		proxy: {
 			'/api': 'http://localhost:3000',
-			'/files': 'http://localhost:3000'
+			'/files': 'http://localhost:3000',
+			'/authenticate': 'http://localhost:3000'
 		},
 		overlay: {
 			warnings: true,

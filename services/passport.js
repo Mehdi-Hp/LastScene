@@ -22,7 +22,7 @@ module.exports = (passport) => {
 		passwordField: 'password',
 		passReqToCallback: true
 	}, (req, email, password, done) => {
-		debug('Passport logging user in...');
+		debug(chalk.yellow('Passport logging user in...'));
 		debug(req.body);
 		process.nextTick(() => {
 			User.findOne({
@@ -36,18 +36,18 @@ module.exports = (passport) => {
 				]
 			}, (error, user) => {
 				if (error) {
-					debug(`Error in passport login: ${error}`);
+					debug(chalk.red(`Error in passport login: ${error}`));
 					return done(error);
 				}
 				if (!user) {
-					debug('Email not found');
+					debug(chalk.red('Email not found'));
 					return done('Email not found', null);
 				}
 				if (!user.isValidPassword(password, user)) {
-					debug('Password is wrong');
+					debug(chalk.red('Password is wrong'));
 					return done('Password is wrong', null);
 				}
-				debug(`User logged in: ${user}`);
+				debug(chalk.red(`User logged in: ${user}`));
 				return done(null, user);
 			});
 		});
