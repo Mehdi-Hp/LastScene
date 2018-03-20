@@ -35,6 +35,7 @@ export default {
 						'x-access-token': null
 					};
 					this.axios.defaults.baseURL = '/api/v1';
+					this.$router.push('/auth/login');
 				})
 				.catch((error) => {
 					console.log(error.response.data);
