@@ -3,10 +3,23 @@ const debug = require('debug')('development');
 const chalk = require('chalk');
 
 app.route('/')
-	.get((req, res, next) => {
+	.post((req, res, next) => {
 		debug(chalk.underline('Logging out the user...'));
-		req.logout();
-		res.redirect('/login')
+		const token = req.body.token || req.query.token || req.headers['x-access-token'];
+		if (token) {
+			req.logout();
+			res.status(200).send({
+				logout: true,
+				message: 'Successfully logged out',
+				redirect: '/login'
+			});
+		} else {
+			res.status(400).send({
+				logout: true,
+				message: 'Already logged out',
+				redirect: '/login'
+			});
+		}
 	});
 
 module.exports = app;

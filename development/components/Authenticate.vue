@@ -10,19 +10,14 @@
 					NOW
 				</span>
 			</div>
-			<auth-form/>
+			<router-view class="p-authenticate__itself"></router-view>
 		</div>
 	</div>
 </template>
 
 <script>
-import AuthForm from './AuthForm.vue';
-
 export default {
 	name: 'Authenticate',
-	components: {
-		AuthForm
-	},
 	data() {
 		return {
 

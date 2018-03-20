@@ -22,7 +22,7 @@
 			content: '';
 			height: 2px;
 			width: 1.5em;
-			margin-right: .25em;
+			margin-right: 0.25em;
 			background-color: $clay__switch--2;
 		}
 	}
@@ -79,13 +79,14 @@
 	&__login {
 		background-color: $green;
 		display: flex;
-		box-shadow: 0 3px 30px -5px rgba(0,0,0,.2);
+		box-shadow: 0 3px 30px -5px rgba(0, 0, 0, 0.2);
 		border-radius: 2px;
 		position: relative;
 		overflow: hidden;
 		width: 8em;
 		height: 3em;
-		transition: width .15s .1s, height .15s .1s, border-radius .15s .1s, background-color .15s .15s;
+		transition: width 0.15s 0.1s, height 0.15s 0.1s, border-radius 0.15s 0.1s,
+			background-color 0.15s 0.15s;
 		transition-timing-function: ease-in-out;
 
 		&:hocus {
@@ -107,11 +108,11 @@
 		background-color: transparent;
 		color: white;
 		font-size: ms(0);
-		padding: .75em 2.5em;
+		padding: 0.75em 2.5em;
 		width: 100%;
 		height: 100%;
 		opacity: 1;
-		transition: opacity .15s;
+		transition: opacity 0.15s;
 		transition-timing-function: ease-in-out;
 
 		&--is-loading {
@@ -126,13 +127,14 @@
 		height: 100%;
 		pointer-events: none;
 		opacity: 0;
-		transform: scale(.8);
-		transition: opacity .15s .2s, transform .15s .2s;
+		color: $green;
+		transform: scale(0.8);
+		transition: opacity 0.15s 0.2s, transform 0.15s 0.2s;
 		transition-timing-function: ease-in-out;
 
 		&--is-loading {
 			opacity: 1;
-			transform: scale(.8);
+			transform: scale(0.8);
 		}
 	}
 
@@ -145,7 +147,6 @@
 		align-items: center;
 		background-color: mix(white, black, 95%);
 
-
 		&:hocus {
 			background-color: mix(white, black, 90%);
 		}
@@ -156,6 +157,6 @@
 	}
 
 	&__google-image {
-		margin-left: .5em;
+		margin-left: 0.5em;
 	}
 }

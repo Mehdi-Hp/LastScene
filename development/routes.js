@@ -3,12 +3,24 @@ import Buffet from './components/Buffet.vue';
 import AddMovie from './components/AddMovie.vue';
 import Movie from './components/Movie.vue';
 import Authenticate from './components/Authenticate.vue';
+import AuthForm from './components/AuthForm.vue';
+import Logout from './components/Logout.vue';
 import NotFound from './components/NotFound.vue';
 
 export default [
 	{
-		path: '/login',
-		component: Authenticate
+		path: '/auth',
+		component: Authenticate,
+		children: [
+			{
+				path: '/auth/login',
+				component: AuthForm
+			},
+			{
+				path: '/auth/logout',
+				component: Logout
+			}
+		]
 	},
 	{
 		path: '/',
@@ -27,12 +39,12 @@ export default [
 						}
 					}
 				]
+			},
+			{
+				path: '/movies/:movie_id',
+				component:	Movie
 			}
 		]
-	},
-	{
-		path: '/movies/:movie_id',
-		component:	Movie
 	},
 	{
 		path: '*',

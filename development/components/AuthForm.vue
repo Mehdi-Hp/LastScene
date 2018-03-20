@@ -96,7 +96,6 @@ export default {
 					password: this.password
 				})
 					.then((user) => {
-						console.log(user.data);
 						if (user.data.auth) {
 							this.$ls.set('x-access-token', user.data.token);
 							this.axios.defaults.headers = {

@@ -4,10 +4,10 @@ module.exports = {
 		'airbnb',
 		'prettier',
 		'prettier/standard',
-		'plugin:vue/recommended',
 		'plugin:security/recommended',
 		'plugin:promise/recommended',
-		'plugin:array-func/recommended'
+		'plugin:array-func/recommended',
+		'plugin:vue/recommended'
 	],
 	rules: {
 		indent: [2, 'tab'],
