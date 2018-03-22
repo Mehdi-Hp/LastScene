@@ -29,7 +29,11 @@ export default {
 		}
 	},
 	mounted() {
-		this.$store.dispatch('fetchUser');
+		this.$store.dispatch('fetchUser')
+			.catch((error) => {
+				this.$router.push('/auth/login');
+				console.error(error);
+			});
 	}
 };
 </script>

@@ -18,6 +18,7 @@
 			@blur="onBlur"
 			v-model="content"
 			@input="inputChange"
+			:autocomplete="name"
 		>
 		<label
 			:for="name"

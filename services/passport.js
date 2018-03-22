@@ -64,7 +64,7 @@ module.exports = (passport) => {
 			}, (userFindError, user) => {
 				if (userFindError) return done(userFindError, null);
 				if (user) {
-					debug('Email already exist!');
+					debug(chalk.red.bold('Email already exist!'));
 					return done('Email already exist!', null);
 				}
 				const newUser = new User({

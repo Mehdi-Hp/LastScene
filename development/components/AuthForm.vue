@@ -1,11 +1,16 @@
 <template>
 	<div class="o-auth-form">
 		<div class="o-auth-form__switch">
-			<a href="#" class="o-auth-form__switch-button">Signup</a>
+			<router-link
+				:to="(isLoginMode) ? 'signup' : 'login'"
+				class="o-auth-form__switch-button"
+			>
+				{{ (isLoginMode) ? 'signup' : 'login' }}
+			</router-link>
 		</div>
 		<div class="o-auth-form__inner">
 			<h2 class="o-auth-form__title">
-				LOGIN
+				{{ mode }}
 			</h2>
 			<form class="o-auth-form__itself">
 				<div class="o-auth-form__fields">
@@ -14,47 +19,49 @@
 						type="text"
 						name="email"
 						class="o-auth-form__textfield"
-						:email="email"
-						@inputChange="value => email = value"
+						@inputChange="value => fields.email = value"
+					/>
+					<textfield
+						text="USERNAME"
+						type="text"
+						name="username"
+						class="o-auth-form__textfield"
+						@inputChange="value => fields.username = value"
+						v-if="isSignupMode"
 					/>
 					<textfield
 						text="PASSWORD"
 						type="password"
 						name="password"
 						class="o-auth-form__textfield"
-						:password="password"
-						@inputChange="value => password = value"
+						@inputChange="value => fields.password = value"
 					/>
 				</div>
 				<div class="o-auth-form__handlers">
-					<button class="o-auth-form__forgot | a-button | a-button--plain">Forgot the password</button>
-					<div class="o-auth-form__login"
+					<button class="o-auth-form__forgot | a-button | a-button--plain" v-if="isLoginMode">
+						Forgot the password
+					</button>
+					<div class="o-auth-form__auth"
 						:class="{
-							'o-auth-form__login--is-loading': isSending
+							'o-auth-form__auth--is-loading': isSending
 						}"
 					>
 						<button
-							class="o-auth-form__login-button | a-button"
+							class="o-auth-form__auth-button | a-button"
 							:class="{
-								'o-auth-form__login-button--is-loading': isSending
+								'o-auth-form__auth-button--is-loading': isSending
 							}"
 							:disabled="isSending"
-							@click.prevent="submitForm">Login</button>
-						<svg class="o-auth-form__login-loader" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve"
-							:class="{
-								'o-auth-form__login-loader--is-loading': isSending
-							}"
+							@click.prevent="submitForm"
 						>
-							<path fill="#66826f" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-								<animateTransform attributeName="transform" attributeType="XML"
-									type="rotate"
-									dur="0.7s"
-									from="0 50 50"
-									to="360 50 50"
-									repeatCount="indefinite"
-								/>
-							</path>
-						</svg>
+							{{ (isLoginMode) ? 'Login' : 'Signup' }}
+						</button>
+						<loader-1
+							class="o-auth-form__auth-loader"
+							:class="{
+								'o-auth-form__auth-loader--is-loading': isSending
+							}"
+						></loader-1>
 					</div>
 				</div>
 			</form>
@@ -69,32 +76,66 @@
 </template>
 
 <script>
-import IconGoogle from './icons/GoogleFull.vue';
 import Textfield from './Textfield.vue';
+import IconGoogle from './icons/GoogleFull.vue';
+import Loader1 from './icons/Loader1.vue';
 
 export default {
 	name: 'AuthForm',
 	components: {
 		IconGoogle,
-		Textfield
+		Textfield,
+		Loader1
 	},
+	props: ['mode'],
 	data() {
 		return {
-			email: '',
-			password: '',
+			fields: {
+				name: '',
+				email: '',
+				password: '',
+				username: ''
+			},
 			isSending: false,
 			hasError: ''
 		};
 	},
+	computed: {
+		isLoginMode() {
+			return this.mode === 'login';
+		},
+		isSignupMode() {
+			return this.mode === 'signup';
+		}
+	},
 	methods: {
 		submitForm() {
-			if (!this.isSending) {
+			if (this.isLoginMode) {
+				if (!this.isSending) {
+					this.isSending = true;
+					this.$axios.defaults.baseURL = '';
+					this.$axios.post('/authenticate/login', this.fields)
+						.then((user) => {
+							if (user.data.auth) {
+								this.$ls.set('x-access-token', user.data.token);
+								this.axios.defaults.headers = {
+									'x-access-token': this.$ls.get('x-access-token')
+								};
+								this.axios.defaults.baseURL = '/api/v1';
+								this.$router.push(user.data.redirectURL);
+							}
+							this.isSending = false;
+						})
+						.catch((error) => {
+							console.log(error.response.data);
+							this.isSending = false;
+							this.hasError = error.response.data.message;
+						});
+				}
+			} else if (this.isSignupMode) {
 				this.isSending = true;
 				this.$axios.defaults.baseURL = '';
-				this.$axios.post('/authenticate/login', {
-					email: this.email,
-					password: this.password
-				})
+				this.$axios.post('/authenticate/signup', this.fields)
 					.then((user) => {
 						if (user.data.auth) {
 							this.$ls.set('x-access-token', user.data.token);

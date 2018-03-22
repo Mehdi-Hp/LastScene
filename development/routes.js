@@ -13,11 +13,21 @@ export default [
 		component: Authenticate,
 		children: [
 			{
-				path: '/auth/login',
-				component: AuthForm
+				path: 'signup',
+				component: AuthForm,
+				props: {
+					mode: 'signup'
+				}
 			},
 			{
-				path: '/auth/logout',
+				path: 'login',
+				component: AuthForm,
+				props: {
+					mode: 'login'
+				}
+			},
+			{
+				path: 'logout',
 				component: Logout
 			}
 		]
@@ -32,7 +42,7 @@ export default [
 				component: Buffet,
 				children: [
 					{
-						path: '/add',
+						path: 'add',
 						name: 'addMovie',
 						components: {
 							addMovie: AddMovie
@@ -42,7 +52,7 @@ export default [
 			},
 			{
 				path: '/movies/:movie_id',
-				component:	Movie
+				component: Movie
 			}
 		]
 	},

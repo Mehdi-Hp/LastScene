@@ -46,6 +46,8 @@ module.exports = {
 		'vue/attributes-order': 'off',
 		'vue/require-prop-types': 'off',
 		'no-loops/no-loops': 2,
-		'promise/always-return': 'off'
+		'promise/always-return': 'off',
+		'promise/avoid-new': 'off',
+		'security/detect-object-injection': 'off'
 	}
 };

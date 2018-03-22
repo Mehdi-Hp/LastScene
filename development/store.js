@@ -148,10 +148,14 @@ const store = new Vuex.Store({
 	},
 	actions: {
 		fetchUser({ commit, state }) {
-			Vue.$axios.get('/user').then((res) => {
-				commit('setUset', res.data);
-			}).catch((error) => {
-				throw new Error(error);
+			return new Promise((resolve, reject) => {
+				Vue.$axios.get('/user')
+					.then((res) => {
+						commit('setUset', res.data);
+						resolve(res.data);
+					}).catch((error) => {
+						reject(error.response.data);
+					});
 			});
 		},
 		addMovie({ commit, state }, { imdbID, movieName }) {
@@ -174,6 +178,9 @@ const store = new Vuex.Store({
 						};
 						resolve(newMovie);
 						commit('pushMovie', newMovie);
+					})
+					.catch((error) => {
+						throw new Error(error);
 					});
 			});
 		},
