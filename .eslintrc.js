@@ -1,5 +1,9 @@
 module.exports = {
-	plugins: ['xss', 'security', 'promise', 'no-loops'],
+	root: true,
+	parserOptions: {
+		parser: 'babel-eslint'
+	},
+	plugins: ['vue', 'xss', 'security', 'promise', 'no-loops'],
 	extends: [
 		'airbnb',
 		'prettier',
@@ -41,7 +45,13 @@ module.exports = {
 		'func-names': 'off',
 		'max-len': 'off',
 		'vue/html-indent': ['error', 'tab'],
-		'vue/max-attributes-per-line': [{ singleline: 1 }],
+		'vue/max-attributes-per-line': [2, {
+			singleline: 1,
+			multiline: {
+				max: 1,
+				allowFirstLine: false
+			}
+		}],
 		'vue/html-self-closing': 'off',
 		'vue/attributes-order': 'off',
 		'vue/require-prop-types': 'off',

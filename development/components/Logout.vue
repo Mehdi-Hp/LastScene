@@ -1,4 +1,5 @@
 <template>
+	<overdrive id="element">
 	<div class="o-logout">
 		<div class="o-logout__loader-holder">
 			<loader-1 class="o-logout__loader"></loader-1>
@@ -7,6 +8,7 @@
 			Logging you out
 		</span>
 	</div>
+</overdrive>
 </template>
 
 <script>

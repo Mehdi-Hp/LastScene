@@ -9,6 +9,7 @@ import VueEsc from 'vue-esc';
 import VueTippy from 'vue-tippy';
 import umbrellajs from 'umbrellajs';
 import VueLocalStorage from 'vue-ls';
+import Overdrive from 'vue-overdrive';
 import App from './App.vue';
 import Routes from './routes';
 import invertColor from './helpers/invertColor';
@@ -62,6 +63,9 @@ Object.defineProperty(Vue.prototype, '$u', { value: umbrellajs.u });
 
 
 Vue.use(VueLocalStorage);
+
+
+Vue.use(Overdrive);
 
 
 new Vue({

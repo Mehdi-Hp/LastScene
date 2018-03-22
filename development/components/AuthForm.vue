@@ -2,18 +2,49 @@
 	<div class="o-auth-form">
 		<div class="o-auth-form__switch">
 			<router-link
-				:to="(isLoginMode) ? 'signup' : 'login'"
+				to="login"
 				class="o-auth-form__switch-button"
+				:class="{
+					'o-auth-form__switch-button--is-visible': isSignupMode
+				}"
 			>
-				{{ (isLoginMode) ? 'signup' : 'login' }}
+				login
+			</router-link>
+			<router-link
+				to="signup"
+				class="o-auth-form__switch-button"
+				:class="{
+					'o-auth-form__switch-button--is-visible': isLoginMode
+				}"
+			>
+				signup
 			</router-link>
 		</div>
 		<div class="o-auth-form__inner">
-			<h2 class="o-auth-form__title">
-				{{ mode }}
-			</h2>
+			<div class="o-auth-form__title-holder">
+				<h2
+					class="o-auth-form__title"
+					:class="{
+						'o-auth-form__title--is-visible': isLoginMode
+					}"
+				>
+					login
+				</h2>
+				<h2
+					class="o-auth-form__title"
+					:class="{
+						'o-auth-form__title--is-visible': isSignupMode
+					}"
+				>
+					signup
+				</h2>
+			</div>
 			<form class="o-auth-form__itself">
-				<div class="o-auth-form__fields">
+				<div
+					class="o-auth-form__fields"
+					:style="fieldsHeight"
+					ref="fields"
+				>
 					<textfield
 						text="EMAIL"
 						type="text"
@@ -37,20 +68,28 @@
 						@inputChange="value => fields.password = value"
 					/>
 				</div>
-				<div class="o-auth-form__handlers">
-					<button class="o-auth-form__forgot | a-button | a-button--plain" v-if="isLoginMode">
+				<div
+					class="o-auth-form__handlers"
+					ref="authHandlers"
+				>
+					<button
+						class="o-auth-form__forgot | a-button | a-button--plain"
+						:class="{
+							'o-auth-form__forgot--is-visible': isLoginMode
+						}"
+					>
 						Forgot the password
 					</button>
-					<div class="o-auth-form__auth"
+					<div
+						class="o-auth-form__auth"
 						:class="{
 							'o-auth-form__auth--is-loading': isSending
 						}"
+						:style="authButtonTransferX"
+						ref="authButton"
 					>
 						<button
 							class="o-auth-form__auth-button | a-button"
-							:class="{
-								'o-auth-form__auth-button--is-loading': isSending
-							}"
 							:disabled="isSending"
 							@click.prevent="submitForm"
 						>
@@ -97,7 +136,9 @@ export default {
 				username: ''
 			},
 			isSending: false,
-			hasError: ''
+			hasError: '',
+			authButtonTransferX: {},
+			fieldsHeight: {}
 		};
 	},
 	computed: {
@@ -107,6 +148,16 @@ export default {
 		isSignupMode() {
 			return this.mode === 'signup';
 		}
+	},
+	watch: {
+		isLoginMode() {
+			this.calcAuthButtonTransferX();
+			this.calcFieldsHeight();
+		}
+	},
+	mounted() {
+		this.calcAuthButtonTransferX();
+		this.calcFieldsHeight();
 	},
 	methods: {
 		submitForm() {
@@ -153,6 +204,33 @@ export default {
 						this.hasError = error.response.data.message;
 					});
 			}
+		},
+		calcAuthButtonTransferX() {
+			if (this.isLoginMode) {
+				this.authButtonTransferX = {
+					transform: `translateX(0)`
+				};
+			} else {
+				const parentWidth = this.$refs.authHandlers.clientWidth;
+				const buttonWidth = this.$refs.authButton.clientWidth;
+				const delta = parentWidth - buttonWidth;
+				this.authButtonTransferX = {
+					transform: `translateX(-${delta}px)`
+				};
+			}
+		},
+		calcFieldsHeight() {
+			this.$nextTick(() => {
+				const fieldsHeight = this.$refs.fields.children[0].clientHeight;
+				let fieldMargin = getComputedStyle(this.$refs.fields.children[0], null).getPropertyValue("margin-bottom");
+				fieldMargin = +fieldMargin.slice(0, fieldMargin.indexOf('px'));
+				const ultimateHeight = fieldsHeight + fieldMargin;
+				const fieldsCount = this.$refs.fields.children.length;
+				console.log(`calc(${ultimateHeight} * ${fieldsCount})px`);
+				this.fieldsHeight = {
+					height: `calc(${ultimateHeight}px * ${fieldsCount})`
+				};
+			});
 		}
 	}
 };
