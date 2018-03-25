@@ -21,8 +21,8 @@
 		position: absolute;
 		opacity: 0;
 		transform: rotateY(15deg);
-		transition: transform .2s, opacity .2s;
-		transition-timing-function: cubic-bezier(0.40,-0.85, 0.50, 2);
+		transition: transform 0.2s, opacity 0.2s;
+		transition-timing-function: cubic-bezier(0.4, -0.85, 0.5, 2);
 		pointer-events: none;
 
 		&:before {
@@ -47,6 +47,7 @@
 		justify-content: center;
 		align-items: center;
 		padding: $gutter * 2;
+		height: 100%;
 	}
 
 	&__title-holder {
@@ -65,8 +66,8 @@
 		text-transform: uppercase;
 		opacity: 0;
 		transform: rotateY(15deg);
-		transition: transform .2s, opacity .2s;
-		transition-timing-function: cubic-bezier(0.40,-0.85, 0.50, 2);
+		transition: transform 0.2s, opacity 0.2s;
+		transition-timing-function: cubic-bezier(0.4, -0.85, 0.5, 2);
 
 		&--is-visible {
 			transform: rotateY(0);
@@ -83,7 +84,7 @@
 	&__fields {
 		display: flex;
 		flex-direction: column;
-		transition: height .2s ease-in-out;
+		transition: height 0.2s ease-in-out;
 	}
 
 	&__textfield {
@@ -92,7 +93,6 @@
 		flex-shrink: 0;
 
 		&--is-visible {
-
 		}
 	}
 
@@ -108,7 +108,8 @@
 		font-weight: 400;
 		font-size: ms(-1);
 		opacity: 0;
-		transition: opacity .2s .1s;
+		pointer-events: none;
+		transition: opacity 0.2s 0.1s;
 
 		&:hocus {
 			color: mix(white, black, 50%);
@@ -116,6 +117,7 @@
 
 		&--is-visible {
 			opacity: 1;
+			pointer-events: all;
 		}
 	}
 
@@ -129,7 +131,7 @@
 		width: 8em;
 		height: 3em;
 		transition: width 0.15s 0.1s, height 0.15s 0.1s, border-radius 0.15s 0.1s,
-			background-color 0.15s 0.15s, transform .2s;
+			background-color 0.15s 0.15s, transform 0.2s;
 		transition-timing-function: ease-in-out;
 
 		&:hocus {

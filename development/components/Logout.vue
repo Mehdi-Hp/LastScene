@@ -1,5 +1,4 @@
 <template>
-	<overdrive id="element">
 	<div class="o-logout">
 		<div class="o-logout__loader-holder">
 			<loader-1 class="o-logout__loader"></loader-1>
@@ -8,7 +7,6 @@
 			Logging you out
 		</span>
 	</div>
-</overdrive>
 </template>
 
 <script>
@@ -22,14 +20,13 @@ export default {
 		Loader1
 	},
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	mounted() {
 		setTimeout(() => {
 			this.$axios.defaults.baseURL = '';
-			this.$axios.post('/authenticate/logout')
+			this.$axios
+				.post('/authenticate/logout')
 				.then((response) => {
 					console.log(response.data);
 					this.$ls.remove('x-access-token', null);

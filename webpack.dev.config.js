@@ -83,9 +83,9 @@ module.exports = {
 						}
 					},
 					{
-						loader: 'style-resources-loader',
+						loader: 'sass-resources-loader',
 						options: {
-							patterns: [
+							resources: [
 								'./development/assets/notcss/_utils/_all-utils.scss',
 								'./development/assets/notcss/_vendor/_all-vendors.scss'
 							]
@@ -138,7 +138,7 @@ module.exports = {
 		contentBase: path.resolve(__dirname, 'public'),
 		publicPath: '/',
 		noInfo: true,
-		compress: true,
+		compress: false,
 		historyApiFallback: true,
 		disableHostCheck: true,
 		hot: true,

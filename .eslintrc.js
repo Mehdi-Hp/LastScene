@@ -45,19 +45,24 @@ module.exports = {
 		'func-names': 'off',
 		'max-len': 'off',
 		'vue/html-indent': ['error', 'tab'],
-		'vue/max-attributes-per-line': [2, {
-			singleline: 1,
-			multiline: {
-				max: 1,
-				allowFirstLine: false
+		'vue/max-attributes-per-line': [
+			2,
+			{
+				singleline: 1,
+				multiline: {
+					max: 1,
+					allowFirstLine: false
+				}
 			}
-		}],
+		],
 		'vue/html-self-closing': 'off',
 		'vue/attributes-order': 'off',
 		'vue/require-prop-types': 'off',
 		'no-loops/no-loops': 2,
 		'promise/always-return': 'off',
 		'promise/avoid-new': 'off',
-		'security/detect-object-injection': 'off'
+		'security/detect-object-injection': 'off',
+		'import/no-named-as-default': 'off',
+		'import/no-named-as-default-member': 'off'
 	}
 };

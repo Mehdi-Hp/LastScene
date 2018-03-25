@@ -15,11 +15,9 @@ import Routes from './routes';
 import invertColor from './helpers/invertColor';
 import store from './store';
 
-
 Vue.use(LodashForVue);
 Vue.prototype.$_ = Vue.$lodash;
 Vue.$_ = Vue.$lodash;
-
 
 Vue.use(VueEsc);
 Vue.use(VueTippy, {
@@ -27,7 +25,6 @@ Vue.use(VueTippy, {
 	arrowType: 'round',
 	duration: 200
 });
-
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -51,26 +48,21 @@ router.beforeEach((to, from, next) => {
 	next();
 });
 
-
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = '/api/v1';
 Vue.$axios = Vue.axios;
 Vue.prototype.$axios = Vue.axios;
 Vue.prototype.$invertColor = invertColor;
 
-
 Object.defineProperty(Vue.prototype, '$u', { value: umbrellajs.u });
-
 
 Vue.use(VueLocalStorage);
 
-
 Vue.use(Overdrive);
-
 
 new Vue({
 	el: '#app',
-	render: h => h(App),
+	render: (h) => h(App),
 	store,
 	router,
 	performance: true,

@@ -1,5 +1,6 @@
 <template>
-	<div class="a-textfield"
+	<div
+		class="a-textfield"
 		:class="{
 			'a-textfield--is-focused': isFocused,
 			'a-textfield--is-full': content
@@ -16,6 +17,7 @@
 			v-focus="isFocused"
 			@focus="onFocus"
 			@blur="onBlur"
+			@keyup="onKeyup"
 			v-model="content"
 			@input="inputChange"
 			:autocomplete="name"
@@ -30,16 +32,29 @@
 		>
 			{{ text }}
 		</label>
+		<icon-exclamation
+			class="a-textfield__notice-icon"
+			v-if="error"
+			:title="error"
+			v-tippy= "{
+				arrow: true,
+				theme : 'auth-form'
+			}"
+		></icon-exclamation>
 	</div>
 </template>
 
 <script>
 import { mixin as focusMixin } from 'vue-focus';
+import IconExclamation from './icons/Exclamation.vue';
 
 export default {
 	name: 'Textfield',
+	components: {
+		IconExclamation
+	},
 	mixins: [focusMixin],
-	props: ['name', 'text', 'type'],
+	props: ['name', 'text', 'type', 'error'],
 	data() {
 		return {
 			isFocused: false,
@@ -49,9 +64,14 @@ export default {
 	methods: {
 		onFocus() {
 			this.isFocused = true;
+			this.$emit('inputFocus');
 		},
 		onBlur() {
 			this.isFocused = false;
+			this.$emit('inputBlur');
+		},
+		onKeyup() {
+			this.$emit('inputKeyup');
 		},
 		inputChange() {
 			this.$emit('inputChange', this.content);

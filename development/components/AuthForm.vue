@@ -50,22 +50,28 @@
 						type="text"
 						name="email"
 						class="o-auth-form__textfield"
-						@inputChange="value => fields.email = value"
+						@inputChange="value => email = value"
+						@inputKeyup="$validate('email')"
+						:error="validation.firstError('email')"
 					/>
 					<textfield
 						text="USERNAME"
 						type="text"
 						name="username"
 						class="o-auth-form__textfield"
-						@inputChange="value => fields.username = value"
+						@inputChange="value => username = value"
+						@inputKeyup="$validate('username')"
 						v-if="isSignupMode"
+						:error="validation.firstError('username')"
 					/>
 					<textfield
 						text="PASSWORD"
 						type="password"
 						name="password"
 						class="o-auth-form__textfield"
-						@inputChange="value => fields.password = value"
+						@inputChange="value => password = value"
+						@inputKeyup="$validate('password')"
+						:error="validation.firstError('password')"
 					/>
 				</div>
 				<div
@@ -115,9 +121,22 @@
 </template>
 
 <script>
+import SimpleVueValidation from 'simple-vue-validator';
+import owasp from 'owasp-password-strength-test';
 import Textfield from './Textfield.vue';
 import IconGoogle from './icons/GoogleFull.vue';
 import Loader1 from './icons/Loader1.vue';
+
+SimpleVueValidation.setMode('manual');
+const validator = SimpleVueValidation.Validator;
+
+owasp.config({
+	allowPassphrases: false,
+	maxLength: 128,
+	minLength: 8,
+	minPhraseLength: 20,
+	minOptionalTestsToPass: 0
+});
 
 export default {
 	name: 'AuthForm',
@@ -126,15 +145,14 @@ export default {
 		Textfield,
 		Loader1
 	},
+	mixins: [SimpleVueValidation.mixin],
 	props: ['mode'],
 	data() {
 		return {
-			fields: {
-				name: '',
-				email: '',
-				password: '',
-				username: ''
-			},
+			name: '',
+			email: '',
+			password: '',
+			username: '',
 			isSending: false,
 			hasError: '',
 			authButtonTransferX: {},
@@ -151,28 +169,34 @@ export default {
 	},
 	watch: {
 		isLoginMode() {
-			this.calcAuthButtonTransferX();
 			this.calcFieldsHeight();
 		}
 	},
 	mounted() {
-		this.calcAuthButtonTransferX();
+		this.$axios.defaults.baseURL = '/authenticate';
 		this.calcFieldsHeight();
+	},
+	beforeDestroy() {
+		this.axios.defaults.baseURL = '/api/v1';
 	},
 	methods: {
 		submitForm() {
-			if (this.isLoginMode) {
+			this.$validate();
+			if (!this.validation.errors.length) {
 				if (!this.isSending) {
 					this.isSending = true;
-					this.$axios.defaults.baseURL = '';
-					this.$axios.post('/authenticate/login', this.fields)
+					this.$axios
+						.post(`${this.isLoginMode ? 'login' : 'signup'}`, {
+							email: this.email,
+							username: this.username,
+							password: this.password
+						})
 						.then((user) => {
 							if (user.data.auth) {
 								this.$ls.set('x-access-token', user.data.token);
 								this.axios.defaults.headers = {
 									'x-access-token': this.$ls.get('x-access-token')
 								};
-								this.axios.defaults.baseURL = '/api/v1';
 								this.$router.push(user.data.redirectURL);
 							}
 							this.isSending = false;
@@ -183,26 +207,6 @@ export default {
 							this.hasError = error.response.data.message;
 						});
 				}
-			} else if (this.isSignupMode) {
-				this.isSending = true;
-				this.$axios.defaults.baseURL = '';
-				this.$axios.post('/authenticate/signup', this.fields)
-					.then((user) => {
-						if (user.data.auth) {
-							this.$ls.set('x-access-token', user.data.token);
-							this.axios.defaults.headers = {
-								'x-access-token': this.$ls.get('x-access-token')
-							};
-							this.axios.defaults.baseURL = '/api/v1';
-							this.$router.push(user.data.redirectURL);
-						}
-						this.isSending = false;
-					})
-					.catch((error) => {
-						console.log(error.response.data);
-						this.isSending = false;
-						this.hasError = error.response.data.message;
-					});
 			}
 		},
 		calcAuthButtonTransferX() {
@@ -222,15 +226,92 @@ export default {
 		calcFieldsHeight() {
 			this.$nextTick(() => {
 				const fieldsHeight = this.$refs.fields.children[0].clientHeight;
-				let fieldMargin = getComputedStyle(this.$refs.fields.children[0], null).getPropertyValue("margin-bottom");
+				let fieldMargin = getComputedStyle(
+					this.$refs.fields.children[0],
+					null
+				).getPropertyValue('margin-bottom');
 				fieldMargin = +fieldMargin.slice(0, fieldMargin.indexOf('px'));
 				const ultimateHeight = fieldsHeight + fieldMargin;
 				const fieldsCount = this.$refs.fields.children.length;
-				console.log(`calc(${ultimateHeight} * ${fieldsCount})px`);
 				this.fieldsHeight = {
 					height: `calc(${ultimateHeight}px * ${fieldsCount})`
 				};
 			});
+		}
+	},
+	validators: {
+		email: {
+			cache: true,
+			debounce: 200,
+			validator(value) {
+				return validator
+					.value(value)
+					.required()
+					.email()
+					.custom(() => {
+						if (this.isSignupMode) {
+							return this.$axios
+								.get(`/check?email=${this.email.trim()}`)
+								.then((response) => {
+									console.log(response.data);
+									if (response.data.exist) {
+										console.log('Email already exist');
+										return 'Email already exist';
+									}
+								})
+								.catch((error) => {
+									console.error(error.response.data);
+								});
+						}
+					});
+			}
+		},
+		username: {
+			cache: true,
+			debounce: 500,
+			validator(value) {
+				if (this.isSignupMode) {
+					return validator
+						.value(value)
+						.required()
+						.custom(() => {
+							const regex = /^\w+$/;
+							if (!regex.test(this.username)) {
+								return 'Only accepts alphanumeric and _underscore';
+							}
+						})
+						.custom(() => {
+							return this.$axios
+								.get(`/check?username=${this.username.trim()}`)
+								.then((response) => {
+									if (response.data.exist) {
+										console.log('Username already exist');
+										return 'Username already exist';
+									}
+								})
+								.catch((error) => {
+									console.error(error.response.data);
+								});
+						});
+				}
+				return validator.value(value);
+			}
+		},
+		password(value) {
+			if (this.isSignupMode) {
+				return validator
+					.value(value)
+					.required()
+					.minLength(8)
+					.maxLength(100)
+					.custom(() => {
+						const passwordStrength = owasp.test(this.password);
+						if (!passwordStrength.strong) {
+							return passwordStrength.requiredTestErrors[0];
+						}
+					});
+			}
+			return validator.value(value).required();
 		}
 	}
 };

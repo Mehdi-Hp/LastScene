@@ -10,7 +10,7 @@
 		background-color: $clay__generic-gre--2;
 		transform-origin: left;
 		transform: scaleX(0);
-		transition: transform .15s ease-in-out;
+		transition: transform 0.15s ease-in-out;
 	}
 
 	&--is-focused,
@@ -23,13 +23,12 @@
 	&__input {
 		background-color: transparent;
 		border-bottom: 2px solid transparentize(black, 0.9);
-		padding: 1em .75em .5em .75em;
+		padding: 1.5em 0.75em 0.5em 0.75em;
 		font-size: ms(1);
 		width: 100%;
 
 		&--is-focused,
 		&--is-full {
-
 		}
 	}
 
@@ -39,15 +38,21 @@
 		font-weight: 400;
 		width: 100%;
 		pointer-events: none;
-		padding: .75em;
+		padding: 0.75em;
 		transform-origin: left;
-		transition: color .15s ease-in-out, transform .15s ease-in-out;
+		transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
 
 		&--is-focused,
 		&--is-full {
 			color: $black;
 			font-weight: 600;
-			transform: translateX(-.25em) translateY(-1.25em) scale(.8);
+			transform: translateX(-0.25em) translateY(-1em) scale(0.8);
 		}
+	}
+
+	&__notice-icon {
+		position: absolute;
+		right: 0;
+		color: $red;
 	}
 }

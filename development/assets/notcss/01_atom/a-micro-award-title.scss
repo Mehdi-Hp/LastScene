@@ -18,7 +18,7 @@
 	&__award {
 		display: flex;
 		flex-wrap: wrap;
-		padding: .5em;
+		padding: 0.5em;
 	}
 
 	&__result {
@@ -33,7 +33,8 @@
 		margin-right: 0.25em;
 	}
 
-	&__participants {}
+	&__participants {
+	}
 
 	&__participant {
 		display: inline-flex;
@@ -49,17 +50,20 @@
 }
 
 .tippy-tooltip {
-	background-color: #A4ACB7;
 	border-radius: 2px;
 	padding: 0.5em;
 	font-size: ms(-4);
-	background-image: linear-gradient(120deg, $clay__switch--1 0%, $clay__twisted-spot--2 100%);
+	background-image: linear-gradient(
+		120deg,
+		$clay__switch--1 0%,
+		$clay__twisted-spot--2 100%
+	);
 	box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.15);
 	max-width: 300px;
 }
 
-.tippy-popper[x-placement^=top] .tippy-roundarrow,
-.tippy-popper[x-placement^=top] .tippy-arrow {
+.tippy-popper[x-placement^='top'] .tippy-roundarrow,
+.tippy-popper[x-placement^='top'] .tippy-arrow {
 	fill: mix($clay__switch--1, $clay__twisted-spot--2, 50%);
 	border-top-color: mix($clay__switch--1, $clay__twisted-spot--2, 50%);
 	margin: 0;
