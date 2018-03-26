@@ -1,15 +1,8 @@
 .m-micro-userdata {
 	display: flex;
-	padding: 0.25em 0.5em;
 	position: relative;
 	overflow: hidden;
-
-	&__background {
-		position: absolute 0 0 0 0;
-		background-position: bottom;
-		background-size: cover;
-		filter: blur(5px);
-	}
+	cursor: default;
 
 	&__icon {
 		margin-right: 0.3em;
@@ -27,7 +20,7 @@
 
 		&--flag {
 			color: $yellorange;
-			top: -.05em;
+			top: -0.05em;
 		}
 	}
 }

@@ -13,8 +13,8 @@
 	transition: filter 0.3s ease-in-out;
 	display: block;
 	background-color: mix($clay, white, 92%);
-	box-shadow: 0 3px 40px 0 rgba(0,0,0,.05);
-	transition: width .2s .8s ease-in-out, margin .2s .8s ease-in-out, opacity .2s .8s ease-in-out;
+	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.05);
+	transition: width 0.2s 0.8s ease-in-out, margin 0.2s 0.8s ease-in-out, opacity 0.2s 0.8s ease-in-out;
 
 	&--is-deleting {
 		width: 0 !important;
@@ -46,11 +46,8 @@
 	}
 
 	&__userdata {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background-color: rgba(0, 0, 0, 0.35);
+		margin-bottom: 0.25em;
+		background-color: mix($clay, white, 92%);
 	}
 
 	&__washy-icon {
@@ -73,6 +70,7 @@
 		position: absolute 0 auto auto 0;
 		margin: 0.5rem;
 		mix-blend-mode: luminosity;
+		font-size: ms(1);
 
 		&--is-open {
 			mix-blend-mode: unset;
@@ -96,11 +94,11 @@
 		flex-direction: column;
 		color: $kinda-white;
 		perspective: 200px;
-		padding: .5em;
+		padding: 0.5em;
 
 		&--in-box {
 			margin: 0;
-			padding: .5em .75em;
+			padding: 0.5em 0.75em;
 		}
 	}
 
@@ -199,7 +197,6 @@
 	}
 
 	&__rate {
-
 	}
 
 	&__loader {

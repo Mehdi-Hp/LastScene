@@ -51,8 +51,7 @@
 	}
 
 	&__notice-icon {
-		position: absolute;
-		right: 0;
+		position: absolute auto 0.75em 0.85em auto;
 		color: $red;
 	}
 }

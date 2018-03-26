@@ -5,7 +5,7 @@ const User = require('../../models/user');
 
 app.route('/').get((req, res, next) => {
 	if (req.query.email) {
-		const { email } = req.query.toLowerCase();
+		const email = req.query.email.toLowerCase();
 		debug(chalk.bold.dim(`Checking email existence [${email}]`));
 		User.findOne({ 'authentication.local.email': email }, (error, user) => {
 			if (error) {

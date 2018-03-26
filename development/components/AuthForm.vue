@@ -193,7 +193,7 @@ export default {
 						})
 						.then((user) => {
 							if (user.data.auth) {
-								this.$ls.set('x-access-token', user.data.token);
+								this.$ls.set('x-access-token', user.data.token, 7 * 24 * 60 * 60 * 1000);
 								this.axios.defaults.headers = {
 									'x-access-token': this.$ls.get('x-access-token')
 								};
@@ -226,10 +226,7 @@ export default {
 		calcFieldsHeight() {
 			this.$nextTick(() => {
 				const fieldsHeight = this.$refs.fields.children[0].clientHeight;
-				let fieldMargin = getComputedStyle(
-					this.$refs.fields.children[0],
-					null
-				).getPropertyValue('margin-bottom');
+				let fieldMargin = getComputedStyle(this.$refs.fields.children[0], null).getPropertyValue('margin-bottom');
 				fieldMargin = +fieldMargin.slice(0, fieldMargin.indexOf('px'));
 				const ultimateHeight = fieldsHeight + fieldMargin;
 				const fieldsCount = this.$refs.fields.children.length;

@@ -8,8 +8,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	state: {
 		info: null,
-		movies: null,
-		collections: null
+		movies: [],
+		collections: []
 	},
 	getters: {
 		movie(state) {
@@ -149,11 +149,13 @@ const store = new Vuex.Store({
 	actions: {
 		fetchUser({ commit, state }) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.get('/user')
+				Vue.$axios
+					.get('/user')
 					.then((res) => {
 						commit('setUset', res.data);
 						resolve(res.data);
-					}).catch((error) => {
+					})
+					.catch((error) => {
 						reject(error.response.data);
 					});
 			});
@@ -166,7 +168,8 @@ const store = new Vuex.Store({
 						message: 'Bad request. No IMDB ID.'
 					});
 				}
-				Vue.$axios.post(`/movies/${imdbID}`)
+				Vue.$axios
+					.post(`/movies/${imdbID}`)
 					.then((addedMovie) => {
 						const newMovie = {
 							bus: {},
@@ -186,100 +189,124 @@ const store = new Vuex.Store({
 		},
 		addMovieToFavourites({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					favourite: true
-				}).then((updatedMovie) => {
-					setTimeout(() => {
-						commit('toggleMovieFavourite', movie);
-						resolve();
-					}, 1500);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						favourite: true
+					})
+					.then((updatedMovie) => {
+						setTimeout(() => {
+							commit('toggleMovieFavourite', movie);
+							resolve();
+						}, 1500);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		removeMovieFromFavourites({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					favourite: false
-				}).then((updatedMovie) => {
-					commit('toggleMovieFavourite', movie);
-					resolve(movie.favourite);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						favourite: false
+					})
+					.then((updatedMovie) => {
+						commit('toggleMovieFavourite', movie);
+						resolve(movie.favourite);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		addMovieToWatched({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					watched: true
-				}).then((updatedMovie) => {
-					setTimeout(() => {
-						commit('toggleMovieWatched', movie);
-						resolve();
-					}, 1500);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						watched: true
+					})
+					.then((updatedMovie) => {
+						setTimeout(() => {
+							commit('toggleMovieWatched', movie);
+							resolve();
+						}, 1500);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		removeMovieFromWatched({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					watched: false
-				}).then((updatedMovie) => {
-					commit('toggleMovieWatched', movie);
-					resolve();
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						watched: false
+					})
+					.then((updatedMovie) => {
+						commit('toggleMovieWatched', movie);
+						resolve();
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		addMovieToWatchList({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					watchList: true
-				}).then((updatedMovie) => {
-					setTimeout(() => {
-						commit('toggleMovieWatchList', movie);
-						resolve(updatedMovie);
-					}, 1500);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						watchList: true
+					})
+					.then((updatedMovie) => {
+						setTimeout(() => {
+							commit('toggleMovieWatchList', movie);
+							resolve(updatedMovie);
+						}, 1500);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		removeMovieFromWatchList({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.put(`/movies/${movie.data._id}`, {
-					watchList: false
-				}).then((updatedMovie) => {
-					commit('toggleMovieWatchList', movie);
-					resolve(updatedMovie);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.put(`/movies/${movie.data._id}`, {
+						watchList: false
+					})
+					.then((updatedMovie) => {
+						commit('toggleMovieWatchList', movie);
+						resolve(updatedMovie);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		removeMovie({ commit, state }, movie) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.delete(`/movies/${movie.data._id}`).then((deletedMovie) => {
-					commit('removeMovie', movie);
-					resolve(deletedMovie);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.delete(`/movies/${movie.data._id}`)
+					.then((deletedMovie) => {
+						commit('removeMovie', movie);
+						resolve(deletedMovie);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		},
 		updateMovie({ commit, state }, movieID) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios.post(`/movies/${movieID}?force_update=true`).then((updatedMovie) => {
-					commit('updateMovieData', updatedMovie.data._id);
-					resolve(updatedMovie.data._id);
-				}).catch((error) => {
-					reject(error);
-				});
+				Vue.$axios
+					.post(`/movies/${movieID}?force_update=true`)
+					.then((updatedMovie) => {
+						commit('updateMovieData', updatedMovie.data._id);
+						resolve(updatedMovie.data._id);
+					})
+					.catch((error) => {
+						reject(error);
+					});
 			});
 		}
 	},

@@ -1,8 +1,12 @@
 <template>
 	<section class="l-buffet">
-		<search-bar class="l-buffet__searchbar" @search="search"></search-bar>
+		<search-bar
+			class="l-buffet__searchbar"
+			@search="search"
+		></search-bar>
 		<buffet-tools class="l-buffet__tools"></buffet-tools>
-		<micro-movies class="l-buffet__micro-movies"
+		<micro-movies
+			class="l-buffet__micro-movies"
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
 			:mode="(filteredMovies) ? 'search' : null"
 			v-if="movies"
@@ -20,7 +24,12 @@ import SearchBar from './SearchBar.vue';
 import BuffetTools from './BuffetTools.vue';
 
 export default {
-	name: 'buffet',
+	name: 'Buffet',
+	components: {
+		SearchBar,
+		BuffetTools,
+		MicroMovies
+	},
 	data() {
 		return {
 			filteredMovies: null
@@ -30,11 +39,6 @@ export default {
 		movies() {
 			return this.$store.state.movies;
 		}
-	},
-	components: {
-		SearchBar,
-		BuffetTools,
-		MicroMovies
 	},
 	methods: {
 		search(searchQuery) {

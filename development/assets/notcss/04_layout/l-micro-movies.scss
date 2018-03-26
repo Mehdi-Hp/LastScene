@@ -1,10 +1,12 @@
 .l-micro-movies {
+	display: flex;
+	flex-wrap: wrap;
 
 	&__holder {
 		gg: columns(1/5 1/5 1/5 1/5 1/5) gutter($gutter);
 
 		&--is-moving {
-			transition: transform .6s;
+			transition: transform 0.6s;
 		}
 	}
 
@@ -35,11 +37,38 @@
 		font-weight: 300;
 		font-style: italic;
 	}
+
+	&__what-to-do {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		font-size: ms(3);
+		font-weight: 500;
+		color: $clay__shade--1;
+		margin: $gutter auto;
+		padding: $gutter--thin;
+		background-color: transparentize(black, 0.9);
+		box-shadow: 0 -10px 40px -10px transparentize($clay__generic-gre--2, 0.8);
+	}
+
+	&__what-to-do-text {
+		margin-right: 0.5em;
+	}
+
+	&__what-to-do-link {
+		margin-right: 0.5em;
+		font-weight: 600;
+		color: white;
+		padding: 0.5em;
+		font-size: ms(-1);
+		background-color: $clay__generic-gre--2;
+	}
 }
 
 .flip-list-move {
-	transition: transform .6s;
+	transition: transform 0.6s;
 	transition-timing-function: cubic-bezier(0.74, 0.19, 0.18, 0.99);
-	transition: transform .6s, filter .3s;
+	transition: transform 0.6s, filter 0.3s;
 	filter: grayscale(1);
 }
