@@ -1,18 +1,14 @@
 .l-sidebar {
-	background: linear-gradient(180deg,#474c5b 20%,#4f4054 55%,#334a56 90%);
+	background: linear-gradient(180deg, #474c5b 20%, #4f4054 55%, #334a56 90%);
 	color: white;
 	display: flex;
 	flex-direction: column;
-	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.2);
+	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.15);
 	z-index: g-index('land');
 	position: fixed;
 
 	&__loggdin-user {
-		height:
-			sizes(
-				ratio($golden-ratio, 1)
-				ratio($golden-ratio, 5)
-			) pluck(1);
+		height: sizes(ratio($golden-ratio, 1) ratio($golden-ratio, 5)) pluck(1);
 		margin: $gutter--thin;
 	}
 

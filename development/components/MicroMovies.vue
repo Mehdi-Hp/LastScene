@@ -58,7 +58,21 @@
 			</div>
 		</div>
 
-		<div class="l-micro-movies__what-to-do">
+		<ul
+			class="l-micro-movies__holder | l-micro-movies__holder--is-empty"
+			v-if="!movies.length"
+		>
+			<micro-movie
+				v-for="(fakeMovie, movieIndex) in fakeMovies"
+				:key="movieIndex"
+				:initial-movie="fakeMovie"
+				is-fake="true"
+			></micro-movie>
+		</ul>
+		<div
+			class="l-micro-movies__what-to-do"
+			v-if="!movies.length"
+		>
 			<span class="l-micro-movies__what-to-do-text">No movies in your archive yet.</span>
 			<router-link
 				to="/add"
@@ -81,7 +95,9 @@ export default {
 	},
 	props: ['initialMovies', 'mode'],
 	data() {
-		return {};
+		return {
+			fakeMovies: this.$store.getters.fakeMovies
+		};
 	},
 	computed: {
 		movies() {

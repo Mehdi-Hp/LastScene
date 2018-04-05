@@ -18,6 +18,16 @@ const store = new Vuex.Store({
 					return movie.data._id === imdbID;
 				})[0];
 			};
+		},
+		fakeMovies(state) {
+			const fakeMovies = Array.from(Array(10));
+			fakeMovies.fill({
+				data: {
+					title: ''
+				},
+				bus: {}
+			});
+			return fakeMovies;
 		}
 	},
 	mutations: {

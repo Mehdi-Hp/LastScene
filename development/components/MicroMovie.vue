@@ -24,11 +24,12 @@
 				}"
 			>
 				<router-link
-					:to="`/movies/${movie.data._id}`"
+					:to="(!isFake) ? `/movies/${movie.data._id}` : ''"
 					class="m-movie-box__cover | a-movie-cover"
 				>
 					<icon-film class="a-movie-cover__back-icon"></icon-film>
 					<img
+						v-if="!isFake"
 						class="a-movie-cover__image"
 						:src="(!outsider) ? `/files/poster/${movie.data.images.poster}?width=320` : movie.data.images.poster"
 						:alt="movie.data.title"
@@ -36,7 +37,7 @@
 				</router-link>
 				<micro-movie-menu
 					class="o-micro-movie__dropdown"
-					v-if="!outsider"
+					v-if="!outsider && !isFake"
 					parent-class="o-micro-movie"
 					:movie="movie"
 					:hover-state="movie.hoverState"
@@ -48,9 +49,11 @@
 					@removeFromWatched="removeFromWatched"
 					@addToWatchList="addToWatchList"
 					@removeFromWatchList="removeFromWatchList"
-					@removeMovie="removeMovie">
+					@removeMovie="removeMovie"
+				>
 				</micro-movie-menu>
 				<div
+					v-if="!isFake"
 					class="o-micro-movie__rate | m-movie-box__rate | a-rate | a-rate--horiz"
 					:class="{
 						'm-movie-box__rate--is-visible': movie.hoverState || outsider,
@@ -70,7 +73,7 @@
 				<micro-userdata
 					class="o-micro-movie__userdata"
 					:movie="movie"
-					v-if="!outsider"
+					v-if="!outsider && !isFake"
 				></micro-userdata>
 				<h3
 					class="o-micro-movie__title-holder"
@@ -170,7 +173,7 @@ export default {
 		MicroAwards,
 		IconFilm
 	},
-	props: ['initialMovie', 'outsider', 'minimal', 'loading'],
+	props: ['initialMovie', 'outsider', 'minimal', 'loading', 'isFake'],
 	data() {
 		return {
 			movie: this.$_.extend({}, this.movie, this.initialMovie),
@@ -191,7 +194,7 @@ export default {
 		}
 	},
 	mounted() {
-		if (!this.outsider) {
+		if (!this.outsider && this.initialMovie && !this.isFake) {
 			const refreshMovie = setInterval(() => {
 				if (this.movie.data.loading) {
 					movieService
