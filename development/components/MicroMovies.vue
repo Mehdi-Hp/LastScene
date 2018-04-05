@@ -60,7 +60,7 @@
 
 		<ul
 			class="l-micro-movies__holder | l-micro-movies__holder--is-empty"
-			v-if="!movies.length && !movies"
+			v-if="!movies.length || !movies"
 		>
 			<micro-movie
 				v-for="(fakeMovie, movieIndex) in fakeMovies"
@@ -71,7 +71,7 @@
 		</ul>
 		<div
 			class="l-micro-movies__what-to-do"
-			v-if="!movies.length && !movies"
+			v-if="!movies.length || !movies"
 		>
 			<span class="l-micro-movies__what-to-do-text">No movies in your archive yet.</span>
 			<router-link

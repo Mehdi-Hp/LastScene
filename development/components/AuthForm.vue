@@ -111,10 +111,13 @@
 				</div>
 			</form>
 			<div class="o-auth-form__extra">
-				<button class="o-auth-form__google">
+				<a
+					href="http://localhost:3000/authenticate/google"
+					class="o-auth-form__google"
+				>
 					<span class="o-auth-form__google-text">Authenticate with</span>
 					<icon-google class="o-auth-form__google-image"/>
-				</button>
+				</a>
 			</div>
 		</div>
 	</div>

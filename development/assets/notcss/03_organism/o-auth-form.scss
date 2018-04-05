@@ -130,8 +130,7 @@
 		overflow: hidden;
 		width: 8em;
 		height: 3em;
-		transition: width 0.15s 0.1s, height 0.15s 0.1s, border-radius 0.15s 0.1s,
-			background-color 0.15s 0.15s, transform 0.2s;
+		transition: width 0.15s 0.1s, height 0.15s 0.1s, border-radius 0.15s 0.1s, background-color 0.15s 0.15s, transform 0.2s;
 		transition-timing-function: ease-in-out;
 
 		&:hocus {
@@ -183,6 +182,9 @@
 		display: flex;
 		align-items: center;
 		background-color: mix(white, black, 95%);
+		padding: 0.5em 1em;
+		color: mix($clay, white, 70%);
+		font-size: ms(-1);
 
 		&:hocus {
 			background-color: mix(white, black, 90%);

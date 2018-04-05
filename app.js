@@ -41,15 +41,18 @@ if (process.env.NODE_ENV === 'production') {
 	app.set('view engine', 'ejs');
 }
 
+app.enable('trust proxy');
 app.use(helmet({}));
 app.use(cors());
 
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+app.use(
+	bodyParser.urlencoded({
+		extended: false
+	})
+);
 app.use(cookieParser());
 
 app.use('/production', express.static(path.join(__dirname, 'public/production')));
@@ -59,11 +62,14 @@ if (process.env.NODE_ENV !== 'production') {
 	app.use('/public', serveIndex('public'));
 }
 
-app.use(session({
-	secret: process.env.SECRET,
-	resave: true,
-	saveUninitialized: true
-}));
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: true,
+		saveUninitialized: true,
+		proxy: true
+	})
+);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

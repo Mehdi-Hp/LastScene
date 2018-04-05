@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const debug = require('debug')('development');
 const chalk = require('chalk');
 const owasp = require('owasp-password-strength-test');
@@ -116,10 +117,8 @@ module.exports = (passport) => {
 									}
 								}
 							});
-							newUser.authentication.local.password = newUser.generateHash(
-								password
-							);
-							debug(chalk.green(`Adding newUser: ${newUser}`));
+							newUser.authentication.local.password = newUser.generateHash(password);
+							debug(chalk.green(`Adding new user: ${newUser}`));
 							newUser.save((error) => {
 								debug(chalk.green('New user created'));
 								if (error) return done(error, null);
@@ -127,6 +126,54 @@ module.exports = (passport) => {
 							});
 						}
 					);
+				});
+			}
+		)
+	);
+
+	passport.use(
+		'google',
+		new GoogleStrategy(
+			{
+				clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+				clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+				callbackURL: 'http://127.0.0.1:3000/authenticate/google/callback'
+			},
+			(accessToken, refreshToken, profile, done) => {
+				process.nextTick(() => {
+					debug(chalk.yellow('Passport: logging user in with google oauth...'));
+					console.log(profile);
+					User.findOne(
+						{
+							'authentication.google.id': profile.id
+						},
+						(error, user) => {
+							if (error) return done(error, null);
+							if (user) {
+								debug(chalk.green.bold('Google user already exist!'));
+								return done(null, user);
+							}
+							const newUser = new User({
+								name: profile.displayName,
+								authentication: {
+									google: {
+										id: profile.id,
+										token: accessToken,
+										email: profile.emails[0].value
+									}
+								}
+							});
+							debug(chalk.green(`Adding new google user: ${newUser}`));
+							newUser.save((error) => {
+								debug(chalk.green('New google user created'));
+								if (error) return done(error, null);
+								return done(null, newUser, `Added new user: ${newUser.name}`);
+							});
+						}
+					);
+					// User.findOrCreate({ googleId: profile.id }, (err, user) => {
+					// 	return done(err, user);
+					// });
 				});
 			}
 		)

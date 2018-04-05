@@ -12,13 +12,10 @@ import './assets/notcss/03_organism/organisms.scss';
 import './assets/notcss/04_layout/layouts.scss';
 import './assets/notcss/05_page/pages.scss';
 
-
 export default {
 	name: 'App',
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	created() {
 		this.axios.defaults.headers = {

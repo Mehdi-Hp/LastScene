@@ -1,12 +1,16 @@
 <template>
-	<div id="app" class="p-dashboard" v-if="userInfo">
+	<div
+		id="app"
+		class="p-dashboard"
+		v-if="userInfo"
+	>
 		<div class="p-dashboard__sidebar-holder">
 			<sidebar class="p-dashboard__sidebar"></sidebar>
 		</div>
 		<router-view class="p-dashboard__content"></router-view>
-		<div class="p-dashboard__friends-holder">
+		<!-- <div class="p-dashboard__friends-holder">
 			<div class="p-dashboard__friends"></div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -19,9 +23,7 @@ export default {
 		Sidebar
 	},
 	data() {
-		return {
-
-		};
+		return {};
 	},
 	computed: {
 		userInfo() {
@@ -29,11 +31,10 @@ export default {
 		}
 	},
 	mounted() {
-		this.$store.dispatch('fetchUser')
-			.catch((error) => {
-				this.$router.push('/auth/login');
-				console.error(error);
-			});
+		this.$store.dispatch('fetchUser').catch((error) => {
+			this.$router.push('/auth/login');
+			console.error(error);
+		});
 	}
 };
 </script>

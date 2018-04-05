@@ -5,6 +5,7 @@ import Movie from './components/Movie.vue';
 import Authenticate from './components/Authenticate.vue';
 import AuthForm from './components/AuthForm.vue';
 import Logout from './components/Logout.vue';
+import GoogleOauthCallback from './components/GoogleOauthCallback.vue';
 import NotFound from './components/NotFound.vue';
 
 export default [
@@ -29,6 +30,10 @@ export default [
 			{
 				path: 'logout',
 				component: Logout
+			},
+			{
+				path: 'google-callback',
+				component: GoogleOauthCallback
 			}
 		]
 	},

@@ -20,7 +20,7 @@ const store = new Vuex.Store({
 			};
 		},
 		fakeMovies(state) {
-			const fakeMovies = Array.from(Array(10));
+			const fakeMovies = Array.from(Array(15));
 			fakeMovies.fill({
 				data: {
 					title: ''
