@@ -1,5 +1,6 @@
 .m-add-movie-tool {
 	&__button {
+		font-weight: 700;
 		display: flex;
 		align-items: center;
 		border: 3px solid;
@@ -9,7 +10,6 @@
 	&__icon {
 		margin-right: 0.5em;
 		position: relative;
-		top: -0.1em;
 	}
 
 	&__text {

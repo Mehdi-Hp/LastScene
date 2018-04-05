@@ -14,7 +14,8 @@
 			color: $cyan;
 		}
 
-		&--sort {}
+		&--sort {
+		}
 	}
 
 	&__item {
@@ -23,11 +24,11 @@
 		font-size: ms(-1);
 
 		&--add {
-			font-weight: 500;
 		}
 
 		&--sort {
-			&--enabled {}
+			&--enabled {
+			}
 		}
 	}
 }

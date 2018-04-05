@@ -3,9 +3,13 @@
 	flex-wrap: wrap;
 	justify-content: center;
 
+	&--searching {
+		gg: columns(1/1);
+	}
+
 	&__holder {
 		width: 100%;
-		gg: columns(1/5 1/5 1/5 1/5 1/5) gutter($gutter);
+		gg: columns(1/6 1/6 1/6 1/6 1/6 1/6) gutter($gutter);
 
 		&--is-moving {
 			transition: transform 0.6s;
@@ -17,20 +21,17 @@
 		}
 	}
 
-	&--searching {
-		gg: columns(1/1);
-	}
-
 	&__search-row {
 		display: flex;
 		flex-direction: column;
+		margin-bottom: $gutter;
 	}
 
 	&__title {
 		margin-bottom: 2rem;
 		font-size: ms(1);
 		color: $clay__twisted-spot--2;
-		font-weight: 500;
+		font-weight: 700;
 		text-transform: uppercase;
 
 		&--empty {
@@ -51,6 +52,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		border-radius: 3px;
 		color: white;
 		font-size: ms(3);
 		font-weight: 500;
