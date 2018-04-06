@@ -17,6 +17,7 @@
 				:key="movie.data._id"
 				:initial-movie="movie"
 				:loading="movie.data.loading"
+				class="l-micro-movies__movie"
 			></micro-movie>
 		</transition-group>
 

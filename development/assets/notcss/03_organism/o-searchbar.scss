@@ -2,7 +2,7 @@
 	height: 3rem;
 
 	&__holder {
-		background-color: transparentize(white, 0.9);
+		background-color: lighten($main-color, 10%);
 		border-radius: 100px;
 		font-size: ms(-3);
 		display: flex;
@@ -30,5 +30,4 @@
 			color: $clay__shade--3;
 		}
 	}
-
 }

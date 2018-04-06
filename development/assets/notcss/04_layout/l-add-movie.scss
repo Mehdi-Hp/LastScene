@@ -18,8 +18,8 @@
 	right: 0;
 	top: 0;
 	left: 0;
-	margin-left: sizes(ratio($golden-ratio, 1.8) ratio($golden-ratio, 5) ratio($golden-ratio, 1.5)) gutter(-$gutter--thin) pluck(1);
-	margin-right: sizes(ratio($golden-ratio, 1.8) ratio($golden-ratio, 5) ratio($golden-ratio, 1.5)) gutter(-$gutter--thin) pluck(3);
+	margin-left: sizes(ratio($golden-ratio, 1.5) ratio($golden-ratio, 5)) gutter(-$gutter--thin) pluck(1);
+	margin-right: $gutter;
 	margin-top: $gutter--thin;
 	z-index: g-index('mountain');
 	transform-origin: bottom;
@@ -40,7 +40,7 @@
 	width: 100%;
 	height: 100%;
 	background: $overlay-color--light;
-	box-shadow: 0 -20px 50px 1px transparentize($gold, .5);
+	box-shadow: 0 -20px 50px 1px transparentize($gold, 0.5);
 	overflow-y: scroll;
 
 	&__navigation {
@@ -48,7 +48,6 @@
 	}
 
 	&__back {
-		
 	}
 
 	&__search {
@@ -56,9 +55,11 @@
 		flex-direction: column;
 		margin: $gutter $gutter--fat;
 
-		&--name {}
+		&--name {
+		}
 
-		&--folder {}
+		&--folder {
+		}
 	}
 
 	&__title {

@@ -10,8 +10,6 @@
 
 		&--add {
 			flex-grow: 1;
-			text-shadow: -0.7em -10px 40px $clay__generic-gre--3;
-			color: $cyan;
 		}
 
 		&--sort {
@@ -21,9 +19,10 @@
 	&__item {
 		display: flex;
 		align-content: center;
-		font-size: ms(-1);
 
 		&--add {
+			box-shadow: 0 5px 10px 0 transparentize(black, 0.8);
+			font-size: ms(-1);
 		}
 
 		&--sort {

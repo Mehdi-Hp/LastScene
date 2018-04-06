@@ -1,15 +1,18 @@
 .m-add-movie-tool {
 	&__button {
-		font-weight: 700;
+		font-weight: 600;
 		display: flex;
 		align-items: center;
-		border: 3px solid;
 		padding: 1em;
+		background-color: $secondary-color;
+		color: white;
+		text-shadow: -0.7em -10px 30px $purple;
 	}
 
 	&__icon {
 		margin-right: 0.5em;
 		position: relative;
+		size: 0.95em;
 	}
 
 	&__text {
