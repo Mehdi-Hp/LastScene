@@ -15,7 +15,7 @@
 	&__places {
 		display: flex;
 		flex-direction: column;
-		margin: $gutter 0;
+		margin: $gutter--thin 0;
 		flex-grow: 1;
 	}
 }
