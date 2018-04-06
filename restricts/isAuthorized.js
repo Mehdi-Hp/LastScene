@@ -29,7 +29,6 @@ module.exports = (req, res, next) => {
 		}
 
 		req.user = decoded.data;
-		console.log(req.user);
 		next();
 	});
 };
