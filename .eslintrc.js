@@ -4,23 +4,12 @@ module.exports = {
 		parser: 'babel-eslint'
 	},
 	plugins: ['vue', 'xss', 'security', 'promise', 'no-loops'],
-	extends: [
-		'airbnb',
-		'prettier',
-		'prettier/standard',
-		'plugin:security/recommended',
-		'plugin:promise/recommended',
-		'plugin:array-func/recommended',
-		'plugin:vue/recommended'
-	],
+	extends: ['airbnb', 'prettier', 'prettier/standard', 'plugin:security/recommended', 'plugin:promise/recommended', 'plugin:array-func/recommended', 'plugin:vue/recommended'],
 	rules: {
 		indent: [2, 'tab'],
 		'no-tabs': 0,
 		'no-param-reassign': ['error', { props: false }],
-		'no-unused-vars': [
-			'error',
-			{ vars: 'all', args: 'none', ignoreRestSiblings: false }
-		],
+		'no-unused-vars': ['error', { vars: 'all', args: 'none', ignoreRestSiblings: false }],
 		'arrow-body-style': ['error', 'always'],
 		'space-before-function-paren': ['error', 'never'],
 		'comma-dangle': ['error', 'never'],
@@ -63,6 +52,7 @@ module.exports = {
 		'promise/avoid-new': 'off',
 		'security/detect-object-injection': 'off',
 		'import/no-named-as-default': 'off',
-		'import/no-named-as-default-member': 'off'
+		'import/no-named-as-default-member': 'off',
+		'promise/no-nesting': 'off'
 	}
 };

@@ -44,7 +44,7 @@ const tmdbService = {
 				movies.data = body.results.map((currentMovie) => {
 					return {
 						title: currentMovie.title,
-						originalTitle: (currentMovie.original_title === currentMovie.title) ? null : currentMovie.original_title,
+						originalTitle: currentMovie.original_title === currentMovie.title ? null : currentMovie.original_title,
 						year: currentMovie.release_date.slice(0, 4),
 						rate: {
 							imdb: currentMovie.vote_average
@@ -59,93 +59,104 @@ const tmdbService = {
 					};
 				});
 				resolve(movies);
-			}).on('error', (error) => {
-				reject(error);
-			}).end();
+			})
+				.on('error', (error) => {
+					reject(error);
+				})
+				.end();
 		});
 	},
 	findImdbID(tmdbID) {
 		return new Promise((resolve, reject) => {
 			debug(chalk.green(`Finding imdbID of tmdbID: ${tmdbID}... [${rateLimit}]`));
-			request({
-				method: 'GET',
-				url: `https://api.themoviedb.org/3/movie/${tmdbID}`,
-				qs: {
-					api_key: process.env.TMDB_V3
+			request(
+				{
+					method: 'GET',
+					url: `https://api.themoviedb.org/3/movie/${tmdbID}`,
+					qs: {
+						api_key: process.env.TMDB_V3
+					},
+					json: true
 				},
-				json: true
-			}, (error, res, body) => {
-				rateLimit = res.headers['x-ratelimit-remaining'];
-				if (error) {
-					return reject(error);
+				(error, res, body) => {
+					rateLimit = res.headers['x-ratelimit-remaining'];
+					if (error) {
+						return reject(error);
+					}
+					if (!body.imdb_id) {
+						debug(chalk.green(`Got NO IMDB_ID from TMDB_ID. [${rateLimit}]`));
+						return reject(null);
+					}
+					debug(chalk.green(`Got IMDB_ID from TMDB_ID. It's ${body.imdb_id} (for ${body.title}) [${rateLimit}]`));
+					return resolve(body.imdb_id);
 				}
-				if (!body.imdb_id) {
-					debug(chalk.green(`Got NO IMDB_ID from TMDB_ID. [${rateLimit}]`));
-					return reject(null);
-				}
-				debug(chalk.green(`Got IMDB_ID from TMDB_ID. It's ${body.imdb_id} (for ${body.title}) [${rateLimit}]`));
-				return resolve(body.imdb_id);
-			});
+			);
 		});
 	},
 	getPosterURL(imdbID) {
 		debug(chalk.green(`Getting poster URL for [${imdbID}] using TMDB`));
 		return new Promise((resolve, reject) => {
-			request({
-				method: 'GET',
-				url: `https://api.themoviedb.org/3/find/${imdbID}`,
-				qs: {
-					api_key: process.env.TMDB_V3,
-					external_source: 'imdb_id'
+			request(
+				{
+					method: 'GET',
+					url: `https://api.themoviedb.org/3/find/${imdbID}`,
+					qs: {
+						api_key: process.env.TMDB_V3,
+						external_source: 'imdb_id'
+					},
+					json: true
 				},
-				json: true
-			}, (error, res, body) => {
-				if (error) {
-					debug(chalk.bold.red(error));
-					reject({
-						status: 500,
-						message: `Error getting poster URL: ${error}`
-					});
+				(error, res, body) => {
+					if (error) {
+						debug(chalk.bold.red(error));
+						reject({
+							status: 500,
+							message: `Error getting poster URL: ${error}`
+						});
+					}
+					if (body.movie_results[0] && body.movie_results[0].poster_path.length) {
+						resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].poster_path}`);
+					} else {
+						reject({
+							status: 500,
+							message: 'Error getting poster URL'
+						});
+					}
 				}
-				if (body.movie_results[0] && body.movie_results[0].poster_path.length) {
-					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].poster_path}`);
-				} else {
-					reject({
-						status: 500,
-						message: 'Error getting poster URL'
-					});
-				}
-			});
+			);
 		});
 	},
 	getBackdropURL(imdbID) {
 		debug(chalk.green(`Getting backdrop URL for [${imdbID}] using TMDB`));
 		return new Promise((resolve, reject) => {
-			request({
-				method: 'GET',
-				url: `https://api.themoviedb.org/3/find/${imdbID}`,
-				qs: {
-					api_key: process.env.TMDB_V3,
-					external_source: 'imdb_id'
+			request(
+				{
+					method: 'GET',
+					url: `https://api.themoviedb.org/3/find/${imdbID}`,
+					qs: {
+						api_key: process.env.TMDB_V3,
+						external_source: 'imdb_id'
+					},
+					json: true
 				},
-				json: true
-			}, (error, res, body) => {
-				if (error) {
-					debug(chalk.bold.red(error));
-					reject({
-						status: 500,
-						message: `Error getting backdrop URL: ${error}`
-					});
+				(error, res, body) => {
+					if (error) {
+						debug(chalk.bold.red(error));
+						reject({
+							status: 500,
+							message: `Error getting backdrop URL: ${error}`
+						});
+					}
+					if (body.movie_results[0] && body.movie_results[0].backdrop_path && body.movie_results[0].backdrop_path.length) {
+						resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`);
+					} else {
+						reject({
+							status: 404,
+							message: 'No backdrop found'
+						});
+					}
 				}
-				if (body.movie_results[0] && body.movie_results[0].backdrop_path && body.movie_results[0].backdrop_path.length) {
-					resolve(`http://image.tmdb.org/t/p/original${body.movie_results[0].backdrop_path}`);
-				} else {
-					reject({
-						status: 404,
-						message: 'No backdrop found'
-					});
-				}
-			});
+			);
 		});
 	}
 };

@@ -2,8 +2,17 @@
 	<div class="m-search-drop">
 		<IconFolderPlus class="m-search-drop__icon"></IconFolderPlus>
 		<span class="m-search-drop__text">Drop your movie folders, Your movie itself, Or click to choose...</span>
-		<input class="m-search-drop__input" type="file" ref="openFileDialog" title=" "
-			webkitdirectory mozdirectory msdirectory odirectory directory
+		<input
+			class="m-search-drop__input"
+			type="file"
+			ref="openFileDialog"
+			title=" "
+			multiple
+			webkitdirectory
+			mozdirectory
+			msdirectory
+			odirectory
+			directory
 			@change="fileChange"
 			@dragenter.prevent="dragEnter"
 			@dragleave.prevent="dragLeave"
@@ -17,13 +26,13 @@ import IconFolderPlus from './icons/FolderPlus.vue';
 
 export default {
 	name: 'SearchDrop',
+	components: {
+		IconFolderPlus
+	},
 	data() {
 		return {
 			isDragging: false
 		};
-	},
-	components: {
-		IconFolderPlus
 	},
 	methods: {
 		dragEnter() {
