@@ -11,7 +11,6 @@
 		pointer-events: none;
 		background: none;
 		padding: 0;
-		color: $clay__shade--1;
 		transform: translateX(-7.5em);
 		transition: opacity 0.2s 0.3s;
 
@@ -53,7 +52,7 @@
 	&__button {
 		background: none;
 		padding: 0;
-		color: $clay__shade--5;
+		color: $orange;
 		display: flex;
 		align-items: center;
 
@@ -65,7 +64,7 @@
 	&__icon {
 		margin-right: 0.5em;
 		position: relative;
-		top: -.1em;
+		top: -0.1em;
 	}
 
 	&__dropdown {
@@ -77,14 +76,15 @@
 		border-radius: 10em;
 		width: 7em;
 		opacity: 0;
-		transition: opacity .2s, background-color .2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius .2s .2s, border-top-right-radius .2s .2s, box-shadow 0.2s;
+		transition: opacity 0.2s, background-color 0.2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius 0.2s 0.2s, border-top-right-radius 0.2s 0.2s,
+			box-shadow 0.2s;
 		transition-timing-function: ease-in-out;
 
 		&--is-open {
 			pointer-events: all;
 			opacity: 1;
 			border-radius: 0;
-			transition: opacity .2s, background-color .2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius .1s, border-top-right-radius .1s, box-shadow 0.2s;
+			transition: opacity 0.2s, background-color 0.2s, transform 0.2s, height 0.2s, width 0.2s, border-radius 0.2s, border-top-left-radius 0.1s, border-top-right-radius 0.1s, box-shadow 0.2s;
 			transform: translateX(50%) translateY(0);
 		}
 	}

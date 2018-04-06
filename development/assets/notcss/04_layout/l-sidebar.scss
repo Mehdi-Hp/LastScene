@@ -6,16 +6,16 @@
 	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.15);
 	z-index: g-index('land');
 	position: fixed;
+	padding: $gutter--thin;
 
 	&__loggdin-user {
-		height: sizes(ratio($golden-ratio, 1) ratio($golden-ratio, 5)) pluck(1);
-		margin: $gutter--thin;
+		height: 50px;
 	}
 
 	&__places {
 		display: flex;
 		flex-direction: column;
-		padding: 0 $gutter--thin;
+		margin: $gutter 0;
 		flex-grow: 1;
 	}
 }

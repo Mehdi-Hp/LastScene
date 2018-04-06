@@ -2,16 +2,16 @@
 	height: 3rem;
 
 	&__holder {
-		background-color: lighten($main-color, 10%);
+		background-color: tint($main-color, 20%);
 		border-radius: 100px;
-		font-size: ms(-3);
+		font-size: ms(-1);
 		display: flex;
 		align-items: center;
 		height: 100%;
 	}
 
 	&__search-icon {
-		color: $clay__switch--1;
+		color: tint($main-color, 60%);
 		size: 1.3em;
 		margin: 1em;
 	}
@@ -27,7 +27,7 @@
 		color: white;
 		text-transform: capitalize;
 		&::placeholder {
-			color: $clay__shade--3;
+			color: tint($main-color, 60%);
 		}
 	}
 }

@@ -1,20 +1,19 @@
 .l-buffet {
-	background: $tuna;
+	background: $main-color;
 	background-attachment: fixed;
 	position: relative;
+	padding: $gutter--thin;
 
 	&__searchbar {
 		height: 3rem;
-		margin: $gutter--thin;
 	}
 
 	&__tools {
 		height: 3rem;
-		margin: $gutter--thin $gutter;
+		margin: $gutter--thin;
 	}
 
 	&__micro-movies {
-		padding: 0 $gutter;
-		margin-top: $gutter--thin;
+		margin: $gutter $gutter--thin;
 	}
 }
