@@ -52,12 +52,11 @@
 	&__button {
 		background: none;
 		padding: 0;
-		color: $orange;
+		color: $secondary-color;
 		display: flex;
 		align-items: center;
 
 		&--is-enabled {
-			color: $yellorange;
 		}
 	}
 

@@ -1,9 +1,9 @@
 .l-sidebar {
-	background: linear-gradient(180deg, #474c5b 20%, #4f4054 55%, #334a56 90%);
+	background: $clay;
 	color: white;
 	display: flex;
 	flex-direction: column;
-	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.15);
+	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.5);
 	z-index: g-index('land');
 	position: fixed;
 	padding: $gutter--thin;

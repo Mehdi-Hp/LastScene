@@ -5,7 +5,7 @@
 	&__avatar {
 		size: 50px;
 		background-color: white;
-		margin-right: .5em;
+		margin-right: 0.5em;
 		border-radius: 20px/15px;
 	}
 
@@ -14,10 +14,10 @@
 	}
 
 	&__name {
-		margin-right: .5em;
+		margin-right: 0.5em;
 		font-size: ms(-1);
 		font-weight: 700;
-		color: $clay__shade--3;
+		color: $secondary-color;
 	}
 
 	&__settings-btn {
@@ -25,7 +25,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: $clay__shade--3;
+		color: $secondary-color;
 		font-size: ms(0);
 		padding: 0;
 	}
