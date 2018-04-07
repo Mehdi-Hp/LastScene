@@ -1,6 +1,6 @@
 const request = require('request');
 const chalk = require('chalk');
-const debug = require('debug')('development');
+const debug = require('debug')('app:omdbService');
 const OmdbApi = require('omdb-api-pt');
 
 const omdb = new OmdbApi({
@@ -33,17 +33,20 @@ module.exports = (query) => {
 			body.Search.forEach((omdbMovie) => {
 				movies.push(
 					new Promise((resolve, reject) => {
-						omdb.byId({
-							imdb: omdbMovie.imdbID,
-							type: 'movie'
-						})
+						omdb
+							.byId({
+								imdb: omdbMovie.imdbID,
+								type: 'movie'
+							})
 							.then((extendedOmdbMovie) => {
 								resolve({
 									title: extendedOmdbMovie.Title,
 									year: extendedOmdbMovie.Year,
-									directors: [{
-										name: extendedOmdbMovie.Director.split(',')[0]
-									}],
+									directors: [
+										{
+											name: extendedOmdbMovie.Director.split(',')[0]
+										}
+									],
 									simpleAwards: extendedOmdbMovie.Awards,
 									rate: {
 										imdb: extendedOmdbMovie.imdbRating,
@@ -56,7 +59,8 @@ module.exports = (query) => {
 										poster: extendedOmdbMovie.Poster
 									}
 								});
-							}).catch((error) => {
+							})
+							.catch((error) => {
 								debug(chalk.red(error));
 								reject({
 									status: '500',

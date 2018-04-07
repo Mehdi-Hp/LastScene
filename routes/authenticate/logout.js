@@ -1,5 +1,5 @@
 const app = require('express')();
-const debug = require('debug')('development');
+const debug = require('debug')('app:logoutRoute');
 const chalk = require('chalk');
 
 app.route('/').post((req, res, next) => {

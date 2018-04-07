@@ -1,6 +1,6 @@
 const request = require('request');
 const chalk = require('chalk');
-const debug = require('debug')('development');
+const debug = require('debug')('app:tmdbService');
 
 let movies = {};
 let rateLimit = 40;

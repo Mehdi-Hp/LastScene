@@ -1,7 +1,7 @@
 const app = require('express')();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('development');
+const debug = require('debug')('app:loginRoute');
 
 app.route('/').post((req, res, next) => {
 	req.body.email = req.body.email.trim();

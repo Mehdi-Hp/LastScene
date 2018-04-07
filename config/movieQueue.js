@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const debug = require('debug')('development');
+const debug = require('debug')('app:movieQueue');
 const chalk = require('chalk');
 
 const queue = [];

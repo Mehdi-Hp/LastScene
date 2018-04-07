@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
-const debug = require('debug')('development');
+const debug = require('debug')('app:User');
 const chalk = require('chalk');
 const shortid = require('shortid');
 const _ = require('lodash');
@@ -47,12 +47,14 @@ const userSchema = new mongoose.Schema(
 			},
 			google: {
 				id: String,
-				token: String,
+				accessToken: String,
+				refreshToken: String,
 				email: String
 			}
 		},
 		movies: [moviesSubSchema],
-		lists: [listsSubSchema]
+		lists: [listsSubSchema],
+		avatar: String
 	},
 	{
 		timestamps: true

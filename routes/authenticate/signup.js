@@ -1,6 +1,6 @@
 const app = require('express')();
 const passport = require('passport');
-const debug = require('debug')('development');
+const debug = require('debug')('app:signupRoute');
 const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const isEmail = require('isemail');
@@ -21,11 +21,7 @@ app
 			});
 		}
 
-		if (
-			!req.body.email.length ||
-			!req.body.password.length ||
-			!req.body.username.length
-		) {
+		if (!req.body.email.length || !req.body.password.length || !req.body.username.length) {
 			return res.status(400).json({
 				sucess: false,
 				message: 'Please send all required fields'

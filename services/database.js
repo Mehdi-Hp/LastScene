@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const debug = require('debug')('development');
+const debug = require('debug')('app:database');
 
 module.exports = {
 	connect(mongoose) {

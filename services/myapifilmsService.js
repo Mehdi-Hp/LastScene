@@ -1,6 +1,6 @@
 const request = require('request');
 const _ = require('lodash');
-const debug = require('debug')('development');
+const debug = require('debug')('app:myapifilms');
 const chalk = require('chalk');
 const Movie = require('../models/movie');
 

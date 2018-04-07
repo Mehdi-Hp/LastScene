@@ -1,5 +1,5 @@
 const app = require('express')();
-const debug = require('debug')('development');
+const debug = require('debug')('app:listsRoute');
 const chalk = require('chalk');
 const User = require('../../models/user');
 const List = require('../../models/list');
@@ -7,7 +7,8 @@ const mergeForPut = require('../../services/mergeForPut');
 const getMovie = require('../../services/getMovie');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
 
-app.route('/')
+app
+	.route('/')
 	.get((req, res, next) => {
 		let theUsername;
 		if (res.locals.customUser) {
@@ -17,42 +18,44 @@ app.route('/')
 			theUsername = req.user.username;
 			debug(chalk.yellow(`Getting user lists: "${theUsername}"`));
 		}
-		User.findOne({ username: theUsername }).then((user) => {
-			if (!user.lists) {
-				return res.json({
-					user: theUsername,
-					data: null
+		User.findOne({ username: theUsername })
+			.then((user) => {
+				if (!user.lists) {
+					return res.json({
+						user: theUsername,
+						data: null
+					});
+				}
+				const lists = user.lists.map((list) => {
+					return list._id;
 				});
-			}
-			const lists = user.lists.map((list) => {
-				return list._id;
-			});
-			List.find(
-				{
+				List.find({
 					_id: {
 						$in: lists
 					}
-				}
-			).then((lists) => {
-				debug(chalk.green(`${theUsername} has ${lists.length} list[s]`));
-				res.json({
-					user: theUsername,
-					data: lists
-				});
-			}).catch((error) => {
+				})
+					.then((lists) => {
+						debug(chalk.green(`${theUsername} has ${lists.length} list[s]`));
+						res.json({
+							user: theUsername,
+							data: lists
+						});
+					})
+					.catch((error) => {
+						debug(chalk.bold.red(error));
+						res.status(500).json({
+							error: true,
+							message: 'Could not get lists.'
+						});
+					});
+			})
+			.catch((error) => {
 				debug(chalk.bold.red(error));
-				res.status(500).json({
+				res.status(400).json({
 					error: true,
-					message: 'Could not get lists.'
+					message: 'Could not find user.'
 				});
 			});
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			res.status(400).json({
-				error: true,
-				message: 'Could not find user.'
-			});
-		});
 	})
 	.post((req, res, next) => {
 		currentOrCustomUser(req, res);
@@ -75,24 +78,29 @@ app.route('/')
 				_id: movieID
 			});
 		});
-		List.create(list).then((createdList) => {
-			user.findOneAndAddList(user, {
-				_id: createdList._id,
-				name: createdList.name
-			}).then((updatedUser) => {
-				res.status(200).json({
-					createdList
-				});
-			}).catch((error) => {
+		List.create(list)
+			.then((createdList) => {
+				user
+					.findOneAndAddList(user, {
+						_id: createdList._id,
+						name: createdList.name
+					})
+					.then((updatedUser) => {
+						res.status(200).json({
+							createdList
+						});
+					})
+					.catch((error) => {
+						res.status(error.status).json({
+							message: error.message
+						});
+					});
+			})
+			.catch((error) => {
 				res.status(error.status).json({
 					message: error.message
 				});
 			});
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
-			});
-		});
 	})
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
@@ -112,43 +120,54 @@ app.route('/')
 			}
 			updateListPromises.push(
 				new Promise((resolve, reject) => {
-					List.findBySlug(reqList.slug).then((existedList) => {
-						if (!existedList || existedList.status === 400) {
-							res.status(404).json({
-								message: `Couldn't find the list [${reqList.slug}] to update`
-							});
-						}
-						if (existedList.owner === user._id) {
-							const listToPut = new List(mergeForPut(existedList, reqList));
-							listToPut.owner = user._id;
-							debug(listToPut);
-							listToPut.save().then((updatedList) => {
-								debug(chalk.green(`List [${reqList.slug}] got updated`));
-								return resolve(updatedList);
-							}).catch((error) => {
-								debug(chalk.bold.red(error));
-								return reject({
-									status: 500,
-									message: `Couldn't update the list [${reqList.slug}], because of database error`
+					List.findBySlug(reqList.slug)
+						.then((existedList) => {
+							if (!existedList || existedList.status === 400) {
+								res.status(404).json({
+									message: `Couldn't find the list [${reqList.slug}] to update`
 								});
+							}
+							if (existedList.owner === user._id) {
+								const listToPut = new List(mergeForPut(existedList, reqList));
+								listToPut.owner = user._id;
+								debug(listToPut);
+								listToPut
+									.save()
+									.then((updatedList) => {
+										debug(chalk.green(`List [${reqList.slug}] got updated`));
+										return resolve(updatedList);
+									})
+									.catch((error) => {
+										debug(chalk.bold.red(error));
+										return reject({
+											status: 500,
+											message: `Couldn't update the list [${reqList.slug}], because of database error`
+										});
+									});
+							} else {
+								return reject({
+									status: 403,
+									message: `The list [${reqList.slug}] doesn't belong to you.`
+								});
+							}
+						})
+						.catch((error) => {
+							res.status(500).json({
+								message: `Server error finding the list [${reqList.slug}] to update`
 							});
-						} else {
-							return reject({
-								status: 403,
-								message: `The list [${reqList.slug}] doesn't belong to you.`
-							});
-						}
-					});
+						});
 				})
 			);
 		});
-		Promise.all(updateListPromises).then((updatedLists) => {
-			res.status(200).json(updatedLists);
-		}).catch((error) => {
-			res.status(error.status).json({
-				message: error.message
+		Promise.all(updateListPromises)
+			.then((updatedLists) => {
+				res.status(200).json(updatedLists);
+			})
+			.catch((error) => {
+				res.status(error.status).json({
+					message: error.message
+				});
 			});
-		});
 	})
 	.delete((req, res, next) => {
 		currentOrCustomUser(req, res);
@@ -160,59 +179,69 @@ app.route('/')
 			debug(chalk.yellow(`Deleting list "${listSlug}" that belongs ${user.username}`));
 			deleteListPromises.push(
 				new Promise((resolve, reject) => {
-					List.findBySlug(listSlug).then((currentList) => {
-						if (!currentList || currentList.status === 400) {
-							reject({
-								status: 404,
-								message: `Couldn't find the list [${listSlug.name}] to update`
-							});
-						}
-						currentList.remove().then((deletedList) => {
-							debug(chalk.green(`List [${listSlug.slug}] got deleted`));
-							savedDeletedLists.push(deletedList);
-							resolve(deletedList);
-						}).catch((error) => {
+					List.findBySlug(listSlug)
+						.then((currentList) => {
+							if (!currentList || currentList.status === 400) {
+								reject({
+									status: 404,
+									message: `Couldn't find the list [${listSlug.name}] to update`
+								});
+							}
+							currentList
+								.remove()
+								.then((deletedList) => {
+									debug(chalk.green(`List [${listSlug.slug}] got deleted`));
+									savedDeletedLists.push(deletedList);
+									resolve(deletedList);
+								})
+								.catch((error) => {
+									debug(chalk.bold.red(error));
+									reject({
+										status: 500,
+										message: `Couldn't delete the list [${listSlug.name}], because of database error`
+									});
+								});
+						})
+						.catch((error) => {
 							debug(chalk.bold.red(error));
-							reject({
-								status: 500,
-								message: `Couldn't delete the list [${listSlug.name}], because of database error`
+							res.status(500).json({
+								message: `Couldn't find list [${listSlug}], because of database error`
 							});
 						});
-					}).catch((error) => {
-						debug(chalk.bold.red(error));
-						res.status(500).json({
-							message: `Couldn't find list [${listSlug}], because of database error`
-						});
-					});
 				})
 			);
 		});
-		Promise.all(deleteListPromises).then((deletedLists) => {
-			res.status(200).json(savedDeletedLists);
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			res.status(error.status).json({
-				message: error.message
+		Promise.all(deleteListPromises)
+			.then((deletedLists) => {
+				res.status(200).json(savedDeletedLists);
+			})
+			.catch((error) => {
+				debug(chalk.bold.red(error));
+				res.status(error.status).json({
+					message: error.message
+				});
 			});
-		});
 	});
 
-app.route('/:listSlug')
+app
+	.route('/:listSlug')
 	.get((req, res, next) => {
-		const listSlug = req.params.listSlug;
-		List.findBySlug(listSlug).then((list) => {
-			if (!list) {
-				return res.status(404).json({
-					message: `Couldn't find list [${listSlug}]`
+		const [listSlug] = req.params;
+		List.findBySlug(listSlug)
+			.then((list) => {
+				if (!list) {
+					return res.status(404).json({
+						message: `Couldn't find list [${listSlug}]`
+					});
+				}
+				res.json(list);
+			})
+			.catch((error) => {
+				debug(chalk.bold.red(error));
+				return res.status(500).json({
+					message: "Couldn't get list, because of database error"
 				});
-			}
-			res.json(list);
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			return res.status(500).json({
-				message: 'Couldn\'t get list, because of database error'
 			});
-		});
 	})
 	.put((req, res, next) => {
 		currentOrCustomUser(req, res);
@@ -230,66 +259,83 @@ app.route('/:listSlug')
 			});
 		}
 		debug(chalk.yellow(`Updating list "${reqList.slug}" for ${user.username}`));
-		List.findBySlug(req.params.listSlug).then((existedList) => {
-			if (!existedList || existedList.status === 400) {
-				res.status(404).json({
-					message: `Couldn't find the list [${reqList.slug}] to update`
-				});
-			}
-			if (existedList.owner === user._id) {
-				const listToPut = new List(mergeForPut(existedList, reqList));
-				listToPut.owner = user._id;
-				listToPut.save().then((updatedList) => {
-					debug(chalk.green(`List [${reqList.slug}] got updated`));
-					res.status(200).json(updatedList);
-				}).catch((error) => {
-					debug(chalk.bold.red(error));
-					res.status(500).json({
-						message: `Couldn't update the list [${reqList.slug}], because of database error`
+		List.findBySlug(req.params.listSlug)
+			.then((existedList) => {
+				if (!existedList || existedList.status === 400) {
+					res.status(404).json({
+						message: `Couldn't find the list [${reqList.slug}] to update`
 					});
+				}
+				if (existedList.owner === user._id) {
+					const listToPut = new List(mergeForPut(existedList, reqList));
+					listToPut.owner = user._id;
+					listToPut
+						.save()
+						.then((updatedList) => {
+							debug(chalk.green(`List [${reqList.slug}] got updated`));
+							res.status(200).json(updatedList);
+						})
+						.catch((error) => {
+							debug(chalk.bold.red(error));
+							res.status(500).json({
+								message: `Couldn't update the list [${reqList.slug}], because of database error`
+							});
+						});
+				} else {
+					res.status(403).json({
+						message: `The list [${reqList.slug}] doesn't belong to you.`
+					});
+				}
+			})
+			.catch((error) => {
+				res.status(500).json({
+					message: `Server error finding the list [${reqList.slug}] to update`
 				});
-			} else {
-				res.status(403).json({
-					message: `The list [${reqList.slug}] doesn't belong to you.`
-				});
-			}
-		});
+			});
 	})
 	.delete((req, res, next) => {
 		currentOrCustomUser(req, res);
-		const listSlug = req.params.listSlug;
+		const [listSlug] = req.params;
 		const user = new User(req.user);
 		debug(chalk.yellow(`Deleting list [${listSlug}] that belongs to [${user.username}]`));
-		List.findBySlug(listSlug).then((foundedList) => {
-			if (!foundedList || foundedList.status === 400) {
-				res.status(404).json({
-					message: `Couldn't find list [${listSlug}]`
-				});
-			}
-			foundedList.remove().then((deletedList) => {
-				debug(chalk.yellow(`List [${listSlug}] got deleted`));
-				user.findOneAndDeleteList(user, foundedList).then((updatedUser) => {
-					res.status(200).json({
-						deleted: true,
-						deletedList
+		List.findBySlug(listSlug)
+			.then((foundedList) => {
+				if (!foundedList || foundedList.status === 400) {
+					res.status(404).json({
+						message: `Couldn't find list [${listSlug}]`
 					});
-				}).catch((error) => {
-					res.status(error.status).json({
-						message: error.message
+				}
+				foundedList
+					.remove()
+					.then((deletedList) => {
+						debug(chalk.yellow(`List [${listSlug}] got deleted`));
+						user
+							.findOneAndDeleteList(user, foundedList)
+							.then((updatedUser) => {
+								res.status(200).json({
+									deleted: true,
+									deletedList
+								});
+							})
+							.catch((error) => {
+								res.status(error.status).json({
+									message: error.message
+								});
+							});
+					})
+					.catch((error) => {
+						debug(chalk.bold.red(error));
+						res.status(500).json({
+							message: `Couldn't delete list [${listSlug}], because of database error`
+						});
 					});
-				});
-			}).catch((error) => {
+			})
+			.catch((error) => {
 				debug(chalk.bold.red(error));
 				res.status(500).json({
-					message: `Couldn't delete list [${listSlug}], because of database error`
+					message: `Couldn't find list [${listSlug}], because of database error`
 				});
 			});
-		}).catch((error) => {
-			debug(chalk.bold.red(error));
-			res.status(500).json({
-				message: `Couldn't find list [${listSlug}], because of database error`
-			});
-		});
 	});
 
 module.exports = app;

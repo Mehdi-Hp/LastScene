@@ -1,9 +1,9 @@
 const sharp = require('sharp');
-const debug = require('debug')('development');
+const debug = require('debug')('app:generateBackdrop');
 const chalk = require('chalk');
 
 module.exports = (backdropPath, backdropName) => {
-	return new Promise((mainResolve, mainReject) => {
+	return new Promise((resolve, reject) => {
 		debug('Generating backdrop from original file...');
 		const jpegSmall = new Promise((resolve, reject) => {
 			sharp(backdropPath)

@@ -1,7 +1,6 @@
-/* eslint-disable no-underscore-dangle */
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const debug = require('debug')('development');
+const debug = require('debug')('app:passport');
 const chalk = require('chalk');
 const owasp = require('owasp-password-strength-test');
 const User = require('../models/user');
@@ -141,39 +140,62 @@ module.exports = (passport) => {
 			},
 			(accessToken, refreshToken, profile, done) => {
 				process.nextTick(() => {
-					debug(chalk.yellow('Passport: logging user in with google oauth...'));
-					console.log(profile);
-					User.findOne(
+					debug(chalk.yellow('Authenticating user with google oauth...'));
+					User.findOneAndUpdate(
 						{
-							'authentication.google.id': profile.id
+							'authentication.local.email': profile.emails[0].value
 						},
+						{
+							'authentication.google': {
+								id: profile.id,
+								accessToken,
+								refreshToken,
+								email: profile.emails[0].value
+							},
+							avatar: profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'))
+						},
+						{ new: true },
 						(error, user) => {
 							if (error) return done(error, null);
 							if (user) {
-								debug(chalk.green.bold('Google user already exist!'));
+								debug(chalk.green(`Local user already exists. Updated google oauth [${user.name}]`));
 								return done(null, user);
 							}
-							const newUser = new User({
-								name: profile.displayName,
-								authentication: {
-									google: {
-										id: profile.id,
-										token: accessToken,
-										email: profile.emails[0].value
+							User.findOne(
+								{
+									'authentication.google.id': profile.id
+								},
+								(error, user) => {
+									if (error) return done(error, null);
+									if (user) {
+										debug(chalk.green.bold('Google user already exist!'));
+										return done(null, user);
 									}
+									const newUser = new User({
+										name: profile.displayName,
+										authentication: {
+											local: {
+												email: profile.emails[0].value
+											},
+											google: {
+												id: profile.id,
+												accessToken,
+												refreshToken,
+												email: profile.emails[0].value
+											}
+										},
+										avatar: profile.photos[0].value.substring(0, profile.photos[0].value.indexOf('?'))
+									});
+									debug(chalk.green(`Adding new google user: ${newUser}`));
+									newUser.save((error) => {
+										debug(chalk.green('New google user created'));
+										if (error) return done(error, null);
+										return done(null, newUser, `Added new user: ${newUser.name}`);
+									});
 								}
-							});
-							debug(chalk.green(`Adding new google user: ${newUser}`));
-							newUser.save((error) => {
-								debug(chalk.green('New google user created'));
-								if (error) return done(error, null);
-								return done(null, newUser, `Added new user: ${newUser.name}`);
-							});
+							);
 						}
 					);
-					// User.findOrCreate({ googleId: profile.id }, (err, user) => {
-					// 	return done(err, user);
-					// });
 				});
 			}
 		)

@@ -1,4 +1,4 @@
-const debug = require('debug')('development');
+const debug = require('debug')('movieService');
 const chalk = require('chalk');
 const cloudinary = require('cloudinary').v2;
 const omdbService = require('./omdbService');
@@ -8,7 +8,6 @@ const Movie = require('../models/movie');
 
 module.exports = {
 	queue: [],
-	isWorking: false,
 	search(query) {
 		return new Promise((resolve, reject) => {
 			omdbService(query)

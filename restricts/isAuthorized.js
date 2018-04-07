@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('development');
+const debug = require('debug')('app:isAuthorized');
 const chalk = require('chalk');
 
 module.exports = (req, res, next) => {

@@ -1,5 +1,5 @@
 const sharp = require('sharp');
-const debug = require('debug')('development');
+const debug = require('debug')('app:generatePoster');
 const chalk = require('chalk');
 
 module.exports = (posterPath, posterName) => {

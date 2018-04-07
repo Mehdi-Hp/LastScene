@@ -1,5 +1,5 @@
 const app = require('express')();
-const debug = require('debug')('development');
+const debug = require('debug')('app:checkUser');
 const chalk = require('chalk');
 const User = require('../../models/user');
 

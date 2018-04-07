@@ -1,7 +1,7 @@
 const request = require('request');
 const fs = require('fs');
 const _ = require('lodash');
-const debug = require('debug')('development');
+const debug = require('debug')('app:downloadPoster');
 const chalk = require('chalk');
 const isThere = require('is-there');
 const generatePosters = require('./generatePosters');
@@ -9,7 +9,11 @@ const generatePosters = require('./generatePosters');
 module.exports = (posterLink, posterName) => {
 	return new Promise((resolve, reject) => {
 		debug(chalk.dim(`Checking if there is poster for [${posterName}]`));
-		if (!isThere(`./public/files/poster/${posterName}--small.jpeg`) || !isThere(`./public/files/poster/${posterName}--medium.jpeg`) || !isThere(`./public/files/poster/${posterName}--big.jpeg`)) {
+		if (
+			!isThere(`./public/files/poster/${posterName}--small.jpeg`) ||
+			!isThere(`./public/files/poster/${posterName}--medium.jpeg`) ||
+			!isThere(`./public/files/poster/${posterName}--big.jpeg`)
+		) {
 			debug(chalk.dim(`No poster for [${posterName}]. getting one...`));
 			request(posterLink, (error, response) => {
 				if (error) {
@@ -18,28 +22,31 @@ module.exports = (posterLink, posterName) => {
 				}
 				_.split(response.headers['content-type'], '/');
 				debug(chalk.dim(`Got poster for [${posterName}]. generating diffrent sizes...`));
-			}).pipe(fs.createWriteStream(`./public/files/poster/${posterName}`)).on('finish', () => {
-				generatePosters(`./public/files/poster/${posterName}`).then((generatedPosters) => {
-					debug(chalk.dim(`Deleting the original poster of [${posterName}]...`));
-					fs.unlink(`./public/files/poster/${posterName}`, (error) => {
-						if (error) {
-							debug(chalk.bold.red(error));
-							reject({
-								status: 500,
-								message: 'Faild to generate poster'
-							});
-						}
-						debug(chalk.dim(`Original poster of [${posterName}] has been deleted`));
+			})
+				.pipe(fs.createWriteStream(`./public/files/poster/${posterName}`))
+				.on('finish', () => {
+					generatePosters(`./public/files/poster/${posterName}`).then((generatedPosters) => {
+						debug(chalk.dim(`Deleting the original poster of [${posterName}]...`));
+						fs.unlink(`./public/files/poster/${posterName}`, (error) => {
+							if (error) {
+								debug(chalk.bold.red(error));
+								reject({
+									status: 500,
+									message: 'Faild to generate poster'
+								});
+							}
+							debug(chalk.dim(`Original poster of [${posterName}] has been deleted`));
+						});
+						resolve(generatedPosters);
 					});
-					resolve(generatedPosters);
+				})
+				.on('error', (error) => {
+					debug(chalk.bold.red(error));
+					reject({
+						status: 500,
+						message: "Couldn't get poster, because of database error"
+					});
 				});
-			}).on('error', (error) => {
-				debug(chalk.bold.red(error));
-				reject({
-					status: 500,
-					message: 'Couldn\'t get poster, because of database error'
-				});
-			});
 		} else {
 			debug(chalk.dim(`Poster of [${posterName}] already exist`));
 			resolve({
