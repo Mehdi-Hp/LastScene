@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const debug = require('debug')('app:passport');
 const chalk = require('chalk');
 const owasp = require('owasp-password-strength-test');
+const gravatar = require('gravatar');
 const User = require('../models/user');
 
 owasp.config({
@@ -107,6 +108,9 @@ module.exports = (passport) => {
 									}
 								}
 							);
+							const gravatarURL = gravatar.url(req.body.email, {
+								d: '404'
+							});
 							const newUser = new User({
 								name: req.body.name,
 								username: req.body.username,
@@ -114,7 +118,8 @@ module.exports = (passport) => {
 									local: {
 										email
 									}
-								}
+								},
+								avatar: gravatarURL
 							});
 							newUser.authentication.local.password = newUser.generateHash(password);
 							debug(chalk.green(`Adding new user: ${newUser}`));

@@ -50,6 +50,7 @@
 		"fast-sort": "^1.2.5",
 		"file-name": "^0.1.0",
 		"global": "^4.3.2",
+		"gravatar": "^1.6.0",
 		"helmet": "^3.11.0",
 		"is-there": "^4.4.2",
 		"isemail": "^3.1.1",
