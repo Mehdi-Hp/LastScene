@@ -1,46 +1,46 @@
 <template>
-	<transition
-		enter-active-class="l-add-movie-holder--is-enter-active"
-		leave-active-class="l-add-movie-holder--is-leave-active"
+	<div
+		class="l-add-movie-holder"
+		:class="{
+			'l-add-movie-holder--is-visible': doneRamjet
+		}"
 	>
-		<div class="l-add-movie-holder">
-			<div class="l-add-movie">
-				<div class="l-add-movie__navigation">
-					<back class="l-add-movie__back"></back>
-				</div>
-				<div class="l-add-movie__search | l-add-movie__search--name">
-					<span class="l-add-movie__title">
-						Search for a Single Movie
-					</span>
-					<search-field
-						v-if="!searchResults.length"
-						:loading="false"
-						:search-result="[]"
-					></search-field>
-					<search-field
-						v-if="searchResults.length"
-						v-for="(searchResult, searchResultIndex) in searchResults"
-						:key="searchResultIndex"
-						:field-index="searchResultIndex"
-						:search-result="searchResult"
-						:loading="searchResult.loading"
-					></search-field>
-				</div>
-				<div class="l-add-movie__search | l-add-movie__search--folder">
-					<span class="l-add-movie__title">
-						Search for Multiple Movies at Once
-					</span>
-					<span class="l-add-movie__sub-title">
-						By dropping your movie folder down there
-					</span>
-					<search-drop
-						class="l-add-movie__drop"
-						@gotMovies="gotQueries"
-					></search-drop>
-				</div>
+		<div class="l-add-movie">
+			<div class="l-add-movie__navigation">
+				<back class="l-add-movie__back"></back>
+			</div>
+			<div class="l-add-movie__search | l-add-movie__search--name">
+				<span class="l-add-movie__title">
+					Search for a Single Movie
+				</span>
+				<search-field
+					v-if="!searchResults.length"
+					:loading="false"
+					:search-result="[]"
+				></search-field>
+				<search-field
+					v-if="searchResults.length"
+					v-for="(searchResult, searchResultIndex) in searchResults"
+					:key="searchResultIndex"
+					:field-index="searchResultIndex"
+					:search-result="searchResult"
+					:loading="searchResult.loading"
+				></search-field>
+			</div>
+			<div class="l-add-movie__search | l-add-movie__search--folder">
+				<span class="l-add-movie__title">
+					Search for Multiple Movies at Once
+				</span>
+				<span class="l-add-movie__sub-title">
+					By dropping your movie folder down there
+				</span>
+				<search-drop
+					class="l-add-movie__drop"
+					@gotMovies="gotQueries"
+				></search-drop>
 			</div>
 		</div>
-	</transition>
+	</div>
 </template>
 
 <script>
@@ -60,7 +60,8 @@ export default {
 	data() {
 		return {
 			searchQuery: null,
-			searchResults: []
+			searchResults: [],
+			doneRamjet: false
 		};
 	},
 	mounted() {

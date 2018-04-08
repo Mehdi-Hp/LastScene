@@ -9,10 +9,9 @@ import VueEsc from 'vue-esc';
 import VueTippy from 'vue-tippy';
 import umbrellajs from 'umbrellajs';
 import VueLocalStorage from 'vue-ls';
-import Overdrive from 'vue-overdrive';
+import VueTouchRipple from 'vue-touch-ripple';
 import App from './App.vue';
 import Routes from './routes';
-import invertColor from './helpers/invertColor';
 import store from './store';
 
 Vue.use(LodashForVue);
@@ -52,13 +51,17 @@ Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = '/api/v1';
 Vue.$axios = Vue.axios;
 Vue.prototype.$axios = Vue.axios;
-Vue.prototype.$invertColor = invertColor;
 
 Object.defineProperty(Vue.prototype, '$u', { value: umbrellajs.u });
 
-Vue.use(VueLocalStorage);
+Vue.use(VueTouchRipple, {
+	color: '#fff',
+	opacity: 0.3,
+	speed: 3,
+	transition: 'ease-in-out'
+});
 
-Vue.use(Overdrive);
+Vue.use(VueLocalStorage);
 
 new Vue({
 	el: '#app',

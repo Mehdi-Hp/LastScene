@@ -139,7 +139,6 @@
 </template>
 
 <script>
-import { touchRipple } from 'vue-touch-ripple';
 import Back from './Back.vue';
 import Dropdown from './Dropdown.vue';
 import MicroAwards from './MicroAwards.vue';
@@ -154,7 +153,6 @@ export default {
 	name: 'MovieEssense',
 	components: {
 		Back,
-		touchRipple,
 		Dropdown,
 		MicroAwards,
 		IconFilm,
@@ -166,13 +164,9 @@ export default {
 	},
 	props: ['movie'],
 	data() {
-		return {
-
-		};
+		return {};
 	},
-	computed: {
-
-	},
+	computed: {},
 	methods: {
 		toggleFavourite() {
 			this.$emit('toggleFavourite', this.movie);

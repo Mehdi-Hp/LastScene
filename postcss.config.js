@@ -1,4 +1,5 @@
 module.exports = [
+	require('postcss-font-magician')(),
 	require('postcss-discard-duplicates')(),
 	// require('postcss-uncss')(),
 	require('postcss-atrule-bem'),

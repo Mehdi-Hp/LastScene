@@ -8,7 +8,7 @@
 		font-weight: 600;
 		color: mix($purple, white, 75%);
 		margin-bottom: 0.5rem;
-		font-family: 'Lato';
+		font-family: $default-typeface;
 	}
 
 	&__nested {

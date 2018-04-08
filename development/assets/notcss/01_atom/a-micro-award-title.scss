@@ -23,7 +23,7 @@
 
 	&__result {
 		text-transform: uppercase;
-		font-family: 'PT Sans Narrow';
+		font-family: $secondary-typeface;
 		color: $clay__classy--3;
 		margin-right: 0.5em;
 	}
@@ -53,11 +53,7 @@
 	border-radius: 2px;
 	padding: 0.5em;
 	font-size: ms(-4);
-	background-image: linear-gradient(
-		120deg,
-		$clay__switch--1 0%,
-		$clay__twisted-spot--2 100%
-	);
+	background-image: linear-gradient(120deg, $clay__switch--1 0%, $clay__twisted-spot--2 100%);
 	box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.15);
 	max-width: 300px;
 }

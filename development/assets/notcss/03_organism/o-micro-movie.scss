@@ -12,8 +12,8 @@
 	position: relative;
 	transition: filter 0.3s ease-in-out;
 	display: block;
-	background-color: mix($clay, white, 92%);
-	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.05);
+	background-color: $micro-movie-color;
+	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.3);
 	transition: width 0.2s 0.8s ease-in-out, margin 0.2s 0.8s ease-in-out, opacity 0.2s 0.8s ease-in-out;
 
 	&--is-deleting {
@@ -47,7 +47,6 @@
 
 	&__userdata {
 		margin-bottom: 0.25em;
-		background-color: mix($clay, white, 92%);
 	}
 
 	&__washy-icon {
@@ -95,6 +94,8 @@
 		color: $kinda-white;
 		perspective: 200px;
 		padding: 0.5em;
+		font-family: $secondary-typeface;
+		font-size: ms(2);
 
 		&--in-box {
 			margin: 0;
@@ -106,8 +107,7 @@
 		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
 		font-size: ms(2);
 		color: hsla(0, 0%, 90%, 1);
-		font-weight: bolder;
-		font-family: 'PT Sans Narrow';
+		font-family: $secondary-typeface;
 		white-space: nowrap;
 		display: flex;
 		align-items: baseline;
@@ -143,21 +143,21 @@
 		flex-grow: 1;
 		overflow: hidden;
 		white-space: nowrap;
+		font-weight: 400;
 	}
 
 	&__year {
-		font-size: ms(-4);
-		color: mix($clay, white, 60%);
+		font-size: ms(-2);
+		color: mix($secondary-color, $micro-movie-color, 70%);
 	}
 
 	&__directors {
-		font-family: 'PT Sans Narrow';
-		color: $clay__twisted-spot--3;
+		color: $secondary-color;
 		display: flex;
 		text-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
-		font-size: ms(-1);
 		transform-origin: left;
 		transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
+		font-weight: 700;
 
 		&--is-deleting {
 			transform: rotateY(110deg);
@@ -191,7 +191,7 @@
 	}
 
 	&__awards {
-		margin-top: 0.25em;
+		margin-top: 0.5em;
 		display: flex;
 		z-index: g-index('land');
 	}

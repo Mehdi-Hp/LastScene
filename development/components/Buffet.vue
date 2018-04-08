@@ -5,15 +5,15 @@
 			@search="search"
 		></search-bar>
 		<buffet-tools class="l-buffet__tools"></buffet-tools>
+		<!-- <keep-alive> -->
+			<router-view name="addMovie"></router-view>
+		<!-- </keep-alive> -->
 		<micro-movies
 			class="l-buffet__micro-movies"
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
 			:mode="(filteredMovies) ? 'search' : null"
 			v-if="movies"
 		></micro-movies>
-		<keep-alive>
-			<router-view name="addMovie"></router-view>
-		</keep-alive>
 	</section>
 </template>
 
