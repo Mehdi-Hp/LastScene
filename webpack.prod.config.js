@@ -94,7 +94,6 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
-						modules: false,
 						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
 						presets: [
 							[
