@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssPlugins = require('./postcss.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
@@ -84,10 +84,7 @@ module.exports = {
 					{
 						loader: 'style-resources-loader',
 						options: {
-							patterns: [
-								'./development/assets/notcss/_utils/_all-utils.scss',
-								'./development/assets/notcss/_vendor/_all-vendors.scss'
-							]
+							patterns: ['./development/assets/notcss/_utils/_all-utils.scss', './development/assets/notcss/_vendor/_all-vendors.scss']
 						}
 					}
 				]
@@ -97,6 +94,7 @@ module.exports = {
 				use: {
 					loader: 'babel-loader',
 					options: {
+						modules: false,
 						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
 						presets: [
 							[

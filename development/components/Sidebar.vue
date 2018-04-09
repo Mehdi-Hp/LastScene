@@ -4,7 +4,7 @@
 			<div class="o-lggdin-user__avatar">
 				<img
 					class="o-lggdin-user__image"
-					src=""
+					:src="info.avatar"
 					alt=""
 				/>
 			</div>
@@ -16,12 +16,14 @@
 
 		<ul class="l-sidebar__places">
 			<div class="o-places">
-				<a
-					href="#"
+				<router-link
+					to="/"
 					class="m-place"
+					active-class="m-place--is-active"
+					exact
 				>
 					<li class="m-place__name">Movies Archive</li>
-				</a>
+				</router-link>
 			</div>
 
 			<div class="o-places">
@@ -29,7 +31,7 @@
 					href="#"
 					class="m-place"
 				>
-					<li class="m-place__name">
+					<li class="m-place__name | u-text-masker">
 						<icon-flag
 							class="m-place__icon"
 							is-done="true"
@@ -48,19 +50,19 @@
 				<ul class="o-places__nested">
 					<a
 						href="#"
-						class="m-place"
+						class="m-place | m-place--nested"
 					>
 						<li class="m-place__name | m-place__name--nested">Favourites</li>
 					</a>
 					<a
 						href="#"
-						class="m-place"
+						class="m-place | m-place--nested"
 					>
 						<li class="m-place__name | m-place__name--nested">Top Rated By you</li>
 					</a>
 					<a
 						href="#"
-						class="m-place"
+						class="m-place | m-place--nested"
 					>
 						<li class="m-place__name | m-place__name--nested">Top Rated By</li>
 						<img
@@ -71,39 +73,11 @@
 					</a>
 					<a
 						href="#"
-						class="m-place"
+						class="m-place | m-place--nested"
 						v-for="collection in collections"
 						:key="collection._id"
 					>
 						<li class="m-place__name | m-place__name--nested">{{ collection.data.name }}</li>
-					</a>
-				</ul>
-			</div>
-
-			<div class="o-places">
-				<li class="o-places__title">Pinned Collections</li>
-				<ul class="o-places__nested">
-					<a
-						href="#"
-						class="m-place"
-					>
-						<li class="m-place__name | m-place__name--nested">Best of 20s Century</li>
-						<span class="m-place__desc">by KJhsg</span>
-					</a>
-					<a
-						href="#"
-						class="m-place"
-					>
-						<li class="m-place__name | m-place__name--nested">Top Rated By you</li>
-						<span class="m-place__desc">by iosg</span>
-					</a>
-					<a
-						href="#"
-						class="m-place"
-					>
-						<li class="m-place__name | m-place__name--nested">Best of 19s Century</li>
-						<span class="m-place__desc">by mnasfv__</span>
-						<span class="m-place__count | a-count">7</span>
 					</a>
 				</ul>
 			</div>

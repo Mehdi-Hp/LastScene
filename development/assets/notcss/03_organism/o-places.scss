@@ -1,17 +1,16 @@
 .o-places {
 	display: flex;
 	flex-direction: column;
-	margin: 0.75rem 0;
+	margin-bottom: $gutter--thin;
 
 	&__title {
 		font-size: ms(-2);
-		font-weight: 600;
-		color: mix($purple, white, 75%);
-		margin-bottom: 0.5rem;
-		font-family: $default-typeface;
+		font-weight: 800;
+		color: tint($sidebar-color, 40%);
+		margin-bottom: $gutter--thin / 2;
+		padding: 0 $gutter--thin;
 	}
 
 	&__nested {
-		padding-left: 1rem;
 	}
 }

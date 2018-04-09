@@ -1,14 +1,29 @@
 .m-place {
 	display: flex;
-	flex-wrap: wrap;
-	margin-bottom: 0.5rem;
+	align-items: center;
+	justify-content: space-between;
 	position: relative;
+	padding: $gutter--thin / 3 $gutter--thin;
+
+	&--is-active {
+		&:before {
+			content: '';
+			position: absolute 0 0 0 0;
+			z-index: -1;
+			background-color: tint($sidebar-color, 10%);
+		}
+	}
+
+	&--nested {
+		padding: $gutter--thin / 4 $gutter--thin;
+		padding-left: $gutter * 2/3;
+	}
 
 	&__icon {
 		width: 1.2em;
-		margin-right: .5em;
+		margin-right: 0.5em;
 		position: relative;
-		top: -.1em;
+		top: -0.1em;
 		color: $kinda-white;
 	}
 
@@ -17,6 +32,8 @@
 		font-size: ms(0);
 		display: flex;
 		align-items: center;
+		flex-grow: 1;
+		white-space: nowrap;
 		&--nested {
 			font-size: ms(-1);
 		}
@@ -28,7 +45,5 @@
 	}
 
 	&__count {
-		position: absolute;
-		right: 0;
 	}
 }

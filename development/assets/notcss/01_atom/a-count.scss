@@ -1,16 +1,7 @@
 .a-count {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: ms(-2);
-	font-weight: 400;
-	border-radius: 50px;
-	size: 22px;
-	background-color: #4e8466;
-	box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.1);
+	font-size: ms(2);
+	color: $cyan;
 
 	&--weeny {
-		background-color: rgba(255, 255, 255, 0.1);
-		color: #a6a6a6;
 	}
 }
