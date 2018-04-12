@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import './assets/notcss/_vendor/all-vendors.scss';
 import './assets/notcss/00_base/base.scss';
 import './assets/notcss/01_atom/atoms.scss';
 import './assets/notcss/02_molecule/molecules.scss';
