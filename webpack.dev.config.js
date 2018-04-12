@@ -3,6 +3,9 @@ const path = require('path');
 const postcssPlugins = require('./postcss.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+
+const smp = new SpeedMeasurePlugin();
 
 require('pretty-error').start();
 
@@ -10,15 +13,13 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const productionPath = path.resolve(__dirname, 'public', 'production');
 const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
 
-module.exports = {
+module.exports = smp.wrap({
 	entry: [mainJSPath],
+	context: path.resolve(__dirname),
 	output: {
 		path: productionPath,
 		publicPath: '/',
 		filename: 'bundle.js'
-	},
-	stats: {
-		children: false
 	},
 	module: {
 		rules: [
@@ -62,7 +63,7 @@ module.exports = {
 						options: {
 							importLoaders: 4,
 							import: false,
-							minimize: true
+							minimize: false
 						}
 					},
 					{
@@ -75,20 +76,9 @@ module.exports = {
 					},
 					'sass-loader',
 					{
-						loader: 'postcss-loader',
-						options: {
-							syntax: 'postcss-scss',
-							map: false,
-							plugins: []
-						}
-					},
-					{
 						loader: 'sass-resources-loader',
 						options: {
-							resources: [
-								'./development/assets/notcss/_utils/_all-utils.scss',
-								'./development/assets/notcss/_vendor/_all-vendors.scss'
-							]
+							resources: ['./development/assets/notcss/_utils/_all-utils.scss']
 						}
 					}
 				]
@@ -123,7 +113,6 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'views/index-dev.html',
-			inject: true,
 			filename: 'index.html'
 		}),
 		new webpack.HotModuleReplacementPlugin(),
@@ -155,10 +144,11 @@ module.exports = {
 			warnings: true,
 			errors: true
 		},
-		open: false
+		open: false,
+		stats: 'minimal'
 	},
 	performance: {
 		hints: false
 	},
 	devtool: 'eval'
-};
+});
