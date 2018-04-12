@@ -83,7 +83,6 @@
 }
 
 .flip-list-move {
-	transition: transform 0.6s;
 	transition-timing-function: cubic-bezier(0.74, 0.19, 0.18, 0.99);
 	transition: transform 0.6s, filter 0.3s;
 	filter: grayscale(1);

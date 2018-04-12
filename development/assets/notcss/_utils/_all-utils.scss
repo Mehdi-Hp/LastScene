@@ -1,17 +1,19 @@
-@import "~modularscale-sass/stylesheets/_modularscale.scss";
+@import '~modularscale-sass/stylesheets/_modularscale.scss';
 
-@import "_var__colors";
-@import "_var__element-colors";
+@import '_var__colors';
+@import '_var__element-colors';
 
-@import "_mix__hardware-acceleration";
-@import "_mix__fonticon";
+@import '_mix__hardware-acceleration';
+@import '_mix__fonticon';
 
-@import "_pla__background-center";
+@import '_pla__background-center';
 
-@import "_pla__fade";
+@import '_pla__fade';
 
-@import "_set__ant";
+@import '_set__ant';
 
-@import "_set__typography";
+@import '_set__typography';
 
-@import "_util__text-masker";
+@import '_util__text-masker';
+
+@import './color-schemer/_color-schemer';

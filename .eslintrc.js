@@ -50,6 +50,7 @@ module.exports = {
 		'no-loops/no-loops': 2,
 		'promise/always-return': 'off',
 		'promise/avoid-new': 'off',
+		'promise/no-promise-in-callback': 'off',
 		'security/detect-object-injection': 'off',
 		'import/no-named-as-default': 'off',
 		'import/no-named-as-default-member': 'off',

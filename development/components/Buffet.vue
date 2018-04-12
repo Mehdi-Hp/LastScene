@@ -5,9 +5,9 @@
 			@search="search"
 		></search-bar>
 		<buffet-tools class="l-buffet__tools"></buffet-tools>
-		<!-- <keep-alive> -->
+		<keep-alive>
 			<router-view name="addMovie"></router-view>
-		<!-- </keep-alive> -->
+		</keep-alive>
 		<micro-movies
 			class="l-buffet__micro-movies"
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
@@ -30,6 +30,7 @@ export default {
 		BuffetTools,
 		MicroMovies
 	},
+	props: ['watchNextMode'],
 	data() {
 		return {
 			filteredMovies: null
@@ -37,6 +38,11 @@ export default {
 	},
 	computed: {
 		movies() {
+			if (this.watchNextMode) {
+				return this.$store.getters.movies({
+					watchList: true
+				});
+			}
 			return this.$store.state.movies;
 		}
 	},

@@ -22,7 +22,7 @@
 	margin-right: $gutter--thin;
 	z-index: g-index('mountain');
 	box-shadow: 0 0 0 500px transparentize(black, 0.5);
-	transform-origin: top;
+	transform-origin: top left;
 	overflow: hidden;
 
 	&--is-enter-active {

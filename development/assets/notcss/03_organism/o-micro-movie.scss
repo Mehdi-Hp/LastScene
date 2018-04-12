@@ -13,7 +13,6 @@
 	transition: filter 0.3s ease-in-out;
 	display: block;
 	background-color: $micro-movie-color;
-	box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.3);
 	transition: width 0.2s 0.8s ease-in-out, margin 0.2s 0.8s ease-in-out, opacity 0.2s 0.8s ease-in-out;
 
 	&--is-deleting {
@@ -27,6 +26,8 @@
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		box-shadow: 0 3px 40px 0 rgba(0, 0, 0, 0.3);
+		height: 100%;
 
 		&--dark {
 			background: $clay__shade--0;
@@ -34,6 +35,7 @@
 
 		&--light {
 			background: mix(white, black, 90%);
+			box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 		}
 
 		&--is-deleting {

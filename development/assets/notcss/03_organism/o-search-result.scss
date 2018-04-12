@@ -3,7 +3,8 @@
 	flex-wrap: nowrap;
 	align-items: flex-start;
 
-	&__first {}
+	&__first {
+	}
 
 	&__others-holder {
 		display: flex;
@@ -13,7 +14,6 @@
 	&__others {
 		display: flex;
 		flex-wrap: nowrap;
-		overflow-x: hidden;
 		flex-grow: 1;
 	}
 
@@ -39,9 +39,11 @@
 		size: 1em;
 		color: $clay__shade--1;
 
-		&--left {}
+		&--left {
+		}
 
-		&--right {}
+		&--right {
+		}
 
 		&--is-disabled {
 			opacity: 0.2;
@@ -59,7 +61,7 @@
 	}
 
 	&__movie {
-		margin-bottom: .5em;
+		margin-bottom: 0.5em;
 	}
 
 	&__add {

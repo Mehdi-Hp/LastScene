@@ -56,6 +56,13 @@ export default [
 				]
 			},
 			{
+				path: 'watch-next',
+				component: Buffet,
+				props: {
+					watchNextMode: true
+				}
+			},
+			{
 				path: '/movies/:movie_id',
 				component: Movie
 			}

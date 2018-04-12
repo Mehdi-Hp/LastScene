@@ -27,11 +27,13 @@
 			</div>
 
 			<div class="o-places">
-				<a
-					href="#"
+				<router-link
+					to="/watch-next"
 					class="m-place"
+					active-class="m-place--is-active"
+					exact
 				>
-					<li class="m-place__name | u-text-masker">
+					<li class="m-place__name">
 						<icon-flag
 							class="m-place__icon"
 							is-done="true"
@@ -42,7 +44,7 @@
 					<span class="m-place__count | a-count | a-count--weeny">
 						{{ watchListCount }}
 					</span>
-				</a>
+				</router-link>
 			</div>
 
 			<div class="o-places">

@@ -12,6 +12,13 @@ const store = new Vuex.Store({
 		collections: []
 	},
 	getters: {
+		movies(state) {
+			return ({ watchList }) => {
+				return state.movies.filter((movie) => {
+					return movie.watchList === watchList;
+				});
+			};
+		},
 		movie(state) {
 			return (imdbID) => {
 				return state.movies.filter((movie) => {
