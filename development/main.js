@@ -29,9 +29,6 @@ Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'history',
 	routes: Routes,
-	beforeEach: () => {
-		console.log('test');
-	},
 	scrollBehavior(to, from, savedPosition) {
 		if (savedPosition) {
 			return savedPosition;
