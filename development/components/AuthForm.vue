@@ -50,7 +50,7 @@
 						type="text"
 						name="email"
 						class="o-auth-form__textfield"
-						@inputChange="value => email = value"
+						@inputChange="(value) => email = value"
 						@inputKeyup="$validate('email')"
 						:error="validation.firstError('email')"
 					/>
@@ -59,7 +59,7 @@
 						type="text"
 						name="username"
 						class="o-auth-form__textfield"
-						@inputChange="value => username = value"
+						@inputChange="(value) => username = value"
 						@inputKeyup="$validate('username')"
 						v-if="isSignupMode"
 						:error="validation.firstError('username')"
@@ -69,7 +69,7 @@
 						type="password"
 						name="password"
 						class="o-auth-form__textfield"
-						@inputChange="value => password = value"
+						@inputChange="(value) => password = value"
 						@inputKeyup="$validate('password')"
 						:error="validation.firstError('password')"
 					/>

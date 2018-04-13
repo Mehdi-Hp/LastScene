@@ -6,11 +6,12 @@
 				<input
 					type="text"
 					class="o-searchbar__input"
-					name="searchQuery"
 					placeholder="Search for Movies, Directors or Awards"
 					autocomplete="off"
-					v-model="searchQuery"
-					@keyup="search">
+					v-model="localQuery"
+					@keyup="search"
+					@input="inputChange"
+				>
 			</div>
 		</div>
 	</div>
@@ -25,15 +26,24 @@ export default {
 	components: {
 		IconSearch
 	},
+	props: ['searchQuery'],
 	data() {
 		return {
-			searchQuery: ''
+			localQuery: this.searchQuery
 		};
+	},
+	watch: {
+		searchQuery() {
+			this.localQuery = this.searchQuery;
+		}
 	},
 	methods: {
 		search: _.debounce(function() {
 			this.$emit('search', this.searchQuery);
-		}, 500)
+		}, 500),
+		inputChange() {
+			this.$emit('inputChange', this.localQuery);
+		}
 	}
 };
 </script>

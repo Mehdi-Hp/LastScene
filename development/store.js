@@ -164,7 +164,7 @@ const store = new Vuex.Store({
 			}
 		},
 		loadingRoute(state, loadingState) {
-			console.log(loadingState);
+			state.loadingRoute = loadingState;
 		}
 	},
 	actions: {

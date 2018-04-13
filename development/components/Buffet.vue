@@ -2,7 +2,8 @@
 	<section class="l-buffet">
 		<search-bar
 			class="l-buffet__searchbar"
-			@search="search"
+			:search-query="searchQuery"
+			@inputChange="(query) => searchQuery = query"
 		></search-bar>
 		<buffet-tools class="l-buffet__tools"></buffet-tools>
 		<keep-alive>
@@ -32,6 +33,7 @@ export default {
 	props: ['watchNextMode'],
 	data() {
 		return {
+			searchQuery: '',
 			filteredMovies: null
 		};
 	},
@@ -45,29 +47,34 @@ export default {
 			return this.$store.state.movies;
 		}
 	},
-	methods: {
-		search(searchQuery = '') {
-			if (!searchQuery.length) {
+	watch: {
+		$route() {
+			this.searchQuery = '';
+		},
+		searchQuery() {
+			if (!this.searchQuery.length) {
 				this.filteredMovies = null;
 				return;
 			}
 			this.filteredMovies = {
 				title: _.filter(this.movies, (movie) => {
-					return movie.data.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) || movie.data.originalTitle.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+					return (
+						movie.data.title.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()) || movie.data.originalTitle.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase())
+					);
 				}),
 				year: _.filter(this.movies, (movie) => {
-					return movie.data.year === searchQuery;
+					return movie.data.year === this.searchQuery;
 				}),
 				directors: _.filter(this.movies, (movie) => {
 					let includeState = false;
 					movie.data.directors.forEach((director) => {
-						includeState = director.name.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+						includeState = director.name.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase());
 					});
 					return includeState;
 				}),
 				awards: _.filter(this.movies, (movie) => {
 					return movie.data.awards.some((award) => {
-						return `${award.name} ${award.year}`.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase());
+						return `${award.name} ${award.year}`.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase());
 					});
 				})
 			};

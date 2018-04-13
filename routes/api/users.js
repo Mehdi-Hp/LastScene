@@ -13,7 +13,6 @@ app.route('/:username?').get((req, res, next) => {
 		debug(chalk.yellow(`Getting [${res.locals.customUser}]'s data...`));
 		theUsername = req.params.username;
 	}
-	console.log(req.params.query);
 	User.findOne({ username: theUsername })
 		.select('-authentication')
 		.populate({

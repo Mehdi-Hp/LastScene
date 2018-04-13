@@ -7,12 +7,18 @@
 			@keypress.enter="submitSearch"
 			autofocus
 		>
-		<search-result class="o-search-field__result"
+		<search-result
+			class="o-search-field__result"
 			v-if="(mutedSearchResult.query && mutedSearchResult.results) || loading"
-			:searchResult="mutedSearchResult.results"
+			:search-result="mutedSearchResult.results"
 			:loading="loading"
 		></search-result>
-		<span class="o-search-field__no-result" v-if="!mutedSearchResult.results && mutedSearchResult.submitted">NO RESULT</span>
+		<span
+			class="o-search-field__no-result"
+			v-if="!mutedSearchResult.results && mutedSearchResult.submitted"
+		>
+			NO RESULT
+		</span>
 	</div>
 </template>
 
@@ -22,11 +28,10 @@ import SearchResult from './SearchResult.vue';
 
 export default {
 	name: 'SearchField',
-	props: [
-		'searchResult',
-		'loading',
-		'fieldIndex'
-	],
+	components: {
+		SearchResult
+	},
+	props: ['searchResult', 'loading', 'fieldIndex'],
 	data() {
 		return {
 			mutedSearchResult: this.searchResult,
@@ -34,15 +39,10 @@ export default {
 			index: 0
 		};
 	},
-	components: {
-		SearchResult
-	},
-	methods: {
-		submitSearch() {
-			EventBus.$emit('searchForMovies', {
-				searchQuery: this.searchQuery,
-				index: this.index
-			});
+	watch: {
+		searchResult() {
+			this.mutedSearchResult = this.searchResult;
+			this.searchQuery = this.searchResult.query;
 		}
 	},
 	mounted() {
@@ -53,10 +53,12 @@ export default {
 			this.index = this.fieldIndex;
 		}
 	},
-	watch: {
-		searchResult() {
-			this.mutedSearchResult = this.searchResult;
-			this.searchQuery = this.searchResult.query;
+	methods: {
+		submitSearch() {
+			EventBus.$emit('searchForMovies', {
+				searchQuery: this.searchQuery,
+				index: this.index
+			});
 		}
 	}
 };

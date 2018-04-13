@@ -2,6 +2,7 @@ const app = require('express')();
 const debug = require('debug')('app:moviesRoute');
 const chalk = require('chalk');
 const _ = require('lodash');
+const isUndefined = require('is-undefined');
 const User = require('../../models/user');
 const movieService = require('../../services/movieService');
 const currentOrCustomUser = require('../../restricts/currentOrCustomUser');
@@ -15,7 +16,10 @@ app.route('/').get((req, res, next) => {
 		debug(chalk.yellow('Getting user movies...'));
 		theUsername = req.user.username;
 	}
-	User.findOne({ username: theUsername })
+	const { favourite, watched, watchList } = req.query;
+	User.findOne({
+		username: theUsername
+	})
 		.populate({
 			path: 'movies._id',
 			model: 'Movie'
@@ -26,8 +30,23 @@ app.route('/').get((req, res, next) => {
 					message: `Couldn't find user ${theUsername}.`
 				});
 			}
+			if (!isUndefined(favourite)) {
+				user.movies = user.movies.filter((movie) => {
+					return movie.favourite === Boolean(String(favourite) !== 'false');
+				});
+			}
+			if (!isUndefined(watched)) {
+				user.movies = user.movies.filter((movie) => {
+					return movie.watched === Boolean(String(watched) !== 'false');
+				});
+			}
+			if (!isUndefined(watchList)) {
+				user.movies = user.movies.filter((movie) => {
+					return movie.watchList === Boolean(String(watchList) !== 'false');
+				});
+			}
 			res.status(200).json({
-				user: theUsername,
+				user: user.username,
 				data: user.movies
 			});
 		})
