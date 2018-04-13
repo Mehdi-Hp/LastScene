@@ -12,7 +12,6 @@
 			class="l-buffet__micro-movies"
 			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
 			:mode="(filteredMovies) ? 'search' : null"
-			v-if="movies"
 		></micro-movies>
 	</section>
 </template>
@@ -47,7 +46,7 @@ export default {
 		}
 	},
 	methods: {
-		search(searchQuery) {
+		search(searchQuery = '') {
 			if (!searchQuery.length) {
 				this.filteredMovies = null;
 				return;

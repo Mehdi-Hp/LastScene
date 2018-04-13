@@ -9,7 +9,8 @@ const store = new Vuex.Store({
 	state: {
 		info: null,
 		movies: [],
-		collections: []
+		collections: [],
+		loadingRoute: false
 	},
 	getters: {
 		movies(state) {
@@ -161,6 +162,9 @@ const store = new Vuex.Store({
 					return sortCase[sortBy](movie);
 				});
 			}
+		},
+		loadingRoute(state, loadingState) {
+			console.log(loadingState);
 		}
 	},
 	actions: {

@@ -13,7 +13,7 @@
 	transition: filter 0.3s ease-in-out;
 	display: block;
 	background-color: $micro-movie-color;
-	transition: width 0.2s 0.8s ease-in-out, margin 0.2s 0.8s ease-in-out, opacity 0.2s 0.8s ease-in-out;
+	transition: width 0.2s ease-in-out, margin 0.2s ease-in-out, opacity 0.2s ease-in-out;
 
 	&--is-deleting {
 		width: 0 !important;
