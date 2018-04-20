@@ -141,7 +141,7 @@ module.exports = (passport) => {
 			{
 				clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
 				clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-				callbackURL: 'http://127.0.0.1:3000/authenticate/google/callback'
+				callbackURL: `${process.env.BACKEND_HOST}/authenticate/google/callback`
 			},
 			(accessToken, refreshToken, profile, done) => {
 				process.nextTick(() => {

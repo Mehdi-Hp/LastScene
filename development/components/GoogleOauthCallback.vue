@@ -12,6 +12,9 @@ export default {
 	},
 	created() {
 		this.$ls.set('x-access-token', this.$route.query.token);
+		this.axios.defaults.headers = {
+			'x-access-token': this.$route.query.token
+		};
 		this.$router.push('/');
 	}
 };

@@ -198,7 +198,7 @@ export default {
 							if (user.data.auth) {
 								this.$ls.set('x-access-token', user.data.token, 7 * 24 * 60 * 60 * 1000);
 								this.axios.defaults.headers = {
-									'x-access-token': this.$ls.get('x-access-token')
+									'x-access-token': this.$ls.get('x-access-token').value
 								};
 								this.$router.push(user.data.redirectURL);
 							}
