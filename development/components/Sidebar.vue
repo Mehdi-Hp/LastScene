@@ -8,7 +8,7 @@
 					alt=""
 				/>
 			</div>
-			<span class="o-lggdin-user__name">{{ info.name }}</span>
+			<span class="o-lggdin-user__name">{{ info.name || info.username }}</span>
 			<button class="o-lggdin-user__settings-btn">
 				<icon-setting></icon-setting>
 			</button>
