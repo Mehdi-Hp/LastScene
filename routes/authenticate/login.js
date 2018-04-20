@@ -2,6 +2,8 @@ const app = require('express')();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const debug = require('debug')('app:loginRoute');
+const chalk = require('chalk');
+const _ = require('lodash');
 
 app.route('/').post((req, res, next) => {
 	req.body.email = req.body.email.trim();
@@ -21,7 +23,7 @@ app.route('/').post((req, res, next) => {
 				message: error
 			});
 		}
-		const token = jwt.sign({ data: user }, process.env.SECRET, {});
+		const token = jwt.sign({ data: _.pick(user, ['_id', 'username']) }, process.env.SECRET, {});
 		req.logIn(user, (error) => {
 			if (error) {
 				return res.status(401).json({
@@ -29,6 +31,7 @@ app.route('/').post((req, res, next) => {
 					message: error
 				});
 			}
+			debug(chalk.green(`User [${user.username}] logged in`));
 			return res.status(200).json({
 				auth: true,
 				token,

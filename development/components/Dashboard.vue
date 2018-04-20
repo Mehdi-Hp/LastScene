@@ -30,6 +30,11 @@ export default {
 			return this.$store.state.info;
 		}
 	},
+	created() {
+		this.axios.defaults.headers = {
+			'x-access-token': this.$ls.get('x-access-token')
+		};
+	},
 	mounted() {
 		this.$store.dispatch('fetchUser').catch((error) => {
 			this.$router.push('/auth/login');

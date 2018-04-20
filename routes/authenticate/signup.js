@@ -4,6 +4,7 @@ const debug = require('debug')('app:signupRoute');
 const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const isEmail = require('isemail');
+const _ = require('lodash');
 
 app
 	.route('/')
@@ -44,7 +45,7 @@ app
 						message: error
 					});
 				}
-				const token = jwt.sign({ data: user }, process.env.SECRET, {});
+				const token = jwt.sign({ data: _.pick(user, ['_id', 'usrname']) }, process.env.SECRET, {});
 				return res.status(200).json({
 					sucess: true,
 					auth: true,

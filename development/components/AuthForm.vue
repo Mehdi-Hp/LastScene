@@ -196,7 +196,7 @@ export default {
 						})
 						.then((user) => {
 							if (user.data.auth) {
-								this.$ls.set('x-access-token', user.data.token, 7 * 24 * 60 * 60 * 1000);
+								this.$ls.set('x-access-token', user.data.token);
 								this.axios.defaults.headers = {
 									'x-access-token': this.$ls.get('x-access-token').value
 								};

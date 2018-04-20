@@ -17,11 +17,6 @@ export default {
 	name: 'App',
 	data() {
 		return {};
-	},
-	created() {
-		this.axios.defaults.headers = {
-			'x-access-token': this.$ls.get('x-access-token')
-		};
 	}
 };
 </script>
