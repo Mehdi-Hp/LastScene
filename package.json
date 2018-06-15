@@ -9,7 +9,10 @@
 		"build:dev": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server --config webpack.dev.config.js",
 		"postinstall": "cross-env NODE_ENV=production webpack --hide-modules --optimize-minimize --progress --config webpack.prod.config.js",
 		"start": "cross-env NODE_ENV=production DEBUG=app:* node ./bin/www",
-		"start:dev": "cross-env NODE_ENV=development DEBUG=app:* nodemon --inspect ./bin/www"
+		"start:dev": "cross-env NODE_ENV=development DEBUG=app:* nodemon --delay 1 ./bin/www"
+	},
+	"nodemonConfig": {
+		"ignore": ["node_modules"]
 	},
 	"now": {
 		"dotenv": "./.env.now"
@@ -17,11 +20,7 @@
 	"hyperlayout": {
 		"default": {
 			"entry": "tab",
-			"layout": [
-				"mongod",
-				"npm run start:dev",
-				"npm run build:dev"
-			]
+			"layout": ["mongod", "npm run start:dev", "npm run build:dev"]
 		}
 	},
 	"dependencies": {
@@ -64,7 +63,7 @@
 		"mongoose-times": "^0.1.0",
 		"mongoose-timestamp": "^0.6.0",
 		"morgan": "^1.9.0",
-		"nodemon": "^1.17.3",
+		"nodemon": "^1.17.5",
 		"now-logs": "0.0.7",
 		"object-rename-keys": "^1.2.1",
 		"omdb-api-pt": "^2.0.1",
@@ -75,7 +74,7 @@
 		"postcss-discard-duplicates": "^2.1.0",
 		"pretty-error": "^2.1.1",
 		"ramjet": "^0.5.0",
-		"request": "^2.85.0",
+		"request": "^2.87.0",
 		"sanitize-filename": "^1.6.1",
 		"serve-favicon": "~2.5.0",
 		"serve-index": "^1.9.1",
@@ -141,7 +140,7 @@
 		"mini-css-extract-plugin": "^0.4.0",
 		"modularscale-sass": "^3.0.5",
 		"node-notifier": "^5.2.1",
-		"node-sass": "^4.8.3",
+		"node-sass": "^4.9.0",
 		"postcss": "^6.0.21",
 		"postcss-all-link-colors": "^2.0.0",
 		"postcss-animations": "^6.1.1",

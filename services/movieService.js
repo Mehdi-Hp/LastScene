@@ -1,9 +1,9 @@
-const debug = require('debug')('movieService');
+const debug = require('debug')('app:movieService');
 const chalk = require('chalk');
 const cloudinary = require('cloudinary').v2;
 const omdbService = require('./omdbService');
-const myapifilmsService = require('./myapifilmsService');
 const tmdbService = require('./tmdbService');
+const imdbService = require('./imdbService');
 const Movie = require('../models/movie');
 
 module.exports = {
@@ -13,12 +13,6 @@ module.exports = {
 	},
 	getComplete(imdbID, forceGet) {
 		return new Promise((resolve, reject) => {
-			if (!imdbID) {
-				return reject({
-					status: 400,
-					message: 'Your request does not fit in our standards'
-				});
-			}
 			debug(chalk.greenBright(`Check movie [${imdbID}] information in database...`));
 			Movie.findOne({
 				_id: imdbID
@@ -144,7 +138,7 @@ module.exports = {
 	},
 	getInformation(imdbID) {
 		return new Promise((resolve, reject) => {
-			myapifilmsService
+			imdbService
 				.getMovie(imdbID)
 				.then((movie) => {
 					debug(chalk.green(`____Got movie information: [${imdbID}]`));

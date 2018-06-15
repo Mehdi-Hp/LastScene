@@ -10,8 +10,8 @@ import VueTippy from 'vue-tippy';
 import umbrellajs from 'umbrellajs';
 import VueLocalStorage from 'vue-ls';
 import VueTouchRipple from 'vue-touch-ripple';
-import App from './App.vue';
 import Routes from './routes';
+import App from './App.vue';
 import store from './store';
 
 Vue.use(LodashForVue);
