@@ -17,12 +17,13 @@ app.route('/').post((req, res, next) => {
 	}
 	passport.authenticate('local-login', {}, (error, user, message) => {
 		if (error) {
-			debug(`Error logging user in: ${error}`);
+			debug(chalk.red.bold(`Error logging user in: ${error}`));
 			return res.status(401).json({
 				auth: false,
 				message: error
 			});
 		}
+		debug(chalk.green.bold(`User [${user.username}] loggen In`));
 		const token = jwt.sign({ data: _.pick(user, ['_id', 'username']) }, process.env.SECRET, {});
 		req.logIn(user, (error) => {
 			if (error) {

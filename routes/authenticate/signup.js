@@ -45,7 +45,7 @@ app
 						message: error
 					});
 				}
-				const token = jwt.sign({ data: _.pick(user, ['_id', 'usrname']) }, process.env.SECRET, {});
+				const token = jwt.sign({ data: _.pick(user, ['_id', 'username']) }, process.env.SECRET, {});
 				return res.status(200).json({
 					sucess: true,
 					auth: true,

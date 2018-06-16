@@ -22,7 +22,6 @@ app.route('/callback').get((req, res, next) => {
 		},
 		(error, user, message) => {
 			const token = jwt.sign({ data: _.pick(user, ['_id', 'username']) }, process.env.SECRET, {});
-			console.log(token);
 			res.redirect(`${process.env.FRONTEND_HOST}/auth/google-callback?token=${token}`);
 		}
 	)(req, res, next);

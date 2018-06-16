@@ -63,7 +63,6 @@ module.exports = (passport) => {
 								debug(chalk.red('Password is wrong'));
 								return done('Password is wrong', null);
 							}
-							debug(chalk.red(`User logged in: ${user}`));
 							return done(null, user);
 						}
 					);

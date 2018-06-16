@@ -8,6 +8,7 @@ module.exports = (req, res, next) => {
 		debug(chalk.bold.red('No token provided'));
 		return res.status(401).json({
 			auth: false,
+			code: '000',
 			message: 'No token provided'
 		});
 	}

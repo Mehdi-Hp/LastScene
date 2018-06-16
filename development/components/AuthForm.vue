@@ -46,7 +46,7 @@
 					ref="fields"
 				>
 					<textfield
-						text="EMAIL"
+						text="EMAIL / USERNAME"
 						type="text"
 						name="email"
 						class="o-auth-form__textfield"

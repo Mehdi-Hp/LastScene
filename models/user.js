@@ -66,7 +66,7 @@ userSchema.methods.generateHash = (password) => {
 };
 
 userSchema.methods.isValidPassword = (password, user) => {
-	debug('Checking password validation...');
+	debug(chalk.yellow('Checking password validation...'));
 	return bcrypt.compareSync(password, user.authentication.local.password);
 };
 
