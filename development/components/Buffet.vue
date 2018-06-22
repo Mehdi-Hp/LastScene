@@ -73,7 +73,7 @@ export default {
 					return includeState;
 				}),
 				awards: _.filter(this.movies, (movie) => {
-					return movie.data.awards.some((award) => {
+					return movie.data.awards.full.some((award) => {
 						return `${award.name} ${award.year}`.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase());
 					});
 				})

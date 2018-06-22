@@ -2,9 +2,13 @@
 	<div class="l-movie__essense | o-movie-essense">
 		<div class="o-movie-essense__cover-holder">
 			<div class="o-movie-essense__cover">
-				<div :to="`/movies/${movie.data._id}`" class="m-movie-box__cover | a-movie-cover">
+				<div
+					:to="`/movies/${movie.data._id}`"
+					class="m-movie-box__cover | a-movie-cover"
+				>
 					<icon-film class="a-movie-cover__back-icon"></icon-film>
-					<img class="a-movie-cover__image"
+					<img
+						class="a-movie-cover__image"
 						:src="`/files/poster/${movie.data.images.poster}?width=350`"
 						:alt="movie.data.title"
 					>
@@ -47,7 +51,10 @@
 						<span class="o-movie-essense__rate-value | a-rate__value">{{ movie.data.rate.imdb }}</span>
 						<span class="o-movie-essense__rate-base | a-rate__base">10</span>
 					</div>
-					<micro-awards class="o-movie-essense__awards" :awards="movie.data.awards"></micro-awards>
+					<micro-awards
+						class="o-movie-essense__awards"
+						:awards="movie.data.awards.full"
+					></micro-awards>
 				</div>
 			</div>
 			<div class="o-movie-essense__collections">
@@ -58,7 +65,13 @@
 				<span class="o-movie-essense__collections-name">more...</span>
 			</div>
 			<div class="o-movie-essense__state">
-				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.2" color="#4c4554" transition="ease-in-out">
+				<touch-ripple
+					class="o-movie-essense__state-button-holder"
+					:speed="3"
+					:opacity="0.2"
+					color="#4c4554"
+					transition="ease-in-out"
+				>
 					<button
 						class="o-movie-essense__state-button | o-movie-essense__state-button--catchy | a-button | a-button--plain"
 						:class="{
@@ -79,7 +92,13 @@
 						{{ (!movie.watched) ? 'Mark as watched' : 'Already watched' }}
 					</button>
 				</touch-ripple>
-				<touch-ripple class="o-movie-essense__state-button-holder" :speed="3" :opacity="0.2" color="#fff" transition="ease-in-out">
+				<touch-ripple
+					class="o-movie-essense__state-button-holder"
+					:speed="3"
+					:opacity="0.2"
+					color="#fff"
+					transition="ease-in-out"
+				>
 					<button
 						class="o-movie-essense__state-button | a-button | a-button--plain"
 						:class="{
@@ -114,14 +133,22 @@
 						<li @click="updateMovie">Update movie data</li>
 					</ul>
 				</dropdown>
-				<touch-ripple class="o-movie-essense__favourite-button-holder" :speed="2" :opacity="0.5" color="#cb5451" transition="ease-in-out">
-					<button class="o-movie-essense__favourite-button"
+				<touch-ripple
+					class="o-movie-essense__favourite-button-holder"
+					:speed="2"
+					:opacity="0.5"
+					color="#cb5451"
+					transition="ease-in-out"
+				>
+					<button
+						class="o-movie-essense__favourite-button"
 						:class="{
 							'o-movie-essense__favourite-button--is-true': movie.favourite
 						}"
 						@click="toggleFavourite()"
 					>
-						<icon-heart class="o-movie-essense__favourite-icon"
+						<icon-heart
+							class="o-movie-essense__favourite-icon"
 							:class="{
 								'o-movie-essense__favourite-icon--is-pending': movie.bus.favourite,
 								'o-movie-essense__favourite-icon--is-true': movie.favourite

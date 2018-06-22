@@ -1,14 +1,6 @@
 .o-movie-essense {
 	display: flex;
-	generate-grid:
-		columns(
-			ratio($golden-ratio, 1)
-			ratio($golden-ratio, 2)
-			ratio($golden-ratio, 1)
-		)
-		gutter(
-			$gutter--thin
-		);
+	generate-grid: columns(ratio($golden-ratio, 1) ratio($golden-ratio, 2) ratio($golden-ratio, 1)) gutter($gutter--thin);
 	position: relative;
 
 	&__cover-holder {
@@ -23,8 +15,8 @@
 	&__local-seat-holder {
 		display: flex;
 		justify-content: space-around;
-		margin-top: .5em;
-		padding: .5em;
+		margin-top: 0.5em;
+		padding: 0.5em;
 		border-radius: 3px;
 		background-color: $clay__classy--3;
 	}
@@ -44,7 +36,7 @@
 
 	&__local-seat-value {
 		color: $clay__shade--4;
-		margin-top: .25em;
+		margin-top: 0.25em;
 		font-family: $secondary-typeface;
 	}
 
@@ -70,6 +62,7 @@
 		color: $clay__shade--5;
 		flex-shrink: 2;
 		white-space: nowrap;
+		text-transform: capitalize;
 	}
 
 	&__online-seat {
@@ -83,7 +76,7 @@
 		font-size: ms(10);
 		align-items: center;
 		font-family: $default-typeface;
-		margin-right: .5em;
+		margin-right: 0.5em;
 	}
 
 	&__rate-value {
@@ -119,16 +112,16 @@
 	}
 
 	&__collections-icon {
-		margin-right: .5em;
+		margin-right: 0.5em;
 	}
 
 	&__collections-text {
 		font-weight: 400;
-		margin-right: .25em;
+		margin-right: 0.25em;
 	}
 
 	&__collections-name {
-		margin-right: .25em;
+		margin-right: 0.25em;
 		color: $purple__gradient-5;
 	}
 
@@ -140,17 +133,17 @@
 	}
 
 	&__state-button-holder {
-		margin-top: .25em;
+		margin-top: 0.25em;
 	}
 
 	&__state-button {
 		color: $kinda-white;
-		padding: .5em;
-		transition: background-color .2s ease-in-out;
+		padding: 0.5em;
+		transition: background-color 0.2s ease-in-out;
 		perspective: 250px;
 
 		&--catchy {
-			padding: .5em;
+			padding: 0.5em;
 			background-color: $clay__shade--0;
 			box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.2);
 		}
@@ -168,7 +161,7 @@
 	&__state-icon {
 		width: 1.2em;
 		color: $clay__twisted-spot--2;
-		margin-right: .5em;
+		margin-right: 0.5em;
 
 		&--is-pending {
 			color: $yellorange;
@@ -218,7 +211,7 @@
 		}
 
 		&.m-dropdown--is-open {
-			padding-right: .5em;
+			padding-right: 0.5em;
 			background-color: white;
 		}
 	}
@@ -247,7 +240,7 @@
 	&__favourite-button-holder {
 		size: 50px;
 		position: absolute;
-		right:4em;
+		right: 4em;
 		top: 0;
 		display: flex;
 		align-items: flex-end;
@@ -265,7 +258,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		transition: background-color .2s;
+		transition: background-color 0.2s;
 
 		&:hocus {
 			background-color: mix($kinda-white, black, 95%);
@@ -296,7 +289,6 @@
 
 		&--is-pending {
 			& .a-icon-heart__path {
-
 			}
 		}
 	}

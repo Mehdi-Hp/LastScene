@@ -150,7 +150,7 @@ const store = new Vuex.Store({
 					return movie.data.rate.imdb;
 				},
 				mostAwards(movie) {
-					return movie.data.awards.length;
+					return movie.data.awards.full.length;
 				}
 			};
 			if (order === 'asc') {

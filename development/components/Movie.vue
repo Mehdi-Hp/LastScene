@@ -5,7 +5,11 @@
 				:up-tolerance="10"
 				:down-tolerance="10"
 			>
-				<back class="l-movie__back"/>
+				<back
+					class="l-movie__back"
+					link="/"
+					text="Home"
+				/>
 			</headroom>
 			<img
 				:src="`/files/backdrop/${movie.data.images.backdrop}?height=600`"

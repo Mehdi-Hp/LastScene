@@ -5,7 +5,7 @@
 		@click="goBack"
 	>
 		<icon-arrow-left class="m-back__icon"></icon-arrow-left>
-		<span class="m-back__button">Back</span>
+		<span class="m-back__button">{{ text || 'Back' }}</span>
 	</button>
 </template>
 
@@ -17,12 +17,13 @@ export default {
 	components: {
 		IconArrowLeft
 	},
+	props: ['link', 'text'],
 	data() {
 		return {};
 	},
 	methods: {
 		goBack() {
-			this.$router.push(this.$router.lastRoute);
+			this.$router.push(this.link || this.$router.lastRoute);
 		}
 	}
 };

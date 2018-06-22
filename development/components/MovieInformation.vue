@@ -2,8 +2,10 @@
 	<div class="o-movie-information">
 		<div class="o-movie-information__section">
 			<div class="o-movie-information__content | o-movie-information__content--information">
-				<div class="o-movie-information__pair | o-movie-information__pair--boxy"
-					v-for="(informationValue, informationKey) in information" :key="informationKey"
+				<div
+					class="o-movie-information__pair | o-movie-information__pair--boxy"
+					v-for="(informationValue, informationKey) in information"
+					:key="informationKey"
 				>
 					<h3 class="o-movie-information__key">
 						{{ informationKey }}
@@ -18,13 +20,15 @@
 		<div class="o-movie-information__section">
 			<h3 class="o-movie-information__title">Cast</h3>
 			<div class="o-movie-information__content | o-movie-information__content--cast">
-				<div class="o-movie-information__pair"
+				<div
+					class="o-movie-information__pair"
 					:class="{
 						'o-movie-information__pair--boxy': actorIndex < 3,
 						'o-movie-information__pair--colorfull-1': actorIndex < 3,
 						'o-movie-information__pair--plain': actorIndex > 2
 					}"
-					v-for="(actor, actorIndex) in movie.data.actors" :key="actorIndex"
+					v-for="(actor, actorIndex) in movie.data.actors"
+					:key="actorIndex"
 				>
 					<h3 class="o-movie-information__value">
 						{{ actor.name }}
@@ -38,12 +42,20 @@
 
 		<div class="o-movie-information__section">
 			<h3 class="o-movie-information__title">Awards</h3>
-			<div class="o-movie-information__content | o-movie-information__content--important-awards" v-if="awards.important.length">
-				<div class="o-movie-information__award-holder" v-for="(award, awardIndex) in awards.important" :key="awardIndex">
-					<component :is="getAwardIcon(award.name)"
+			<div
+				class="o-movie-information__content | o-movie-information__content--important-awards"
+				v-if="awards.important.length"
+			>
+				<div
+					class="o-movie-information__award-holder"
+					v-for="(award, awardIndex) in awards.important"
+					:key="awardIndex"
+				>
+					<component
+						:is="getAwardIcon(award.name)"
 						class="o-movie-information__award-icon"
 						:class="{
-							'o-movie-information__award-icon--won': $_.find(award.categories, { result: 'won' })
+							'o-movie-information__award-icon--won': $_.find(award.outcomes, { result: 'won' })
 						}"
 					>
 					</component>
@@ -51,20 +63,27 @@
 						<h3 class="o-movie-information__award-name">
 							{{ award.name }} {{ award.year }}
 						</h3>
-						<div class="o-movie-information__awards" v-for="(awardCategory, awardCategoryIndex) in award.categories" :key="awardCategoryIndex.title">
-							<div class="o-movie-information__pair | o-movie-information__pair--boxy"
+						<div
+							class="o-movie-information__awards"
+							v-for="(awardCategory, awardCategoryIndex) in award.outcomes"
+							:key="awardCategoryIndex.category"
+						>
+							<div
+								class="o-movie-information__pair | o-movie-information__pair--boxy"
 								:class="{
-									'o-movie-information__pair--colorfull-2': $_.find(award.categories, { result: 'won' })
-								}">
+									'o-movie-information__pair--colorfull-2': $_.find(award.outcomes, { result: 'won' })
+								}"
+							>
 								<h4 class="o-movie-information__key | o-movie-information__key--bold">
 									{{ awardCategory.result }}
 								</h4>
 								<span class="o-movie-information__value | o-movie-information__value--colorfull-1 | o-movie-information__value--light">
-									{{ awardCategory.title }}
-									<span class="o-movie-information__value | o-movie-information__value--colorfull-2 | o-movie-information__value--light"
+									{{ awardCategory.category }}
+									<span
+										class="o-movie-information__value | o-movie-information__value--colorfull-2 | o-movie-information__value--light"
 										v-if="awardCategory.participants.length"
 									>
-										By {{ $_.map(awardCategory.participants, 'name').join(' and ') }}
+										By {{ $_.map(awardCategory.participants).join(' and ') }}
 									</span>
 								</span>
 							</div>
@@ -72,18 +91,29 @@
 					</div>
 				</div>
 			</div>
-			<div class="o-movie-information__content | o-movie-information__content--normal-awards" v-if="awards.normal.length">
-				<div class="o-movie-information__award-holder | o-movie-information__award-holder--normal" v-for="(award, awardIndex) in awards.normal" :key="awardIndex">
+			<div
+				class="o-movie-information__content | o-movie-information__content--normal-awards"
+				v-if="awards.normal.length"
+			>
+				<div
+					class="o-movie-information__award-holder | o-movie-information__award-holder--normal"
+					v-for="(award, awardIndex) in awards.normal"
+					:key="awardIndex"
+				>
 					<div class="o-movie-information__awards-inner">
 						<h3 class="o-movie-information__key">
 							{{ award.name }} {{ award.year }}
 						</h3>
-						<div class="o-movie-information__awards | o-movie-information__awards--normal" v-for="(awardCategory, awardCategoryIndex) in award.categories" :key="awardCategoryIndex">
+						<div
+							class="o-movie-information__awards | o-movie-information__awards--normal"
+							v-for="(awardCategory, awardCategoryIndex) in award.outcomes"
+							:key="awardCategoryIndex"
+						>
 							<div class="o-movie-information__pair">
 								<span class="o-movie-information__value">
 									{{ awardCategory.result }}
 									{{ (awardCategory.result === 'won') ? 'the' : 'for' }}
-									{{ awardCategory.title }}
+									{{ awardCategory.category }}
 								</span>
 							</div>
 						</div>
@@ -103,19 +133,30 @@ import IconGoldenBear from './icons/GoldenBear.vue';
 
 export default {
 	name: 'MovieInformation',
-	props: [
-		'movie'
-	],
+	components: {
+		IconOscar,
+		IconGoldenGlobe,
+		IconBafta,
+		IconGoldenBear,
+		IconCannes
+	},
+	props: ['movie'],
 	data() {
 		return {
 			information: {
-				Directors: this.movie.data.directors.map((director) => {
-					return director.name;
-				}).join(', ') || '―',
+				Directors:
+					this.movie.data.directors
+						.map((director) => {
+							return director.name;
+						})
+						.join(', ') || '―',
 				Year: this.movie.data.year || '―',
-				Writers: this.movie.data.writers.map((writer) => {
-					return writer.name;
-				}).join(', ') || '―',
+				Writers:
+					this.movie.data.writers
+						.map((writer) => {
+							return writer.name;
+						})
+						.join(', ') || '―',
 				'IMDB Rate': this.movie.data.rate.imdb || '―',
 				Metascore: this.movie.data.rate.metascore || '―',
 				Genres: this.movie.data.genres.join(', ') || '―',
@@ -132,8 +173,8 @@ export default {
 				important: [],
 				normal: []
 			};
-			this.movie.data.awards.forEach((award) => {
-				if (['Academy Awards', 'Golden Globes', 'BAFTA Awards', 'Cannes', 'Berlin International Film Festival'].includes(award.name)) {
+			this.movie.data.awards.full.forEach((award) => {
+				if (['academy awards', 'golden globes', 'bafta awards', 'cannes', 'berlin international film festival'].includes(award.name)) {
 					awards.important.push(award);
 				} else {
 					awards.normal.push(award);
@@ -145,27 +186,18 @@ export default {
 	methods: {
 		getAwardIcon(name) {
 			const awardChoose = {
-				'Academy Awards': IconOscar,
-				'Golden Globes': IconGoldenGlobe,
-				'BAFTA Awards': IconBafta,
-				Cannes: IconCannes,
-				'Berlin International Film Festival': IconGoldenBear
+				'academy awards': IconOscar,
+				'golden globes': IconGoldenGlobe,
+				'bafta awards': IconBafta,
+				cannes: IconCannes,
+				'berlin international film festival': IconGoldenBear
 			};
 			return awardChoose[name];
 		},
-		getAwardResult() {
-
-		},
+		getAwardResult() {},
 		isAnImportantAward(name) {
-			return name === 'Academy Awards' || name === 'Golden Globes' || name === 'BAFTA Awards' || name === 'Cannes';
+			return name === 'academy awards' || name === 'golden globes' || name === 'bafta awards' || name === 'cannes';
 		}
-	},
-	components: {
-		IconOscar,
-		IconGoldenGlobe,
-		IconBafta,
-		IconGoldenBear,
-		IconCannes
 	}
 };
 </script>
