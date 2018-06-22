@@ -112,7 +112,7 @@
 			</form>
 			<div class="o-auth-form__extra">
 				<a
-					href="http://localhost:3000/authenticate/google"
+					href="/authenticate/google"
 					class="o-auth-form__google"
 				>
 					<span class="o-auth-form__google-text">Authenticate with</span>

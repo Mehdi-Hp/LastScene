@@ -147,6 +147,7 @@
 		overflow: hidden;
 		white-space: nowrap;
 		font-weight: 400;
+		text-transform: capitalize;
 	}
 
 	&__year {
@@ -161,6 +162,7 @@
 		transform-origin: left;
 		transition: transform 0.3s 0.3s, opacity 0.3s 0.3s;
 		font-weight: 700;
+		text-transform: capitalize;
 
 		&--is-deleting {
 			transform: rotateY(110deg);
