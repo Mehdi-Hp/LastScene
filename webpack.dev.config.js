@@ -1,9 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
-const postcssPlugins = require('./postcss.config');
+const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const postcssPlugins = require('./postcss.dev.config');
 
 const smp = new SpeedMeasurePlugin();
 
@@ -53,10 +55,10 @@ module.exports = smp.wrap({
 				exclude: [nodeModulesPath]
 			},
 			{
-				test: /(\.scss|\.pcss)$/,
+				test: /(\.scss|\.pcss|\.css)$/,
 				use: [
 					{
-						loader: 'style-loader'
+						loader: 'vue-style-loader'
 					},
 					{
 						loader: 'css-loader',
@@ -66,6 +68,7 @@ module.exports = smp.wrap({
 							minimize: false
 						}
 					},
+					'sass-loader',
 					{
 						loader: 'postcss-loader',
 						options: {
@@ -74,21 +77,21 @@ module.exports = smp.wrap({
 							plugins: postcssPlugins
 						}
 					},
-					'sass-loader',
 					{
 						loader: 'sass-resources-loader',
 						options: {
 							resources: ['./development/assets/notcss/_utils/_all-utils.scss']
 						}
 					}
-				]
+				],
+				exclude: [nodeModulesPath]
 			},
 			{
 				test: /\.js$/,
 				use: {
 					loader: 'babel-loader',
 					options: {
-						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
+						plugins: ['lodash'],
 						presets: [
 							[
 								'@babel/preset-env',
@@ -116,23 +119,26 @@ module.exports = smp.wrap({
 			filename: 'index.html'
 		}),
 		new webpack.HotModuleReplacementPlugin(),
-		new DashboardPlugin()
+		new DashboardPlugin(),
+		new VueLoaderPlugin()
 	],
 	resolve: {
 		alias: {
-			vue$: 'vue/dist/vue.esm.js'
+			vue$: 'vue/dist/vue.esm.js',
+			'@': path.resolve(__dirname, 'development'),
+			'@@': path.resolve(__dirname, 'development', 'components')
 		}
 	},
 	devServer: {
 		contentBase: path.resolve(__dirname, 'public'),
 		publicPath: '/',
-		noInfo: true,
+		noInfo: false,
 		compress: false,
 		historyApiFallback: true,
 		disableHostCheck: true,
 		hot: true,
 		watchOptions: {
-			ignored: '/node_modules/'
+			ignored: nodeModulesPath
 		},
 		progress: true,
 		proxy: {
@@ -144,11 +150,10 @@ module.exports = smp.wrap({
 			warnings: true,
 			errors: true
 		},
-		open: false,
-		stats: 'minimal'
+		open: false
 	},
 	performance: {
 		hints: false
 	},
-	devtool: 'eval'
+	devtool: 'cheap-module-source-map'
 });

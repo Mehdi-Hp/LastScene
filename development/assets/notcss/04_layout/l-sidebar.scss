@@ -1,22 +1,2 @@
 .l-sidebar {
-	background: $clay;
-	color: white;
-	display: flex;
-	flex-direction: column;
-	box-shadow: 10px 0 60px 20px rgba(0, 0, 0, 0.5);
-	z-index: g-index('land');
-	position: fixed;
-
-	&__loggdin-user {
-		height: 50px;
-		margin-top: $gutter--thin;
-		padding: 0 $gutter--thin;
-	}
-
-	&__places {
-		display: flex;
-		flex-direction: column;
-		margin: $gutter--thin 0;
-		flex-grow: 1;
-	}
 }

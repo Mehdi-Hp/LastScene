@@ -1,0 +1,39 @@
+$clay: #22293c;
+$clay--light-1: #484e63;
+$clay--light-2: #70778d;
+$clay-white: mix(white, $clay, 80%);
+
+$gold: #f2c57c;
+$gold--light-1: #f8e0b9;
+$gold--dark-1: #c29952;
+
+$red: #dc3d63;
+$red-light-1: #e46885;
+$red-dark-1: #971b39;
+
+$green: #57b26c;
+$green--light-1: #62b775;
+$green--light-2: #a8d7b3;
+$green--dark-1: #387a47;
+
+$blue: #8489cc;
+
+$white: white;
+$white-1: shade($white, 3%);
+$white-2: shade($white, 6%);
+$white-3: shade($white, 9%);
+$white-4: shade($white, 12%);
+$white-5: shade($white, 15%);
+$white-6: shade($white, 20%);
+
+$black: black;
+$black-1: tint($black, 10%);
+$black-2: tint($black, 20%);
+$black-3: tint($black, 30%);
+$black-4: tint($black, 40%);
+$black-5: tint($black, 50%);
+$black-6: tint($black, 60%);
+
+// -------------
+$primary-color: $clay;
+$secondary-color: $gold;

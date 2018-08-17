@@ -1,4 +1,3 @@
-import Dashboard from './components/Dashboard.vue';
 import Buffet from './components/Buffet.vue';
 import AddMovie from './components/AddMovie.vue';
 import Movie from './components/Movie.vue';
@@ -7,6 +6,10 @@ import AuthForm from './components/AuthForm.vue';
 import Logout from './components/Logout.vue';
 import GoogleOauthCallback from './components/GoogleOauthCallback.vue';
 import NotFound from './components/NotFound.vue';
+
+const Dashboard = () => {
+	return import('./components/05_pages/Dashboard.vue');
+};
 
 export default [
 	{
@@ -40,32 +43,39 @@ export default [
 	{
 		path: '/',
 		alias: '/movies',
+		name: 'Dashboard',
 		component: Dashboard,
 		children: [
 			{
 				path: '/',
 				component: Buffet,
-				children: [
-					{
-						path: 'add',
-						name: 'addMovie',
-						components: {
-							addMovie: AddMovie
-						}
-					}
-				]
+				meta: {
+					title: 'My Buffet'
+				}
+				// children: [
+				// 	{
+				// 		path: 'add',
+				// 		name: 'addMovie',
+				// 		components: {
+				// 			addMovie: AddMovie
+				// 		}
+				// 	}
+				// ]
 			},
 			{
 				path: 'watch-next',
 				component: Buffet,
+				meta: {
+					title: 'Watch Next...'
+				},
 				props: {
 					watchNextMode: true
 				}
-			},
-			{
-				path: '/movies/:movie_id',
-				component: Movie
 			}
+			// {
+			// 	path: '/movies/:movie_id',
+			// 	component: Movie
+			// }
 		]
 	},
 	{

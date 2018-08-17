@@ -1,17 +1,11 @@
 <template>
-	<main id="app">
-		<router-view></router-view>
-	</main>
+	<div id="app">
+		<router-view />
+	</div>
 </template>
 
 <script>
-import './assets/notcss/_vendor/all-vendors.scss';
-import './assets/notcss/00_base/base.scss';
-import './assets/notcss/01_atom/atoms.scss';
-import './assets/notcss/02_molecule/molecules.scss';
-import './assets/notcss/03_organism/organisms.scss';
-import './assets/notcss/04_layout/layouts.scss';
-import './assets/notcss/05_page/pages.scss';
+import './assets/notcss/base/base.scss';
 
 export default {
 	name: 'App',

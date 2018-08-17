@@ -5,8 +5,7 @@ html {
 
 body {
 	font-family: $default-typeface;
-	font-size: ms(0);
-	font-weight: 600;
+	font-size: $fs-regular;
 	min-height: 100%;
 }
 
@@ -22,5 +21,4 @@ input[type='password'] {
 main {
 	width: 100%;
 	min-height: 100vh;
-	min-height: 100%;
 }

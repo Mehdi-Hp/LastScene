@@ -1,19 +1,16 @@
 @import '~modularscale-sass/stylesheets/_modularscale.scss';
+@import './color-schemer/_color-schemer';
 
-@import '_var__colors';
+$modularscale: (
+	base: 16px,
+	ratio: 1.414
+);
+
+@import '_var__color-pallete';
+@import '_var__typography';
+@import '_var__grid';
 @import '_var__element-colors';
-
-@import '_mix__hardware-acceleration';
-@import '_mix__fonticon';
-
-@import '_pla__background-center';
-
-@import '_pla__fade';
-
-@import '_set__ant';
-
-@import '_set__typography';
+@import '_var__ui';
+@import '_var__element-interface';
 
 @import '_util__text-masker';
-
-@import './color-schemer/_color-schemer';

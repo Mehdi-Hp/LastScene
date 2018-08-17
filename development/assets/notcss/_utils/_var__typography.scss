@@ -1,0 +1,12 @@
+@charset "UTF-8";
+@import 'node_modules/mathsass/dist/math';
+
+$default-typeface: 'Nanum Gothic';
+$secondary-typeface: 'Gotham';
+
+$fs-smaller: ms(-1);
+$fs-small: ms(-0.5);
+$fs-regular: ms(0);
+$fs-medium: ms(1);
+$fs-big: ms(2);
+$fs-bigger: ms(3);

@@ -10,15 +10,20 @@ import VueTippy from 'vue-tippy';
 import umbrellajs from 'umbrellajs';
 import VueLocalStorage from 'vue-ls';
 import VueTouchRipple from 'vue-touch-ripple';
+import Ripple from 'vue-ripple-directive';
+
 import Routes from './routes';
 import App from './App.vue';
-import store from './store';
+import store from './store/index';
+import Icon from './components/01_atoms/Icon.vue';
+import AppButton from './components/01_atoms/AppButton.vue';
 
 Vue.use(LodashForVue);
 Vue.prototype.$_ = Vue.$lodash;
 Vue.$_ = Vue.$lodash;
 
 Vue.use(VueEsc);
+
 Vue.use(VueTippy, {
 	arrow: true,
 	arrowType: 'round',
@@ -59,6 +64,11 @@ Vue.use(VueTouchRipple, {
 });
 
 Vue.use(VueLocalStorage);
+
+Vue.directive('ripple', Ripple);
+
+Vue.component('Icon', Icon);
+Vue.component('AppButton', AppButton);
 
 new Vue({
 	el: '#app',

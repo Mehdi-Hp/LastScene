@@ -9,7 +9,7 @@
 
 	&__holder {
 		width: 100%;
-		gg: columns(1/6 1/6 1/6 1/6 1/6 1/6) gutter($gutter);
+		gg: columns(1/5 1/5 1/5 1/5 1/5) gutter($gutter--fat);
 
 		&--is-moving {
 			transition: transform 0.6s;

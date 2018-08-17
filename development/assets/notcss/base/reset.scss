@@ -10,7 +10,7 @@ a {
 	color: currentColor;
 }
 
-input[type=range] {
+input[type='range'] {
 	-webkit-appearance: none;
 }
 
@@ -65,7 +65,9 @@ input {
 	font-size: 1em;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
 	box-sizing: border-box;
 }
 
