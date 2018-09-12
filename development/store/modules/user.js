@@ -25,7 +25,7 @@ export default {
 	actions: {
 		fetchUser({ commit, state }) {
 			return new Promise((resolve, reject) => {
-				Vue.$axios
+				Vue.axios
 					.get('/user')
 					.then(({ data: user }) => {
 						console.table(user);

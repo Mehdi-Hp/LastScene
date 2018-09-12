@@ -1,11 +1,9 @@
 <template>
 	<section class="buffet">
 		<buffet-tools class="buffet__tools"/>
-		<!-- <micro-movies
-			:mode="(filteredMovies) ? 'search' : null"
-			:initial-movies="(!filteredMovies) ? movies : filteredMovies"
-			class="l-buffet__micro-movies"
-		/> -->
+		<mini-movies
+			class="buffet__mini-movies"
+		/>
 	</section>
 </template>
 
@@ -13,14 +11,17 @@
 const BuffetTools = () => {
 	return import('@@/02_molecules/BuffetTools.vue');
 };
+const MiniMovies = () => {
+	return import('@@/04_layout/MiniMovies.vue');
+};
 // import _ from 'lodash';
 // import MicroMovies from './MicroMovies.vue';
 
 export default {
 	name: 'Buffet',
 	components: {
-		BuffetTools
-		// MicroMovies
+		BuffetTools,
+		MiniMovies
 	},
 	data() {
 		return {
@@ -77,6 +78,11 @@ export default {
 <style scoped lang="scss">
 .buffet {
 	&__tools {
+		margin-bottom: $gutter--fat;
+	}
+
+	&__mini-movies {
+		margin-bottom: $gutter--fat;
 	}
 }
 </style>

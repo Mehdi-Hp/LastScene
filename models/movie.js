@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const timestamps = require('mongoose-timestamp');
 
 const movieSchema = new mongoose.Schema({
-	_id: {
-		type: String
-	},
-
 	title: {
 		type: String,
 		lowercase: true,
@@ -18,7 +14,7 @@ const movieSchema = new mongoose.Schema({
 		trim: true
 	},
 
-	id: new mongoose.Schema(
+	externalId: new mongoose.Schema(
 		{
 			imdb: {
 				type: String,
@@ -86,43 +82,14 @@ const movieSchema = new mongoose.Schema({
 
 	budget: String,
 
-	directors: [
-		new mongoose.Schema(
-			{
-				name: {
-					type: String,
-					lowercase: true,
-					trim: true
-				},
-				id: String
-			},
-			{ _id: false }
-		)
-	],
+	directors: [String],
 
-	writers: [
-		new mongoose.Schema(
-			{
-				name: {
-					type: String,
-					lowercase: true,
-					trim: true
-				},
-				id: String
-			},
-			{ _id: false }
-		)
-	],
+	writers: [String],
 
 	actors: [
 		new mongoose.Schema(
 			{
 				name: {
-					type: String,
-					lowercase: true,
-					trim: true
-				},
-				id: {
 					type: String,
 					lowercase: true,
 					trim: true
@@ -201,6 +168,7 @@ const movieSchema = new mongoose.Schema({
 	fulfilled: Boolean,
 	updating: Boolean
 });
+
 movieSchema.plugin(timestamps);
 
 const Movie = mongoose.model('Movie', movieSchema);

@@ -15,7 +15,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			debug(chalk.greenBright(`Check movie [${imdbID}] information in database...`));
 			Movie.findOne({
-				_id: imdbID
+				'externalId.imdb': imdbID
 			})
 				.then((existedMovie) => {
 					if (existedMovie && existedMovie.fulfilled && !forceGet) {
@@ -25,7 +25,9 @@ module.exports = {
 					if (this.queue.includes(imdbID)) {
 						debug(chalk.bold(`Already looking for [${imdbID}] information...`));
 						return resolve({
-							_id: imdbID,
+							externalId: {
+								imdb: imdbID
+							},
 							loading: true,
 							fulfilled: false
 						});
@@ -34,7 +36,9 @@ module.exports = {
 					debug(chalk.greenBright(`Not in database. Searching for movie information [${imdbID}] ...`));
 					if (!forceGet) {
 						Movie.create({
-							_id: imdbID,
+							externalId: {
+								imdb: imdbID
+							},
 							loading: true,
 							fulfilled: false,
 							updating: false
@@ -50,7 +54,7 @@ module.exports = {
 							});
 					} else {
 						Movie.findOneAndUpdate(
-							imdbID,
+							{ 'externalId.imdb': imdbID },
 							{
 								updating: true
 							},
@@ -107,11 +111,17 @@ module.exports = {
 							movie.fulfilled = true;
 							movie.loading = false;
 							movie.updating = false;
-							Movie.findByIdAndUpdate(imdbID, movie, { new: true })
+							Movie.findOneAndUpdate(
+								{
+									'externalId.imdb': imdbID
+								},
+								movie,
+								{ new: true }
+							)
 								.then((fulfilledMovie) => {
 									debug(chalk.green(`__Movie [${imdbID}] is in database now`));
 									this.queue.splice(1, this.queue.indexOf(imdbID));
-									return resolve(movie);
+									return resolve(fulfilledMovie);
 								})
 								.catch((error) => {
 									debug(chalk.bold.red(error));

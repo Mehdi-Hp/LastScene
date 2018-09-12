@@ -55,22 +55,24 @@ module.exports = {
 							message: error
 						});
 					}
-					let $ = cheerio.load(html);
+					let $ = cheerio.load(html, {
+						normalizeWhitespace: true
+					});
 					$.prototype.textBetween = cheerioPlugins.between;
 					const movie = {
 						title: $('h1').textBetween(0, '('),
 						year: $('h1').textBetween('(', ')'),
 						originalTitle: $('.titleBar .originalTitle').textBetween(0, '('),
-						id: {
+						externalId: {
 							imdb: $('meta[property="pageId"]').attr('content')
 						},
 						url: {
 							imdb: $('link[rel="canonical"]').attr('href')
 						},
 						rate: {
-							imdb: +$('[itemprop="ratingValue"]')
+							imdb: +$('.imdbRating')
 								.text()
-								.trim(),
+								.split('/')[0],
 							metascore: +$('.metacriticScore')
 								.text()
 								.trim()
@@ -86,7 +88,7 @@ module.exports = {
 							simple: $('.summary_text')
 								.text()
 								.trim(),
-							full: $('[itemprop="description"]')
+							full: $('#titleStoryLine h2:contains("Storyline") + div span')
 								.text()
 								.trim()
 						},
@@ -106,9 +108,20 @@ module.exports = {
 							.text()
 							.trim()
 							.toLowerCase()
-							.split('|'),
-						directors: [],
-						writers: [],
+							.split('|')
+							.map((item) => {
+								return item.trim();
+							}),
+						directors: $('.credit_summary_item:contains("Director") a[href*="name"]')
+							.map((index, element) => {
+								return $(element).text();
+							})
+							.toArray(),
+						writers: $('.credit_summary_item:contains("Writer") a[href*="name"]')
+							.map((index, element) => {
+								return $(element).text();
+							})
+							.toArray(),
 						actors: [],
 						awardsLink: `https://www.imdb.com/${$('#titleAwardsRanks a[href*="awards"]').attr('href')}`,
 						awards: {
@@ -121,39 +134,16 @@ module.exports = {
 							full: []
 						}
 					};
-					$('.credit_summary_item [itemprop="director"] a').each(function(directorIndex, directorElement) {
-						movie.directors[directorIndex] = {
-							name: $(directorElement)
-								.text()
-								.toLowerCase()
-								.trim(),
-							id: $(directorElement)
-								.attr('href')
-								.match(/nm\d*/)[0]
-						};
-					});
-					$('.credit_summary_item [itemprop="creator"] a').each(function(writerIndex, writerElement) {
-						movie.writers[writerIndex] = {
-							name: $(writerElement)
-								.text()
-								.toLowerCase()
-								.trim(),
-							id: $(writerElement)
-								.attr('href')
-								.match(/nm\d*/)[0]
-						};
-					});
 					$('.cast_list tr[class]').each(function(castIndex, castElement) {
 						movie.actors[castIndex] = {
 							name: $(castElement)
-								.find('[itemprop="name"]')
+								.find('a[href*="name"]')
 								.text()
 								.toLowerCase()
 								.trim(),
-							id: '',
 							character: $(castElement)
 								.find('.character')
-								.text()
+								.textBetween(0, '(')
 								.toLowerCase()
 								.trim(),
 							picture: $(castElement)
@@ -223,10 +213,13 @@ module.exports = {
 										participants: $(categoryElement)
 											.find('.award_description a')
 											.map(function(index, element) {
-												return $(element)
+												const participant = $(element)
 													.text()
 													.toLowerCase()
 													.trim();
+												if (participant !== 'more') {
+													return participant;
+												}
 											})
 											.get()
 									};

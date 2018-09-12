@@ -21,7 +21,7 @@ app.route('/').get((req, res, next) => {
 		username: theUsername
 	})
 		.populate({
-			path: 'movies._id',
+			path: 'movies.information',
 			model: 'Movie'
 		})
 		.then((user) => {

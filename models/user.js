@@ -5,13 +5,12 @@ const chalk = require('chalk');
 const shortid = require('shortid');
 const _ = require('lodash');
 const List = require('../models/list');
-const Movie = require('../models/movie');
 
 const moviesSubSchema = new mongoose.Schema(
 	{
-		_id: {
-			type: String,
-			ref: Movie
+		information: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Movie'
 		},
 		rate: Number,
 		note: String,
@@ -20,7 +19,8 @@ const moviesSubSchema = new mongoose.Schema(
 		favourite: Boolean
 	},
 	{
-		timestamps: true
+		timestamps: true,
+		_id: false
 	}
 );
 
@@ -96,7 +96,7 @@ userSchema.methods.findOneAndAddMovie = (user, imdbID) => {
 						{
 							$push: {
 								movies: {
-									_id: imdbID
+									information: imdbID
 								}
 							}
 						},

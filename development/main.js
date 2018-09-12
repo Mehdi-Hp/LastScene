@@ -51,7 +51,6 @@ router.beforeEach((to, from, next) => {
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = '/api/v1';
-Vue.$axios = Vue.axios;
 Vue.prototype.$axios = Vue.axios;
 
 Object.defineProperty(Vue.prototype, '$u', { value: umbrellajs.u });

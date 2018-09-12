@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import user from './modules/user';
+import movies from './modules/movies';
 
 // import fastSort from 'fast-sort';
 // import renameObjectsKeys from './helpers/renameObjectsKeys';
@@ -10,7 +11,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	modules: {
-		user
+		user,
+		movies
 	},
 	state: {
 		// info: null,

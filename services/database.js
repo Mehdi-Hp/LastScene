@@ -1,16 +1,26 @@
+const mongoose = require('mongoose');
 const chalk = require('chalk');
 const debug = require('debug')('app:database');
+const {
+	mongodb: { username, password, host, port, collection }
+} = require('../config/appConf');
 
 module.exports = {
-	connect(mongoose) {
+	connect() {
 		if (process.env.MONGODB_USERNAME) {
-			mongoose.connect(`mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/lastscene`, {
-				autoReconnect: true
-			});
+			mongoose.connect(
+				`mongodb://${username}:${password}@${host}:${port}/${collection}`,
+				{
+					autoReconnect: true
+				}
+			);
 		} else {
-			mongoose.connect(`mongodb://@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/lastscene`, {
-				autoReconnect: true
-			});
+			mongoose.connect(
+				`mongodb://@${host}:${port}/${collection}`,
+				{
+					autoReconnect: true
+				}
+			);
 		}
 		mongoose.Promise = global.Promise;
 		const mongooseConnection = mongoose.connection;
@@ -18,13 +28,14 @@ module.exports = {
 			throw error;
 		});
 		mongooseConnection.once('connection', () => {
-			debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
+			debug(chalk.bold.underline.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
 		});
 		mongooseConnection.once('open', () => {
-			debug(chalk.bold.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
+			debug(chalk.bold.underline.cyan(`Connected to MongoDB, ${mongooseConnection.name} collection`));
 		});
 		mongooseConnection.once('reconnect', () => {
-			debug(chalk.bold.cyan(`reConnected to MongoDB, ${mongooseConnection.name} collection`));
+			debug(chalk.bold.underline.cyan(`reconnected to MongoDB, ${mongooseConnection.name} collection`));
 		});
+		return mongooseConnection;
 	}
 };
