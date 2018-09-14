@@ -52,6 +52,21 @@ module.exports = {
 				}
 			},
 			{
+				method: 'PATCH',
+				path: '/users/{username}/movies/{movieId}',
+				handler: movieController.update,
+				options: {
+					pre: [
+						{
+							method: isAuthorized
+						},
+						{
+							method: checkUserExistance
+						}
+					]
+				}
+			},
+			{
 				method: 'DELETE',
 				path: '/users/{username}/movies/{movieId}',
 				handler: movieController.delete,

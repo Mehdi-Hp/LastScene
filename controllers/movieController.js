@@ -1,4 +1,5 @@
 const _ = require('lodash');
+
 const User = require('../models/user');
 const Movie = require('../models/movie');
 const movieService = require('../services/movieService');
@@ -83,6 +84,25 @@ module.exports = {
 			return h.badImplementation(`Couldn't add movie [${imdbID}] to user [${username}]`);
 		}
 		return movie;
+	},
+	async update(request, h) {
+		const { username, movieId } = request.params;
+		const wishedMovie = request.payload;
+
+		const user = await User.findOne({
+			username
+		});
+		const movieIndexToUpdate = user.movies.toObject().findIndex((userMovie) => {
+			return userMovie.information.toJSON() === movieId;
+		});
+		const newMovie = Object.assign({}, user.movies[movieIndexToUpdate].toObject(), wishedMovie);
+		user.movies[movieIndexToUpdate] = newMovie;
+		try {
+			const updatedUser = await user.save();
+			return updatedUser.movies[movieIndexToUpdate];
+		} catch ({ message }) {
+			return h.badImplementation(message);
+		}
 	},
 	async delete(request, h) {
 		const { username } = request.params;
