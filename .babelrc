@@ -1,5 +1,12 @@
 {
-	"presets": [],
-
-	"plugins": ["@babel/syntax-dynamic-import"]
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"useBuiltIns": "usage",
+				"debug": true
+			}
+		]
+	],
+	"plugins": ["@babel/syntax-dynamic-import", "module:lodash", "module:fast-async"]
 }

@@ -89,21 +89,7 @@ module.exports = smp.wrap({
 			{
 				test: /\.js$/,
 				use: {
-					loader: 'babel-loader',
-					options: {
-						plugins: ['lodash'],
-						presets: [
-							[
-								'@babel/preset-env',
-								{
-									targets: {
-										browsers: ['last 2 versions']
-									},
-									spec: true
-								}
-							]
-						]
-					}
+					loader: 'babel-loader'
 				},
 				exclude: [nodeModulesPath]
 			}

@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"@babel/core": "^7.1.2",
+		"@babel/polyfill": "^7.0.0",
 		"@babel/preset-env": "^7.1.0",
 		"axios": "^0.18.0",
 		"babel-cli": "^6.26.0",
@@ -50,6 +51,7 @@
 		"express": "^4.16.4",
 		"express-session": "^1.15.6",
 		"express-subdomain": "^1.0.5",
+		"fast-async": "^6.3.8",
 		"fast-sort": "^1.5.4",
 		"file-name": "^0.1.0",
 		"global": "^4.3.2",
