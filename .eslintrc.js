@@ -1,8 +1,5 @@
 module.exports = {
 	root: true,
-	parserOptions: {
-		parser: 'babel-eslint'
-	},
 	plugins: ['vue', 'xss', 'security', 'promise', 'no-loops'],
 	extends: ['airbnb', 'prettier', 'prettier/standard', 'plugin:security/recommended', 'plugin:promise/recommended', 'plugin:array-func/recommended', 'plugin:vue/recommended'],
 	rules: {
