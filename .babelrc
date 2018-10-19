@@ -8,5 +8,5 @@
 			}
 		]
 	],
-	"plugins": ["@babel/syntax-dynamic-import", "module:lodash", "module:fast-async"]
+	"plugins": ["@babel/syntax-dynamic-import", "lodash", "module:fast-async", "@babel/plugin-proposal-optional-chaining"]
 }
