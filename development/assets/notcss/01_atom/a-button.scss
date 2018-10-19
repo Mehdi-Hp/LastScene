@@ -1,0 +1,13 @@
+.a-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 2px;
+	font-weight: bolder;
+
+	&--plain {
+		background: none;
+		font-size: ms(0);
+		padding: 0;
+	}
+}

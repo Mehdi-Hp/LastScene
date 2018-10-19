@@ -1,0 +1,45 @@
+@keyframes iconHeart__isPending {
+	0% {
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dashoffset: 181.1662139892578;
+	}
+	90% {
+		transform: scale(1);
+	}
+	100% {
+		color: mix($red, white, 30%);
+		transform: scale(1.2);
+		stroke-dashoffset: calc(181.1662139892578 * 2);
+	}
+}
+.a-icon-heart {
+	color: transparent;
+
+	&--is-done {
+		color: $red;
+		stroke: $red;
+	}
+
+	&__path {
+		stroke: $purple;
+		stroke-width: 6;
+		transform-origin: center;
+		stroke-dasharray: 181.1662139892578;
+
+		&--is-pending {
+			animation: iconHeart__isPending 2s cubic-bezier(0.04, 0.88, 0.7, 0.12);
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+		}
+
+		&--is-done {
+			stroke-width: 0;
+		}
+
+		// &--washy {
+		// 	color: $clay__twisted-spot--3;
+		// }
+	}
+}

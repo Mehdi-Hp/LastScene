@@ -1,0 +1,16 @@
+.o-places {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: $gutter--thin;
+
+	&__title {
+		font-size: ms(-2);
+		font-weight: 800;
+		color: tint($sidebar-color, 40%);
+		margin-bottom: $gutter--thin / 2;
+		padding: 0 $gutter--thin;
+	}
+
+	&__nested {
+	}
+}

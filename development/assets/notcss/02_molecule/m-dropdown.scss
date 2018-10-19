@@ -1,0 +1,102 @@
+.m-dropdown {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	transition: all 0.2s ease-in-out;
+	background-color: $clay;
+	border-radius: 50%;
+	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+	background-color: transparentize($purple, 0.2);
+	size: 40px;
+	transition: width 0.2s, height 0.2s, border-radius 0.2s, border-top-left-radius 0.2s 0.1s, box-shadow 0.2s, background-color 0.2s;
+	transition-timing-function: ease-in-out;
+	cursor: pointer;
+
+	&--is-visible {
+		will-change: width, height, border-radius, box-shadow;
+	}
+
+	&--is-open {
+		cursor: default;
+		background-color: white;
+		box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
+		z-index: g-index('hill');
+		border-radius: 0;
+		transition: width 0.2s, height 0.2s, border-radius 0.2s, border-top-left-radius 0.2s, box-shadow 0.2s, background-color 0.2s;
+	}
+
+	&__icon {
+		border-radius: 50%;
+		flex-shrink: 0;
+		transition: all 0.2s 0.2s;
+		z-index: g-index('land');
+		size: 30px;
+
+		&--is-visible {
+			will-change: box-shadow;
+		}
+
+		&--is-open {
+			box-shadow: none;
+		}
+	}
+
+	&__menu {
+		padding: 0.5rem 0;
+		display: flex;
+		flex-direction: column;
+		font-size: ms(-4);
+		color: hsl(0, 0%, 40%);
+		font-weight: 600;
+		position: absolute;
+
+		&--is-open {
+		}
+	}
+
+	&__options {
+	}
+
+	&__option {
+		display: flex;
+		align-items: center;
+		padding: 0.5rem 1rem;
+		color: currentColor;
+		cursor: pointer;
+		user-select: none;
+		pointer-events: none;
+
+		&:hocus {
+			color: $purple;
+			background-color: hsl(0, 0%, 98%);
+		}
+
+		.m-dropdown--is-open & {
+			pointer-events: all;
+		}
+	}
+
+	&__opticon {
+		position: relative;
+		margin-right: 0.5em;
+		width: 1.4em;
+		height: 1.1em;
+		position: relative;
+
+		&--heart {
+			left: -0.05em;
+		}
+
+		&--eye {
+			top: -0.1em;
+			& .a-icon-watch__around {
+				stroke: $purple;
+			}
+		}
+
+		&--flag {
+			color: $purple;
+		}
+	}
+}

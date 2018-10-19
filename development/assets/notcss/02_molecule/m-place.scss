@@ -1,0 +1,49 @@
+.m-place {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+	padding: $gutter--thin / 3 $gutter--thin;
+
+	&--is-active {
+		&:before {
+			content: '';
+			position: absolute 0 0 0 0;
+			z-index: -1;
+			background-color: tint($sidebar-color, 10%);
+		}
+	}
+
+	&--nested {
+		padding: $gutter--thin / 4 $gutter--thin;
+		padding-left: $gutter * 2/3;
+	}
+
+	&__icon {
+		width: 1.2em;
+		margin-right: 0.5em;
+		position: relative;
+		top: -0.1em;
+		color: $kinda-white;
+	}
+
+	&__name {
+		width: 100%;
+		font-size: ms(0);
+		display: flex;
+		align-items: center;
+		flex-grow: 1;
+		white-space: nowrap;
+		&--nested {
+			font-size: ms(-1);
+		}
+	}
+
+	&__desc {
+		font-size: ms(-2);
+		color: hsl(0, 0, 50%);
+	}
+
+	&__count {
+	}
+}

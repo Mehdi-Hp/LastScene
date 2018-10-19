@@ -1,0 +1,54 @@
+.m-movie-box {
+	position: relative;
+	cursor: pointer;
+
+	&--is-loading {
+		background-color: mix(white, black, 90%);
+		overflow: hidden;
+	}
+
+	&--is-visible {
+		background-color: $purple;
+		transition: background-color 0.1s ease-in-out;
+	}
+
+	&--big {
+		font-size: ms(3);
+	}
+
+	&__rate {
+		position: absolute;
+		top: 0.25rem;
+		right: 0.25rem;
+		padding: 0.25rem;
+		font-size: ms(-2);
+		color: $gold;
+		mix-blend-mode: luminosity;
+		transition: background-color 0.1s ease-in-out;
+		background-color: $clay;
+
+		&--is-visible {
+
+		}
+
+		&--is-loading {
+
+		}
+	}
+
+	&__year {
+		position: absolute;
+		right: 0;
+		bottom: -1.5em;
+		padding: .25em;
+		font-size: ms(-2);
+		font-family: $secondary-typeface;
+		font-weight: 100;
+		color: white;
+		mix-blend-mode: luminosity;
+	}
+
+	&__loader {
+
+	}
+}

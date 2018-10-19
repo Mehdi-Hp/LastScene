@@ -1,0 +1,85 @@
+@keyframes iconWatchAround__isPending {
+	0% {
+		transform: scaleY(1);
+	}
+
+	50% {
+		transform: scaleY(.2);
+	}
+
+	100% {
+		transform: scaleY(1);
+	}
+}
+@keyframes iconEyeBall__isPending {
+	0% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+
+	50% {
+		transform: scaleY(.2);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+}
+
+.a-icon-watch {
+	color: transparent;
+
+	&__path {
+		transform-origin: center;
+
+		&--is-pending {}
+
+		&--is-done {}
+	}
+
+	&__around {
+		stroke: currentColor;
+		stroke-width: 6;
+
+		&--is-pending {
+			animation: iconWatchAround__isPending 1s cubic-bezier(0.96, -0.03, 0.58, 1);
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+			color: $purple;
+			transition: color 1s;
+		}
+
+		&--is-done {
+			color: $purple;
+			stroke-width: 0;
+			transform: scale(1.1);
+		}
+
+		&--custom-color {
+			color: currentColor;
+		}
+	}
+
+	&__eyeball {
+		color: #a1a1a1;
+
+		&--is-pending {
+			animation: iconEyeBall__isPending 1s cubic-bezier(0.96, -0.03, 0.58, 1);
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+			color: mix($cyan, white, 30%);
+			transition: color 1s;
+		}
+
+		&--is-done {
+			color: mix($cyan, white, 30%);
+			transform: scale(1.1);
+		}
+
+		&--custom-color {
+			// color: currentColor;
+		}
+	}
+}

@@ -1,0 +1,34 @@
+.m-search-drop {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0.5em;
+	background-color: mix($overlay-color--light, black, 90%);
+	color: mix($overlay-color--light, black, 25%);
+	height: 15em;
+	border-radius: 1em;
+	position: relative;
+
+	&__icon {
+		size: 7em;
+		color: mix($overlay-color--light, black, 80%);
+		pointer-events: none;
+	}
+
+	&__text {
+		color: mix($overlay-color--light, black, 60%);
+		pointer-events: none;
+		margin-top: 1em;
+	}
+
+	&__input {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		opacity: 0;
+	}
+}

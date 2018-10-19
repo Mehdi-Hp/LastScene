@@ -1,0 +1,50 @@
+.a-rate {
+	display: flex;
+	position: relative;
+	font-family: $secondary-typeface;
+	font-family: $secondary-typeface;
+
+	&--horiz {
+		position: absolute;
+		flex-direction: column;
+	}
+
+	&__value {
+		font-size: ms(4);
+		display: flex;
+		position: relative;
+		top: -0.7rem;
+		color: $purple__shade--4;
+
+		&--horiz {
+			top: 0;
+			color: currentColor;
+		}
+	}
+
+	&__base {
+		display: flex;
+		font-family: $default-typeface;
+		color: $purple__shade--2;
+		font-size: ms(-2);
+
+		&:before {
+			content: '/';
+		}
+
+		&--horiz {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			color: currentColor;
+
+			&:before {
+				content: '';
+				margin: 0.25em 0;
+				width: 1rem;
+				height: 2px;
+				background-color: currentColor;
+			}
+		}
+	}
+}

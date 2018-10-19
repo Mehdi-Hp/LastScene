@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:cc="http://creativecommons.org/ns#"
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg"
+	 height="64.880005"
+	 width="81"
+	 id="svg18"
+	 version="1.1"
+	 y="0px"
+	 x="0px"
+	 viewBox="0 0 81 64.880005"
+	 data-name="Layer 1">
+	<metadata
+		 id="metadata24">
+		<rdf:RDF>
+			<cc:Work
+				 rdf:about="">
+				<dc:format>image/svg+xml</dc:format>
+				<dc:type
+					 rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+				<dc:title>116all</dc:title>
+			</cc:Work>
+		</rdf:RDF>
+	</metadata>
+	<defs
+		 id="defs22" />
+	<title
+		 id="title2">116all</title>
+	<path
+		 id="rect4"
+		 d="m 0,56.880003 h 14.11 v 8 H 0 Z" />
+	<path
+		 id="rect6"
+		 d="m 0,42.660002 h 31.33 v 8 H 0 Z" />
+	<path
+		 id="rect8"
+		 d="m 0,28.440001 h 48.560001 v 8 H 0 Z" />
+	<path
+		 id="rect10"
+		 d="m 0,14.220002 h 65.779999 v 8 H 0 Z" />
+	<path
+		 id="rect12"
+		 d="M 0,0 H 81 V 8 H 0 Z" />
+</svg>

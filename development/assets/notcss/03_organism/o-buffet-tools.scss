@@ -1,0 +1,33 @@
+.o-buffet-tools {
+	display: flex;
+	font-size: ms(1);
+	color: $clay__shade--5;
+
+	&__item-holder {
+		display: flex;
+		position: relative;
+		z-index: g-index('land');
+
+		&--add {
+			flex-grow: 1;
+		}
+
+		&--sort {
+		}
+	}
+
+	&__item {
+		display: flex;
+		align-content: center;
+
+		&--add {
+			box-shadow: 0 5px 10px 0 transparentize(black, 0.8);
+			font-size: ms(-1);
+		}
+
+		&--sort {
+			&--enabled {
+			}
+		}
+	}
+}

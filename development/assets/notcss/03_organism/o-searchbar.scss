@@ -1,0 +1,33 @@
+.o-searchbar {
+	height: 3rem;
+
+	&__holder {
+		background-color: tint($main-color, 20%);
+		border-radius: 100px;
+		font-size: ms(-1);
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
+	&__search-icon {
+		color: tint($main-color, 60%);
+		size: 1.3em;
+		margin: 1em;
+	}
+
+	&__textfield {
+		width: 100%;
+	}
+
+	&__input {
+		padding: 1em 0em;
+		background-color: transparent;
+		width: 100%;
+		color: white;
+		text-transform: capitalize;
+		&::placeholder {
+			color: tint($main-color, 60%);
+		}
+	}
+}

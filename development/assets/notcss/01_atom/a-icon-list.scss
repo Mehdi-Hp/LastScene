@@ -1,0 +1,76 @@
+@keyframes iconLabelAround__isPending {
+	0% {
+		transform: rotateZ(-25deg);
+	}
+
+	50% {
+		transform: rotateZ(25deg);
+	}
+
+	100% {
+		transform: rotateZ(-25deg);
+	}
+}
+@keyframes iconLabelDot__isPending {
+	0% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+
+	50% {
+		transform: scaleY(1.5);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+}
+
+.a-icon-list {
+	color: $purple;
+
+	&__path {
+		&--is-pending {}
+
+		&--is-done {}
+	}
+
+	&__around {
+		transform-origin: 50px;
+		stroke: currentColor;
+		stroke-width: 9;
+		stroke-dasharray: 300;
+		color: transparent;
+
+		&--is-pending {
+			animation: iconLabelAround__isPending 1.3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+		}
+
+		&--is-done {
+			color: $purple;
+			stroke-width: 0;
+			transform: scale(1.05);
+			transition: transform 0.1s;
+		}
+	}
+
+	&__dot {
+		color: $pink;
+
+		&--is-pending {
+			animation: iconLabelDot__isPending 1s ease-in-out;
+			animation-iteration-count: infinite;
+			animation-fill-mode: both;
+		}
+
+		&--is-done {
+			color: mix($orange, white, 50%);
+			transform-origin: center;
+			transform: scale(1.1);
+		}
+	}
+}

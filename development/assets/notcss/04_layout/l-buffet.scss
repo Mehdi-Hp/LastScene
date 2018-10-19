@@ -1,0 +1,26 @@
+.l-buffet {
+	background: $main-color;
+	background-attachment: fixed;
+	position: relative;
+	padding: $gutter--thin;
+
+	&:before {
+		content: '';
+		position: fixed 0 0 0 0;
+		z-index: g-index('cloud');
+		background-color: $secondary-color;
+		height: 5px;
+	}
+
+	&__searchbar {
+		height: 3rem;
+	}
+
+	&__tools {
+		margin: $gutter--thin;
+	}
+
+	&__micro-movies {
+		margin: $gutter $gutter--thin;
+	}
+}

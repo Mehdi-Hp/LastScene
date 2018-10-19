@@ -1,0 +1,23 @@
+.a-movie-cover {
+	aspect-ratio: '27:40';
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&__back-icon {
+		color: mix(white, black, 85%);
+		width: 100%;
+		height: 100%;
+		padding: 20%;
+	}
+
+	&__image {
+		height: 100%;
+		width: 100%;
+		&[src="N/A"] {
+			display: none;
+		}
+	}
+}

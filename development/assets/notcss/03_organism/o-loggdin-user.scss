@@ -1,0 +1,33 @@
+.o-lggdin-user {
+	display: flex;
+	align-items: center;
+
+	&__avatar {
+		size: 50px;
+		background-color: white;
+		margin-right: 0.5em;
+		border-radius: 20px/18px;
+		overflow: hidden;
+	}
+
+	&__image {
+		size: 100%;
+	}
+
+	&__name {
+		margin-right: 0.5em;
+		font-size: ms(-1);
+		font-weight: 700;
+		color: $secondary-color;
+	}
+
+	&__settings-btn {
+		background: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $secondary-color;
+		font-size: ms(0);
+		padding: 0;
+	}
+}

@@ -1,0 +1,55 @@
+.l-movie {
+	display: flex;
+	flex-direction: column;
+	background: linear-gradient(to bottom, $clay 30%, $clay__shade--1 100%);
+	background-attachment: fixed;
+	position: relative;
+
+	& .headroom {
+		right: auto !important;
+		left: auto !important;
+		z-index: g-index('mountain');
+		mix-blend-mode: luminosity;
+	}
+
+	&__back {
+		margin: $gutter--thin #{$gutter};
+		box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
+		color: white;
+		background: $clay;
+		font-size: ms(0);
+		padding: 1em;
+
+		&:hocus {
+			mix-blend-mode: unset;
+		}
+
+		&:active {
+			border-color: white;
+		}
+
+	}
+
+	&__backdrop {
+		width: 100%;
+		height: calc(100vh / #{$golden-ratio});
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+	}
+
+	&__backdrop-image {
+		width: 100%;
+	}
+
+	&__essense {
+		margin-top: -20%;
+		margin-bottom: $gutter;
+		padding: 0 $gutter;
+		width: 100%;
+	}
+
+	&__information {
+
+	}
+}

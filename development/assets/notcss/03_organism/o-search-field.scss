@@ -1,0 +1,37 @@
+.o-search-field {
+	display: flex;
+	flex-direction: column;
+
+	&__input {
+		box-shadow: 0 -15px 60px 0 mix($overlay-color--light, black, 96%);
+		text-transform: capitalize;
+		font-size: ms(2);
+		font-weight: 500;
+		padding: 0.5em;
+		background-color: mix($overlay-color--light, black, 95%);
+		color: mix($overlay-color--light, black, 25%);
+		border: 2px solid mix($overlay-color--light, black, 94%);
+		border-radius: 3px;
+
+		&::placeholder {
+			color: mix($overlay-color--light, black, 80%);
+			font-weight: 400;
+			font-size: ms(-1);
+		}
+	}
+
+	&__result {
+		margin: $gutter--thin 0 $gutter 0;
+	}
+
+	&__no-result {
+		margin: $gutter--thin 0 $gutter 0;
+		font-weight: 200;
+		color: $clay__classy--2;
+		font-size: ms(4);
+		font-style: italic;
+		padding: $gutter;
+		border: 2px solid mix($clay__classy--2, $overlay-color--light, 30%);
+		border-radius: 3px;
+	}
+}

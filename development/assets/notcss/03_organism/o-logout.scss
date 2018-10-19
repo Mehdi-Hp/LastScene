@@ -1,0 +1,22 @@
+.o-logout {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-size: ms(15);
+	background-color: white;
+
+	&__text {
+		color: $clay__generic-gre--2;
+		font-weight: 300;
+	}
+
+	&__loader-holder {
+		position: relative;
+	}
+
+	&__loader {
+		size: 2em;
+		color: $clay__generic-gre--2;
+	}
+}

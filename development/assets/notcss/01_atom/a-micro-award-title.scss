@@ -1,0 +1,75 @@
+.a-micro-award-title {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+
+	&__cermony {
+		color: $clay__shade--1;
+		margin-bottom: 0.5em;
+		font-weight: 700;
+	}
+
+	&__awards {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__award {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 0.5em;
+	}
+
+	&__result {
+		text-transform: uppercase;
+		font-family: $secondary-typeface;
+		color: $clay__classy--3;
+		margin-right: 0.5em;
+	}
+
+	&__category {
+		display: flex;
+		margin-right: 0.25em;
+	}
+
+	&__participants {
+	}
+
+	&__participant {
+		display: inline-flex;
+		color: $clay__twisted-spot--3;
+
+		&:not(:last-of-type) {
+			&:after {
+				content: ',';
+				margin-right: 0.25em;
+			}
+		}
+	}
+}
+
+.tippy-tooltip {
+	border-radius: 2px;
+	padding: 0.5em;
+	font-size: ms(-4);
+	background-image: linear-gradient(120deg, $clay__switch--1 0%, $clay__twisted-spot--2 100%);
+	box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.15);
+	max-width: 300px;
+}
+
+.tippy-popper[x-placement^='top'] .tippy-roundarrow,
+.tippy-popper[x-placement^='top'] .tippy-arrow {
+	fill: mix($clay__switch--1, $clay__twisted-spot--2, 50%);
+	border-top-color: mix($clay__switch--1, $clay__twisted-spot--2, 50%);
+	margin: 0;
+	& > svg {
+		width: 100%;
+		height: 100%;
+		transform: rotate(180deg) scale(0.7, 0.7) translateY(2px);
+	}
+}
+
+.tippy-content {
+	color: $black;
+}

@@ -1,0 +1,26 @@
+.m-micro-userdata {
+	display: flex;
+	position: relative;
+	overflow: hidden;
+	cursor: default;
+
+	&__icon {
+		margin-right: 0.3em;
+		width: 0.9em;
+		position: relative;
+
+		&--heart {
+			width: 1em;
+		}
+
+		&--eye {
+			color: $green;
+			width: 1.1em;
+		}
+
+		&--flag {
+			color: $yellorange;
+			top: -0.05em;
+		}
+	}
+}
