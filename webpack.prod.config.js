@@ -1,15 +1,15 @@
 const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const postcssPlugins = require('./postcss.config');
+const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const postcssPlugins = require('./postcss.prod.config');
 
 require('pretty-error').start();
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
+const developmentPath = path.resolve(__dirname, 'public', 'development');
 const productionPath = path.resolve(__dirname, 'public', 'production');
-const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
+const mainJSPath = path.resolve(__dirname, 'public', 'development', 'main.js');
 
 module.exports = {
 	entry: [mainJSPath],
@@ -53,17 +53,13 @@ module.exports = {
 				exclude: [nodeModulesPath]
 			},
 			{
-				test: /(\.scss|\.pcss)$/,
+				test: /(\.scss|\.pcss|\.css)$/,
 				use: [
-					MiniCssExtractPlugin.loader,
 					{
-						loader: 'css-loader',
-						options: {
-							importLoaders: 4,
-							import: false,
-							minimize: true
-						}
+						loader: 'vue-style-loader'
 					},
+					'css-loader',
+					'sass-loader',
 					{
 						loader: 'postcss-loader',
 						options: {
@@ -72,77 +68,42 @@ module.exports = {
 							plugins: postcssPlugins
 						}
 					},
-					'sass-loader',
 					{
-						loader: 'postcss-loader',
+						loader: 'sass-resources-loader',
 						options: {
-							syntax: 'postcss-scss',
-							map: false,
-							plugins: []
-						}
-					},
-					{
-						loader: 'style-resources-loader',
-						options: {
-							patterns: ['./development/assets/notcss/_utils/_all-utils.scss', './development/assets/notcss/_vendor/_all-vendors.scss']
+							resources: [`${developmentPath}/assets/notcss/_utils/_all-utils.scss`]
 						}
 					}
-				]
+				],
+				exclude: [nodeModulesPath]
 			},
 			{
 				test: /\.js$/,
 				use: {
-					loader: 'babel-loader',
-					options: {
-						plugins: ['@babel/plugin-syntax-object-rest-spread', 'lodash'],
-						presets: [
-							[
-								'@babel/preset-env',
-								{
-									targets: {
-										browsers: ['last 2 versions']
-									},
-									spec: true
-								}
-							]
-						]
-					}
+					loader: 'babel-loader'
 				},
 				exclude: [nodeModulesPath]
 			}
 		]
 	},
+	mode: 'production',
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'views/index-prod.html',
 			inject: false,
 			filename: 'index.html'
 		}),
-		new LodashModuleReplacementPlugin({
-			shorthands: true,
-			cloning: true,
-			collections: true,
-			paths: true,
-			flattening: true
-		}),
-		new MiniCssExtractPlugin({
-			filename: '[name].bundle.css'
-		}),
 		new webpack.LoaderOptionsPlugin({
 			minimize: true,
 			quiet: true
-		})
+		}),
+		new VueLoaderPlugin()
 	],
 	resolve: {
 		alias: {
-			vue$: 'vue/dist/vue.esm.js'
+			vue$: 'vue/dist/vue.esm.js',
+			'@': path.join(__dirname, 'public', 'development'),
+			'@@': path.join(__dirname, 'public', 'development', 'components')
 		}
-	},
-	optimization: {
-		namedModules: true
-	},
-	performance: {
-		hints: false
-	},
-	mode: 'production'
+	}
 };

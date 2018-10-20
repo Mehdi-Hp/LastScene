@@ -8,7 +8,7 @@
 		"build": "cross-env NODE_ENV=production webpack --hide-modules --optimize-minimize --progress --config webpack.prod.config.js",
 		"build:dev": "cross-env NODE_ENV=development webpack-dashboard -- webpack-dev-server --config webpack.dev.config.js",
 		"postinstall": "cross-env NODE_ENV=production webpack --hide-modules --optimize-minimize --progress --config webpack.prod.config.js",
-		"start": "cross-env NODE_ENV=production DEBUG=app:* node ./bin/www",
+		"start": "cross-env NODE_ENV=production DEBUG=app:* node ./server.js",
 		"start:dev": "cross-env NODE_ENV=development DEBUG=app:* ndb nodemon --delay 1 --inspect ./server.js"
 	},
 	"nodemonConfig": {
@@ -61,6 +61,7 @@
 		"hapi-boom-decorators": "^4.1.1",
 		"hapi-dev-errors": "^3.2.0",
 		"helmet": "^3.14.0",
+		"inert": "^5.1.0",
 		"is-there": "^4.4.3",
 		"is-undefined": "^1.0.9",
 		"isemail": "^3.2.0",

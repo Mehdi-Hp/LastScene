@@ -2,7 +2,7 @@ module.exports = {
 	name: 'App Routes',
 	version: '0.0.0',
 	async register(server, options) {
-		server.register([
+		await server.register([
 			{
 				plugin: require('./users'),
 				routes: {
@@ -11,6 +11,9 @@ module.exports = {
 			},
 			{
 				plugin: require('./auth')
+			},
+			{
+				plugin: require('./static')
 			}
 		]);
 	}

@@ -1,10 +1,5 @@
 module.exports = [
-	require('postcss-font-magician')(),
-	require('postcss-fontpath'),
 	require('postcss-discard-duplicates')(),
-	// require('postcss-uncss')(),
-	require('postcss-atrule-bem'),
-	// require('postcss-color-palette')(),
 	require('postcss-media-minmax')(),
 	require('postcss-g-index')(),
 	require('rucksack-css')(),
@@ -20,12 +15,8 @@ module.exports = [
 	require('postcss-selector-not')(),
 	require('postcss-gradient-transparency-fix')(),
 	require('postcss-easing-gradients')(),
-	require('postcss-ant')(),
+	require('postcss-flexbox')(),
 	require('autoprefixer')({
 		browsers: ['last 2 versions']
-	}),
-	require('cssnano')({
-		preset: 'default',
-		reduceIdents: false
 	})
 ];

@@ -4,7 +4,6 @@ const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const postcssPlugins = require('./postcss.dev.config');
 
 const smp = new SpeedMeasurePlugin();
@@ -12,9 +11,9 @@ const smp = new SpeedMeasurePlugin();
 require('pretty-error').start();
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
-const developmentPath = path.resolve(__dirname, 'views', 'development');
-const productionPath = path.resolve(__dirname, 'views', 'production');
-const mainJSPath = path.resolve(__dirname, 'views', 'development', 'main.js');
+const developmentPath = path.resolve(__dirname, 'public', 'development');
+const productionPath = path.resolve(__dirname, 'public', 'production');
+const mainJSPath = path.resolve(__dirname, 'public', 'development', 'main.js');
 
 module.exports = smp.wrap({
 	entry: [mainJSPath],
@@ -74,7 +73,7 @@ module.exports = smp.wrap({
 						loader: 'postcss-loader',
 						options: {
 							syntax: 'postcss-scss',
-							map: false,
+							map: true,
 							plugins: postcssPlugins
 						}
 					},
@@ -97,9 +96,6 @@ module.exports = smp.wrap({
 		]
 	},
 	mode: 'development',
-	optimization: {
-		namedModules: true
-	},
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: 'views/index-dev.html',
@@ -112,8 +108,8 @@ module.exports = smp.wrap({
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			'@': path.resolve(__dirname, 'views', 'development'),
-			'@@': path.resolve(__dirname, 'views', 'development', 'components')
+			'@': path.resolve(__dirname, 'public', 'development'),
+			'@@': path.resolve(__dirname, 'public', 'development', 'components')
 		}
 	},
 	devServer: {

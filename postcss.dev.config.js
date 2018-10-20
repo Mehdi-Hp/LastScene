@@ -1,6 +1,5 @@
 module.exports = [
 	require('postcss-discard-duplicates')(),
-	// require('postcss-color-palette')(),
 	require('postcss-media-minmax')(),
 	require('postcss-g-index')(),
 	require('rucksack-css')(),

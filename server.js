@@ -1,4 +1,6 @@
 const Hapi = require('hapi');
+const Inert = require('inert');
+const path = require('path');
 const chalk = require('chalk');
 const debug = require('debug')('app:server');
 
@@ -16,11 +18,18 @@ const server = new Hapi.Server({
 	host,
 	debug: {
 		request: ['error']
+	},
+	routes: {
+		files: {
+			relativeTo: path.join(__dirname, 'public', 'production')
+		}
 	}
 });
 
-async function start() {
+const start = async () => {
 	try {
+		await server.register(Inert);
+
 		await server.register([
 			{
 				plugin: require('hapi-dev-errors'),
@@ -45,6 +54,6 @@ async function start() {
 		debug(chalk.bold.underline.cyan(`Error starting server: ${error}`));
 		process.exit(1);
 	}
-}
+};
 
 start();
