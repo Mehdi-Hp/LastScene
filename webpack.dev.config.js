@@ -12,8 +12,9 @@ const smp = new SpeedMeasurePlugin();
 require('pretty-error').start();
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
-const productionPath = path.resolve(__dirname, 'public', 'production');
-const mainJSPath = path.resolve(__dirname, 'development', 'main.js');
+const developmentPath = path.resolve(__dirname, 'views', 'development');
+const productionPath = path.resolve(__dirname, 'views', 'production');
+const mainJSPath = path.resolve(__dirname, 'views', 'development', 'main.js');
 
 module.exports = smp.wrap({
 	entry: [mainJSPath],
@@ -80,7 +81,7 @@ module.exports = smp.wrap({
 					{
 						loader: 'sass-resources-loader',
 						options: {
-							resources: ['./development/assets/notcss/_utils/_all-utils.scss']
+							resources: [`${developmentPath}/assets/notcss/_utils/_all-utils.scss`]
 						}
 					}
 				],
@@ -111,8 +112,8 @@ module.exports = smp.wrap({
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			'@': path.resolve(__dirname, 'development'),
-			'@@': path.resolve(__dirname, 'development', 'components')
+			'@': path.resolve(__dirname, 'views', 'development'),
+			'@@': path.resolve(__dirname, 'views', 'development', 'components')
 		}
 	},
 	devServer: {
