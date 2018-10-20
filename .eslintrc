@@ -1,5 +1,8 @@
 {
 	"root": true,
+	"parserOptions": {
+		"ecmaVersion": 8
+	},
 	"plugins": ["vue", "xss", "security", "promise", "no-loops"],
 	"extends": ["airbnb", "prettier", "prettier/standard", "plugin:security/recommended", "plugin:promise/recommended", "plugin:array-func/recommended", "plugin:vue/recommended"],
 	"rules": {
@@ -15,7 +18,14 @@
 			}
 		],
 		"arrow-body-style": ["error", "always"],
-		"space-before-function-paren": ["error", "never"],
+		"space-before-function-paren": [
+			"error",
+			{
+				"anonymous": "never",
+				"named": "never",
+				"asyncArrow": "always"
+			}
+		],
 		"comma-dangle": ["error", "never"],
 		"import/no-extraneous-dependencies": [
 			"error",
