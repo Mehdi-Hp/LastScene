@@ -3,6 +3,7 @@ const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const postcssPlugins = require('./postcss.prod.config');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 require('pretty-error').start();
 
@@ -97,13 +98,37 @@ module.exports = {
 			minimize: true,
 			quiet: true
 		}),
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
+		new BundleAnalyzerPlugin()
 	],
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
 			'@': path.join(__dirname, 'public', 'development'),
 			'@@': path.join(__dirname, 'public', 'development', 'components')
+		}
+	},
+	optimization: {
+		splitChunks: {
+			chunks: 'async',
+			minSize: 30000,
+			maxSize: 0,
+			minChunks: 1,
+			maxAsyncRequests: 5,
+			maxInitialRequests: 3,
+			automaticNameDelimiter: '~',
+			name: true,
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					priority: -10
+				},
+				default: {
+					minChunks: 2,
+					priority: -20,
+					reuseExistingChunk: true
+				}
+			}
 		}
 	}
 };

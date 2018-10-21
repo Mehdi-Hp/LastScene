@@ -12,7 +12,7 @@ module.exports = {
 					auth: false
 				},
 				handler: {
-					file: function(request) {
+					file(request) {
 						return `fonts/${request.params.filename}`;
 					}
 				}
@@ -23,12 +23,10 @@ module.exports = {
 				options: {
 					auth: false
 				},
-				handler: function(request, h) {
-					debugger;
-					var path = request.params.filename;
-					var match = path.match(/\./);
+				handler(request, h) {
+					const path = request.params.filename;
+					const match = path.match(/\./);
 					if (match) {
-						var filename = match[2];
 						return h.file(request.params.filename);
 					}
 					return h.continue;
