@@ -1,5 +1,4 @@
 const cloudinary = require('cloudinary').v2;
-const { isAuthorized } = require('../services/auth');
 
 module.exports = {
 	name: 'App Files Routes',
