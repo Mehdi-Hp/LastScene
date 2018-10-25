@@ -41,7 +41,7 @@ module.exports = {
 			{
 				method: 'POST',
 				path: '/users/{username}/movies',
-				handler: () => {},
+				handler: movieController.add,
 				options: {
 					validate: {
 						query: {

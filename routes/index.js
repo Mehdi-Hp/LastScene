@@ -10,6 +10,12 @@ module.exports = {
 				}
 			},
 			{
+				plugin: require('./files'),
+				routes: {
+					prefix: '/files'
+				}
+			},
+			{
 				plugin: require('./auth')
 			},
 			{
