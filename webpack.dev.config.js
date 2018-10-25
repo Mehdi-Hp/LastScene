@@ -3,6 +3,7 @@ const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const postcssPlugins = require('./postcss.dev.config');
 
@@ -103,6 +104,7 @@ module.exports = smp.wrap({
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new DashboardPlugin(),
+		new BitBarWebpackProgressPlugin(),
 		new VueLoaderPlugin()
 	],
 	resolve: {

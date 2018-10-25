@@ -1,6 +1,7 @@
 {
 	"root": true,
 	"parserOptions": {
+		"parser": "babel-eslint",
 		"ecmaVersion": 8
 	},
 	"plugins": ["vue", "xss", "security", "promise", "no-loops"],
