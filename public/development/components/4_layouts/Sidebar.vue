@@ -3,13 +3,13 @@
 		<div class="sidebar__profile">
 			<div class="sidebar__picture">
 				<img
-					:src="user.picture"
+					src="../../assets/images/profile-photo.jpg"
 					:alt="user.name"
 					class="sidebar__picture-image"
 				>
 			</div>
 			<span class="sidebar__name">
-				{{ user.name }}
+				{{ 'Mehdi Hoseini' }}
 			</span>
 		</div>
 		<div class="sidebar__navigations">
@@ -106,12 +106,12 @@ export default {
 .sidebar {
 	display: flex;
 	flex-direction: column;
-	width: $sidebar-width;
+	width: $sidebar__width;
 	color: white;
 	z-index: g-index('land');
 	position: fixed;
 	padding: $gutter--fat 0;
-	margin-top: $searchbar-height;
+	margin-top: $searchbar__height;
 	overflow-y: scroll;
 
 	&:after {
@@ -131,7 +131,7 @@ export default {
 	}
 
 	&__picture {
-		size: 75px;
+		size: 70px;
 		border-radius: 50%;
 		margin-bottom: 0.5em;
 		overflow: hidden;
@@ -146,7 +146,8 @@ export default {
 	&__name {
 		font-family: $default-typeface;
 		font-size: $fs-small;
-		color: mix($background-color, white, 60%);
+		color: mix($background-color, white, 35%);
+		margin-top: 0.5em;
 	}
 
 	&__navigations {
@@ -173,6 +174,7 @@ export default {
 		padding: $gutter--thin $gutter--fat;
 		box: horizontal middle;
 		flex-shrink: 0;
+		@include fix-text-rendering;
 
 		&:hocus {
 			background-color: tint($clay, 2%);

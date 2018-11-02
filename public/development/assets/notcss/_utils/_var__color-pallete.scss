@@ -1,5 +1,5 @@
 $clay: #22293c;
-$clay--light-1: #484e63;
+$clay--light-1: #364c5a;
 $clay--light-2: #70778d;
 $clay-white: mix(white, $clay, 80%);
 
@@ -11,12 +11,15 @@ $red: #dc3d63;
 $red-light-1: #e46885;
 $red-dark-1: #971b39;
 
+$pink-light-2: #f2e2e5;
+
 $green: #57b26c;
 $green--light-1: #62b775;
 $green--light-2: #a8d7b3;
 $green--dark-1: #387a47;
 
 $blue: #8489cc;
+$blue--light-1: mix(white, $blue, 20%);
 
 $white: white;
 $white-1: shade($white, 3%);

@@ -104,8 +104,13 @@ module.exports = {
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			'@': path.join(__dirname, 'public', 'development'),
-			'@@': path.join(__dirname, 'public', 'development', 'components')
+			$images: path.resolve(__dirname, 'public/development/assets/images'),
+			$icons: path.resolve(__dirname, 'public/development/components/icons'),
+			$notcss: path.resolve(__dirname, 'public/development/assets/notcss'),
+			$components: path.resolve(__dirname, 'public/development/components'),
+			$store: path.resolve(__dirname, 'public/development/store'),
+			$services: path.resolve(__dirname, 'public/development/services'),
+			$root: path.resolve(__dirname, 'public/development/')
 		}
 	},
 	optimization: {

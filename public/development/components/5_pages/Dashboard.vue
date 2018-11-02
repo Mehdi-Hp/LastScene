@@ -1,11 +1,7 @@
 <template>
-	<div
-		class="dashboard"
-	>
+	<div class="dashboard">
 		<app-sidebar class="dashboard__sidebar"/>
-		<search-bar
-			class="dashboard__searchbar"
-		/>
+		<search-bar class="dashboard__searchbar"/>
 		<div class="dashboard__content">
 			<page-info class="dashboard__pageinfo" />
 			<router-view />
@@ -15,13 +11,13 @@
 
 <script>
 const AppSidebar = () => {
-	return import('@/components/04_layout/Sidebar.vue');
+	return import('@components/4_layouts/Sidebar.vue');
 };
 const SearchBar = () => {
-	return import('@@/02_molecules/SearchBar.vue');
+	return import('@components/3_organisms/SearchBar.vue');
 };
 const PageInfo = () => {
-	return import('@@/03_organisms/PageInfo.vue');
+	return import('@components/3_organisms/PageInfo.vue');
 };
 
 export default {
@@ -37,11 +33,11 @@ export default {
 	computed: {},
 	created() {
 		this.axios.defaults.headers = {
-			'x-access-token': this.$ls.get('x-access-token')
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IkJrY1JVQ0pieiIsInVzZXJuYW1lIjoibWVoZGkifSwiaWF0IjoxNTM0NDc5OTI3fQ.7Yp1_5JaeIxXTy_7r_bbSWX4U0wQrfG6Uc_GaFKVmaI'
 		};
 	},
 	mounted() {
-		this.$store.dispatch('user/fetchUser').catch((error) => {
+		this.$store.dispatch('user/fetch').catch((error) => {
 			console.error(error);
 		});
 	}
@@ -50,18 +46,19 @@ export default {
 
 <style scoped lang="scss">
 .dashboard {
-	min-width: 100%;
 	min-height: 100vh;
 	display: flex;
 	background-image: $background-gradient;
-	padding-top: $searchbar-height;
-	padding-left: $sidebar-width;
+	padding-top: $searchbar__height;
+	min-width: 100%;
+	padding-left: $sidebar__width;
 
 	&__sidebar {
 		position: fixed 0 auto 0 0;
 	}
 
 	&__searchbar {
+		box-shadow: $searchbar__box-shadow;
 	}
 
 	&__content {

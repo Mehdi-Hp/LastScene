@@ -4,6 +4,22 @@
 		"parser": "babel-eslint",
 		"ecmaVersion": 8
 	},
+	"settings": {
+		"import/resolver": {
+			"alias": {
+				"map": [
+					["$images", "./public/development/assets/images"],
+					["$icons", "public/development/components/icons"],
+					["$notcss", "./public/development/assets/notcss"],
+					["$components", "./public/development/components"],
+					["$store", "./public/development/store"],
+					["$services", "./public/development/services"],
+					["$root", "./public/development"]
+				],
+				"extensions": [".ts", ".js", ".jsx", ".json", ".vue"]
+			}
+		}
+	},
 	"plugins": ["vue", "xss", "security", "promise", "no-loops"],
 	"extends": ["airbnb", "prettier", "prettier/standard", "plugin:security/recommended", "plugin:promise/recommended", "plugin:array-func/recommended", "plugin:vue/recommended"],
 	"rules": {

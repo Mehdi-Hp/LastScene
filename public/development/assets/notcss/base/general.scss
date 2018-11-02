@@ -7,7 +7,7 @@ body {
 	font-family: $default-typeface;
 	font-size: $fs-regular;
 	min-height: 100%;
-	-webkit-text-stroke: 0.45px;
+	text-rendering: optimizeLegibility;
 }
 
 input,

@@ -1,0 +1,6 @@
+@mixin fix-text-rendering {
+  -webkit-text-stroke: 0.35px;
+}
+@mixin revert-text-rendering {
+  -webkit-text-stroke: 0;
+}

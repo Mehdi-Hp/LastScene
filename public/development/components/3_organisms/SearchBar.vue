@@ -33,16 +33,16 @@ export default {
 <style scoped lang="scss">
 .searchbar {
 	box: horizontal middle;
-	height: $searchbar-height;
-	background-color: $searchbar-background-color;
+	height: $searchbar__height;
+	background-color: $searchbar__background-color;
 	position: fixed 0 0 auto 0;
-	padding-left: $sidebar-width;
+	padding-left: $sidebar__width;
 	z-index: g-index('mountain');
 
 	&__inner {
 		padding-left: $gutter;
-		border-left: 1px solid tint($searchbar-text-color, 20%);
-		width: calc(100% - #{$sidebar-width});
+		border-left: 1px solid tint($searchbar__text-color, 20%);
+		width: calc(100% - #{$sidebar__width});
 		height: calc(100% - #{$gutter--thin});
 		box: horizontal middle;
 	}
@@ -50,7 +50,7 @@ export default {
 	&__icon {
 		margin-right: 0.5em;
 		size: 1.3em;
-		color: $searchbar-text-color;
+		color: $searchbar__text-color;
 		transition: color 0.15s;
 
 		&--is-active {
@@ -63,9 +63,10 @@ export default {
 		flex-grow: 1;
 		background-color: transparent;
 		color: $clay;
+		@include fix-text-rendering;
 
 		&::placeholder {
-			color: $searchbar-text-color;
+			color: $searchbar__text-color;
 			font-size: $fs-small;
 		}
 	}

@@ -3,7 +3,7 @@ const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
-const BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin");
+const BitBarWebpackProgressPlugin = require('bitbar-webpack-progress-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const postcssPlugins = require('./postcss.dev.config');
 
@@ -110,8 +110,13 @@ module.exports = smp.wrap({
 	resolve: {
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			'@': path.resolve(__dirname, 'public', 'development'),
-			'@@': path.resolve(__dirname, 'public', 'development', 'components')
+			"@images": path.resolve(__dirname, 'public/development/assets/images'),
+			"@icons": path.resolve(__dirname, 'public/development/components/icons'),
+			"@notcss": path.resolve(__dirname, 'public/development/assets/notcss'),
+			"@components": path.resolve(__dirname, 'public/development/components'),
+			"@store": path.resolve(__dirname, 'public/development/store'),
+			"@services": path.resolve(__dirname, 'public/development/services'),
+			"@root": path.resolve(__dirname, 'public/development/')
 		}
 	},
 	devServer: {

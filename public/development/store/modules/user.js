@@ -5,7 +5,7 @@ export default {
 	state: {
 		name: null,
 		email: 'mehdi.hoseinipajooh@gmail.com',
-		username: null,
+		username: 'mehdi_hp',
 		picture: null,
 		statistics: {
 			moviesCount: 34,
@@ -16,24 +16,28 @@ export default {
 	},
 	getters: {},
 	mutations: {
-		setUser(state, { data: { name, username, avatar } }) {
+		setUser(state, { name, username, avatar }) {
+			Vue.axios.defaults.headers = {
+				Authorization:
+					'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IkJrY1JVQ0pieiIsInVzZXJuYW1lIjoibWVoZGkifSwiaWF0IjoxNTM0NDc5OTI3fQ.7Yp1_5JaeIxXTy_7r_bbSWX4U0wQrfG6Uc_GaFKVmaI'
+			};
 			state.name = name;
 			state.username = username;
 			state.picture = avatar;
 		}
 	},
 	actions: {
-		fetchUser({ commit, state }) {
+		fetch({ commit, state }) {
 			return new Promise((resolve, reject) => {
 				Vue.axios
-					.get('/user')
+					.get('/users/mehdi_hp')
 					.then(({ data: user }) => {
 						console.table(user);
 						commit('setUser', user);
 						resolve(user);
 					})
-					.catch(({ response }) => {
-						reject(response.data);
+					.catch((error) => {
+						reject(error);
 					});
 			});
 		}

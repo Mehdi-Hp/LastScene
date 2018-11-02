@@ -1,4 +1,9 @@
 $background-gradient: linear-gradient(90deg, $clay 0%, $clay--light-1 100%);
 $background-color: $clay;
-$searchbar-background-color: $gold;
-$searchbar-text-color: $gold--dark-1;
+
+$searchbar__background-color: $gold;
+$searchbar__text-color: $gold--dark-1;
+
+$mini-movie__details-color: mix($background-color, white, 15%);
+$mini-movie__title-color: $pink-light-2;
+$mini-movie__rate-background: $pink-light-2;
