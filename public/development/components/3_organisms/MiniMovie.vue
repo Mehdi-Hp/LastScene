@@ -20,7 +20,7 @@
 					v-if="watched"
 					class="mini-movie__state | mini-movie__state--watched"
 				>
-					<icon name="eye" />
+					<icon name="double-check" />
 				</div>
 				<div
 					v-if="later"
@@ -39,9 +39,35 @@
 				<div class="mini-movie__text-info | mini-movie__text-info--director">{{ director }}</div>
 			</div>
 			<div class="mini-movie__detail | mini-movie__prizes">
-				<div class="mini-movie__prize"></div>
+				<div class="mini-movie__prize">
+					<icon
+						name="oscar"
+						class="mini-movie__prize-icon" />
+				</div>
+				<div class="mini-movie__prize">
+					<icon
+						name="bafta"
+						class="mini-movie__prize-icon" />
+
+				</div>
+				<div class="mini-movie__prize">
+					<icon
+						name="golden-globe"
+						class="mini-movie__prize-icon" />
+				</div>
+				<div class="mini-movie__prize">
+					<icon
+						name="palme"
+						class="mini-movie__prize-icon" />
+				</div>
+				<div class="mini-movie__prize">
+					<icon
+						name="berlin"
+						class="mini-movie__prize-icon" />
+				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 
@@ -130,7 +156,6 @@ export default {
 		size: 3em;
 		box: center middle;
 		font-size: 0.8em;
-		font-family: $secondary-typeface;
 		transform: translate(50%);
 		margin-bottom: $gutter--thin;
 		color: $primary-color;
@@ -194,9 +219,19 @@ export default {
 	}
 
 	&__prizes {
+		box: left top;
 	}
 
 	&__prize {
+		box: center middle;
+		color: mix($pink-light-2, $background-color, 40%);
+		& + & {
+			margin-left: 0.5em;
+		}
+	}
+
+	&__prize-icon {
+		height: 1.5em;
 	}
 }
 </style>

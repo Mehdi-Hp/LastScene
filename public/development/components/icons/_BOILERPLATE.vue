@@ -1,17 +1,17 @@
 <template>
 	<svg
 		viewBox="0 0 20.007 20"
-		class="a-icon-SAMPLE"
+		class="SampleIcon"
 		fill="currentColor"
 		xmlns="http://www.w3.org/2000/svg"
 		xmlns:xlink="http://www.w3.org/1999/xlink"
 	>
 		<path
 			:class="{
-				'a-icon-SAMPLE__path--is-pending': isPending,
-				'a-icon-SAMPLE__path--is-done': isDone,
+				'SampleIcon__path--isAnimating': isAnimating,
+				'SampleIcon__path-isFulfilled': isFulfilled,
 			}"
-			class="a-icon-SAMPLE__path"
+			class="SampleIcon__path"
 			fill="currentColor"
 			d=""/>
 	</svg>
@@ -19,14 +19,14 @@
 
 <script>
 export default {
-	name: 'IconSAMPLE',
+	name: 'IconSample',
 	props: {
 		isAnimating: {
 			type: Boolean,
 			required: false,
 			default: false
 		},
-		isDone: {
+		isFulfilled: {
 			type: Boolean,
 			required: false,
 			default: false

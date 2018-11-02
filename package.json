@@ -205,6 +205,7 @@
 		"speed-measure-webpack-plugin": "^1.2.3",
 		"style-loader": "^0.23.1",
 		"svg-sprite-loader": "^4.1.2",
+		"svgo": "^1.1.1",
 		"tern-node-express": "^0.4.0",
 		"uncss": "^0.16.2",
 		"vue-loader": "^15.4.2",

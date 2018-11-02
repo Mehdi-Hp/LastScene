@@ -16,6 +16,12 @@ import IconSort from '@icons/Sort.vue';
 import IconHeart from '@icons/Heart.vue';
 import IconFlag from '@icons/Flag.vue';
 import IconEye from '@icons/Eye.vue';
+import IconDoubleCheck from '@icons/DoubleCheck.vue';
+import IconOscar from '@icons/Oscar.vue';
+import IconBafta from '@icons/Bafta.vue';
+import IconGoldenGlobe from '@icons/GoldenGlobe.vue';
+import IconPalme from '@icons/Palme.vue';
+import IconBerlin from '@icons/Berlin.vue';
 
 export default {
 	name: 'Icon',
@@ -27,7 +33,13 @@ export default {
 		IconSort,
 		IconHeart,
 		IconFlag,
-		IconEye
+		IconEye,
+		IconDoubleCheck,
+		IconOscar,
+		IconBafta,
+		IconGoldenGlobe,
+		IconPalme,
+		IconBerlin
 	},
 	props: {
 		name: {
