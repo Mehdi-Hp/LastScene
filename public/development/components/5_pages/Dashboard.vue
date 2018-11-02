@@ -1,7 +1,7 @@
 <template>
 	<div class="dashboard">
-		<app-sidebar class="dashboard__sidebar"/>
 		<search-bar class="dashboard__searchbar"/>
+		<app-sidebar class="dashboard__sidebar"/>
 		<div class="dashboard__content">
 			<page-info class="dashboard__pageinfo" />
 			<router-view />
@@ -33,7 +33,8 @@ export default {
 	computed: {},
 	created() {
 		this.axios.defaults.headers = {
-			Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IkJrY1JVQ0pieiIsInVzZXJuYW1lIjoibWVoZGkifSwiaWF0IjoxNTM0NDc5OTI3fQ.7Yp1_5JaeIxXTy_7r_bbSWX4U0wQrfG6Uc_GaFKVmaI'
+			Authorization:
+				'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Il9pZCI6IkJrY1JVQ0pieiIsInVzZXJuYW1lIjoibWVoZGkifSwiaWF0IjoxNTM0NDc5OTI3fQ.7Yp1_5JaeIxXTy_7r_bbSWX4U0wQrfG6Uc_GaFKVmaI'
 		};
 	},
 	mounted() {
@@ -55,10 +56,13 @@ export default {
 
 	&__sidebar {
 		position: fixed 0 auto 0 0;
+		width: $sidebar__width;
 	}
 
 	&__searchbar {
 		box-shadow: $searchbar__box-shadow;
+		grid-column-start: 1;
+		grid-column-end: 3;
 	}
 
 	&__content {

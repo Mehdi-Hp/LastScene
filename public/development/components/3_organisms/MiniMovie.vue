@@ -93,7 +93,7 @@ export default {
 		posterImage() {
 			return {
 				'background-image': `url(/files/${this.poster})`
-			}
+			};
 		}
 	}
 };
@@ -108,11 +108,18 @@ export default {
 	}
 
 	&__poster {
-		width: 250px;
-		height: 370px;
-		background: mix(black, $background-color, 10%);
+		flex-grow: 1;
+		background-color: mix(black, $background-color, 10%);
+		background-size: 100%;
+		background-repeat: no-repeat;
 		position: relative;
 		box-shadow: $mini-movie__box-shadow;
+		&:before {
+			display: block;
+			content: '';
+			width: 100%;
+			padding-top: (3 / 2) * 100%;
+		}
 	}
 
 	&__rate {

@@ -61,6 +61,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+:root {
+	--mini-movie-width: 230px;
+}
 .buffet {
 	&__tools {
 		margin-bottom: $gutter--fat;
@@ -70,12 +73,12 @@ export default {
 		margin-bottom: $gutter--fat;
 		padding-left: $gutter--fat;
 		padding-right: $gutter;
-		box: horizontal wrap;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(var(--mini-movie-width), 1fr));
+		grid-gap: $gutter--fat;
 	}
 
 	&__mini-movie {
-		margin-right: $gutter--fat;
-		margin-bottom: $gutter--fat;
 	}
 }
 </style>

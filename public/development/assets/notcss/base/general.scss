@@ -1,12 +1,16 @@
+:root {
+	--sidebar-height: 350px;
+}
+
 html {
-	font-size: 100%;
 	min-height: 100%;
+	font-size: 100%;
 }
 
 body {
+	min-height: 100%;
 	font-family: $default-typeface;
 	font-size: $fs-regular;
-	min-height: 100%;
 	text-rendering: optimizeLegibility;
 }
 
