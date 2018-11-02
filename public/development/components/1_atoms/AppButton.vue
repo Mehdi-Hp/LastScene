@@ -50,7 +50,6 @@ export default {
 	padding: 0.85em 1.25em;
 	border-radius: 10em;
 	font-weight: 500;
-	font-family: $secondary-typeface;
 	transition: background-color 0.15s;
 	font-size: 0.9em;
 
@@ -89,7 +88,7 @@ export default {
 	}
 
 	&__text {
-		transform: translateY(0.1em);
+		transform: translateY(0.05em);
 	}
 }
 </style>
