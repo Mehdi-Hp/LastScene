@@ -63,7 +63,6 @@ export default {
 		flex-grow: 1;
 		background-color: transparent;
 		color: $clay;
-		@include fix-text-rendering;
 
 		&::placeholder {
 			color: $searchbar__text-color;

@@ -174,7 +174,6 @@ export default {
 		padding: $gutter--thin $gutter--fat;
 		box: horizontal middle;
 		flex-shrink: 0;
-		@include fix-text-rendering;
 
 		&:hocus {
 			background-color: tint($clay, 2%);

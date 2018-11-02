@@ -126,7 +126,6 @@ export default {
 		font-family: $secondary-typeface;
 		transform: translate(50%);
 		margin-bottom: $gutter--thin;
-		-webkit-text-stroke: 0.2px;
 		color: $primary-color;
 	}
 
@@ -173,7 +172,6 @@ export default {
 
 		&--title {
 			font-family: $default-typeface;
-			@include fix-text-rendering;
 			color: $mini-movie__title-color;
 		}
 
