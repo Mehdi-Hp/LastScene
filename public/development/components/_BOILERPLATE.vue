@@ -7,7 +7,7 @@
 <script>
 export default {
 	name: '',
-	props: [],
+	props: {},
 	data() {
 		return {};
 	}
@@ -15,5 +15,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>
