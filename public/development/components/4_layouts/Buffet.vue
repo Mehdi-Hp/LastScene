@@ -14,6 +14,7 @@
 				:heart="movie.favourite"
 				:watched="movie.watched"
 				:later="movie.watchList"
+				:awards="movie.information.awards.full"
 			/>
 		</article>
 	</section>
@@ -26,7 +27,7 @@ const BuffetTools = () => {
 	return import('@components/2_molecules/BuffetTools.vue');
 };
 const MiniMovie = () => {
-	return import('@components/3_organisms/MiniMovie.vue');
+	return import('@components/3_organisms/MiniMovie/MiniMovie.vue');
 };
 
 export default {

@@ -38,41 +38,19 @@
 			<div class="mini-movie__detail">
 				<div class="mini-movie__text-info | mini-movie__text-info--director">{{ director }}</div>
 			</div>
-			<div class="mini-movie__detail | mini-movie__prizes">
-				<div class="mini-movie__prize">
-					<icon
-						name="oscar"
-						class="mini-movie__prize-icon" />
-				</div>
-				<div class="mini-movie__prize">
-					<icon
-						name="bafta"
-						class="mini-movie__prize-icon" />
-
-				</div>
-				<div class="mini-movie__prize">
-					<icon
-						name="golden-globe"
-						class="mini-movie__prize-icon" />
-				</div>
-				<div class="mini-movie__prize">
-					<icon
-						name="palme"
-						class="mini-movie__prize-icon" />
-				</div>
-				<div class="mini-movie__prize">
-					<icon
-						name="berlin"
-						class="mini-movie__prize-icon" />
-				</div>
-			</div>
+			<mini-movie-awards :awards="awards"/>
 		</div>
 	</div>
 </template>
 
 <script>
+import MiniMovieAwards from './MiniMovie__Awards.vue';
+
 export default {
 	name: 'MiniMovie',
+	components: {
+		MiniMovieAwards
+	},
 	props: {
 		title: {
 			type: String,
@@ -109,6 +87,13 @@ export default {
 			type: Boolean,
 			required: true,
 			default: false
+		},
+		awards: {
+			type: Array,
+			required: false,
+			default: () => {
+				return [];
+			}
 		}
 	},
 	data() {
@@ -215,22 +200,6 @@ export default {
 			font-size: 0.9em;
 			color: mix($background-color, $mini-movie__details-color, 20%);
 		}
-	}
-
-	&__prizes {
-		box: left top;
-	}
-
-	&__prize {
-		box: center middle;
-		color: mix($pink-light-2, $background-color, 40%);
-		& + & {
-			margin-left: 0.5em;
-		}
-	}
-
-	&__prize-icon {
-		height: 1.5em;
 	}
 }
 </style>
