@@ -13,7 +13,7 @@ module.exports = {
 
     extends: [
         'plugin:vue/essential',
-        '@vue/airbnb',
+        '@vue/airbnb'
     ],
 
     plugins: ['vue'],
@@ -108,5 +108,5 @@ module.exports = {
                 jest: true
             }
         }
-    ],
+    ]
 };
