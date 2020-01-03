@@ -29,3 +29,6 @@ dist/
 .netlify
 
 coverage
+
+#Electron-builder output
+/dist_electron
