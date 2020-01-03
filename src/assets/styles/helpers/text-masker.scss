@@ -1,0 +1,4 @@
+@mixin text-masker($position: 'bottom') {
+    mask-image: linear-gradient(to #{$position}, black 70%, transparent 100%);
+    overflow: hidden;
+}

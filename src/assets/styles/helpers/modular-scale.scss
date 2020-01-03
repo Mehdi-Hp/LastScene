@@ -1,0 +1,11 @@
+@import '~modularscale-sass/stylesheets/modularscale';
+@import '~mathsass/dist/_math';
+
+$modularscale: (
+    base: 8px,
+    ratio: $octave,
+    typography: (
+        base: 1rem,
+        ratio: $major-third
+    )
+);

@@ -1,0 +1,48 @@
+@import 'reset';
+@import './variables/index';
+@import './fonts';
+
+html {
+    background-color: var(--background-color);
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+body {
+    min-height: 100vh;
+    min-width: 100vw;
+    font-family: var(--typeface-primary), system-ui;
+    background-color: var(--background-color);
+    overflow: hidden;
+}
+
+.svg-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    color: inherit;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+}
+
+.svg-fill {
+    fill: currentColor;
+    stroke: none;
+}
+
+.svg-up {
+    transform: rotate(0deg);
+}
+
+.svg-right {
+    transform: rotate(90deg);
+}
+
+.svg-down {
+    transform: rotate(180deg);
+}
+
+.svg-left {
+    transform: rotate(-90deg);
+}

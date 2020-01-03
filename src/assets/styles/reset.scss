@@ -1,0 +1,26 @@
+@import 'destyle.css';
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    line-height: 1.2;
+}
+
+a {
+    color: currentColor;
+    text-decoration: none;
+}
+
+button {
+    border: none;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+}

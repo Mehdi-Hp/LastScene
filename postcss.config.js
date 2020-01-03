@@ -22,7 +22,6 @@ module.exports = {
         'postcss-easing-gradients': {},
         'postcss-flexbox': {},
         'postcss-discard-duplicates': {},
-        autoprefixer: {},
-        'postcss-normalize': {}
+        autoprefixer: {}
     }
 };
