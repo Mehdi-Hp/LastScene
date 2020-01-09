@@ -1,9 +1,8 @@
 @import 'reset';
-@import './variables/index';
 @import './fonts';
 
 html {
-    background-color: var(--background-color);
+    background-color: $color-background;
     min-height: 100vh;
     min-width: 100vw;
 }
@@ -11,8 +10,8 @@ html {
 body {
     min-height: 100vh;
     min-width: 100vw;
-    font-family: var(--typeface-primary), system-ui;
-    background-color: var(--background-color);
+    font-family: $typeface--primary, system-ui;
+    background-color: $color-background;
     overflow: hidden;
 }
 

@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-
+    parser: "vue-eslint-parser",
     parserOptions: {
         parser: 'babel-eslint',
         ecmaVersion: 8,
@@ -8,15 +8,21 @@ module.exports = {
     },
 
     env: {
-        node: true
+        node: true,
+        'jest/globals': true
     },
 
     extends: [
-        'plugin:vue/essential',
-        '@vue/airbnb'
+        "plugin:vue/recommended",
+        'plugin:vue-types/strongly-recommended',
+        '@vue/airbnb',
+        'plugin:jest/all'
     ],
 
-    plugins: ['vue'],
+    plugins: [
+        'vue',
+        'jest'
+    ],
 
     rules: {
         indent: ['error', 4],
@@ -80,7 +86,7 @@ module.exports = {
         'vue/arrow-spacing': 'error',
         'vue/brace-style': 'error',
         'vue/no-restricted-syntax': 'error',
-        'vue/object-curly-spacing': 'error',
+        'vue/object-curly-spacing': ['error', 'always'],
         'vue/space-unary-ops': 'error',
         'vue/v-on-function-call': 'error',
         'vue/camelcase': 'error',
@@ -94,7 +100,12 @@ module.exports = {
                 alignAttributesVertically: true,
                 ignores: []
             }
-        ]
+        ],
+        'vue/match-component-file-name': 'error',
+        'vue/valid-v-bind-sync': 'error',
+        'vue/attributes-order': 'error',
+        'jest/no-hooks': 'off',
+        'jest/no-truthy-falsy': 'off'
     },
 
     settings: {

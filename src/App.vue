@@ -1,5 +1,15 @@
 <template>
     <div id="app">
-        TEST
+        <the-root />
     </div>
 </template>
+
+<script>
+import TheRoot from '~page/Root';
+export default {
+    name: 'App',
+    components: {
+        TheRoot
+    }
+}
+</script>
