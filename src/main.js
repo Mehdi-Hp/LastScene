@@ -14,8 +14,8 @@ import '~styles/global.scss';
 
 const requireComponent = require.context(
     './components/base',
-    false,
-    /Base[A-Z]\w+\.(vue|js)$/
+    true,
+    /Base[A-Z]\w+\.vue$/
 );
 requireComponent.keys().forEach((fileName) => {
     const componentConfig = requireComponent(fileName);

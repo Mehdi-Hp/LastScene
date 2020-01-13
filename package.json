@@ -26,6 +26,7 @@
     "~layout": "./src/components/layout",
     "~organism": "./src/components/organism",
     "~page": "./src/components/page",
+    "~icons": "./src/assets/compiled-svg",
     "~router$": "./src/router/index.js",
     "~store$": "./src/store/index.js"
   },

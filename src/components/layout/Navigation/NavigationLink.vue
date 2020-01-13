@@ -7,15 +7,6 @@
             name: link.name
         }"
     >
-        <!-- <following-pointer
-            #default="{ left, top, right, bottom, x, y, width, height }"
-            :destiny="$refs.destiny"
-            :match="[
-                ['top', 'top'],
-                ['bottom', 'bottom'],
-            ]"
-        > -->
-        <!-- </following-pointer> -->
         <slot :isExactActive="isExactActive">
             <a
                 ref="destiny"
@@ -27,9 +18,12 @@
                 @click="navigate"
             >
                 <slot :isExactActive="isExactActive" />
-                <svg-icon
+                <base-icon
                     :name="link.icon"
                     class="navigationLink__icon"
+                    :class="{
+                        'navigationLink__icon--active:true': isExactActive
+                    }"
                 />
                 <div
                     class="navigationLink__labels"
@@ -64,8 +58,9 @@ export default {
     props: {
         link: VueTypes.object.isRequired
     },
-    data() {
-        return {};
+    setup(props) {
+        return {
+        };
     }
 };
 </script>
@@ -79,7 +74,7 @@ export default {
     color: var(--color-foreground);
 
     &:hover {
-        color: var(--color-alternative);
+        color: var(--s-color-active);
     }
 
     &__itself {
@@ -88,6 +83,16 @@ export default {
         &--active\: {
 
             &true {
+            }
+        }
+    }
+
+    &__icon {
+        margin-right: ms(0);
+        &--active\: {
+
+            &true {
+                color: var(--s-color-active);
             }
         }
     }
@@ -101,7 +106,7 @@ export default {
         &--active\: {
 
             &true {
-                color: var(--color-alternative);
+                color: var(--s-color-active);
             }
         }
     }
