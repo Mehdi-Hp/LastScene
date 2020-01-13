@@ -103,7 +103,6 @@ module.exports = {
         ],
         'vue/match-component-file-name': 'error',
         'vue/valid-v-bind-sync': 'error',
-        'vue/attributes-order': 'error',
         'jest/no-hooks': 'off',
         'jest/no-truthy-falsy': 'off'
     },

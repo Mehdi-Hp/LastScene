@@ -21,6 +21,9 @@ export default {
 
 <style scoped lang="scss">
 .counter {
-
+    display: grid;
+    grid-auto-flow: row;
+    align-items: start;
+    gap: ms(2);
 }
 </style>

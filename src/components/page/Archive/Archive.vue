@@ -7,11 +7,13 @@
 </template>
 
 <script>
+import Counter from '~layout/Counter/Counter';
 import MoviesList from '~organism/MoviesList/MoviesList';
 
 export default {
     name: 'Archive',
     components: {
+        Counter,
         MoviesList
     },
     props: {},
