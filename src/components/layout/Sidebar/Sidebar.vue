@@ -24,9 +24,10 @@ export default {
     --inner-space: #{ms(2)};
     --color-foreground: #{$color-foreground};
     --color-alternative: #{$color-gold--500};
+
     user-select: none;
     border-radius: ms(1);
     background: $color-primary;
-    box-shadow: 0 10px 70px transparentize($color-primary, 0.35);
+    box-shadow: 0 10px 70px transparentize($color-primary, .35);
 }
 </style>

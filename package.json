@@ -27,6 +27,7 @@
     "~organism": "./src/components/organism",
     "~page": "./src/components/page",
     "~icons": "./src/assets/compiled-svg",
+    "~vendors": "./src/vendors",
     "~router$": "./src/router/index.js",
     "~store$": "./src/store/index.js"
   },
@@ -71,6 +72,7 @@
     "@vue/test-utils": "1.0.0-beta.30",
     "autoprefixer": "^9.7.3",
     "babel-eslint": "^10.0.3",
+    "bitbar-webpack-progress-plugin": "^1.0.0",
     "eslint": "^6.8.0",
     "eslint-plugin-jest": "^23.2.0",
     "eslint-plugin-vue": "^6.1.2",

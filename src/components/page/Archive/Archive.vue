@@ -25,7 +25,6 @@ export default {
 
 <style scoped lang="scss">
 .archvie {
-    display: grid;
 
     &__counter {}
 

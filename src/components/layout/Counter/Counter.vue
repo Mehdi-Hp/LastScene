@@ -1,6 +1,7 @@
 <template>
     <section class="counter">
         <searcher />
+        <slot />
     </section>
 </template>
 
@@ -24,6 +25,6 @@ export default {
     display: grid;
     grid-auto-flow: row;
     align-items: start;
-    gap: ms(2);
+    gap: ms(3);
 }
 </style>

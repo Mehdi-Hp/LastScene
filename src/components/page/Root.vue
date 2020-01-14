@@ -24,15 +24,18 @@ export default {
 .root {
     --inner-space: #{ms(2)};
 
-    height: 100vh;
     padding: var(--inner-space);
     display: grid;
     grid-template-columns: ms(5) minmax(0, 1fr);
+    align-items: start;
     margin: auto;
     gap: ms(3);
+    position: relative;
 
     &__sidebar {
-
+        height: calc(100vh - (var(--inner-space) * 2));
+        position: sticky;
+        top: var(--inner-space);
     }
 }
 </style>

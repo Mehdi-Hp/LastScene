@@ -1,3 +1,5 @@
+const BitBarWebpackProgressPlugin = require('bitbar-webpack-progress-plugin');
+
 module.exports = {
     lintOnSave: false,
 
@@ -16,6 +18,12 @@ module.exports = {
 
     css: {
         sourceMap: true
+    },
+
+    configureWebpack: {
+        plugins: [
+            new BitBarWebpackProgressPlugin()
+        ]
     },
 
     chainWebpack: (config) => {

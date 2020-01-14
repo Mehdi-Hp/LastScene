@@ -46,11 +46,25 @@ export default {
     border-bottom: 1px solid var(--s-placeholder-text-color);
     width: ms(6);
     display: flex;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute auto 0 0 0;
+        background-color: var(--s-text-color);
+        height: 1px;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform .15s cubic-bezier(.37, .54, .35, 1.02);
+    }
 
     &--active\: {
 
         &true {
-            border-color: var(--s-text-color);
+
+            &::before {
+                transform: scaleX(1);
+            }
         }
     }
 
